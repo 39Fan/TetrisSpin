@@ -12,7 +12,7 @@ public class Rotation : MonoBehaviour
     /* Tスピン関連 */
     bool UseTSpin = false;  // Tスピン使用フラグ
     bool UseTSpinMini = false;  // Tスピンミニ使用フラグ
-    int LastSR = 0; // 最後に行ったスーパーローテーション(SR)パターン(0-4)
+    int LastSRS = 0; // 最後に行ったスーパーローテーション(SR)パターン(0-4)
     int BlockCount = 0;
 
 
@@ -32,7 +32,7 @@ public class Rotation : MonoBehaviour
             //Gridの座標が負の場合false
             if ((int)pos.x + Rx < 0 || (int)pos.y + Ry < 0)
             {
-                Debug.Log("SR中に枠外に出た。");
+                Debug.Log("SRS中に枠外に出た。");
                 return false;
             }
 
@@ -40,35 +40,33 @@ public class Rotation : MonoBehaviour
             if (board.Grid[(int)pos.x + Rx, (int)pos.y + Ry] != null
                 && board.Grid[(int)pos.x + Rx, (int)pos.y + Ry].parent != block.transform)
             {
-                Debug.Log("SR先が重複");
+                Debug.Log("SRS先が重複");
                 return false;
             }
 
             //枠外に出てもfalse
             if (!board.BoardOutCheck((int)pos.x + Rx, (int)pos.y + Ry))
             {
-                Debug.Log("SR中に枠外に出た。");
+                Debug.Log("SRS中に枠外に出た。");
                 return false;
             }
         }
-        Debug.Log(Rx);
-        Debug.Log(Ry);
         return true;
     }
 
-    //スーパーローテーション(SR)
+    //スーパーローテーションシステム(SRS)
     public bool MinoSuperRotation(int MinoAngleBefore, int MinoAngleAfter, Block block)
     {
         int movex = 0;  // X座標移動量
         int movey = 0;  // Y座標移動量
-        LastSR = 0;
+        LastSRS = 0;
         // Iミノ以外
         if (!block.name.Contains("I"))
         {
             // 1. 軸を左右に動かす
             // 0が90度（B）の場合は左，-90度（D）の場合は右へ移動
             // 0が0度（A），180度（C）の場合は回転した方向の逆へ移動
-            Debug.Log("Iミノ以外のSR判定開始");
+            Debug.Log("Iミノ以外のSRS判定開始");
             switch (MinoAngleAfter)
             {
                 case 1: // 右向き
@@ -90,7 +88,7 @@ public class Rotation : MonoBehaviour
                     }
                     break;
             }
-            LastSR++; //1
+            LastSRS++; //1
             if (!RotationCheck(movex, movey, block))
             {
                 // 2.その状態から軸を上下に動かす
@@ -108,7 +106,7 @@ public class Rotation : MonoBehaviour
                         movey = -1;
                         break;
                 }
-                LastSR++; //2
+                LastSRS++; //2
                 if (!RotationCheck(movex, movey, block))
                 {
                     // 3.元に戻し、軸を上下に2マス動かす
@@ -128,7 +126,7 @@ public class Rotation : MonoBehaviour
                             movey = 2;
                             break;
                     }
-                    LastSR++; //3
+                    LastSRS++; //3
                     if (!RotationCheck(movex, movey, block))
                     {
                         // 4.その状態から軸を左右に動かす
@@ -156,10 +154,10 @@ public class Rotation : MonoBehaviour
                                 }
                                 break;
                         }
-                        LastSR++; //4
+                        LastSRS++; //4
                         if (!RotationCheck(movex, movey, block))
                         {
-                            Debug.Log("SR失敗");
+                            Debug.Log("SRS失敗");
                             return false;
                         }
                     }
@@ -340,15 +338,12 @@ public class Rotation : MonoBehaviour
             BlockCount++;
         }
 
-        Debug.Log(BlockCount);
-
         if (BlockCount >= 3 && useSpin == true)
         {
             Debug.Log("Tspin!");
+            BlockCount = 0;
             return true;
         }
-
-        BlockCount = 0;
 
         return false;
     }

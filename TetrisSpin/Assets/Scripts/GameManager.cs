@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 {
     Spawner spawner;
     Rotation rotation;
-    Music music;
+    SE se;
     int Count = 0; //順番
     Block ActiveBlock; //生成されたブロック格納
 
@@ -63,6 +63,13 @@ public class GameManager : MonoBehaviour
 
     bool CanNotMove = false;
 
+    List<int> ClearRowHistory = new List<int>();
+
+    int ClearRowHistoryCount = 0;
+
+    bool HardDrop = false;
+
+
     private void Start()
     {
         //スポナーオブジェクトをスポナー変数に格納する
@@ -74,7 +81,7 @@ public class GameManager : MonoBehaviour
 
         ActiveBlock = GameObject.FindObjectOfType<Block>();
 
-        music = GameObject.FindObjectOfType<Music>();
+        se = GameObject.FindObjectOfType<SE>();
 
         //スポーン位置の数値を丸める
         spawner.transform.position = Rounding.Round(spawner.transform.position);
@@ -162,6 +169,10 @@ public class GameManager : MonoBehaviour
             {
                 ActiveBlock.MoveLeft();
             }
+            else
+            {
+                se.CallSE(1);
+            }
 
             BottomMove();
 
@@ -179,6 +190,10 @@ public class GameManager : MonoBehaviour
             if (!board.CheckPosition(ActiveBlock))
             {
                 ActiveBlock.MoveLeft();
+            }
+            else
+            {
+                se.CallSE(1);
             }
 
             BottomMove();
@@ -207,6 +222,10 @@ public class GameManager : MonoBehaviour
             {
                 ActiveBlock.MoveRight();
             }
+            else
+            {
+                se.CallSE(1);
+            }
 
             BottomMove();
 
@@ -225,6 +244,10 @@ public class GameManager : MonoBehaviour
             {
                 ActiveBlock.MoveRight();
             }
+            else
+            {
+                se.CallSE(1);
+            }
 
             BottomMove();
 
@@ -240,11 +263,12 @@ public class GameManager : MonoBehaviour
                 ActiveBlock.MoveRight();
             }
         }
-        else if (Input.GetKey(KeyCode.P) && (Time.time > nextKeyRotateTimer)) //右回転
+        else if (Input.GetKeyDown(KeyCode.P) && (Time.time > nextKeyRotateTimer)) //右回転
         {
             CanNotMove = true;
 
             UseSpin = true;
+            UseTSpin = false;
 
             ActiveBlock.RotateRight();
 
@@ -270,6 +294,19 @@ public class GameManager : MonoBehaviour
                     if (ActiveBlock.name.Contains("T"))
                     {
                         UseTSpin = rotation.TspinCheck(UseSpin, ActiveBlock);
+
+                        if (UseTSpin == true)
+                        {
+                            se.CallSE(16);
+                        }
+                        else
+                        {
+                            se.CallSE(2);
+                        }
+                    }
+                    else
+                    {
+                        se.CallSE(2);
                     }
                 }
             }
@@ -281,6 +318,19 @@ public class GameManager : MonoBehaviour
                 if (ActiveBlock.name.Contains("T"))
                 {
                     UseTSpin = rotation.TspinCheck(UseSpin, ActiveBlock);
+
+                    if (UseTSpin == true)
+                    {
+                        se.CallSE(16);
+                    }
+                    else
+                    {
+                        se.CallSE(2);
+                    }
+                }
+                else
+                {
+                    se.CallSE(2);
                 }
             }
 
@@ -288,11 +338,12 @@ public class GameManager : MonoBehaviour
 
             CanNotMove = false;
         }
-        else if (Input.GetKey(KeyCode.L) && (Time.time > nextKeyRotateTimer)) //左回転
+        else if (Input.GetKeyDown(KeyCode.L) && (Time.time > nextKeyRotateTimer)) //左回転
         {
             CanNotMove = true;
 
             UseSpin = true;
+            UseTSpin = false;
 
             ActiveBlock.Rotateleft();
 
@@ -317,6 +368,19 @@ public class GameManager : MonoBehaviour
                     if (ActiveBlock.name.Contains("T"))
                     {
                         UseTSpin = rotation.TspinCheck(UseSpin, ActiveBlock);
+
+                        if (UseTSpin == true)
+                        {
+                            se.CallSE(16);
+                        }
+                        else
+                        {
+                            se.CallSE(2);
+                        }
+                    }
+                    else
+                    {
+                        se.CallSE(2);
                     }
                 }
             }
@@ -328,6 +392,19 @@ public class GameManager : MonoBehaviour
                 if (ActiveBlock.name.Contains("T"))
                 {
                     UseTSpin = rotation.TspinCheck(UseSpin, ActiveBlock);
+
+                    if (UseTSpin == true)
+                    {
+                        se.CallSE(16);
+                    }
+                    else
+                    {
+                        se.CallSE(2);
+                    }
+                }
+                else
+                {
+                    se.CallSE(2);
                 }
             }
 
@@ -337,18 +414,21 @@ public class GameManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space)) //ハードドロップ
         {
+            HardDrop = true;
+
             for (int i = 0; i < 30; i++)
             {
-                music.SE();
-
                 ActiveBlock.MoveDown();
 
                 if (!board.CheckPosition(ActiveBlock))
                 {
                     break;
                 }
+
+                UseSpin = false; //1マスでも落ちたらspin判定は消える。
                 UseTSpin = false;
             }
+
             if (board.OverLimit(ActiveBlock))
             {
                 GameOver();
@@ -356,7 +436,6 @@ public class GameManager : MonoBehaviour
             else
             {
                 //底に着いたときの処理
-                Debug.Log("BottomBoard");
                 BottomBoard();
             }
         }
@@ -413,16 +492,12 @@ public class GameManager : MonoBehaviour
 
     void BottomBoard() //底に着いたときの処理
     {
-        if (UseTSpin)
-        {
-            Debug.Log("Tspin成功！");
-        }
+        Debug.Log("BottomBoard");
 
         //初期化
         Hold = false;
         Bottom = false;
         UseSpin = false;
-        UseTSpin = false;
         nextKeyDownTimer = Time.time;
         nextKeyLeftRightTimer = Time.time;
         nextKeyRotateTimer = Time.time;
@@ -431,9 +506,63 @@ public class GameManager : MonoBehaviour
         MinoAngleBefore = 0;
         MinoAngleAfter = 0;
 
-        ActiveBlock.MoveUp();
+        ActiveBlock.MoveUp(); //ミノを正常な位置に戻す
 
-        board.SaveBlockInGrid(ActiveBlock);
+        board.SaveBlockInGrid(ActiveBlock); //ActiveBlockをセーブ
+
+        ClearRowHistory.Add(board.ClearAllRows()); //埋まっていれば削除し、ClearRowCountに消去ライン数を追加していく
+
+        if (ClearRowHistory[ClearRowHistoryCount] >= 1 && ClearRowHistory[ClearRowHistoryCount] <= 3)
+        {
+            if (UseTSpin == true)
+            {
+                se.CallSE(3);
+
+                /*if () //TspinMini判定
+                {
+                    
+                }*/
+            }
+            else if (HardDrop == true)
+            {
+                se.CallSE(8);
+                se.CallSE(17);
+
+                HardDrop = false;
+            }
+            else
+            {
+                se.CallSE(17);
+            }
+        }
+        else if (ClearRowHistory[ClearRowHistoryCount] == 4)
+        {
+            if (HardDrop == true)
+            {
+                se.CallSE(8);
+                se.CallSE(20);
+
+                HardDrop = false;
+            }
+            else
+            {
+                se.CallSE(20);
+            }
+        }
+        else if (HardDrop == true)
+        {
+            se.CallSE(8);
+
+            HardDrop = false;
+        }
+        else
+        {
+            se.CallSE(9);
+        }
+
+        UseTSpin = false;
+
+        ClearRowHistoryCount++;
 
         MinoSpawn(FirstHold, Hold); //次のactiveBlockの生成
 
@@ -443,8 +572,6 @@ public class GameManager : MonoBehaviour
         }
 
         spawner.SpawnNextBlocks(Count, MinoOrder.ToArray()); //Next表示
-
-        board.ClearAllRows(); //埋まっていれば削除する
     }
 
     void HoldBlock() //Holdした時の処理

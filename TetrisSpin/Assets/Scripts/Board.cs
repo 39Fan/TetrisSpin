@@ -15,6 +15,8 @@ public class Board : MonoBehaviour
     [SerializeField]
     private int height = 25, width = 10, header = 5;
 
+    int ClearRowCount;
+
     private void Awake()
     {
         Grid = new Transform[width, height];
@@ -123,9 +125,6 @@ public class Board : MonoBehaviour
     //指定されたマスがミノで埋まっているか、壁ならtrueを返す関数(Tspin判定に必要)
     public bool BlockCheckForTspin(int x, int y, Block block)
     {
-        Debug.Log(x);
-        Debug.Log(y);
-
         //Gridの座標が負の場合(壁判定)true
         if (x < 0 || y < 0)
         {
@@ -145,8 +144,10 @@ public class Board : MonoBehaviour
     }
 
     //全ての行をチェックして、埋まっていれば削除する関数
-    public void ClearAllRows()
+    public int ClearAllRows()
     {
+        ClearRowCount = 0;
+
         for (int y = 0; y < height; y++)
         {
             if (IsComplete(y))
@@ -156,8 +157,12 @@ public class Board : MonoBehaviour
                 ShiftRowsDown(y + 1);
 
                 y--;
+
+                ClearRowCount++;
             }
         }
+
+        return ClearRowCount;
     }
 
     //全ての行をチェックする関数
