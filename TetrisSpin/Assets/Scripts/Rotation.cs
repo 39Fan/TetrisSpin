@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Rotation : MonoBehaviour
@@ -32,7 +29,7 @@ public class Rotation : MonoBehaviour
             //Gridの座標が負の場合false
             if ((int)pos.x + Rx < 0 || (int)pos.y + Ry < 0)
             {
-                Debug.Log("SRS中に枠外に出た。");
+                Debug.Log("SRS中に枠外に出た。A");
                 return false;
             }
 
@@ -55,7 +52,7 @@ public class Rotation : MonoBehaviour
     }
 
     //スーパーローテーションシステム(SRS)
-    public bool MinoSuperRotation(int MinoAngleBefore, int MinoAngleAfter, Block block)
+    public bool MinoSuperRotation(int minoAngleBefore, Block block)
     {
         int movex = 0;  // X座標移動量
         int movey = 0;  // Y座標移動量
@@ -67,22 +64,22 @@ public class Rotation : MonoBehaviour
             // 0が90度（B）の場合は左，-90度（D）の場合は右へ移動
             // 0が0度（A），180度（C）の場合は回転した方向の逆へ移動
             Debug.Log("Iミノ以外のSRS判定開始");
-            switch (MinoAngleAfter)
+            switch (block.transform.rotation.eulerAngles.z)
             {
-                case 1: // 右向き
+                case 270: // 右向き
                     movex = -1;
                     break;
-                case 3: // 左向き
+                case 90: // 左向き
                     movex = 1;
                     break;
                 case 0: // 上向き
-                case 2: // 下向き
-                    switch (MinoAngleBefore)
+                case 180: // 下向き
+                    switch (minoAngleBefore)
                     {
-                        case 1: // 回転前が右向き
+                        case 270: // 回転前が右向き
                             movex = 1;
                             break;
-                        case 3: // 回転前が左向き
+                        case 90: // 回転前が左向き
                             movex = -1;
                             break;
                     }
@@ -95,14 +92,14 @@ public class Rotation : MonoBehaviour
                 // 0が90度（B），-90度（D）の場合は上へ移動
                 // 0が0度（A），180度（C）の場合は下へ移動
                 Debug.Log("1.失敗");
-                switch (MinoAngleAfter)
+                switch (block.transform.rotation.eulerAngles.z)
                 {
-                    case 1:
-                    case 3:
+                    case 270:
+                    case 90:
                         movey = 1;
                         break;
                     case 0:
-                    case 2:
+                    case 180:
                         movey = -1;
                         break;
                 }
@@ -115,14 +112,14 @@ public class Rotation : MonoBehaviour
                     Debug.Log("2.失敗");
                     movex = 0;
                     movey = 0;
-                    switch (MinoAngleAfter)
+                    switch (block.transform.rotation.eulerAngles.z)
                     {
-                        case 1:
-                        case 3:
+                        case 270:
+                        case 90:
                             movey = -2;
                             break;
                         case 0:
-                        case 2:
+                        case 180:
                             movey = 2;
                             break;
                     }
@@ -133,22 +130,22 @@ public class Rotation : MonoBehaviour
                         // 0が90度（B）の場合は左，-90度（D）の場合は右へ移動
                         // 0が0度（A），180度（C）の場合は回転した方向の逆へ移動
                         Debug.Log("3.失敗");
-                        switch (MinoAngleAfter)
+                        switch (block.transform.rotation.eulerAngles.z)
                         {
-                            case 1:
+                            case 270:
                                 movex = -1;
                                 break;
-                            case 3:
+                            case 90:
                                 movex = 1;
                                 break;
                             case 0:
-                            case 2:
-                                switch (MinoAngleBefore)
+                            case 180:
+                                switch (minoAngleBefore)
                                 {
-                                    case 1: // 回転前が右向き
+                                    case 270: // 回転前が右向き
                                         movex = 1;
                                         break;
-                                    case 3: // 回転前が左向き
+                                    case 90: // 回転前が左向き
                                         movex = -1;
                                         break;
                                 }
@@ -173,26 +170,26 @@ public class Rotation : MonoBehaviour
             // 1. 軸を左右に動かす
             // 0が90度（B）の場合は右，-90度（D）の場合は左へ移動（枠にくっつく）
             // 0が0度（A），180度（C）の場合は回転した方向の逆へ移動 0度は２マス移動
-            switch (MinoAngleAfter)
+            switch (block.transform.rotation.eulerAngles.z)
             {
-                case 1:
+                case 270:
                     movex = 1;
                     break;
-                case 3:
+                case 90:
                     movex = -1;
                     break;
                 case 0:
-                case 2:
-                    switch (MinoAngleBefore)
+                case 180:
+                    switch (minoAngleBefore)
                     {
-                        case 1:
+                        case 270:
                             movex = -1;
                             break;
-                        case 3:
+                        case 90:
                             movex = 1;
                             break;
                     }
-                    if (MinoAngleAfter == 0) movex *= 2;   // 0度は2マス移動
+                    if (block.transform.rotation.eulerAngles.z == 0) movex *= 2;   // 0度は2マス移動
                     break;
             }
             pt1x = movex;
@@ -201,26 +198,26 @@ public class Rotation : MonoBehaviour
                 // 2. 軸を左右に動かす
                 // 0が90度（B）の場合は左，-90度（D）の場合は右へ移動（枠にくっつく）
                 // 0が0度（A），180度（C）の場合は回転した方向へ移動 180度は２マス移動
-                switch (MinoAngleAfter)
+                switch (block.transform.rotation.eulerAngles.z)
                 {
-                    case 1:
+                    case 270:
                         movex = -1;
                         break;
-                    case 3:
+                    case 90:
                         movex = 1;
                         break;
                     case 0:
-                    case 2:
-                        switch (MinoAngleBefore)
+                    case 180:
+                        switch (minoAngleBefore)
                         {
-                            case 1:
+                            case 270:
                                 movex = 1;
                                 break;
-                            case 3:
+                            case 90:
                                 movex = -1;
                                 break;
                         }
-                        if (MinoAngleAfter == 2) movex *= 2;   // 180度は2マス移動
+                        if (block.transform.rotation.eulerAngles.z == 2) movex *= 2;   // 180度は2マス移動
                         break;
                 }
                 pt2x = movex;
@@ -232,25 +229,25 @@ public class Rotation : MonoBehaviour
                     // 回転前のミノが右半分にある（B）なら1を上へ
                     // 回転前のミノが左半分にある（D）なら2を下へ移動
                     // 左回転なら２マス動かす
-                    switch (MinoAngleAfter)
+                    switch (block.transform.rotation.eulerAngles.z)
                     {
-                        case 1:
+                        case 270:
                             movex = pt1x;
                             movey = -1;
                             break;
-                        case 3:
+                        case 90:
                             movex = pt1x;
                             movey = 1;
                             break;
                         case 0:
-                        case 2:
-                            switch (MinoAngleBefore)
+                        case 180:
+                            switch (minoAngleBefore)
                             {
-                                case 1:
+                                case 270:
                                     movex = pt1x;
                                     movey = 1;
                                     break;
-                                case 3:
+                                case 90:
                                     movex = pt2x;
                                     movey = -1;
                                     break;
@@ -258,8 +255,8 @@ public class Rotation : MonoBehaviour
                             break;
                     }
                     // 左回転
-                    if (MinoAngleBefore == 0 && MinoAngleAfter == 3 || MinoAngleBefore == 3 && MinoAngleAfter == 2
-                        || MinoAngleBefore == 2 && MinoAngleAfter == 1 || MinoAngleBefore == 1 && MinoAngleAfter == 0)
+                    if (minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 90 || minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 180
+                        || minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 270 || minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 0)
                     {
                         movey *= -2;
                     }
@@ -271,25 +268,25 @@ public class Rotation : MonoBehaviour
                         // 回転前のミノが右半分にある（B）なら2を下へ
                         // 回転前のミノが左半分にある（D）なら1を上へ移動
                         // 右回転なら２マス動かす
-                        switch (MinoAngleAfter)
+                        switch (block.transform.rotation.eulerAngles.z)
                         {
-                            case 1:
+                            case 270:
                                 movex = pt2x;
                                 movey = 1;
                                 break;
-                            case 3:
+                            case 90:
                                 movex = pt2x;
                                 movey = -1;
                                 break;
                             case 0:
-                            case 2:
-                                switch (MinoAngleBefore)
+                            case 180:
+                                switch (minoAngleBefore)
                                 {
-                                    case 1:
+                                    case 270:
                                         movex = pt2x;
                                         movey = -1;
                                         break;
-                                    case 3:
+                                    case 90:
                                         movex = pt1x;
                                         movey = 1;
                                         break;
@@ -297,8 +294,8 @@ public class Rotation : MonoBehaviour
                                 break;
                         }
                         // 右回転
-                        if (MinoAngleBefore == 3 && MinoAngleAfter == 0 || MinoAngleBefore == 0 && MinoAngleAfter == 1
-                            || MinoAngleBefore == 1 && MinoAngleAfter == 2 || MinoAngleBefore == 2 && MinoAngleAfter == 3)
+                        if (minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 0 || minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 270
+                            || minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 180 || minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 90)
                         {
                             movey *= -2;
                         }
