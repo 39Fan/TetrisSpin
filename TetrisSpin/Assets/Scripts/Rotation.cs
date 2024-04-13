@@ -9,8 +9,7 @@ public class Rotation : MonoBehaviour
 
     GameManager gameManager;
 
-    /* Tスピン関連 */
-    bool UseTSpin = false;  // Tスピン使用フラグ
+    Block blockOriginPosition;
 
     [SerializeField]
     List<int> BlockCount = new List<int>();
@@ -57,267 +56,273 @@ public class Rotation : MonoBehaviour
     }
 
     //スーパーローテーションシステム(SRS)
+    //通常回転ができなかった時に試す回転
+    //4つの軌跡を辿り、ブロックや壁に衝突しなかったらそこに移動する
     public bool MinoSuperRotation(int minoAngleBefore, int lastSRS, Block block)
     {
-        int movex = 0;  // X座標移動量
-        int movey = 0;  // Y座標移動量
-        lastSRS = 0;
-        // Iミノ以外
+        //blockOriginPositionに通常回転後の情報を格納
+        //SRSができなかった際に回転前の状態に戻るため
+        blockOriginPosition = block;
+
+        //初期状態を0°として、右、下、左の角度をそれぞれ90°、180°、270°と表記することにする
+        //Z軸で回転を行っているため、90°と270°はプログラム上 270, 90 と表記されている
+        //lastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
+
+        //↓参考にした動画
+        //https://www.youtube.com/watch?v=0OQ7mP97vdc
+
+        //Iミノ以外のSRS
         if (!block.name.Contains("I"))
         {
-            // 1. 軸を左右に動かす
-            // 0が90度（B）の場合は左，-90度（D）の場合は右へ移動
-            // 0が0度（A），180度（C）の場合は回転した方向の逆へ移動
-            Debug.Log("Iミノ以外のSRS判定開始");
-            switch (block.transform.rotation.eulerAngles.z)
+            //0°から90°または180°から90°に回転する時
+            if ((minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 270) ||
+                (minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 270))
             {
-                case 270: // 右向き
-                    movex = -1;
-                    break;
-                case 90: // 左向き
-                    movex = 1;
-                    break;
-                case 0: // 上向き
-                case 180: // 下向き
-                    switch (minoAngleBefore)
-                    {
-                        case 270: // 回転前が右向き
-                            movex = 1;
-                            break;
-                        case 90: // 回転前が左向き
-                            movex = -1;
-                            break;
-                    }
-                    break;
-            }
-            lastSRS++; //1
-            if (!RotationCheck(movex, movey, block))
-            {
-                // 2.その状態から軸を上下に動かす
-                // 0が90度（B），-90度（D）の場合は上へ移動
-                // 0が0度（A），180度（C）の場合は下へ移動
-                Debug.Log("1.失敗");
-                switch (block.transform.rotation.eulerAngles.z)
+                block.MoveLeft();
+                if (!board.CheckPosition(block))
                 {
-                    case 270:
-                    case 90:
-                        movey = 1;
-                        break;
-                    case 0:
-                    case 180:
-                        movey = -1;
-                        break;
-                }
-                lastSRS++; //2
-                if (!RotationCheck(movex, movey, block))
-                {
-                    // 3.元に戻し、軸を上下に2マス動かす
-                    // 0が90度（B），-90度（D）の場合は下へ移動
-                    // 0が0度（A），180度（C）の場合は上へ移動
-                    Debug.Log("2.失敗");
-                    movex = 0;
-                    movey = 0;
-                    switch (block.transform.rotation.eulerAngles.z)
+                    block.MoveUp();
+                    if (!board.CheckPosition(block))
                     {
-                        case 270:
-                        case 90:
-                            movey = -2;
-                            break;
-                        case 0:
-                        case 180:
-                            movey = 2;
-                            break;
-                    }
-                    lastSRS++; //3
-                    if (!RotationCheck(movex, movey, block))
-                    {
-                        // 4.その状態から軸を左右に動かす
-                        // 0が90度（B）の場合は左，-90度（D）の場合は右へ移動
-                        // 0が0度（A），180度（C）の場合は回転した方向の逆へ移動
-                        Debug.Log("3.失敗");
-                        switch (block.transform.rotation.eulerAngles.z)
+                        block.MoveRight();
+                        block.MoveDown();
+                        block.MoveDown();
+                        block.MoveDown();
+                        if (!board.CheckPosition(block))
                         {
-                            case 270:
-                                movex = -1;
-                                break;
-                            case 90:
-                                movex = 1;
-                                break;
-                            case 0:
-                            case 180:
-                                switch (minoAngleBefore)
-                                {
-                                    case 270: // 回転前が右向き
-                                        movex = 1;
-                                        break;
-                                    case 90: // 回転前が左向き
-                                        movex = -1;
-                                        break;
-                                }
-                                break;
+                            block.MoveLeft();
+                            if (!board.CheckPosition(block))
+                            {
+                                block = blockOriginPosition;
+                                return false;
+                            }
                         }
-                        lastSRS++; //4
-                        if (!RotationCheck(movex, movey, block))
+                    }
+                }
+            }
+            //270°から0°または270°から180°に回転する時
+            else if ((minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 0) ||
+                (minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 180))
+            {
+                block.MoveLeft();
+                if (!board.CheckPosition(block))
+                {
+                    block.MoveDown();
+                    if (!board.CheckPosition(block))
+                    {
+                        block.MoveRight();
+                        block.MoveUp();
+                        block.MoveUp();
+                        block.MoveUp();
+                        if (!board.CheckPosition(block))
                         {
-                            Debug.Log("SRS失敗");
-                            return false;
+                            block.MoveLeft();
+                            if (!board.CheckPosition(block))
+                            {
+                                block = blockOriginPosition;
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            //90°から0°または90°から180°に回転する時
+            else if ((minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 0) ||
+                (minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 180))
+            {
+                block.MoveRight();
+                if (!board.CheckPosition(block))
+                {
+                    block.MoveDown();
+                    if (!board.CheckPosition(block))
+                    {
+                        block.MoveLeft();
+                        block.MoveUp();
+                        block.MoveUp();
+                        block.MoveUp();
+                        if (!board.CheckPosition(block))
+                        {
+                            block.MoveRight();
+                            if (!board.CheckPosition(block))
+                            {
+                                block = blockOriginPosition;
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            //0°から270°または180°から270°に回転する時
+            else if ((minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 90) ||
+                (minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 90))
+            {
+                block.MoveRight();
+                if (!board.CheckPosition(block))
+                {
+                    block.MoveUp();
+                    if (!board.CheckPosition(block))
+                    {
+                        block.MoveLeft();
+                        block.MoveDown();
+                        block.MoveDown();
+                        block.MoveDown();
+                        if (!board.CheckPosition(block))
+                        {
+                            block.MoveRight();
+                            if (!board.CheckPosition(block))
+                            {
+                                block = blockOriginPosition;
+                                return false;
+                            }
                         }
                     }
                 }
             }
         }
-        // Iミノの場合
+        //IミノのSRS(かなり複雑)
+        //Iミノの軸は他のミノと違うため別の処理
         else
         {
-            int pt1x;   // 1のX移動量
-            int pt2x;   // 2のX移動量
-
-            // 1. 軸を左右に動かす
-            // 0が90度（B）の場合は右，-90度（D）の場合は左へ移動（枠にくっつく）
-            // 0が0度（A），180度（C）の場合は回転した方向の逆へ移動 0度は２マス移動
-            switch (block.transform.rotation.eulerAngles.z)
+            //0°から90°または270°から180°に回転する時
+            if ((minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 270) ||
+                (minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 180))
             {
-                case 270:
-                    movex = 1;
-                    break;
-                case 90:
-                    movex = -1;
-                    break;
-                case 0:
-                case 180:
-                    switch (minoAngleBefore)
-                    {
-                        case 270:
-                            movex = -1;
-                            break;
-                        case 90:
-                            movex = 1;
-                            break;
-                    }
-                    if (block.transform.rotation.eulerAngles.z == 0) movex *= 2;   // 0度は2マス移動
-                    break;
-            }
-            pt1x = movex;
-            if (!RotationCheck(movex, movey, block))
-            {
-                // 2. 軸を左右に動かす
-                // 0が90度（B）の場合は左，-90度（D）の場合は右へ移動（枠にくっつく）
-                // 0が0度（A），180度（C）の場合は回転した方向へ移動 180度は２マス移動
-                switch (block.transform.rotation.eulerAngles.z)
+                block.MoveLeft();
+                block.MoveLeft();
+                if (!board.CheckPosition(block))
                 {
-                    case 270:
-                        movex = -1;
-                        break;
-                    case 90:
-                        movex = 1;
-                        break;
-                    case 0:
-                    case 180:
-                        switch (minoAngleBefore)
+                    block.MoveRight();
+                    block.MoveRight();
+                    block.MoveRight();
+                    if (!board.CheckPosition(block))
+                    {
+                        block.MoveLeft();
+                        block.MoveLeft();
+                        block.MoveLeft();
+                        block.MoveDown();
+                        if (!board.CheckPosition(block))
                         {
-                            case 270:
-                                movex = 1;
-                                break;
-                            case 90:
-                                movex = -1;
-                                break;
-                        }
-                        if (block.transform.rotation.eulerAngles.z == 2) movex *= 2;   // 180度は2マス移動
-                        break;
-                }
-                pt2x = movex;
-                if (!RotationCheck(movex, movey, block))
-                {
-                    // 3. 軸を上下に動かす
-                    // 0が90度（B）の場合は1を下，-90度（D）の場合は1を上へ移動
-                    // 0が0度（A），180度（C）の場合は
-                    // 回転前のミノが右半分にある（B）なら1を上へ
-                    // 回転前のミノが左半分にある（D）なら2を下へ移動
-                    // 左回転なら２マス動かす
-                    switch (block.transform.rotation.eulerAngles.z)
-                    {
-                        case 270:
-                            movex = pt1x;
-                            movey = -1;
-                            break;
-                        case 90:
-                            movex = pt1x;
-                            movey = 1;
-                            break;
-                        case 0:
-                        case 180:
-                            switch (minoAngleBefore)
+                            block.MoveRight();
+                            block.MoveRight();
+                            block.MoveRight();
+                            block.MoveUp();
+                            block.MoveUp();
+                            block.MoveUp();
+                            if (!board.CheckPosition(block))
                             {
-                                case 270:
-                                    movex = pt1x;
-                                    movey = 1;
-                                    break;
-                                case 90:
-                                    movex = pt2x;
-                                    movey = -1;
-                                    break;
+                                block = blockOriginPosition;
+                                return false;
                             }
-                            break;
-                    }
-                    // 左回転
-                    if (minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 90 || minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 180
-                        || minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 270 || minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 0)
-                    {
-                        movey *= -2;
-                    }
-                    if (!RotationCheck(movex, movey, block))
-                    {
-                        // 4. 軸を上下に動かす
-                        // 0が90度（B）の場合は2を上，-90度（D）の場合は2を下へ移動
-                        // 0が0度（A），180度（C）の場合は
-                        // 回転前のミノが右半分にある（B）なら2を下へ
-                        // 回転前のミノが左半分にある（D）なら1を上へ移動
-                        // 右回転なら２マス動かす
-                        switch (block.transform.rotation.eulerAngles.z)
-                        {
-                            case 270:
-                                movex = pt2x;
-                                movey = 1;
-                                break;
-                            case 90:
-                                movex = pt2x;
-                                movey = -1;
-                                break;
-                            case 0:
-                            case 180:
-                                switch (minoAngleBefore)
-                                {
-                                    case 270:
-                                        movex = pt2x;
-                                        movey = -1;
-                                        break;
-                                    case 90:
-                                        movex = pt1x;
-                                        movey = 1;
-                                        break;
-                                }
-                                break;
                         }
-                        // 右回転
-                        if (minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 0 || minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 270
-                            || minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 180 || minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 90)
+                    }
+                }
+            }
+            //270°から0°または180°から90°に回転する時
+            else if ((minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 0) ||
+                (minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 270))
+            {
+                block.MoveRight();
+                if (!board.CheckPosition(block))
+                {
+                    block.MoveLeft();
+                    block.MoveLeft();
+                    block.MoveLeft();
+                    if (!board.CheckPosition(block))
+                    {
+                        block.MoveRight();
+                        block.MoveRight();
+                        block.MoveRight();
+                        block.MoveDown();
+                        block.MoveDown();
+                        if (!board.CheckPosition(block))
                         {
-                            movey *= -2;
+                            block.MoveLeft();
+                            block.MoveLeft();
+                            block.MoveLeft();
+                            block.MoveUp();
+                            block.MoveUp();
+                            block.MoveUp();
+                            if (!board.CheckPosition(block))
+                            {
+                                block = blockOriginPosition;
+                                return false;
+                            }
                         }
-                        if (!RotationCheck(movex, movey, block))
+                    }
+                }
+            }
+            //90°から0°または180°から270°に回転する時
+            else if ((minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 0) ||
+                (minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 90))
+            {
+                block.MoveRight();
+                block.MoveRight();
+                if (!board.CheckPosition(block))
+                {
+                    block.MoveLeft();
+                    block.MoveLeft();
+                    block.MoveLeft();
+                    if (!board.CheckPosition(block))
+                    {
+                        block.MoveRight();
+                        block.MoveRight();
+                        block.MoveRight();
+                        block.MoveUp();
+                        if (!board.CheckPosition(block))
                         {
-                            return false;
+                            block.MoveLeft();
+                            block.MoveLeft();
+                            block.MoveLeft();
+                            block.MoveDown();
+                            block.MoveDown();
+                            block.MoveDown();
+                            if (!board.CheckPosition(block))
+                            {
+                                block = blockOriginPosition;
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            //0°から270°または90°から180°に回転する時
+            else if ((minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 90) ||
+                (minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 180))
+            {
+                block.MoveLeft();
+                if (!board.CheckPosition(block))
+                {
+                    block.MoveRight();
+                    block.MoveRight();
+                    block.MoveRight();
+                    if (!board.CheckPosition(block))
+                    {
+                        block.MoveLeft();
+                        block.MoveLeft();
+                        block.MoveLeft();
+                        block.MoveUp();
+                        block.MoveUp();
+                        if (!board.CheckPosition(block))
+                        {
+                            block.MoveRight();
+                            block.MoveRight();
+                            block.MoveRight();
+                            block.MoveDown();
+                            block.MoveDown();
+                            block.MoveDown();
+                            if (!board.CheckPosition(block))
+                            {
+                                block = blockOriginPosition;
+                                return false;
+                            }
                         }
                     }
                 }
             }
         }
-
-        block.Move(new Vector3(movex, 0, 0));
-        block.Move(new Vector3(0, movey, 0));
-
         return true;
     }
+
 
     public int TspinCheck(Block block, int lastSRS)
     {
@@ -433,4 +438,5 @@ public class Rotation : MonoBehaviour
         Debug.Log("バグ発生");
         return 7;
     }
+
 }
