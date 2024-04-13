@@ -11,7 +11,8 @@ public class Rotation : MonoBehaviour
 
     /* Tスピン関連 */
     bool UseTSpin = false;  // Tスピン使用フラグ
-    int LastSRS = 0; // 最後に行ったスーパーローテーション(SR)パターン(0-4)
+
+    [SerializeField]
     List<int> BlockCount = new List<int>();
 
 
@@ -56,11 +57,11 @@ public class Rotation : MonoBehaviour
     }
 
     //スーパーローテーションシステム(SRS)
-    public bool MinoSuperRotation(int minoAngleBefore, Block block)
+    public bool MinoSuperRotation(int minoAngleBefore, int lastSRS, Block block)
     {
         int movex = 0;  // X座標移動量
         int movey = 0;  // Y座標移動量
-        LastSRS = 0;
+        lastSRS = 0;
         // Iミノ以外
         if (!block.name.Contains("I"))
         {
@@ -89,7 +90,7 @@ public class Rotation : MonoBehaviour
                     }
                     break;
             }
-            LastSRS++; //1
+            lastSRS++; //1
             if (!RotationCheck(movex, movey, block))
             {
                 // 2.その状態から軸を上下に動かす
@@ -107,7 +108,7 @@ public class Rotation : MonoBehaviour
                         movey = -1;
                         break;
                 }
-                LastSRS++; //2
+                lastSRS++; //2
                 if (!RotationCheck(movex, movey, block))
                 {
                     // 3.元に戻し、軸を上下に2マス動かす
@@ -127,7 +128,7 @@ public class Rotation : MonoBehaviour
                             movey = 2;
                             break;
                     }
-                    LastSRS++; //3
+                    lastSRS++; //3
                     if (!RotationCheck(movex, movey, block))
                     {
                         // 4.その状態から軸を左右に動かす
@@ -155,7 +156,7 @@ public class Rotation : MonoBehaviour
                                 }
                                 break;
                         }
-                        LastSRS++; //4
+                        lastSRS++; //4
                         if (!RotationCheck(movex, movey, block))
                         {
                             Debug.Log("SRS失敗");
@@ -318,7 +319,7 @@ public class Rotation : MonoBehaviour
         return true;
     }
 
-    public int TspinCheck(bool useSpin, Block block)
+    public int TspinCheck(Block block, int lastSRS)
     {
         Debug.Log("====this is TspinCheck====");
 
@@ -332,7 +333,7 @@ public class Rotation : MonoBehaviour
 
         for (int x = 1; x >= -1; x -= 2)
         {
-            for (int y = 1; y >= -1; y -= 2)
+            for (int y = -1; y <= 1; y += 2)
             {
                 if (board.BlockCheckForTspin((int)Mathf.Round(block.transform.position.x) + x, (int)Mathf.Round(block.transform.position.y) + y, block))
                 {
@@ -345,45 +346,91 @@ public class Rotation : MonoBehaviour
             }
         }
 
-        if (BlockCount.FindAll(x => x == 1).Count == 3 && useSpin == true)
+        if (lastSRS != 4)
         {
-            switch (block.transform.rotation.eulerAngles.z)
+            if (BlockCount.FindAll(x => x == 1).Count == 3)
             {
-                case 270:
-                    if (BlockCount[0] == 0 || BlockCount[1] == 0)
-                    {
-                        gameManager.SpinMini = true;
-                        return 4;
-                    }
-                    break;
-                case 180:
-                    if (BlockCount[1] == 0 || BlockCount[2] == 0)
-                    {
-                        gameManager.SpinMini = true;
-                        return 4;
-                    }
-                    break;
-                case 90:
-                    if (BlockCount[2] == 0 || BlockCount[3] == 0)
-                    {
-                        gameManager.SpinMini = true;
-                        return 4;
-                    }
-                    break;
-                case 0:
-                    if (BlockCount[3] == 0 || BlockCount[0] == 0)
-                    {
-                        gameManager.SpinMini = true;
-                        return 4;
-                    }
-                    break;
+                switch (block.transform.rotation.eulerAngles.z)
+                {
+                    case 270:
+                        if (BlockCount[0] == 0 || BlockCount[1] == 0)
+                        {
+                            Debug.Log("270でMini");
+                            gameManager.SpinMini = true;
+                            return 4;
+                        }
+                        break;
+                    case 180:
+                        if (BlockCount[1] == 0 || BlockCount[2] == 0)
+                        {
+                            Debug.Log("180でMini");
+                            gameManager.SpinMini = true;
+                            return 4;
+                        }
+                        break;
+                    case 90:
+                        if (BlockCount[2] == 0 || BlockCount[3] == 0)
+                        {
+                            Debug.Log("90でMini");
+                            gameManager.SpinMini = true;
+                            return 4;
+                        }
+                        break;
+                    case 0:
+                        if (BlockCount[3] == 0 || BlockCount[0] == 0)
+                        {
+                            Debug.Log("0でMini");
+                            gameManager.SpinMini = true;
+                            return 4;
+                        }
+                        break;
+                }
+                return 4;
             }
-            return 4;
         }
-        else if (BlockCount.FindAll(x => x == 1).Count == 4 && useSpin == true)
+
+        if (BlockCount.FindAll(x => x == 1).Count == 4)
         {
             return 4;
         }
+        return 7;
+    }
+
+    public int SpinTerminal(bool useSpin, int lastSRS, Block block)
+    {
+        if (useSpin == false)
+        {
+            return 7;
+        }
+        /*if (block.name.Contains("I"))
+        {
+            return IspinCheck(block);
+        }*/
+        /*else if (block.name.Contains("J"))
+        {
+            return JspinCheck(block);
+        }*/
+        /*else if (block.name.Contains("L"))
+        {
+            return LspinCheck(block);
+        }*/
+        /*else if (block.name.Contains("S"))
+        {
+            return SspinCheck(block);
+        }*/
+        else if (block.name.Contains("T"))
+        {
+            return TspinCheck(block, lastSRS);
+        }
+        /*else if (block.name.Contains("Z"))
+        {
+            return ZspinCheck(block);
+        }*/
+        /*else if (block.name.Contains("O"))
+        {
+            return OspinCheck(block);
+        }*/
+        Debug.Log("バグ発生");
         return 7;
     }
 }
