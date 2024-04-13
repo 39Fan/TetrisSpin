@@ -40,7 +40,8 @@ public class GameManager : MonoBehaviour
     // 回転使用フラグ
     bool UseSpin = false;
 
-    bool UseTSpin = false;
+    int SpinActions = 7;
+    public bool SpinMini = false;
 
     //ミノの向き(°)
     int MinoAngleBefore = 0;
@@ -146,8 +147,6 @@ public class GameManager : MonoBehaviour
         PlayerInput();
 
         Down();
-
-        Debug.Log(ActiveBlock.transform.rotation.eulerAngles.z);
     }
 
     //キーの入力を検知してブロックを動かす関数
@@ -173,7 +172,7 @@ public class GameManager : MonoBehaviour
             BottomMove();
 
             UseSpin = false;
-            UseTSpin = false;
+            SpinActions = 7;
         }
         else if (Input.GetKey(KeyCode.D) && (Time.time > nextKeyLeftRightTimer) && CanNotMove == false) //連続右入力
         {
@@ -195,7 +194,7 @@ public class GameManager : MonoBehaviour
             BottomMove();
 
             UseSpin = false;
-            UseTSpin = false;
+            SpinActions = 7;
         }
         else if (Input.GetKeyUp(KeyCode.D)) //連続右入力の解除
         {
@@ -226,7 +225,7 @@ public class GameManager : MonoBehaviour
             BottomMove();
 
             UseSpin = false;
-            UseTSpin = false;
+            SpinActions = 7;
         }
         else if (Input.GetKey(KeyCode.A) && (Time.time > nextKeyLeftRightTimer) && CanNotMove == false) //連続左入力
         {
@@ -248,7 +247,7 @@ public class GameManager : MonoBehaviour
             BottomMove();
 
             UseSpin = false;
-            UseTSpin = false;
+            SpinActions = 7;
         }
         else if (Input.GetKeyUp(KeyCode.A)) //連続右入力の解除
         {
@@ -264,7 +263,7 @@ public class GameManager : MonoBehaviour
             CanNotMove = true;
 
             UseSpin = true;
-            UseTSpin = false;
+            SpinActions = 7;
 
             ActiveBlock.RotateRight();
 
@@ -286,9 +285,9 @@ public class GameManager : MonoBehaviour
 
                     if (ActiveBlock.name.Contains("T"))
                     {
-                        UseTSpin = rotation.TspinCheck(UseSpin, ActiveBlock);
+                        SpinActions = rotation.TspinCheck(UseSpin, ActiveBlock);
 
-                        if (UseTSpin == true)
+                        if (SpinActions == 4)
                         {
                             se.CallSE(16);
                         }
@@ -310,9 +309,9 @@ public class GameManager : MonoBehaviour
 
                 if (ActiveBlock.name.Contains("T"))
                 {
-                    UseTSpin = rotation.TspinCheck(UseSpin, ActiveBlock);
+                    SpinActions = rotation.TspinCheck(UseSpin, ActiveBlock);
 
-                    if (UseTSpin == true)
+                    if (SpinActions == 4)
                     {
                         se.CallSE(16);
                     }
@@ -336,7 +335,7 @@ public class GameManager : MonoBehaviour
             CanNotMove = true;
 
             UseSpin = true;
-            UseTSpin = false;
+            SpinActions = 7;
 
             ActiveBlock.Rotateleft();
 
@@ -357,9 +356,9 @@ public class GameManager : MonoBehaviour
                     MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
                     if (ActiveBlock.name.Contains("T"))
                     {
-                        UseTSpin = rotation.TspinCheck(UseSpin, ActiveBlock);
+                        SpinActions = rotation.TspinCheck(UseSpin, ActiveBlock);
 
-                        if (UseTSpin == true)
+                        if (SpinActions == 4)
                         {
                             se.CallSE(16);
                         }
@@ -381,9 +380,9 @@ public class GameManager : MonoBehaviour
 
                 if (ActiveBlock.name.Contains("T"))
                 {
-                    UseTSpin = rotation.TspinCheck(UseSpin, ActiveBlock);
+                    SpinActions = rotation.TspinCheck(UseSpin, ActiveBlock);
 
-                    if (UseTSpin == true)
+                    if (SpinActions == 4)
                     {
                         se.CallSE(16);
                     }
@@ -416,7 +415,7 @@ public class GameManager : MonoBehaviour
                 }
 
                 UseSpin = false; //1マスでも落ちたらspin判定は消える。
-                UseTSpin = false;
+                SpinActions = 7;
             }
 
             if (board.OverLimit(ActiveBlock))
@@ -465,7 +464,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 UseSpin = false;
-                UseTSpin = false;
+                SpinActions = 7;
             }
         }
     }
@@ -503,14 +502,14 @@ public class GameManager : MonoBehaviour
 
         if (ClearRowHistory[ClearRowHistoryCount] >= 1 && ClearRowHistory[ClearRowHistoryCount] <= 3)
         {
-            if (UseTSpin == true)
+            if (SpinActions == 4)
             {
                 se.CallSE(3);
 
-                /*if () //TspinMini判定
+                if (SpinMini == true) //TspinMini判定
                 {
-                    
-                }*/
+                    Debug.Log("TspinMiniでーす");
+                }
             }
             else if (HardDrop == true)
             {
@@ -542,14 +541,26 @@ public class GameManager : MonoBehaviour
         {
             se.CallSE(8);
 
+            if (SpinMini == true) //TspinMini判定
+            {
+                Debug.Log("TspinMiniでーす");
+            }
+
             HardDrop = false;
         }
         else
         {
             se.CallSE(9);
+
+            if (SpinMini == true) //TspinMini判定
+            {
+                Debug.Log("TspinMiniでーす");
+            }
         }
 
-        UseTSpin = false;
+        SpinActions = 7;
+
+        SpinMini = false;
 
         ClearRowHistoryCount++;
 
@@ -616,6 +627,11 @@ public class GameManager : MonoBehaviour
         {
             ActiveBlock = spawner.HoldChange();
         }
+    }
+
+    void SpinEffect(int i)
+    {
+
     }
 
     //ゲームオーバーになったらパネルを表示する

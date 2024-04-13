@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Rotation : MonoBehaviour
@@ -6,16 +7,19 @@ public class Rotation : MonoBehaviour
     Board board;
     Spawner spawner;
 
+    GameManager gameManager;
+
     /* Tスピン関連 */
     bool UseTSpin = false;  // Tスピン使用フラグ
-    bool UseTSpinMini = false;  // Tスピンミニ使用フラグ
     int LastSRS = 0; // 最後に行ったスーパーローテーション(SR)パターン(0-4)
-    int BlockCount = 0;
+    List<int> BlockCount = new List<int>();
 
 
     private void Start()
     {
         board = GameObject.FindObjectOfType<Board>();
+
+        gameManager = GameObject.FindObjectOfType<GameManager>();
     }
 
 
@@ -314,34 +318,72 @@ public class Rotation : MonoBehaviour
         return true;
     }
 
-    public bool TspinCheck(bool useSpin, Block block)
+    public int TspinCheck(bool useSpin, Block block)
     {
         Debug.Log("====this is TspinCheck====");
 
-        if (board.BlockCheckForTspin((int)Mathf.Round(block.transform.position.x) + 1, (int)Mathf.Round(block.transform.position.y) + 1, block))
+        if (BlockCount.Count != 0)
         {
-            BlockCount++;
-        }
-        if (board.BlockCheckForTspin((int)Mathf.Round(block.transform.position.x) + 1, (int)Mathf.Round(block.transform.position.y) - 1, block))
-        {
-            BlockCount++;
-        }
-        if (board.BlockCheckForTspin((int)Mathf.Round(block.transform.position.x) - 1, (int)Mathf.Round(block.transform.position.y) + 1, block))
-        {
-            BlockCount++;
-        }
-        if (board.BlockCheckForTspin((int)Mathf.Round(block.transform.position.x) - 1, (int)Mathf.Round(block.transform.position.y) - 1, block))
-        {
-            BlockCount++;
+            for (int i = 0; i < 4; i++)
+            {
+                BlockCount.RemoveAt(0);
+            }
         }
 
-        if (BlockCount >= 3 && useSpin == true)
+        for (int x = 1; x >= -1; x -= 2)
         {
-            Debug.Log("Tspin!");
-            BlockCount = 0;
-            return true;
+            for (int y = 1; y >= -1; y -= 2)
+            {
+                if (board.BlockCheckForTspin((int)Mathf.Round(block.transform.position.x) + x, (int)Mathf.Round(block.transform.position.y) + y, block))
+                {
+                    BlockCount.Add(1);
+                }
+                else
+                {
+                    BlockCount.Add(0);
+                }
+            }
         }
 
-        return false;
+        if (BlockCount.FindAll(x => x == 1).Count == 3 && useSpin == true)
+        {
+            switch (block.transform.rotation.eulerAngles.z)
+            {
+                case 270:
+                    if (BlockCount[0] == 0 || BlockCount[1] == 0)
+                    {
+                        gameManager.SpinMini = true;
+                        return 4;
+                    }
+                    break;
+                case 180:
+                    if (BlockCount[1] == 0 || BlockCount[2] == 0)
+                    {
+                        gameManager.SpinMini = true;
+                        return 4;
+                    }
+                    break;
+                case 90:
+                    if (BlockCount[2] == 0 || BlockCount[3] == 0)
+                    {
+                        gameManager.SpinMini = true;
+                        return 4;
+                    }
+                    break;
+                case 0:
+                    if (BlockCount[3] == 0 || BlockCount[0] == 0)
+                    {
+                        gameManager.SpinMini = true;
+                        return 4;
+                    }
+                    break;
+            }
+            return 4;
+        }
+        else if (BlockCount.FindAll(x => x == 1).Count == 4 && useSpin == true)
+        {
+            return 4;
+        }
+        return 7;
     }
 }
