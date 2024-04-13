@@ -8,11 +8,13 @@ public class GameManager : MonoBehaviour
     Spawner spawner;
     Rotation rotation;
     SE se;
+
+    SceneTransition sceneTransition;
     int Count = 0; //順番
     Block ActiveBlock; //生成されたブロック格納
 
     [SerializeField]
-    private float dropInteaval = 1.00f; //次にブロックが落ちるまでのインターバル時間
+    private float dropInteaval; //次にブロックが落ちるまでのインターバル時間
     float NextdropTimer;  //次にブロックが落ちるまでの時間
     Board board;
     float nextKeyDownTimer, nextKeyLeftRightTimer, nextKeyRotateTimer; //入力受付タイマー(4種類)
@@ -22,10 +24,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private float nextKeyDownInterval, nextKeyLeftRightInterval, nextKeyRotateInterval, keyReceptionInterval; //入力インターバル(4種類)
-
-    //パネルの格納
-    [SerializeField]
-    private GameObject gameOverPanel;
 
     //ゲームオーバー判定
     bool gameOver;
@@ -40,6 +38,10 @@ public class GameManager : MonoBehaviour
     // 回転使用フラグ
     bool UseSpin = false;
 
+    [SerializeField]
+    int LastSRS; // 最後に行ったスーパーローテーション(SR)パターン(0-4)
+
+    [SerializeField]
     int SpinActions = 7;
     public bool SpinMini = false;
 
@@ -79,6 +81,8 @@ public class GameManager : MonoBehaviour
 
         se = GameObject.FindObjectOfType<SE>();
 
+        sceneTransition = GameObject.FindObjectOfType<SceneTransition>();
+
         //スポーン位置の数値を丸める
         spawner.transform.position = Rounding.Round(spawner.transform.position);
 
@@ -115,12 +119,6 @@ public class GameManager : MonoBehaviour
             spawner.SpawnNextBlocks(Count + 1, MinoOrder.ToArray()); //Next表示
 
             Count++;
-        }
-
-        //ゲームオーバーパネルの非表示設定
-        if (gameOverPanel.activeInHierarchy)
-        {
-            gameOverPanel.SetActive(false);
         }
     }
 
@@ -262,7 +260,10 @@ public class GameManager : MonoBehaviour
         {
             CanNotMove = true;
 
+            LastSRS = 0;
+
             UseSpin = true;
+            SpinMini = false;
             SpinActions = 7;
 
             ActiveBlock.RotateRight();
@@ -273,7 +274,7 @@ public class GameManager : MonoBehaviour
 
             if (!board.CheckPosition(ActiveBlock))
             {
-                if (!rotation.MinoSuperRotation(MinoAngleBefore, ActiveBlock))
+                if (!rotation.MinoSuperRotation(MinoAngleBefore, LastSRS, ActiveBlock))
                 {
                     //回転できなかったら逆回転して無かったことにする。
                     ActiveBlock.Rotateleft();
@@ -283,18 +284,11 @@ public class GameManager : MonoBehaviour
                     Debug.Log("スーパーローテーション成功");
                     MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
 
-                    if (ActiveBlock.name.Contains("T"))
-                    {
-                        SpinActions = rotation.TspinCheck(UseSpin, ActiveBlock);
+                    SpinActions = rotation.SpinTerminal(UseSpin, LastSRS, ActiveBlock);
 
-                        if (SpinActions == 4)
-                        {
-                            se.CallSE(16);
-                        }
-                        else
-                        {
-                            se.CallSE(2);
-                        }
+                    if (SpinActions == 4)
+                    {
+                        se.CallSE(16);
                     }
                     else
                     {
@@ -307,18 +301,11 @@ public class GameManager : MonoBehaviour
                 //回転できたらミノの向きを更新する。
                 MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
 
-                if (ActiveBlock.name.Contains("T"))
-                {
-                    SpinActions = rotation.TspinCheck(UseSpin, ActiveBlock);
+                SpinActions = rotation.SpinTerminal(UseSpin, LastSRS, ActiveBlock);
 
-                    if (SpinActions == 4)
-                    {
-                        se.CallSE(16);
-                    }
-                    else
-                    {
-                        se.CallSE(2);
-                    }
+                if (SpinActions == 4)
+                {
+                    se.CallSE(16);
                 }
                 else
                 {
@@ -335,6 +322,7 @@ public class GameManager : MonoBehaviour
             CanNotMove = true;
 
             UseSpin = true;
+            SpinMini = false;
             SpinActions = 7;
 
             ActiveBlock.Rotateleft();
@@ -345,7 +333,7 @@ public class GameManager : MonoBehaviour
 
             if (!board.CheckPosition(ActiveBlock))
             {
-                if (!rotation.MinoSuperRotation(MinoAngleBefore, ActiveBlock))
+                if (!rotation.MinoSuperRotation(MinoAngleBefore, LastSRS, ActiveBlock))
                 {
                     //回転できなかったら逆回転して無かったことにする。
                     ActiveBlock.RotateRight();
@@ -353,19 +341,14 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     Debug.Log("スーパーローテーション成功");
-                    MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
-                    if (ActiveBlock.name.Contains("T"))
-                    {
-                        SpinActions = rotation.TspinCheck(UseSpin, ActiveBlock);
 
-                        if (SpinActions == 4)
-                        {
-                            se.CallSE(16);
-                        }
-                        else
-                        {
-                            se.CallSE(2);
-                        }
+                    MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
+
+                    SpinActions = rotation.SpinTerminal(UseSpin, LastSRS, ActiveBlock);
+
+                    if (SpinActions == 4)
+                    {
+                        se.CallSE(16);
                     }
                     else
                     {
@@ -378,18 +361,11 @@ public class GameManager : MonoBehaviour
                 //回転できたらミノの向きを更新する。
                 MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
 
-                if (ActiveBlock.name.Contains("T"))
-                {
-                    SpinActions = rotation.TspinCheck(UseSpin, ActiveBlock);
+                SpinActions = rotation.SpinTerminal(UseSpin, LastSRS, ActiveBlock);
 
-                    if (SpinActions == 4)
-                    {
-                        se.CallSE(16);
-                    }
-                    else
-                    {
-                        se.CallSE(2);
-                    }
+                if (SpinActions == 4)
+                {
+                    se.CallSE(16);
                 }
                 else
                 {
@@ -420,7 +396,8 @@ public class GameManager : MonoBehaviour
 
             if (board.OverLimit(ActiveBlock))
             {
-                GameOver();
+                gameOver = true;
+                sceneTransition.GameOver();
             }
             else
             {
@@ -451,7 +428,8 @@ public class GameManager : MonoBehaviour
                 if (board.OverLimit(ActiveBlock))
                 {
                     //ゲームオーバー
-                    GameOver();
+                    gameOver = true;
+                    sceneTransition.GameOver();
                 }
                 else
                 {
@@ -568,7 +546,9 @@ public class GameManager : MonoBehaviour
 
         if (!board.CheckPosition(ActiveBlock))
         {
-            GameOver();
+            gameOver = true;
+
+            sceneTransition.GameOver();
         }
 
         spawner.SpawnNextBlocks(Count, MinoOrder.ToArray()); //Next表示
@@ -632,25 +612,5 @@ public class GameManager : MonoBehaviour
     void SpinEffect(int i)
     {
 
-    }
-
-    //ゲームオーバーになったらパネルを表示する
-    void GameOver()
-    {
-        ActiveBlock.MoveUp();
-
-        //ゲームオーバーパネルの非表示設定
-        if (!gameOverPanel.activeInHierarchy)
-        {
-            gameOverPanel.SetActive(true);
-        }
-
-        gameOver = true;
-    }
-
-    //シーンを再読み込みする(ボタン押下で呼ぶ)
-    public void Restart()
-    {
-        SceneManager.LoadScene(0);
     }
 }
