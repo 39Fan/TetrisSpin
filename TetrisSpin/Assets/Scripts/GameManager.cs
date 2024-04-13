@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement; //シーン遷移のライブラリ
 
@@ -45,10 +42,8 @@ public class GameManager : MonoBehaviour
 
     bool UseTSpin = false;
 
-    //ミノの向き
+    //ミノの向き(°)
     int MinoAngleBefore = 0;
-    int MinoAngleAfter = 0;
-    //0=0°, 1=90°, 2=180°, 3=-90°
 
     //ホールド機能に必要なもの
     bool FirstHold = true;
@@ -152,6 +147,7 @@ public class GameManager : MonoBehaviour
 
         Down();
 
+        Debug.Log(ActiveBlock.transform.rotation.eulerAngles.z);
     }
 
     //キーの入力を検知してブロックを動かす関数
@@ -276,20 +272,17 @@ public class GameManager : MonoBehaviour
 
             Turn = 0; //右
 
-            AngleDecision();
-
             if (!board.CheckPosition(ActiveBlock))
             {
-                if (!rotation.MinoSuperRotation(MinoAngleBefore, MinoAngleAfter, ActiveBlock))
+                if (!rotation.MinoSuperRotation(MinoAngleBefore, ActiveBlock))
                 {
                     //回転できなかったら逆回転して無かったことにする。
                     ActiveBlock.Rotateleft();
-                    MinoAngleAfter = MinoAngleBefore;
                 }
                 else
                 {
                     Debug.Log("スーパーローテーション成功");
-                    MinoAngleBefore = MinoAngleAfter;
+                    MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
 
                     if (ActiveBlock.name.Contains("T"))
                     {
@@ -313,7 +306,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 //回転できたらミノの向きを更新する。
-                MinoAngleBefore = MinoAngleAfter;
+                MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
 
                 if (ActiveBlock.name.Contains("T"))
                 {
@@ -351,20 +344,17 @@ public class GameManager : MonoBehaviour
 
             Turn = 1; //左
 
-            AngleDecision();
-
             if (!board.CheckPosition(ActiveBlock))
             {
-                if (!rotation.MinoSuperRotation(MinoAngleBefore, MinoAngleAfter, ActiveBlock))
+                if (!rotation.MinoSuperRotation(MinoAngleBefore, ActiveBlock))
                 {
                     //回転できなかったら逆回転して無かったことにする。
                     ActiveBlock.RotateRight();
-                    MinoAngleAfter = MinoAngleBefore;
                 }
                 else
                 {
                     Debug.Log("スーパーローテーション成功");
-                    MinoAngleBefore = MinoAngleAfter;
+                    MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
                     if (ActiveBlock.name.Contains("T"))
                     {
                         UseTSpin = rotation.TspinCheck(UseSpin, ActiveBlock);
@@ -387,7 +377,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 //回転できたらミノの向きを更新する。
-                MinoAngleBefore = MinoAngleAfter;
+                MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
 
                 if (ActiveBlock.name.Contains("T"))
                 {
@@ -504,7 +494,6 @@ public class GameManager : MonoBehaviour
         keyReceptionTimer = Time.time;
         keyReceptionInterval = 1;
         MinoAngleBefore = 0;
-        MinoAngleAfter = 0;
 
         ActiveBlock.MoveUp(); //ミノを正常な位置に戻す
 
@@ -626,47 +615,6 @@ public class GameManager : MonoBehaviour
         else //2回目以降のホールド
         {
             ActiveBlock = spawner.HoldChange();
-        }
-    }
-
-    //Angleを決定する関数
-    void AngleDecision()
-    {
-        if (Turn == 0) //右回転
-        {
-            switch (MinoAngleAfter)
-            {
-                case 0:
-                    MinoAngleAfter = 1;
-                    break;
-                case 1:
-                    MinoAngleAfter = 2;
-                    break;
-                case 2:
-                    MinoAngleAfter = 3;
-                    break;
-                case 3:
-                    MinoAngleAfter = 0;
-                    break;
-            }
-        }
-        if (Turn == 1) //右回転
-        {
-            switch (MinoAngleAfter)
-            {
-                case 0:
-                    MinoAngleAfter = 3;
-                    break;
-                case 1:
-                    MinoAngleAfter = 0;
-                    break;
-                case 2:
-                    MinoAngleAfter = 1;
-                    break;
-                case 3:
-                    MinoAngleAfter = 2;
-                    break;
-            }
         }
     }
 

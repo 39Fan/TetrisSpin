@@ -31,7 +31,7 @@ public class Board : MonoBehaviour
     {
         if (emptySprite) //ボード作成
         {
-            for (int y = 0; y < height - header + 1; y++)
+            for (int y = 0; y < height - header; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
@@ -229,7 +229,7 @@ public class Board : MonoBehaviour
     {
         foreach (Transform item in block.transform)
         {
-            if (item.transform.position.y > height - header - 2)
+            if (item.transform.position.y > height - header - 1)
             {
                 return true;
             }
