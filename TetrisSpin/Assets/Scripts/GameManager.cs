@@ -266,7 +266,7 @@ public class GameManager : MonoBehaviour
             SpinMini = false;
             SpinActions = 7;
 
-            ActiveBlock.RotateRight();
+            ActiveBlock.RotateRight(MinoAngleBefore, ActiveBlock);
 
             nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
 
@@ -277,7 +277,8 @@ public class GameManager : MonoBehaviour
                 if (!rotation.MinoSuperRotation(MinoAngleBefore, LastSRS, ActiveBlock))
                 {
                     //回転できなかったら逆回転して無かったことにする。
-                    ActiveBlock.Rotateleft();
+                    Debug.Log("回転禁止");
+                    ActiveBlock.Rotateleft(Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z), ActiveBlock);
                 }
                 else
                 {
@@ -325,7 +326,7 @@ public class GameManager : MonoBehaviour
             SpinMini = false;
             SpinActions = 7;
 
-            ActiveBlock.Rotateleft();
+            ActiveBlock.Rotateleft(MinoAngleBefore, ActiveBlock);
 
             nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
 
@@ -336,7 +337,8 @@ public class GameManager : MonoBehaviour
                 if (!rotation.MinoSuperRotation(MinoAngleBefore, LastSRS, ActiveBlock))
                 {
                     //回転できなかったら逆回転して無かったことにする。
-                    ActiveBlock.RotateRight();
+                    Debug.Log("回転禁止");
+                    ActiveBlock.RotateRight(Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z), ActiveBlock);
                 }
                 else
                 {

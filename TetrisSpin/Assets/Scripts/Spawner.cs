@@ -17,6 +17,7 @@ public class Spawner : MonoBehaviour
     private Block[] NextBlocks = new Block[5];
     private Block OldHoldMino;
     Board board;
+    Spawner spawner;
 
     private int GhostBlockPosition;
     private int ActiveBlockOrder;

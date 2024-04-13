@@ -40,19 +40,55 @@ public class Block : MonoBehaviour
     }
 
     //回転用(2種類)
-    public void RotateRight()
+    public void RotateRight(int minoAngleBefore, Block block)
     {
-        if (canRotate)
+        if (canRotate && !block.name.Contains("I"))
         {
             transform.Rotate(0, 0, -90);
         }
+        else
+        {
+            switch (minoAngleBefore)
+            {
+                case 0:
+                    transform.RotateAround(new Vector3(block.transform.position.x + 0.5f, block.transform.position.y - 0.5f, 0), Vector3.forward, -90);
+                    break;
+                case 270:
+                    transform.RotateAround(new Vector3(block.transform.position.x - 0.5f, block.transform.position.y - 0.5f, 0), Vector3.forward, -90);
+                    break;
+                case 180:
+                    transform.RotateAround(new Vector3(block.transform.position.x - 0.5f, block.transform.position.y + 0.5f, 0), Vector3.forward, -90);
+                    break;
+                case 90:
+                    transform.RotateAround(new Vector3(block.transform.position.x + 0.5f, block.transform.position.y + 0.5f, 0), Vector3.forward, -90);
+                    break;
+            }
+        }
     }
 
-    public void Rotateleft()
+    public void Rotateleft(int minoAngleBefore, Block block)
     {
-        if (canRotate)
+        if (canRotate && !block.name.Contains("I"))
         {
             transform.Rotate(0, 0, 90);
+        }
+        else
+        {
+            switch (minoAngleBefore)
+            {
+                case 0:
+                    transform.RotateAround(new Vector3(block.transform.position.x + 0.5f, block.transform.position.y - 0.5f, 0), Vector3.forward, 90);
+                    break;
+                case 270:
+                    transform.RotateAround(new Vector3(block.transform.position.x - 0.5f, block.transform.position.y - 0.5f, 0), Vector3.forward, 90);
+                    break;
+                case 180:
+                    transform.RotateAround(new Vector3(block.transform.position.x - 0.5f, block.transform.position.y + 0.5f, 0), Vector3.forward, 90);
+                    break;
+                case 90:
+                    transform.RotateAround(new Vector3(block.transform.position.x + 0.5f, block.transform.position.y + 0.5f, 0), Vector3.forward, 90);
+                    break;
+            }
         }
     }
 }
