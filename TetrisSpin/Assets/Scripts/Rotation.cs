@@ -1,58 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//ミノの回転に関するスクリプト
+//ミノの特殊回転を可能にする、スーパーローテーションシステムの関数や、
+//各ミノのSpin判定をチェックする関数がある
+
+//↓スーパーローテーションシステムについて解説されているサイト
+//https://tetrisch.github.io/main/srs.html
+
 public class Rotation : MonoBehaviour
 {
-    [SerializeField]
+    //各種干渉するスクリプトの設定
     Board board;
-    Spawner spawner;
-
     GameManager gameManager;
-
-    Block blockOriginPosition;
-
-    [SerializeField]
-    List<int> BlockCount = new List<int>();
-
 
     private void Start()
     {
+        //BoardとGameManagerオブジェクトをそれぞれboardとgamemanager変数に格納する
         board = GameObject.FindObjectOfType<Board>();
-
         gameManager = GameObject.FindObjectOfType<GameManager>();
-    }
-
-
-    //SRS時に重複しないか判定する関数
-    bool RotationCheck(int Rx, int Ry, Block block)
-    {
-        foreach (Transform item in block.transform)
-        {
-            Vector2 pos = Rounding.Round(item.position);
-
-            //Gridの座標が負の場合false
-            if ((int)pos.x + Rx < 0 || (int)pos.y + Ry < 0)
-            {
-                Debug.Log("SRS中に枠外に出た。A");
-                return false;
-            }
-
-            //各gameobjectの位置を調べて、そこが重複していたらfalse
-            if (board.Grid[(int)pos.x + Rx, (int)pos.y + Ry] != null
-                && board.Grid[(int)pos.x + Rx, (int)pos.y + Ry].parent != block.transform)
-            {
-                Debug.Log("SRS先が重複");
-                return false;
-            }
-
-            //枠外に出てもfalse
-            if (!board.BoardOutCheck((int)pos.x + Rx, (int)pos.y + Ry))
-            {
-                Debug.Log("SRS中に枠外に出た。");
-                return false;
-            }
-        }
-        return true;
     }
 
     //スーパーローテーションシステム(SRS)
@@ -425,53 +391,83 @@ public class Rotation : MonoBehaviour
         return true;
     }
 
+    //SRS時に重複しないか判定する関数
+    bool RotationCheck(int Rx, int Ry, Block block)
+    {
+        foreach (Transform item in block.transform)
+        {
+            Vector2 pos = Rounding.Round(item.position);
+
+            //Gridの座標が負の場合false
+            if ((int)pos.x + Rx < 0 || (int)pos.y + Ry < 0)
+            {
+                Debug.Log("SRS中に枠外に出た。A");
+                return false;
+            }
+
+            //各gameobjectの位置を調べて、そこが重複していたらfalse
+            if (board.Grid[(int)pos.x + Rx, (int)pos.y + Ry] != null
+                && board.Grid[(int)pos.x + Rx, (int)pos.y + Ry].parent != block.transform)
+            {
+                Debug.Log("SRS先が重複");
+                return false;
+            }
+
+            //枠外に出てもfalse
+            if (!board.BoardOutCheck((int)pos.x + Rx, (int)pos.y + Ry))
+            {
+                Debug.Log("SRS中に枠外に出た。");
+                return false;
+            }
+        }
+        return true;
+    }
 
     public int TspinCheck(Block block)
     {
         Debug.Log("====this is TspinCheck====");
 
-        if (BlockCount.Count != 0)
+        List<int> AroundBlocksCheck_ForT = new List<int>();
+
+        if (AroundBlocksCheck_ForT.Count != 0)
         {
             for (int i = 0; i < 4; i++)
             {
-                BlockCount.RemoveAt(0);
+                AroundBlocksCheck_ForT.RemoveAt(0);
             }
         }
 
         //Tミノの中心から順番に[1, 1]、[1, -1]、[-1, 1]、[-1, -1]の分だけ移動した座標にブロックや壁がないか確認する関数
         //ブロックや壁があった時は1、ない時は0でBlockCountのリストに追加されていく
-        //例:BlockCount[1, 1, 0, 1]
+        //例:AroundBlocksCheck_ForT[1, 1, 0, 1]
         for (int x = 1; x >= -1; x -= 2)
         {
             for (int y = 1; y >= -1; y -= 2)
             {
                 if (board.BlockCheckForTspin((int)Mathf.Round(block.transform.position.x) + x, (int)Mathf.Round(block.transform.position.y) + y, block))
                 {
-                    BlockCount.Add(1);
+                    AroundBlocksCheck_ForT.Add(1);
                 }
                 else
                 {
-                    BlockCount.Add(0);
+                    AroundBlocksCheck_ForT.Add(0);
                 }
             }
         }
 
-        //int first = 0;
-        //int end = 4;
-
         for (int i = 0; i < 4; i++)
         {
-            Debug.Log(BlockCount[i]);
+            Debug.Log(AroundBlocksCheck_ForT[i]);
         }
 
         if (gameManager.LastSRS != 4)
         {
-            if (BlockCount.FindAll(x => x == 1).Count == 3)
+            if (AroundBlocksCheck_ForT.FindAll(x => x == 1).Count == 3)
             {
                 switch (block.transform.rotation.eulerAngles.z)
                 {
                     case 270:
-                        if (BlockCount[0] == 0 || BlockCount[1] == 0)
+                        if (AroundBlocksCheck_ForT[0] == 0 || AroundBlocksCheck_ForT[1] == 0)
                         {
                             Debug.Log("270でMini");
                             gameManager.SpinMini = true;
@@ -479,7 +475,7 @@ public class Rotation : MonoBehaviour
                         }
                         break;
                     case 180:
-                        if (BlockCount[1] == 0 || BlockCount[3] == 0)
+                        if (AroundBlocksCheck_ForT[1] == 0 || AroundBlocksCheck_ForT[3] == 0)
                         {
                             Debug.Log("180でMini");
                             gameManager.SpinMini = true;
@@ -487,7 +483,7 @@ public class Rotation : MonoBehaviour
                         }
                         break;
                     case 90:
-                        if (BlockCount[2] == 0 || BlockCount[3] == 0)
+                        if (AroundBlocksCheck_ForT[2] == 0 || AroundBlocksCheck_ForT[3] == 0)
                         {
                             Debug.Log("90でMini");
                             gameManager.SpinMini = true;
@@ -495,7 +491,7 @@ public class Rotation : MonoBehaviour
                         }
                         break;
                     case 0:
-                        if (BlockCount[0] == 0 || BlockCount[2] == 0)
+                        if (AroundBlocksCheck_ForT[0] == 0 || AroundBlocksCheck_ForT[2] == 0)
                         {
                             Debug.Log("0でMini");
                             gameManager.SpinMini = true;
@@ -508,7 +504,7 @@ public class Rotation : MonoBehaviour
             }
         }
 
-        if (BlockCount.FindAll(x => x == 1).Count == 4)
+        if (AroundBlocksCheck_ForT.FindAll(x => x == 1).Count == 4)
         {
             return 4;
         }

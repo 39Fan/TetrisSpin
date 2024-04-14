@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    //各種スクリプトの設定
+    //各種干渉するスクリプトの設定
     Board board;
     Rotation rotation;
     SceneTransition sceneTransition;
