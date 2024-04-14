@@ -26,25 +26,49 @@ public class Rotation : MonoBehaviour
     //4つの軌跡を辿り、ブロックや壁に衝突しなかったらそこに移動する
     public bool MinoSuperRotation(int minoAngleBefore, Block block)
     {
-        //初期状態を0°として、右、下、左の角度をそれぞれ90°、180°、270°と表記することにする
-        //Z軸で回転を行っているため、90°と270°はプログラム上 270, 90 と表記されている
-        //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
-
         //↓参考にした動画
         //https://www.youtube.com/watch?v=0OQ7mP97vdc
 
+        //初期(未回転)状態をNorthとして、
+        //右回転後の向きをEast
+        //左回転後の向きをWest
+        //2回右回転または左回転した時の向きをSouthとする
+        int North = 0;
+        int East = 90;
+        int South = 180;
+        int West = 270;
+
+        //Z軸で回転を行っているため、90°(East)と270°(West)はプログラム上 270, 90 と表記されているため
+        //以下のコードで修正する。
+
+        //操作中のミノ(回転後)の角度をminoAngleAfterに格納
+        int minoAngleAfter = Mathf.RoundToInt(block.transform.rotation.eulerAngles.z);
+
+        if (minoAngleAfter == West)
+        {
+            minoAngleAfter = East;
+        }
+        else if (minoAngleAfter == East)
+        {
+            minoAngleAfter = West;
+        }
+
+        //SRSはIミノとそれ以外のミノとで処理が違うため分けて処理する
         //Iミノ以外のSRS
         if (!block.name.Contains("I"))
         {
             Debug.Log("Iミノ以外のSRS");
 
-            //0°から90°または180°から90°に回転する時
-            if ((minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 270) ||
-                (minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 270))
+            //NorthからEast
+            //SouthからEastに回転する時
+            if ((minoAngleBefore == North && minoAngleAfter == East) ||
+                (minoAngleBefore == South && minoAngleAfter == East))
             {
                 Debug.Log("0°から90°または180°から90°に回転する時");
 
+                //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
                 gameManager.LastSRS++;
+
 
                 block.MoveLeft();
 
