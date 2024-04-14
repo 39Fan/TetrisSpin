@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     //各種干渉するスクリプトの設定
     Board board;
+    Data data;
     Rotation rotation;
     SceneTransition sceneTransition;
     SE se;
@@ -44,9 +45,6 @@ public class GameManager : MonoBehaviour
     int SpinActions = 7;
     public bool SpinMini = false;
 
-    //ミノの向き(°)
-    int MinoAngleBefore = 0;
-
     //ホールド機能に必要なもの
     bool FirstHold = true;
     bool Hold = false;
@@ -71,17 +69,19 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //スポナーオブジェクトをスポナー変数に格納する
-        spawner = GameObject.FindObjectOfType<Spawner>();
+        spawner = FindObjectOfType<Spawner>();
         //ボードを変数に格納する
-        board = GameObject.FindObjectOfType<Board>();
+        board = FindObjectOfType<Board>();
 
-        rotation = GameObject.FindObjectOfType<Rotation>();
+        data = FindObjectOfType<Data>();
 
-        ActiveBlock = GameObject.FindObjectOfType<Block>();
+        rotation = FindObjectOfType<Rotation>();
 
-        se = GameObject.FindObjectOfType<SE>();
+        ActiveBlock = FindObjectOfType<Block>();
 
-        sceneTransition = GameObject.FindObjectOfType<SceneTransition>();
+        se = FindObjectOfType<SE>();
+
+        sceneTransition = FindObjectOfType<SceneTransition>();
 
         //スポーン位置の数値を丸める
         spawner.transform.position = Rounding.Round(spawner.transform.position);
@@ -269,18 +269,18 @@ public class GameManager : MonoBehaviour
             LastSRS = 0;
             SpinActions = 7;
 
-            ActiveBlock.RotateRight(MinoAngleBefore, ActiveBlock);
+            ActiveBlock.RotateRight(ActiveBlock);
+
+            //回転後の角度(MinoAngleAfter)の調整
+            data.CalibrateMinoAngleAfter(ActiveBlock);
 
             nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
 
             if (!board.CheckPosition(ActiveBlock))
             {
-                if (!rotation.MinoSuperRotation(MinoAngleBefore, ActiveBlock))
+                if (!rotation.MinoSuperRotation(ActiveBlock))
                 {
-                    //回転できなかったら逆回転して無かったことにする。
                     Debug.Log("回転禁止");
-
-                    ActiveBlock.Rotateleft(Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z), ActiveBlock);
 
                     //4 Rotation
                     se.CallSE(4);
@@ -288,7 +288,8 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     Debug.Log("スーパーローテーション成功");
-                    MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
+
+                    data.MinoAngleBefore = data.MinoAngleAfter;
 
                     SpinActions = rotation.SpinTerminal(UseSpin, ActiveBlock);
 
@@ -306,8 +307,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                //回転できたらミノの向きを更新する。
-                MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
+                data.MinoAngleBefore = data.MinoAngleAfter;
 
                 SpinActions = rotation.SpinTerminal(UseSpin, ActiveBlock);
 
@@ -336,18 +336,18 @@ public class GameManager : MonoBehaviour
             LastSRS = 0;
             SpinActions = 7;
 
-            ActiveBlock.Rotateleft(MinoAngleBefore, ActiveBlock);
+            ActiveBlock.Rotateleft(ActiveBlock);
+
+            //回転後の角度(MinoAngleAfter)の調整
+            data.CalibrateMinoAngleAfter(ActiveBlock);
 
             nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
 
             if (!board.CheckPosition(ActiveBlock))
             {
-                if (!rotation.MinoSuperRotation(MinoAngleBefore, ActiveBlock))
+                if (!rotation.MinoSuperRotation(ActiveBlock))
                 {
-                    //回転できなかったら逆回転して無かったことにする。
                     Debug.Log("回転禁止");
-
-                    ActiveBlock.RotateRight(Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z), ActiveBlock);
 
                     //4 Rotation
                     se.CallSE(4);
@@ -356,7 +356,7 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log("スーパーローテーション成功");
 
-                    MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
+                    data.MinoAngleBefore = data.MinoAngleAfter;
 
                     SpinActions = rotation.SpinTerminal(UseSpin, ActiveBlock);
 
@@ -374,8 +374,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                //回転できたらミノの向きを更新する。
-                MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
+                data.MinoAngleBefore = data.MinoAngleAfter;
 
                 SpinActions = rotation.SpinTerminal(UseSpin, ActiveBlock);
 
@@ -497,7 +496,6 @@ public class GameManager : MonoBehaviour
         nextKeyRotateTimer = Time.time;
         keyReceptionTimer = Time.time;
         keyReceptionInterval = 1;
-        MinoAngleBefore = 0;
 
         ActiveBlock.MoveUp(); //ミノを正常な位置に戻す
 
@@ -608,6 +606,8 @@ public class GameManager : MonoBehaviour
 
         ClearRowHistoryCount++;
 
+        data.Reset();
+
         MinoSpawn(FirstHold, Hold); //次のactiveBlockの生成
 
         if (!board.CheckPosition(ActiveBlock))
@@ -634,6 +634,7 @@ public class GameManager : MonoBehaviour
             spawner.SpawnNextBlocks(Count, MinoOrder.ToArray());
             FirstHold = false;
         }
+        data.Reset();
     }
 
     void MinoSpawn(bool FirstHold, bool Hold) //ミノを呼び出す関数(順番決定も含む)
@@ -675,8 +676,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SpinEffect(int i)
+    /*void SpinEffect(int i)
     {
 
-    }
+    }*/
 }
