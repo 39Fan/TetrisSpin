@@ -15,8 +15,6 @@ public class Board : MonoBehaviour
     [SerializeField]
     private int height = 25, width = 10, header = 5;
 
-    int ClearRowCount;
-
     private void Awake()
     {
         Grid = new Transform[width, height];
@@ -144,9 +142,11 @@ public class Board : MonoBehaviour
     }
 
     //全ての行をチェックして、埋まっていれば削除する関数
+    //帰値は列消去数
     public int ClearAllRows()
     {
-        ClearRowCount = 0;
+        //合計列消去数をClearRowCount格納
+        int ClearRowCount = 0;
 
         for (int y = 0; y < height; y++)
         {

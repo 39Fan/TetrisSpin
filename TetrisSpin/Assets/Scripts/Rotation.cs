@@ -23,7 +23,7 @@ public class Rotation : MonoBehaviour
     }
 
 
-    //SR時に重複しないか判定する関数
+    //SRS時に重複しないか判定する関数
     bool RotationCheck(int Rx, int Ry, Block block)
     {
         foreach (Transform item in block.transform)
@@ -58,15 +58,11 @@ public class Rotation : MonoBehaviour
     //スーパーローテーションシステム(SRS)
     //通常回転ができなかった時に試す回転
     //4つの軌跡を辿り、ブロックや壁に衝突しなかったらそこに移動する
-    public bool MinoSuperRotation(int minoAngleBefore, int lastSRS, Block block)
+    public bool MinoSuperRotation(int minoAngleBefore, Block block)
     {
-        //blockOriginPositionに通常回転後の情報を格納
-        //SRSができなかった際に回転前の状態に戻るため
-        blockOriginPosition = block;
-
         //初期状態を0°として、右、下、左の角度をそれぞれ90°、180°、270°と表記することにする
         //Z軸で回転を行っているため、90°と270°はプログラム上 270, 90 と表記されている
-        //lastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
+        //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
 
         //↓参考にした動画
         //https://www.youtube.com/watch?v=0OQ7mP97vdc
@@ -74,26 +70,45 @@ public class Rotation : MonoBehaviour
         //Iミノ以外のSRS
         if (!block.name.Contains("I"))
         {
+            Debug.Log("Iミノ以外のSRS");
+
             //0°から90°または180°から90°に回転する時
             if ((minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 270) ||
                 (minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 270))
             {
+                Debug.Log("0°から90°または180°から90°に回転する時");
+
+                gameManager.LastSRS++;
+
                 block.MoveLeft();
+
                 if (!board.CheckPosition(block))
                 {
+                    gameManager.LastSRS++;
+
                     block.MoveUp();
+
                     if (!board.CheckPosition(block))
                     {
+                        gameManager.LastSRS++;
+
                         block.MoveRight();
                         block.MoveDown();
                         block.MoveDown();
                         block.MoveDown();
+
                         if (!board.CheckPosition(block))
                         {
+                            gameManager.LastSRS++;
+
                             block.MoveLeft();
+
                             if (!board.CheckPosition(block))
                             {
-                                block = blockOriginPosition;
+                                //SRSができなかった際に回転前の状態に戻る
+                                block.MoveRight();
+                                block.MoveUp();
+                                block.MoveUp();
                                 return false;
                             }
                         }
@@ -104,22 +119,40 @@ public class Rotation : MonoBehaviour
             else if ((minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 0) ||
                 (minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 180))
             {
+                Debug.Log("270°から0°または270°から180°に回転する時");
+
+                gameManager.LastSRS++;
+
                 block.MoveLeft();
+
                 if (!board.CheckPosition(block))
                 {
+                    gameManager.LastSRS++;
+
                     block.MoveDown();
+
                     if (!board.CheckPosition(block))
                     {
+                        gameManager.LastSRS++;
+
                         block.MoveRight();
                         block.MoveUp();
                         block.MoveUp();
                         block.MoveUp();
+
                         if (!board.CheckPosition(block))
                         {
+                            gameManager.LastSRS++;
+
                             block.MoveLeft();
+
                             if (!board.CheckPosition(block))
                             {
-                                block = blockOriginPosition;
+                                //SRSができなかった際に回転前の状態に戻る
+                                block.MoveRight();
+                                block.MoveUp();
+                                block.MoveUp();
+
                                 return false;
                             }
                         }
@@ -130,22 +163,40 @@ public class Rotation : MonoBehaviour
             else if ((minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 0) ||
                 (minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 180))
             {
+                Debug.Log("90°から0°または90°から180°に回転する時");
+
+                gameManager.LastSRS++;
+
                 block.MoveRight();
+
                 if (!board.CheckPosition(block))
                 {
+                    gameManager.LastSRS++;
+
                     block.MoveDown();
+
                     if (!board.CheckPosition(block))
                     {
+                        gameManager.LastSRS++;
+
                         block.MoveLeft();
                         block.MoveUp();
                         block.MoveUp();
                         block.MoveUp();
+
                         if (!board.CheckPosition(block))
                         {
+                            gameManager.LastSRS++;
+
                             block.MoveRight();
+
                             if (!board.CheckPosition(block))
                             {
-                                block = blockOriginPosition;
+                                //SRSができなかった際に回転前の状態に戻る
+                                block.MoveLeft();
+                                block.MoveDown();
+                                block.MoveDown();
+
                                 return false;
                             }
                         }
@@ -156,22 +207,40 @@ public class Rotation : MonoBehaviour
             else if ((minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 90) ||
                 (minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 90))
             {
+                Debug.Log("0°から270°または180°から270°に回転する時");
+
+                gameManager.LastSRS++;
+
                 block.MoveRight();
+
                 if (!board.CheckPosition(block))
                 {
+                    gameManager.LastSRS++;
+
                     block.MoveUp();
+
                     if (!board.CheckPosition(block))
                     {
+                        gameManager.LastSRS++;
+
                         block.MoveLeft();
                         block.MoveDown();
                         block.MoveDown();
                         block.MoveDown();
+
                         if (!board.CheckPosition(block))
                         {
+                            gameManager.LastSRS++;
+
                             block.MoveRight();
+
                             if (!board.CheckPosition(block))
                             {
-                                block = blockOriginPosition;
+                                //SRSができなかった際に回転前の状態に戻る
+                                block.MoveLeft();
+                                block.MoveUp();
+                                block.MoveUp();
+
                                 return false;
                             }
                         }
@@ -181,25 +250,31 @@ public class Rotation : MonoBehaviour
         }
         //IミノのSRS(かなり複雑)
         //Iミノの軸は他のミノと違うため別の処理
+        //IミノはLastSRSを扱わない
         else
         {
+            Debug.Log("IミノのSRS");
+
             //0°から90°または270°から180°に回転する時
             if ((minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 270) ||
                 (minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 180))
             {
                 block.MoveLeft();
                 block.MoveLeft();
+
                 if (!board.CheckPosition(block))
                 {
                     block.MoveRight();
                     block.MoveRight();
                     block.MoveRight();
+
                     if (!board.CheckPosition(block))
                     {
                         block.MoveLeft();
                         block.MoveLeft();
                         block.MoveLeft();
                         block.MoveDown();
+
                         if (!board.CheckPosition(block))
                         {
                             block.MoveRight();
@@ -208,9 +283,14 @@ public class Rotation : MonoBehaviour
                             block.MoveUp();
                             block.MoveUp();
                             block.MoveUp();
+
                             if (!board.CheckPosition(block))
                             {
-                                block = blockOriginPosition;
+                                //SRSができなかった際に回転前の状態に戻る
+                                block.MoveLeft();
+                                block.MoveDown();
+                                block.MoveDown();
+
                                 return false;
                             }
                         }
@@ -222,11 +302,13 @@ public class Rotation : MonoBehaviour
                 (minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 270))
             {
                 block.MoveRight();
+
                 if (!board.CheckPosition(block))
                 {
                     block.MoveLeft();
                     block.MoveLeft();
                     block.MoveLeft();
+
                     if (!board.CheckPosition(block))
                     {
                         block.MoveRight();
@@ -234,6 +316,7 @@ public class Rotation : MonoBehaviour
                         block.MoveRight();
                         block.MoveDown();
                         block.MoveDown();
+
                         if (!board.CheckPosition(block))
                         {
                             block.MoveLeft();
@@ -242,9 +325,14 @@ public class Rotation : MonoBehaviour
                             block.MoveUp();
                             block.MoveUp();
                             block.MoveUp();
+
                             if (!board.CheckPosition(block))
                             {
-                                block = blockOriginPosition;
+                                //SRSができなかった際に回転前の状態に戻る
+                                block.MoveRight();
+                                block.MoveRight();
+                                block.MoveDown();
+
                                 return false;
                             }
                         }
@@ -257,17 +345,20 @@ public class Rotation : MonoBehaviour
             {
                 block.MoveRight();
                 block.MoveRight();
+
                 if (!board.CheckPosition(block))
                 {
                     block.MoveLeft();
                     block.MoveLeft();
                     block.MoveLeft();
+
                     if (!board.CheckPosition(block))
                     {
                         block.MoveRight();
                         block.MoveRight();
                         block.MoveRight();
                         block.MoveUp();
+
                         if (!board.CheckPosition(block))
                         {
                             block.MoveLeft();
@@ -276,9 +367,13 @@ public class Rotation : MonoBehaviour
                             block.MoveDown();
                             block.MoveDown();
                             block.MoveDown();
+
                             if (!board.CheckPosition(block))
                             {
-                                block = blockOriginPosition;
+                                //SRSができなかった際に回転前の状態に戻る
+                                block.MoveRight();
+                                block.MoveUp();
+                                block.MoveUp();
                                 return false;
                             }
                         }
@@ -290,11 +385,13 @@ public class Rotation : MonoBehaviour
                 (minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 180))
             {
                 block.MoveLeft();
+
                 if (!board.CheckPosition(block))
                 {
                     block.MoveRight();
                     block.MoveRight();
                     block.MoveRight();
+
                     if (!board.CheckPosition(block))
                     {
                         block.MoveLeft();
@@ -302,6 +399,7 @@ public class Rotation : MonoBehaviour
                         block.MoveLeft();
                         block.MoveUp();
                         block.MoveUp();
+
                         if (!board.CheckPosition(block))
                         {
                             block.MoveRight();
@@ -310,9 +408,13 @@ public class Rotation : MonoBehaviour
                             block.MoveDown();
                             block.MoveDown();
                             block.MoveDown();
+
                             if (!board.CheckPosition(block))
                             {
-                                block = blockOriginPosition;
+                                //SRSができなかった際に回転前の状態に戻る
+                                block.MoveLeft();
+                                block.MoveLeft();
+                                block.MoveUp();
                                 return false;
                             }
                         }
@@ -324,7 +426,7 @@ public class Rotation : MonoBehaviour
     }
 
 
-    public int TspinCheck(Block block, int lastSRS)
+    public int TspinCheck(Block block)
     {
         Debug.Log("====this is TspinCheck====");
 
@@ -336,9 +438,12 @@ public class Rotation : MonoBehaviour
             }
         }
 
+        //Tミノの中心から順番に[1, 1]、[1, -1]、[-1, 1]、[-1, -1]の分だけ移動した座標にブロックや壁がないか確認する関数
+        //ブロックや壁があった時は1、ない時は0でBlockCountのリストに追加されていく
+        //例:BlockCount[1, 1, 0, 1]
         for (int x = 1; x >= -1; x -= 2)
         {
-            for (int y = -1; y <= 1; y += 2)
+            for (int y = 1; y >= -1; y -= 2)
             {
                 if (board.BlockCheckForTspin((int)Mathf.Round(block.transform.position.x) + x, (int)Mathf.Round(block.transform.position.y) + y, block))
                 {
@@ -351,7 +456,15 @@ public class Rotation : MonoBehaviour
             }
         }
 
-        if (lastSRS != 4)
+        //int first = 0;
+        //int end = 4;
+
+        for (int i = 0; i < 4; i++)
+        {
+            Debug.Log(BlockCount[i]);
+        }
+
+        if (gameManager.LastSRS != 4)
         {
             if (BlockCount.FindAll(x => x == 1).Count == 3)
             {
@@ -366,7 +479,7 @@ public class Rotation : MonoBehaviour
                         }
                         break;
                     case 180:
-                        if (BlockCount[1] == 0 || BlockCount[2] == 0)
+                        if (BlockCount[1] == 0 || BlockCount[3] == 0)
                         {
                             Debug.Log("180でMini");
                             gameManager.SpinMini = true;
@@ -382,7 +495,7 @@ public class Rotation : MonoBehaviour
                         }
                         break;
                     case 0:
-                        if (BlockCount[3] == 0 || BlockCount[0] == 0)
+                        if (BlockCount[0] == 0 || BlockCount[2] == 0)
                         {
                             Debug.Log("0でMini");
                             gameManager.SpinMini = true;
@@ -390,6 +503,7 @@ public class Rotation : MonoBehaviour
                         }
                         break;
                 }
+                Debug.Log("Tspin");
                 return 4;
             }
         }
@@ -401,7 +515,7 @@ public class Rotation : MonoBehaviour
         return 7;
     }
 
-    public int SpinTerminal(bool useSpin, int lastSRS, Block block)
+    public int SpinTerminal(bool useSpin, Block block)
     {
         if (useSpin == false)
         {
@@ -425,7 +539,7 @@ public class Rotation : MonoBehaviour
         }*/
         else if (block.name.Contains("T"))
         {
-            return TspinCheck(block, lastSRS);
+            return TspinCheck(block);
         }
         /*else if (block.name.Contains("Z"))
         {
@@ -435,7 +549,7 @@ public class Rotation : MonoBehaviour
         {
             return OspinCheck(block);
         }*/
-        Debug.Log("バグ発生");
+        Debug.Log("T以外のミノ");
         return 7;
     }
 
