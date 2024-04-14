@@ -24,7 +24,7 @@ public class SE : MonoBehaviour
     public int Hold = 11;
 
     //SEのボリュームの値
-    float LowVolume = 0.1f;
+    float LowVolume = 0.2f;
     float MediumVolume = 0.5f;
     float HighVolume = 0.9f;
     int MaxVolume = 1;
@@ -63,11 +63,11 @@ public class SE : MonoBehaviour
         }
         else if (selectSE == Move_Left_Right)
         {
-            audioSource.volume = MediumVolume;
+            audioSource.volume = LowVolume;
         }
         else if (selectSE == Move_Down)
         {
-            audioSource.volume = MediumVolume;
+            audioSource.volume = LowVolume;
         }
         else if (selectSE == Rotation)
         {

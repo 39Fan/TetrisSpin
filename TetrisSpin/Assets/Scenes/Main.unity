@@ -476,6 +476,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03293d44eca6541d9899252ba100c81a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Start_or_Retry: 0
+  GameOver: 1
+  Move_Left_Right: 2
+  Move_Down: 3
+  Rotation: 4
+  Spin: 5
+  Normal_Drop: 6
+  Hard_Drop: 7
+  Normal_Destroy: 8
+  Spin_Destroy: 9
+  Tetris: 10
+  Hold: 11
   SEs:
   - {fileID: 8300000, guid: d6430629e5b4a47f6bc9f481117d8164, type: 3}
   - {fileID: 8300000, guid: 85c5c15130b254bb6b6fad5a4087ad59, type: 3}
@@ -629,8 +641,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f098a93701aa3478b87f364fffbd93d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 0}
-  BlockCount: 
 --- !u!4 &2000342503
 Transform:
   m_ObjectHideFlags: 0
@@ -675,7 +685,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 894556c7c5bd6486880b4941f5457268, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.05
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
