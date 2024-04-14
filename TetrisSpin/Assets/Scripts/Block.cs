@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    //干渉するスクリプトの設定
+    Data data;
+
     //回転していいブロックかどうか
     [SerializeField]
     private bool canRotate = true;
+
+    private void Start()
+    {
+        //Dataオブジェクトをそれぞれdata変数に格納する
+        data = FindObjectOfType<Data>();
+    }
 
     //移動用
     public void Move(Vector3 moveDirection)
@@ -39,61 +48,59 @@ public class Block : MonoBehaviour
 
     }
 
-    //回転用(2種類)
-    public void RotateRight(int minoAngleBefore, Block block)
+    //通常右回転
+    public void RotateRight(Block block)
     {
+        //回転できるブロックかどうか
+        //Oミノは回転できないので弾かれる
         if (canRotate)
         {
+            //Z軸の回転量を格納
+            int rotateAroundZ = -90;
+
+            //Iミノ以外の回転
             if (!block.name.Contains("I"))
             {
-                transform.Rotate(0, 0, -90);
+                transform.Rotate(0, 0, rotateAroundZ);
             }
+            //Iミノの回転
+            //Iミノは軸が他のミノと違うため別の処理
             else
             {
-                switch (minoAngleBefore)
-                {
-                    case 0:
-                        transform.RotateAround(new Vector3(block.transform.position.x + 0.5f, block.transform.position.y - 0.5f, 0), Vector3.forward, -90);
-                        break;
-                    case 270:
-                        transform.RotateAround(new Vector3(block.transform.position.x - 0.5f, block.transform.position.y - 0.5f, 0), Vector3.forward, -90);
-                        break;
-                    case 180:
-                        transform.RotateAround(new Vector3(block.transform.position.x - 0.5f, block.transform.position.y + 0.5f, 0), Vector3.forward, -90);
-                        break;
-                    case 90:
-                        transform.RotateAround(new Vector3(block.transform.position.x + 0.5f, block.transform.position.y + 0.5f, 0), Vector3.forward, -90);
-                        break;
-                }
+                //Iミノの軸を取得する
+                Debug.Log(block);
+                Vector3 IminoAxis = data.AxisCheck(block);
+
+                //IminoAxisを中心に右回転する
+                transform.RotateAround(IminoAxis, Vector3.forward, rotateAroundZ);
             }
         }
     }
 
-    public void Rotateleft(int minoAngleBefore, Block block)
+    //通常左回転
+    public void Rotateleft(Block block)
     {
+        //回転できるブロックかどうか
+        //Oミノは回転できないので弾かれる
         if (canRotate)
         {
+            //Z軸の回転量を格納
+            int rotateAroundZ = 90;
+
+            //Iミノ以外の回転
             if (!block.name.Contains("I"))
             {
-                transform.Rotate(0, 0, 90);
+                transform.Rotate(0, 0, rotateAroundZ);
             }
+            //Iミノの回転
+            //Iミノは軸が他のミノと違うため別の処理
             else
             {
-                switch (minoAngleBefore)
-                {
-                    case 0:
-                        transform.RotateAround(new Vector3(block.transform.position.x + 0.5f, block.transform.position.y - 0.5f, 0), Vector3.forward, 90);
-                        break;
-                    case 270:
-                        transform.RotateAround(new Vector3(block.transform.position.x - 0.5f, block.transform.position.y - 0.5f, 0), Vector3.forward, 90);
-                        break;
-                    case 180:
-                        transform.RotateAround(new Vector3(block.transform.position.x - 0.5f, block.transform.position.y + 0.5f, 0), Vector3.forward, 90);
-                        break;
-                    case 90:
-                        transform.RotateAround(new Vector3(block.transform.position.x + 0.5f, block.transform.position.y + 0.5f, 0), Vector3.forward, 90);
-                        break;
-                }
+                //Iミノの軸を取得する
+                Vector3 IminoAxis = data.AxisCheck(block);
+
+                //IminoAxisを中心に右回転する
+                transform.RotateAround(IminoAxis, Vector3.forward, rotateAroundZ);
             }
         }
     }
