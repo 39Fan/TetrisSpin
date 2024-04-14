@@ -3,6 +3,7 @@ using UnityEngine;
 
 //ゲームのSEに関してまとめたスクリプト
 //ボリュームやピッチの調節、再生などを行う
+
 public class SE : MonoBehaviour
 {
     //AudioSource型の変数audioSourceを宣言
