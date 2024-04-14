@@ -12,13 +12,15 @@ public class Rotation : MonoBehaviour
 {
     //各種干渉するスクリプトの設定
     Board board;
+    Data data;
     GameManager gameManager;
 
     private void Start()
     {
-        //BoardとGameManagerオブジェクトをそれぞれboardとgamemanager変数に格納する
+        //Board, Data, GameManagerオブジェクトをそれぞれboardとgamemanager変数に格納する
         board = GameObject.FindObjectOfType<Board>();
         gameManager = GameObject.FindObjectOfType<GameManager>();
+        data = GameObject.FindObjectOfType<Data>();
     }
 
     //スーパーローテーションシステム(SRS)
@@ -33,10 +35,10 @@ public class Rotation : MonoBehaviour
         //右回転後の向きをEast
         //左回転後の向きをWest
         //2回右回転または左回転した時の向きをSouthとする
-        int North = 0;
-        int East = 90;
-        int South = 180;
-        int West = 270;
+        int North = data.North;
+        int East = data.East;
+        int South = data.South;
+        int West = data.West;
 
         //Z軸で回転を行っているため、90°(East)と270°(West)はプログラム上 270, 90 と表記されているため
         //以下↓のコードで修正する。
