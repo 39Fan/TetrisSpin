@@ -23,9 +23,9 @@ public class Spawner : MonoBehaviour
     private int ActiveBlockOrder;
 
 
-    private void Awake()
+    private void Start()
     {
-        board = FindObjectOfType<Board>(); //インスタンス化を真っ先に行う
+        board = FindObjectOfType<Board>();
     }
 
     //選ばれたミノを生成する関数
