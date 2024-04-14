@@ -1,22 +1,25 @@
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
-using UnityEngine.SceneManagement; //シーン遷移のライブラリ
 
+//GameManager
+//ゲームの進行を制御するスクリプト
 
 public class GameManager : MonoBehaviour
 {
-    Spawner spawner;
+    //各種スクリプトの設定
+    Board board;
     Rotation rotation;
-    SE se;
-
     SceneTransition sceneTransition;
+    SE se;
+    Spawner spawner;
+
     int Count = 0; //順番
     Block ActiveBlock; //生成されたブロック格納
 
     [SerializeField]
     private float dropInteaval; //次にブロックが落ちるまでのインターバル時間
     float NextdropTimer;  //次にブロックが落ちるまでの時間
-    Board board;
     float nextKeyDownTimer, nextKeyLeftRightTimer, nextKeyRotateTimer; //入力受付タイマー(4種類)
 
     [SerializeField]
@@ -32,14 +35,10 @@ public class GameManager : MonoBehaviour
     List<int> numbers = new List<int>();
     public List<int> MinoOrder = new List<int>();
 
-    //回転の向き(0 = 右回転、1　= 左回転)
-    int Turn;
-
     // 回転使用フラグ
     bool UseSpin = false;
 
-    [SerializeField]
-    int LastSRS; // 最後に行ったスーパーローテーション(SR)パターン(0-4)
+    public int LastSRS; // 最後に行ったスーパーローテーション(SR)パターン(0-4)
 
     [SerializeField]
     int SpinActions = 7;
@@ -61,6 +60,7 @@ public class GameManager : MonoBehaviour
 
     bool CanNotMove = false;
 
+    [SerializeField]
     List<int> ClearRowHistory = new List<int>();
 
     int ClearRowHistoryCount = 0;
@@ -164,13 +164,14 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                se.CallSE(1);
+                se.CallSE(2);
+
+                UseSpin = false;
+                LastSRS = 0;
+                SpinActions = 7;
             }
 
             BottomMove();
-
-            UseSpin = false;
-            SpinActions = 7;
         }
         else if (Input.GetKey(KeyCode.D) && (Time.time > nextKeyLeftRightTimer) && CanNotMove == false) //連続右入力
         {
@@ -186,13 +187,14 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                se.CallSE(1);
+                se.CallSE(2);
+
+                UseSpin = false;
+                LastSRS = 0;
+                SpinActions = 7;
             }
 
             BottomMove();
-
-            UseSpin = false;
-            SpinActions = 7;
         }
         else if (Input.GetKeyUp(KeyCode.D)) //連続右入力の解除
         {
@@ -217,13 +219,14 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                se.CallSE(1);
+                se.CallSE(2);
+
+                UseSpin = false;
+                LastSRS = 0;
+                SpinActions = 7;
             }
 
             BottomMove();
-
-            UseSpin = false;
-            SpinActions = 7;
         }
         else if (Input.GetKey(KeyCode.A) && (Time.time > nextKeyLeftRightTimer) && CanNotMove == false) //連続左入力
         {
@@ -239,13 +242,14 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                se.CallSE(1);
+                se.CallSE(2);
+
+                UseSpin = false;
+                LastSRS = 0;
+                SpinActions = 7;
             }
 
             BottomMove();
-
-            UseSpin = false;
-            SpinActions = 7;
         }
         else if (Input.GetKeyUp(KeyCode.A)) //連続右入力の解除
         {
@@ -260,40 +264,43 @@ public class GameManager : MonoBehaviour
         {
             CanNotMove = true;
 
-            LastSRS = 0;
-
             UseSpin = true;
             SpinMini = false;
+            LastSRS = 0;
             SpinActions = 7;
 
             ActiveBlock.RotateRight(MinoAngleBefore, ActiveBlock);
 
             nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
 
-            Turn = 0; //右
-
             if (!board.CheckPosition(ActiveBlock))
             {
-                if (!rotation.MinoSuperRotation(MinoAngleBefore, LastSRS, ActiveBlock))
+                if (!rotation.MinoSuperRotation(MinoAngleBefore, ActiveBlock))
                 {
                     //回転できなかったら逆回転して無かったことにする。
                     Debug.Log("回転禁止");
+
                     ActiveBlock.Rotateleft(Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z), ActiveBlock);
+
+                    //4 Rotation
+                    se.CallSE(4);
                 }
                 else
                 {
                     Debug.Log("スーパーローテーション成功");
                     MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
 
-                    SpinActions = rotation.SpinTerminal(UseSpin, LastSRS, ActiveBlock);
+                    SpinActions = rotation.SpinTerminal(UseSpin, ActiveBlock);
 
                     if (SpinActions == 4)
                     {
-                        se.CallSE(16);
+                        //5 Spin
+                        se.CallSE(5);
                     }
                     else
                     {
-                        se.CallSE(2);
+                        //4 Rotation
+                        se.CallSE(4);
                     }
                 }
             }
@@ -302,15 +309,17 @@ public class GameManager : MonoBehaviour
                 //回転できたらミノの向きを更新する。
                 MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
 
-                SpinActions = rotation.SpinTerminal(UseSpin, LastSRS, ActiveBlock);
+                SpinActions = rotation.SpinTerminal(UseSpin, ActiveBlock);
 
                 if (SpinActions == 4)
                 {
-                    se.CallSE(16);
+                    //5 Spin
+                    se.CallSE(5);
                 }
                 else
                 {
-                    se.CallSE(2);
+                    //4 Rotation
+                    se.CallSE(4);
                 }
             }
 
@@ -324,21 +333,24 @@ public class GameManager : MonoBehaviour
 
             UseSpin = true;
             SpinMini = false;
+            LastSRS = 0;
             SpinActions = 7;
 
             ActiveBlock.Rotateleft(MinoAngleBefore, ActiveBlock);
 
             nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
 
-            Turn = 1; //左
-
             if (!board.CheckPosition(ActiveBlock))
             {
-                if (!rotation.MinoSuperRotation(MinoAngleBefore, LastSRS, ActiveBlock))
+                if (!rotation.MinoSuperRotation(MinoAngleBefore, ActiveBlock))
                 {
                     //回転できなかったら逆回転して無かったことにする。
                     Debug.Log("回転禁止");
+
                     ActiveBlock.RotateRight(Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z), ActiveBlock);
+
+                    //4 Rotation
+                    se.CallSE(4);
                 }
                 else
                 {
@@ -346,15 +358,17 @@ public class GameManager : MonoBehaviour
 
                     MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
 
-                    SpinActions = rotation.SpinTerminal(UseSpin, LastSRS, ActiveBlock);
+                    SpinActions = rotation.SpinTerminal(UseSpin, ActiveBlock);
 
                     if (SpinActions == 4)
                     {
-                        se.CallSE(16);
+                        //5 Spin
+                        se.CallSE(5);
                     }
                     else
                     {
-                        se.CallSE(2);
+                        //4 Rotation
+                        se.CallSE(4);
                     }
                 }
             }
@@ -363,15 +377,17 @@ public class GameManager : MonoBehaviour
                 //回転できたらミノの向きを更新する。
                 MinoAngleBefore = Mathf.RoundToInt(ActiveBlock.transform.rotation.eulerAngles.z);
 
-                SpinActions = rotation.SpinTerminal(UseSpin, LastSRS, ActiveBlock);
+                SpinActions = rotation.SpinTerminal(UseSpin, ActiveBlock);
 
                 if (SpinActions == 4)
                 {
-                    se.CallSE(16);
+                    //5 Spin
+                    se.CallSE(5);
                 }
                 else
                 {
-                    se.CallSE(2);
+                    //4 Rotation
+                    se.CallSE(4);
                 }
             }
 
@@ -392,6 +408,7 @@ public class GameManager : MonoBehaviour
                     break;
                 }
 
+                Debug.Log("ハードドロップで1マス以上動いた");
                 UseSpin = false; //1マスでも落ちたらspin判定は消える。
                 SpinActions = 7;
             }
@@ -411,6 +428,8 @@ public class GameManager : MonoBehaviour
         {
             if (Hold == false)
             {
+                se.CallSE(11);
+
                 HoldBlock();
             }
         }
@@ -423,7 +442,6 @@ public class GameManager : MonoBehaviour
             ActiveBlock.MoveDown();
 
             nextKeyDownTimer = Time.time + nextKeyDownInterval;
-            NextdropTimer = Time.time + dropInteaval;
 
             if (!board.CheckPosition(ActiveBlock))
             {
@@ -443,9 +461,16 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                //下入力をした際はSEの3を鳴らす
+                if (Time.time <= NextdropTimer)
+                {
+                    se.CallSE(3);
+                }
+
                 UseSpin = false;
                 SpinActions = 7;
             }
+            NextdropTimer = Time.time + dropInteaval;
         }
     }
 
@@ -480,67 +505,106 @@ public class GameManager : MonoBehaviour
 
         ClearRowHistory.Add(board.ClearAllRows()); //埋まっていれば削除し、ClearRowCountに消去ライン数を追加していく
 
-        if (ClearRowHistory[ClearRowHistoryCount] >= 1 && ClearRowHistory[ClearRowHistoryCount] <= 3)
+        //Tspin判定(SpinActionsが4の時)
+        if (SpinActions == 4)
         {
-            if (SpinActions == 4)
+            //Tspinで1列も消去していない時
+            //1列も消していなくてもTspin判定は行われる
+            if (ClearRowHistory[ClearRowHistoryCount] == 0)
             {
-                se.CallSE(3);
-
-                if (SpinMini == true) //TspinMini判定
+                //1列も消していない時のSE
+                if (HardDrop == true)
                 {
-                    Debug.Log("TspinMiniでーす");
+                    //7 Hard Drop
+                    se.CallSE(7);
+                }
+                else
+                {
+                    //6 Normal Drop
+                    se.CallSE(6);
+                }
+
+                //TspinMini判定
+                if (SpinMini == true)
+                {
+                    Debug.Log("TspinMini!");
+                }
+                else
+                {
+                    Debug.Log("Tspin!");
                 }
             }
-            else if (HardDrop == true)
+            //Tspinで1ライン消去した時
+            else if (ClearRowHistory[ClearRowHistoryCount] == 1)
             {
-                se.CallSE(8);
-                se.CallSE(17);
+                //9 Spin Destroy
+                se.CallSE(9);
 
-                HardDrop = false;
+                //TspinMini判定
+                if (SpinMini == true)
+                {
+                    Debug.Log("TspinMini!");
+                }
+                else
+                {
+                    Debug.Log("TspinSingle!");
+                }
             }
+            //Tspinで2ライン消去した時
+            else if (ClearRowHistory[ClearRowHistoryCount] == 2)
+            {
+                //9 Spin Destroy
+                se.CallSE(9);
+
+                //TspinMini判定
+                if (SpinMini == true)
+                {
+                    Debug.Log("TspinDoubleMini!");
+                }
+                else
+                {
+                    Debug.Log("TspinDouble!");
+                }
+            }
+            //Tspinで3ライン消去した時(TspinTripleMiniは存在しない)
             else
             {
-                se.CallSE(17);
+                //9 Spin Destroy
+                se.CallSE(9);
+
+                Debug.Log("TspinTriple!");
             }
         }
+        //4列消えた時(Tetris!)
         else if (ClearRowHistory[ClearRowHistoryCount] == 4)
         {
-            if (HardDrop == true)
-            {
-                se.CallSE(8);
-                se.CallSE(20);
-
-                HardDrop = false;
-            }
-            else
-            {
-                se.CallSE(20);
-            }
+            //10 Tetris!
+            se.CallSE(10);
         }
+        //1〜3列消えた時
+        else if (ClearRowHistory[ClearRowHistoryCount] >= 1 && ClearRowHistory[ClearRowHistoryCount] <= 3)
+        {
+            //8 Normal Destroy
+            se.CallSE(8);
+        }
+        //ハードドロップで1列も消していない時
         else if (HardDrop == true)
         {
-            se.CallSE(8);
-
-            if (SpinMini == true) //TspinMini判定
-            {
-                Debug.Log("TspinMiniでーす");
-            }
-
-            HardDrop = false;
+            //7 Hard Drop
+            se.CallSE(7);
         }
+        //通常ドロップで1列も消していない時
         else
         {
-            se.CallSE(9);
-
-            if (SpinMini == true) //TspinMini判定
-            {
-                Debug.Log("TspinMiniでーす");
-            }
+            //6 Normal Drop
+            se.CallSE(6);
         }
 
         SpinActions = 7;
 
         SpinMini = false;
+
+        HardDrop = false;
 
         ClearRowHistoryCount++;
 
