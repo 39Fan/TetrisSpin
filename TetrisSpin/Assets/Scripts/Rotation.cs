@@ -39,7 +39,7 @@ public class Rotation : MonoBehaviour
         int West = 270;
 
         //Z軸で回転を行っているため、90°(East)と270°(West)はプログラム上 270, 90 と表記されているため
-        //以下のコードで修正する。
+        //以下↓のコードで修正する。
 
         //操作中のミノ(回転後)の角度をminoAngleAfterに格納
         int minoAngleAfter = Mathf.RoundToInt(block.transform.rotation.eulerAngles.z);
@@ -57,84 +57,52 @@ public class Rotation : MonoBehaviour
         //Iミノ以外のSRS
         if (!block.name.Contains("I"))
         {
-            Debug.Log("Iミノ以外のSRS");
+            //Debug.Log("Iミノ以外のSRS");
 
             //NorthからEast
             //SouthからEastに回転する時
             if ((minoAngleBefore == North && minoAngleAfter == East) ||
                 (minoAngleBefore == South && minoAngleAfter == East))
             {
-                Debug.Log("0°から90°または180°から90°に回転する時");
+                //Debug.Log("NorthからEastまたは、SouthからEastに回転する時");
+
+                //第一法則
+                //左に1つ移動
+                block.MoveLeft();
 
                 //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
+                //LastSRSは1
                 gameManager.LastSRS++;
-
-
-                block.MoveLeft();
 
                 if (!board.CheckPosition(block))
                 {
-                    gameManager.LastSRS++;
-
+                    //第二法則
+                    //上に1つ移動
                     block.MoveUp();
 
-                    if (!board.CheckPosition(block))
-                    {
-                        gameManager.LastSRS++;
-
-                        block.MoveRight();
-                        block.MoveDown();
-                        block.MoveDown();
-                        block.MoveDown();
-
-                        if (!board.CheckPosition(block))
-                        {
-                            gameManager.LastSRS++;
-
-                            block.MoveLeft();
-
-                            if (!board.CheckPosition(block))
-                            {
-                                //SRSができなかった際に回転前の状態に戻る
-                                block.MoveRight();
-                                block.MoveUp();
-                                block.MoveUp();
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-            //270°から0°または270°から180°に回転する時
-            else if ((minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 0) ||
-                (minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 180))
-            {
-                Debug.Log("270°から0°または270°から180°に回転する時");
-
-                gameManager.LastSRS++;
-
-                block.MoveLeft();
-
-                if (!board.CheckPosition(block))
-                {
+                    //LastSRSは2
                     gameManager.LastSRS++;
 
-                    block.MoveDown();
-
                     if (!board.CheckPosition(block))
                     {
-                        gameManager.LastSRS++;
-
+                        //第三法則
+                        //右に1つ移動、下に3つ移動
                         block.MoveRight();
-                        block.MoveUp();
-                        block.MoveUp();
-                        block.MoveUp();
+                        block.MoveDown();
+                        block.MoveDown();
+                        block.MoveDown();
+
+                        //LastSRSは3
+                        gameManager.LastSRS++;
 
                         if (!board.CheckPosition(block))
                         {
-                            gameManager.LastSRS++;
-
+                            //第四法則
+                            //左に1つ移動
                             block.MoveLeft();
+
+                            //LastSRSは4
+                            gameManager.LastSRS++;
 
                             if (!board.CheckPosition(block))
                             {
@@ -143,86 +111,175 @@ public class Rotation : MonoBehaviour
                                 block.MoveUp();
                                 block.MoveUp();
 
+                                //SRSができなかった時、falseを返す
                                 return false;
                             }
                         }
                     }
                 }
             }
-            //90°から0°または90°から180°に回転する時
-            else if ((minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 0) ||
-                (minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 180))
+            //WestからNorth
+            //WestからSouthに回転する時
+            else if ((minoAngleBefore == West && minoAngleAfter == North) ||
+                (minoAngleBefore == West && minoAngleAfter == South))
             {
-                Debug.Log("90°から0°または90°から180°に回転する時");
+                //Debug.Log("WestからNorthまたは、WestからSouthに回転する時");
 
+                //第一法則
+                //左に1つ移動
+                block.MoveLeft();
+
+                //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
+                //LastSRSは1
                 gameManager.LastSRS++;
-
-                block.MoveRight();
 
                 if (!board.CheckPosition(block))
                 {
-                    gameManager.LastSRS++;
-
+                    //第二法則
+                    //下に1つ移動
                     block.MoveDown();
 
+                    //LastSRSは2
+                    gameManager.LastSRS++;
+
                     if (!board.CheckPosition(block))
                     {
-                        gameManager.LastSRS++;
+                        //第三法則
+                        //右に1つ移動、上に3つ移動
+                        block.MoveRight();
+                        block.MoveUp();
+                        block.MoveUp();
+                        block.MoveUp();
 
-                        block.MoveLeft();
-                        block.MoveUp();
-                        block.MoveUp();
-                        block.MoveUp();
+                        //LastSRSは3
+                        gameManager.LastSRS++;
 
                         if (!board.CheckPosition(block))
                         {
-                            gameManager.LastSRS++;
+                            //第四法則
+                            //左に1つ移動
+                            block.MoveLeft();
 
-                            block.MoveRight();
+                            //LastSRSは4
+                            gameManager.LastSRS++;
 
                             if (!board.CheckPosition(block))
                             {
                                 //SRSができなかった際に回転前の状態に戻る
-                                block.MoveLeft();
-                                block.MoveDown();
-                                block.MoveDown();
+                                block.MoveRight();
+                                block.MoveUp();
+                                block.MoveUp();
 
+                                //SRSができなかった時、falseを返す
                                 return false;
                             }
                         }
                     }
                 }
             }
-            //0°から270°または180°から270°に回転する時
-            else if ((minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 90) ||
-                (minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 90))
+            //EastからNorth
+            //EastからSouthに回転する時
+            else if ((minoAngleBefore == East && minoAngleAfter == North) ||
+                (minoAngleBefore == East && minoAngleAfter == South))
             {
-                Debug.Log("0°から270°または180°から270°に回転する時");
+                //Debug.Log("EastからNorthまたは、EastからSouthに回転する時");
 
-                gameManager.LastSRS++;
-
+                //第一法則
+                //右に1つ移動
                 block.MoveRight();
+
+                //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
+                //LastSRSは1
+                gameManager.LastSRS++;
 
                 if (!board.CheckPosition(block))
                 {
-                    gameManager.LastSRS++;
+                    //第二法則
+                    //下に1つ移動
+                    block.MoveDown();
 
-                    block.MoveUp();
+                    //LastSRSは2
+                    gameManager.LastSRS++;
 
                     if (!board.CheckPosition(block))
                     {
+                        //第三法則
+                        //左に1つ移動、上に3つ移動
+                        block.MoveLeft();
+                        block.MoveUp();
+                        block.MoveUp();
+                        block.MoveUp();
+
+                        //LastSRSは3
                         gameManager.LastSRS++;
 
+                        if (!board.CheckPosition(block))
+                        {
+                            //第四法則
+                            //右に1つ移動
+                            block.MoveRight();
+
+                            //LastSRSは4
+                            gameManager.LastSRS++;
+
+                            if (!board.CheckPosition(block))
+                            {
+                                //SRSができなかった際に回転前の状態に戻る
+                                block.MoveLeft();
+                                block.MoveDown();
+                                block.MoveDown();
+
+                                //SRSができなかった時、falseを返す
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            //NorthからWest
+            //SouthからWestに回転する時
+            else if ((minoAngleBefore == North && minoAngleAfter == West) ||
+                (minoAngleBefore == South && minoAngleAfter == West))
+            {
+                //Debug.Log("NorthからWestまたはSouthからWestに回転する時");
+
+                //第一法則
+                //右に1つ移動
+                block.MoveRight();
+
+                //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
+                //LastSRSは1
+                gameManager.LastSRS++;
+
+                if (!board.CheckPosition(block))
+                {
+                    //第二法則
+                    //上に1つ移動
+                    block.MoveUp();
+
+                    //LastSRSは2
+                    gameManager.LastSRS++;
+
+                    if (!board.CheckPosition(block))
+                    {
+                        //第三法則
+                        //左に1つ移動、下に3つ移動
                         block.MoveLeft();
                         block.MoveDown();
                         block.MoveDown();
                         block.MoveDown();
 
+                        //LastSRSは3
+                        gameManager.LastSRS++;
+
                         if (!board.CheckPosition(block))
                         {
-                            gameManager.LastSRS++;
-
+                            //第四法則
+                            //右に1つ移動
                             block.MoveRight();
+
+                            //LastSRSは4
+                            gameManager.LastSRS++;
 
                             if (!board.CheckPosition(block))
                             {
@@ -231,6 +288,7 @@ public class Rotation : MonoBehaviour
                                 block.MoveUp();
                                 block.MoveUp();
 
+                                //SRSができなかった時、falseを返す
                                 return false;
                             }
                         }
@@ -243,23 +301,32 @@ public class Rotation : MonoBehaviour
         //IミノはLastSRSを扱わない
         else
         {
-            Debug.Log("IミノのSRS");
+            //Debug.Log("IミノのSRS");
 
-            //0°から90°または270°から180°に回転する時
-            if ((minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 270) ||
-                (minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 180))
+            //NorthからEast
+            //WestからSouthに回転する時
+            if ((minoAngleBefore == North && minoAngleAfter == East) ||
+                (minoAngleBefore == North && minoAngleAfter == South))
             {
+                //Debug.Log("NorthからEastまたはWestからSouthに回転する時");
+
+                //第一法則
+                //左に2つ移動
                 block.MoveLeft();
                 block.MoveLeft();
 
                 if (!board.CheckPosition(block))
                 {
+                    //第二法則
+                    //右に3つ移動
                     block.MoveRight();
                     block.MoveRight();
                     block.MoveRight();
 
                     if (!board.CheckPosition(block))
                     {
+                        //第三法則
+                        //左に3つ移動、下に1つ移動
                         block.MoveLeft();
                         block.MoveLeft();
                         block.MoveLeft();
@@ -267,6 +334,8 @@ public class Rotation : MonoBehaviour
 
                         if (!board.CheckPosition(block))
                         {
+                            //第四法則
+                            //右に3つ移動、上に3つ移動
                             block.MoveRight();
                             block.MoveRight();
                             block.MoveRight();
@@ -281,26 +350,36 @@ public class Rotation : MonoBehaviour
                                 block.MoveDown();
                                 block.MoveDown();
 
+                                //SRSができなかった時、falseを返す
                                 return false;
                             }
                         }
                     }
                 }
             }
-            //270°から0°または180°から90°に回転する時
-            else if ((minoAngleBefore == 90 && block.transform.rotation.eulerAngles.z == 0) ||
-                (minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 270))
+            //WestからNorth
+            //SouthからEastに回転する時
+            else if ((minoAngleBefore == West && minoAngleAfter == North) ||
+                (minoAngleBefore == South && block.transform.rotation.eulerAngles.z == East))
             {
+                //Debug.Log("WestからNorthまたはSouthからEastに回転する時");
+
+                //第一法則
+                //右に1つ移動
                 block.MoveRight();
 
                 if (!board.CheckPosition(block))
                 {
+                    //第二法則
+                    //左に3つ移動
                     block.MoveLeft();
                     block.MoveLeft();
                     block.MoveLeft();
 
                     if (!board.CheckPosition(block))
                     {
+                        //第三法則
+                        //右に3つ移動、下に2つ移動
                         block.MoveRight();
                         block.MoveRight();
                         block.MoveRight();
@@ -309,6 +388,8 @@ public class Rotation : MonoBehaviour
 
                         if (!board.CheckPosition(block))
                         {
+                            //第四法則
+                            //左に3つ移動、上に3つ移動
                             block.MoveLeft();
                             block.MoveLeft();
                             block.MoveLeft();
@@ -323,27 +404,36 @@ public class Rotation : MonoBehaviour
                                 block.MoveRight();
                                 block.MoveDown();
 
+                                //SRSができなかった時、falseを返す
                                 return false;
                             }
                         }
                     }
                 }
             }
-            //90°から0°または180°から270°に回転する時
-            else if ((minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 0) ||
-                (minoAngleBefore == 180 && block.transform.rotation.eulerAngles.z == 90))
+            //EastからNorthまたはSouthからWestに回転する時
+            else if ((minoAngleBefore == East && minoAngleAfter == North) ||
+                (minoAngleBefore == South && minoAngleAfter == West))
             {
+                //Debug.Log("EastからNorthまたはSouthからWestに回転する時");
+
+                //第一法則
+                //右に2つ移動
                 block.MoveRight();
                 block.MoveRight();
 
                 if (!board.CheckPosition(block))
                 {
+                    //第二法則
+                    //左に3つ移動
                     block.MoveLeft();
                     block.MoveLeft();
                     block.MoveLeft();
 
                     if (!board.CheckPosition(block))
                     {
+                        //第三法則
+                        //右に3つ移動、上に1つ移動
                         block.MoveRight();
                         block.MoveRight();
                         block.MoveRight();
@@ -351,6 +441,8 @@ public class Rotation : MonoBehaviour
 
                         if (!board.CheckPosition(block))
                         {
+                            //第四法則
+                            //左に3つ移動、下に3つ移動
                             block.MoveLeft();
                             block.MoveLeft();
                             block.MoveLeft();
@@ -364,26 +456,36 @@ public class Rotation : MonoBehaviour
                                 block.MoveRight();
                                 block.MoveUp();
                                 block.MoveUp();
+
+                                //SRSができなかった時、falseを返す
                                 return false;
                             }
                         }
                     }
                 }
             }
-            //0°から270°または90°から180°に回転する時
-            else if ((minoAngleBefore == 0 && block.transform.rotation.eulerAngles.z == 90) ||
-                (minoAngleBefore == 270 && block.transform.rotation.eulerAngles.z == 180))
+            //NorthからWestまたはEastからSouthに回転する時
+            else if ((minoAngleBefore == North && minoAngleAfter == West) ||
+                (minoAngleBefore == East && minoAngleAfter == South))
             {
+                //Debug.Log("NorthからWestまたはEastからSouthに回転する時");
+
+                //第一法則
+                //左に1つ移動
                 block.MoveLeft();
 
                 if (!board.CheckPosition(block))
                 {
+                    //第二法則
+                    //右に3つ移動
                     block.MoveRight();
                     block.MoveRight();
                     block.MoveRight();
 
                     if (!board.CheckPosition(block))
                     {
+                        //第三法則
+                        //左に3つ移動、上に2つ移動
                         block.MoveLeft();
                         block.MoveLeft();
                         block.MoveLeft();
@@ -392,6 +494,8 @@ public class Rotation : MonoBehaviour
 
                         if (!board.CheckPosition(block))
                         {
+                            //第四法則
+                            //右に3つ移動、下に3つ移動
                             block.MoveRight();
                             block.MoveRight();
                             block.MoveRight();
@@ -401,10 +505,12 @@ public class Rotation : MonoBehaviour
 
                             if (!board.CheckPosition(block))
                             {
-                                //SRSができなかった際に回転前の状態に戻る
+                                //SRSができなかった時、回転前の状態に戻る
                                 block.MoveLeft();
                                 block.MoveLeft();
                                 block.MoveUp();
+
+                                //SRSができなかった時、falseを返す
                                 return false;
                             }
                         }
@@ -412,6 +518,7 @@ public class Rotation : MonoBehaviour
                 }
             }
         }
+        //SRSができた時、trueを返す
         return true;
     }
 
