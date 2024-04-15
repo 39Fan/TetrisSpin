@@ -67,21 +67,21 @@ public class Data : MonoBehaviour
     //ミノの向き//
 
     //GameManagerとRotationで用いる
-    //初期(未回転)状態をNorthとして、
-    //右回転後の向きをEast
-    //左回転後の向きをWest
-    //2回右回転または左回転した時の向きをSouthとする
-    public int North = 0;
-    public int East = 90;
-    public int South = 180;
-    public int West = 270;
+    //初期(未回転)状態をnorthとして、
+    //右回転後の向きをeast
+    //左回転後の向きをwest
+    //2回右回転または左回転した時の向きをsouthとする
+    public int north = 0;
+    public int east = 90;
+    public int south = 180;
+    public int west = 270;
 
     //ミノの回転//
 
     //ミノが回転した時、回転前の向き(Before)と回転後の向き(After)を保存する変数
-    //初期値はNorthの状態
-    public int MinoAngleBefore = 0;
-    public int MinoAngleAfter = 0;
+    //初期値はnorthの状態
+    public int minoAngleBefore = 0;
+    public int minoAngleAfter = 0;
 
     // 回転の使用を判別する変数
     // ミノのSpin判定に必要
@@ -122,13 +122,13 @@ public class Data : MonoBehaviour
 
     //Holdが1回目かどうかを判別する変数
     //Holdが1回でも使用されるとfalseになる
-    public bool FirstHold = true;
+    public bool firstHold = true;
 
     //Holdされたミノの座標(画面左上に配置)
-    public Vector3 HoldMinoPosition = new Vector3(-3, 17, 0);
+    public Vector3 holdMinoPosition = new Vector3(-3, 17, 0);
 
     //Holdされたミノの生成番号
-    public int HoldMinoCount;
+    public int holdMinoCount;
 
     //Holdが使用されたか判別する変数
     //Holdを使うと、次のミノを設置するまで使用できない
@@ -152,8 +152,8 @@ public class Data : MonoBehaviour
     //ミノの向きを初期化する関数
     public void AngleReset()
     {
-        MinoAngleBefore = 0;
-        MinoAngleAfter = 0;
+        minoAngleBefore = 0;
+        minoAngleAfter = 0;
     }
 
     //ミノの回転のフラグを初期化する関数
@@ -216,31 +216,31 @@ public class Data : MonoBehaviour
         //回転軸は現在位置から、x軸をxOffset動かし、y軸をyOffset動かした座標にある
         //xOffsetとyOffsetの正負は回転前の向きによって変化する
 
-        //回転前の向きがNorthの時
-        if (MinoAngleBefore == North)
+        //回転前の向きがnorthの時
+        if (minoAngleBefore == north)
         {
             return new Vector3(Imino_x + xOffset, Imino_y - yOffset, 0);
         }
-        //回転前の向きがEastの時
-        else if (MinoAngleBefore == East)
+        //回転前の向きがeastの時
+        else if (minoAngleBefore == east)
         {
             return new Vector3(Imino_x - xOffset, Imino_y - yOffset, 0);
         }
-        //回転前の向きがSouthの時
-        else if (MinoAngleBefore == South)
+        //回転前の向きがsouthの時
+        else if (minoAngleBefore == south)
         {
             return new Vector3(Imino_x - xOffset, Imino_y + yOffset, 0);
         }
-        //回転前の向きがWestの時
-        //MinoAngleBefore == West
+        //回転前の向きがwestの時
+        //minoAngleBefore == west
         else
         {
             return new Vector3(Imino_x + xOffset, Imino_y + yOffset, 0);
         }
     }
 
-    //回転後の角度(MinoAngleAfter)の調整
-    //Z軸で回転を行っているため、90°(East)と270°(West)はプログラム上 270, 90 と表記されているため(左右反転している)
+    //回転後の角度(minoAnglefter)の調整
+    //Z軸で回転を行っているため、90°(east)と270°(west)はプログラム上 270, 90 と表記されているため(左右反転している)
     public void CalibrateMinoAngleAfter(Block block)
     {
         //block.transform.rotation.eulerAngles.zはZ軸の回転角度
@@ -248,29 +248,29 @@ public class Data : MonoBehaviour
         //調整前の角度
         int OriginalAngle = Mathf.RoundToInt(block.transform.rotation.eulerAngles.z);
 
-        if (OriginalAngle == West)
+        if (OriginalAngle == west)
         {
-            MinoAngleAfter = East;
+            minoAngleAfter = east;
         }
-        else if (OriginalAngle == East)
+        else if (OriginalAngle == east)
         {
-            MinoAngleAfter = West;
+            minoAngleAfter = west;
         }
         else
         {
             //修正の必要なし
-            MinoAngleAfter = OriginalAngle;
+            minoAngleAfter = OriginalAngle;
         }
     }
 
     //通常回転のリセットをする関数
-    public void RotateReset(Block block, int minoAngleAfter)
+    public void RotateReset(Block block, int minoAnglefter)
     {
         //通常回転が右回転だった時
-        if ((MinoAngleBefore == North && minoAngleAfter == East) ||
-        (MinoAngleBefore == East && minoAngleAfter == South) ||
-        (MinoAngleBefore == South && minoAngleAfter == West) ||
-        (MinoAngleBefore == West && minoAngleAfter == North))
+        if ((minoAngleBefore == north && minoAnglefter == east) ||
+        (minoAngleBefore == east && minoAnglefter == south) ||
+        (minoAngleBefore == south && minoAnglefter == west) ||
+        (minoAngleBefore == west && minoAnglefter == north))
         {
             //左回転で回転前の状態に戻す
             block.Rotateleft(block);

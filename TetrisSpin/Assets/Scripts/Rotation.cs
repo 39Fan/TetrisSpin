@@ -26,21 +26,22 @@ public class Rotation : MonoBehaviour
     //スーパーローテーションシステム(SRS)
     //通常回転ができなかった時に試す回転
     //4つの軌跡を辿り、ブロックや壁に衝突しなかったらそこに移動する
+
+    //↓参考にした動画
+    //https://www.youtube.com/watch?v=0OQ7mP97vdc
+
     public bool MinoSuperRotation(Block block)
     {
-        //↓参考にした動画
-        //https://www.youtube.com/watch?v=0OQ7mP97vdc
+        //初期(未回転)状態をnorthとして、
+        //右回転後の向きをeast
+        //左回転後の向きをwest
+        //2回右回転または左回転した時の向きをsouthとする
+        int north = data.north;
+        int east = data.east;
+        int south = data.south;
+        int west = data.west;
 
-        //初期(未回転)状態をNorthとして、
-        //右回転後の向きをEast
-        //左回転後の向きをWest
-        //2回右回転または左回転した時の向きをSouthとする
-        int North = data.North;
-        int East = data.East;
-        int South = data.South;
-        int West = data.West;
-
-        //回転後の角度(MinoAngleAfter)の調整
+        //回転後の角度(minoAngleAfter)の調整
         data.CalibrateMinoAngleAfter(block);
 
         //SRSはIミノとそれ以外のミノとで処理が違うため分けて処理する
@@ -49,12 +50,12 @@ public class Rotation : MonoBehaviour
         {
             //Debug.Log("Iミノ以外のSRS");
 
-            //NorthからEast
-            //SouthからEastに回転する時
-            if ((data.MinoAngleBefore == North && data.MinoAngleAfter == East) ||
-                (data.MinoAngleBefore == South && data.MinoAngleAfter == East))
+            //northからeast
+            //southからeastに回転する時
+            if ((data.minoAngleBefore == north && data.minoAngleAfter == east) ||
+                (data.minoAngleBefore == south && data.minoAngleAfter == east))
             {
-                //Debug.Log("NorthからEastまたは、SouthからEastに回転する時");
+                //Debug.Log("northからeastまたは、southからeastに回転する時");
 
                 //第一法則
                 //左に1つ移動
@@ -102,7 +103,7 @@ public class Rotation : MonoBehaviour
                                 block.MoveUp();
 
                                 //通常回転のリセット
-                                data.RotateReset(block, data.MinoAngleAfter);
+                                data.RotateReset(block, data.minoAngleAfter);
 
                                 //SRSができなかった時、falseを返す
                                 return false;
@@ -111,12 +112,12 @@ public class Rotation : MonoBehaviour
                     }
                 }
             }
-            //WestからNorth
-            //WestからSouthに回転する時
-            else if ((data.MinoAngleBefore == West && data.MinoAngleAfter == North) ||
-                (data.MinoAngleBefore == West && data.MinoAngleAfter == South))
+            //westからnorth
+            //westからsouthに回転する時
+            else if ((data.minoAngleBefore == west && data.minoAngleAfter == north) ||
+                (data.minoAngleBefore == west && data.minoAngleAfter == south))
             {
-                //Debug.Log("WestからNorthまたは、WestからSouthに回転する時");
+                //Debug.Log("westからnorthまたは、westからsouthに回転する時");
 
                 //第一法則
                 //左に1つ移動
@@ -164,7 +165,7 @@ public class Rotation : MonoBehaviour
                                 block.MoveUp();
 
                                 //通常回転のリセット
-                                data.RotateReset(block, data.MinoAngleAfter);
+                                data.RotateReset(block, data.minoAngleAfter);
 
                                 //SRSができなかった時、falseを返す
                                 return false;
@@ -173,12 +174,12 @@ public class Rotation : MonoBehaviour
                     }
                 }
             }
-            //EastからNorth
-            //EastからSouthに回転する時
-            else if ((data.MinoAngleBefore == East && data.MinoAngleAfter == North) ||
-                (data.MinoAngleBefore == East && data.MinoAngleAfter == South))
+            //eastからnorth
+            //eastからsouthに回転する時
+            else if ((data.minoAngleBefore == east && data.minoAngleAfter == north) ||
+                (data.minoAngleBefore == east && data.minoAngleAfter == south))
             {
-                //Debug.Log("EastからNorthまたは、EastからSouthに回転する時");
+                //Debug.Log("eastからnorthまたは、eastからsouthに回転する時");
 
                 //第一法則
                 //右に1つ移動
@@ -226,7 +227,7 @@ public class Rotation : MonoBehaviour
                                 block.MoveDown();
 
                                 //通常回転のリセット
-                                data.RotateReset(block, data.MinoAngleAfter);
+                                data.RotateReset(block, data.minoAngleAfter);
 
                                 //SRSができなかった時、falseを返す
                                 return false;
@@ -235,12 +236,12 @@ public class Rotation : MonoBehaviour
                     }
                 }
             }
-            //NorthからWest
-            //SouthからWestに回転する時
-            else if ((data.MinoAngleBefore == North && data.MinoAngleAfter == West) ||
-                (data.MinoAngleBefore == South && data.MinoAngleAfter == West))
+            //northからwest
+            //southからwestに回転する時
+            else if ((data.minoAngleBefore == north && data.minoAngleAfter == west) ||
+                (data.minoAngleBefore == south && data.minoAngleAfter == west))
             {
-                //Debug.Log("NorthからWestまたはSouthからWestに回転する時");
+                //Debug.Log("northからwestまたはsouthからwestに回転する時");
 
                 //第一法則
                 //右に1つ移動
@@ -289,7 +290,7 @@ public class Rotation : MonoBehaviour
                                 block.MoveUp();
 
                                 //通常回転のリセット
-                                data.RotateReset(block, data.MinoAngleAfter);
+                                data.RotateReset(block, data.minoAngleAfter);
 
                                 //SRSができなかった時、falseを返す
                                 return false;
@@ -306,12 +307,12 @@ public class Rotation : MonoBehaviour
         {
             //Debug.Log("IミノのSRS");
 
-            //NorthからEast
-            //WestからSouthに回転する時
-            if ((data.MinoAngleBefore == North && data.MinoAngleAfter == East) ||
-                (data.MinoAngleBefore == North && data.MinoAngleAfter == South))
+            //northからeast
+            //westからsouthに回転する時
+            if ((data.minoAngleBefore == north && data.minoAngleAfter == east) ||
+                (data.minoAngleBefore == north && data.minoAngleAfter == south))
             {
-                //Debug.Log("NorthからEastまたはWestからSouthに回転する時");
+                //Debug.Log("northからeastまたはwestからsouthに回転する時");
 
                 //第一法則
                 //左に2つ移動
@@ -354,7 +355,7 @@ public class Rotation : MonoBehaviour
                                 block.MoveDown();
 
                                 //通常回転のリセット
-                                data.RotateReset(block, data.MinoAngleAfter);
+                                data.RotateReset(block, data.minoAngleAfter);
 
                                 //SRSができなかった時、falseを返す
                                 return false;
@@ -363,12 +364,12 @@ public class Rotation : MonoBehaviour
                     }
                 }
             }
-            //WestからNorth
-            //SouthからEastに回転する時
-            else if ((data.MinoAngleBefore == West && data.MinoAngleAfter == North) ||
-                (data.MinoAngleBefore == South && block.transform.rotation.eulerAngles.z == East))
+            //westからnorth
+            //southからeastに回転する時
+            else if ((data.minoAngleBefore == west && data.minoAngleAfter == north) ||
+                (data.minoAngleBefore == south && block.transform.rotation.eulerAngles.z == east))
             {
-                //Debug.Log("WestからNorthまたはSouthからEastに回転する時");
+                //Debug.Log("westからnorthまたはsouthからeastに回転する時");
 
                 //第一法則
                 //右に1つ移動
@@ -411,7 +412,7 @@ public class Rotation : MonoBehaviour
                                 block.MoveDown();
 
                                 //通常回転のリセット
-                                data.RotateReset(block, data.MinoAngleAfter);
+                                data.RotateReset(block, data.minoAngleAfter);
 
                                 //SRSができなかった時、falseを返す
                                 return false;
@@ -420,11 +421,11 @@ public class Rotation : MonoBehaviour
                     }
                 }
             }
-            //EastからNorthまたはSouthからWestに回転する時
-            else if ((data.MinoAngleBefore == East && data.MinoAngleAfter == North) ||
-                (data.MinoAngleBefore == South && data.MinoAngleAfter == West))
+            //eastからnorthまたはsouthからwestに回転する時
+            else if ((data.minoAngleBefore == east && data.minoAngleAfter == north) ||
+                (data.minoAngleBefore == south && data.minoAngleAfter == west))
             {
-                //Debug.Log("EastからNorthまたはSouthからWestに回転する時");
+                //Debug.Log("eastからnorthまたはsouthからwestに回転する時");
 
                 //第一法則
                 //右に2つ移動
@@ -467,7 +468,7 @@ public class Rotation : MonoBehaviour
                                 block.MoveUp();
 
                                 //通常回転のリセット
-                                data.RotateReset(block, data.MinoAngleAfter);
+                                data.RotateReset(block, data.minoAngleAfter);
 
                                 //SRSができなかった時、falseを返す
                                 return false;
@@ -476,11 +477,11 @@ public class Rotation : MonoBehaviour
                     }
                 }
             }
-            //NorthからWestまたはEastからSouthに回転する時
-            else if ((data.MinoAngleBefore == North && data.MinoAngleAfter == West) ||
-                (data.MinoAngleBefore == East && data.MinoAngleAfter == South))
+            //northからwestまたはeastからsouthに回転する時
+            else if ((data.minoAngleBefore == north && data.minoAngleAfter == west) ||
+                (data.minoAngleBefore == east && data.minoAngleAfter == south))
             {
-                //Debug.Log("NorthからWestまたはEastからSouthに回転する時");
+                //Debug.Log("northからwestまたはeastからsouthに回転する時");
 
                 //第一法則
                 //左に1つ移動
@@ -523,7 +524,7 @@ public class Rotation : MonoBehaviour
                                 block.MoveUp();
 
                                 //通常回転のリセット
-                                data.RotateReset(block, data.MinoAngleAfter);
+                                data.RotateReset(block, data.minoAngleAfter);
 
                                 //SRSができなかった時、falseを返す
                                 return false;
