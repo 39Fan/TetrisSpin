@@ -37,7 +37,7 @@ public class SE : MonoBehaviour
     [SerializeField]
     private List<AudioClip> SEs = new List<AudioClip>();
 
-    void Start()
+    private void Awake()
     {
         //audioSourceにAudioSourceコンポーネントを付与
         audioSource = GetComponent<AudioSource>();
