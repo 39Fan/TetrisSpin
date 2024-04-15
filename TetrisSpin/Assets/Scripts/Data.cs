@@ -5,7 +5,7 @@ using UnityEngine;
 public class Data : MonoBehaviour
 {
     //干渉するスクリプトの設定
-
+    Board board;
 
     //テトリミノの基本情報//
 
@@ -42,6 +42,10 @@ public class Data : MonoBehaviour
     //ゴーストミノのPrefabsをminos_Ghostに格納
     //順番は(I, J, L, O, S, T, Z)
     public Block_Ghost[] minos_Ghost;
+
+    //activeMinoから底までの距離を格納する変数
+    //ゴーストミノの生成座標の計算で必要
+    public int distance;
 
 
     //生成されるミノの順番//
@@ -134,10 +138,20 @@ public class Data : MonoBehaviour
     //Holdを使うと、次のミノを設置するまで使用できない
     public bool useHold = false;
 
-    /*private void Start()
-    {
 
-    }*/
+    //テトリスのゲームフィールドについて//
+
+    //ゲームフィールドは高さ20マス、幅10マスに設定
+    //headerは、ゲームオーバーの判定に必要
+    //height - header で高さを表現
+    public int height = 40, width = 10, header = 20;
+
+
+    //インスタンス化
+    private void Awake()
+    {
+        board = FindObjectOfType<Board>();
+    }
 
     //各種変数の初期化をする関数
     public void AllReset()
@@ -198,20 +212,66 @@ public class Data : MonoBehaviour
     }
 
 
+    //activeMinoから他のミノ、または底までの距離を計算する関数
+    public void CheckDistance_Y(Block activeMino)
+    {
+        //activeMinoの各座標を格納する変数を宣言
+        int activeMino_x = Mathf.RoundToInt(activeMino.transform.position.x);
+        int activeMino_y = Mathf.RoundToInt(activeMino.transform.position.y);
+        int activeMino_z = Mathf.RoundToInt(activeMino.transform.position.z);
+
+        //ゲームフィールドの高さのマスの数 + 2　回繰り返す
+        for (distance = 0; distance < height - header + 2; distance++)
+        {
+            //activeMinoのY座標をdistanceの値だけ下に移動する
+            activeMino.transform.position = new Vector3
+                (activeMino_x, activeMino_y - distance, activeMino_z);
+
+            //activeMinoが他のミノにぶつかる、またはゲームフィールドからはみ出した時
+            if (!board.CheckPosition(activeMino)) //activeMinoから底までの距離をGhostBlockPositionに格納
+            {
+                //activeMinoの位置を元に戻す
+                activeMino.transform.position = new Vector3
+                    (activeMino_x, activeMino_y, activeMino_z);
+
+                //この段階でdistanceから1引いた値が、activeMinoから底までの距離となる
+                distance--;
+
+                //breakでこのfor文を抜けて、distanceの値を保存する
+                break;
+            }
+
+            //activeMinoの位置を元に戻す
+            activeMino.transform.position = new Vector3
+                (activeMino_x, activeMino_y, activeMino_z);
+        }
+    }
+
+
+    //ゴーストミノの位置調整を行う関数
+    public Vector3 PositionAdjustmentActiveMino_Ghost(Block activeMino)
+    {
+        //activeMinoから他のミノ、または底までの距離を取得
+        CheckDistance_Y(activeMino);
+
+        //activeMinoの各座標を取得
+        int activeMino_x = Mathf.RoundToInt(activeMino.transform.position.x);
+        int activeMino_y = Mathf.RoundToInt(activeMino.transform.position.y);
+        int activeMino_z = Mathf.RoundToInt(activeMino.transform.position.z);
+
+        return new Vector3(activeMino_x, activeMino_y - distance, activeMino_z);
+    }
+
+
     //Iミノの軸を計算し、Vectoe3で返す関数
-    public Vector3 AxisCheck(Block block)
+    //Imino_xとImino_yはIミノのx, y座標
+    public Vector3 AxisCheck(int Imino_x, int Imino_y)
     {
         Debug.Log("AxisCheck");
         //xとyのオフセットを宣言
         //zは関係ない
         float xOffset = 0.5f;
         float yOffset = 0.5f;
-
-        //Iミノの座標を格納
-        //xとyで分ける
-        //zは関係ない
-        int Imino_x = Mathf.RoundToInt(block.transform.position.x);
-        int Imino_y = Mathf.RoundToInt(block.transform.position.y);
 
         //回転軸は現在位置から、x軸をxOffset動かし、y軸をyOffset動かした座標にある
         //xOffsetとyOffsetの正負は回転前の向きによって変化する

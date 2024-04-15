@@ -2,19 +2,23 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    public Transform[,] Grid; //ゲーム画面内のグリッド
+    //干渉するスクリプトの設定
+    Data data;
+
+    //ゲーム画面内のグリッド
+    public Transform[,] Grid;
 
     //ボード基盤用の四角形格納用
     [SerializeField]
     private Transform emptySprite;
 
-    [SerializeField]
-    private int height = 25, width = 10, header = 5;
-
+    //インスタンス化と
     //テトリス画面のフィールドを作成
     private void Awake()
     {
-        Grid = new Transform[width, height];
+        data = FindObjectOfType<Data>();
+
+        Grid = new Transform[data.width, data.height];
     }
 
     private void Start()
@@ -26,9 +30,9 @@ public class Board : MonoBehaviour
     {
         if (emptySprite) //ボード作成
         {
-            for (int y = 0; y < height - header; y++)
+            for (int y = 0; y < data.height - data.header; y++)
             {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < data.width; x++)
                 {
                     Transform clone = Instantiate(emptySprite,
                         new Vector3(x, y, 0), Quaternion.identity);
@@ -84,8 +88,8 @@ public class Board : MonoBehaviour
     //枠内にあるのか判定する関数
     public bool BoardOutCheck(int x, int y)
     {
-        //x軸は0以上width未満 y軸は0以上
-        return (x >= 0 && x < width && y >= 0);
+        //x軸は0以上data.width満 y軸は0以上
+        return (x >= 0 && x < data.width && y >= 0);
     }
 
     //移動先にブロックがないか判定する関数
@@ -145,7 +149,7 @@ public class Board : MonoBehaviour
         //合計列消去数をClearRowCount格納
         int ClearRowCount = 0;
 
-        for (int y = 0; y < height; y++)
+        for (int y = 0; y < data.height; y++)
         {
             if (IsComplete(y))
             {
@@ -165,7 +169,7 @@ public class Board : MonoBehaviour
     //全ての行をチェックする関数
     bool IsComplete(int y)
     {
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < data.width; x++)
         {
             if (Grid[x, y] == null)
             {
@@ -179,7 +183,7 @@ public class Board : MonoBehaviour
     //削除する関数
     void ClearRow(int y)
     {
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < data.width; x++)
         {
             if (Grid[x, y] != null)
             {
@@ -192,9 +196,9 @@ public class Board : MonoBehaviour
     //上にあるブロックを1段下げる関数
     void ShiftRowsDown(int startY)
     {
-        for (int y = startY; y < height; y++)
+        for (int y = startY; y < data.height; y++)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < data.width; x++)
             {
                 if (Grid[x, y] != null)
                 {
@@ -226,7 +230,7 @@ public class Board : MonoBehaviour
     {
         foreach (Transform item in block.transform)
         {
-            if (item.transform.position.y > height - header - 1)
+            if (item.transform.position.y > data.height - data.header - 1)
             {
                 return true;
             }

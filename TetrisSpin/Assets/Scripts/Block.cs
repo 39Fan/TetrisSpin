@@ -67,8 +67,8 @@ public class Block : MonoBehaviour
             else
             {
                 //Iミノの軸を取得する
-                Debug.Log(block);
-                Vector3 IminoAxis = data.AxisCheck(block);
+                Vector3 IminoAxis = data.AxisCheck
+                    (Mathf.RoundToInt(block.transform.position.x), Mathf.RoundToInt(block.transform.position.y));
 
                 //IminoAxisを中心に右回転する
                 transform.RotateAround(IminoAxis, Vector3.forward, rotateAroundZ);
@@ -96,7 +96,8 @@ public class Block : MonoBehaviour
             else
             {
                 //Iミノの軸を取得する
-                Vector3 IminoAxis = data.AxisCheck(block);
+                Vector3 IminoAxis = data.AxisCheck
+                    (Mathf.RoundToInt(block.transform.position.x), Mathf.RoundToInt(block.transform.position.y));
 
                 //IminoAxisを中心に右回転する
                 transform.RotateAround(IminoAxis, Vector3.forward, rotateAroundZ);
