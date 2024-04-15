@@ -6,12 +6,13 @@ public class Block : MonoBehaviour
     Data data;
 
     //回転していいブロックかどうか
+    //Oミノは回転しないので、falseに設定
     [SerializeField]
     private bool canRotate = true;
 
-    private void Start()
+    //インスタンス化
+    private void Awake()
     {
-        //Dataオブジェクトをそれぞれdata変数に格納する
         data = FindObjectOfType<Data>();
     }
 

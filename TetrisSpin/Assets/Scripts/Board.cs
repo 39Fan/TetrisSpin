@@ -11,6 +11,7 @@ public class Board : MonoBehaviour
     [SerializeField]
     private int height = 25, width = 10, header = 5;
 
+    //テトリス画面のフィールドを作成
     private void Awake()
     {
         Grid = new Transform[width, height];
@@ -31,9 +32,6 @@ public class Board : MonoBehaviour
                 {
                     Transform clone = Instantiate(emptySprite,
                         new Vector3(x, y, 0), Quaternion.identity);
-                    //InstantiateはPrefabsからオブジェクトを生成できる。
-                    //()内は生成するオブジェクトの条件を記入
-                    //Quaternion.identityは回転しないよの意
 
                     clone.transform.parent = transform;
                 }

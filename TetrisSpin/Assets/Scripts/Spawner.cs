@@ -8,20 +8,13 @@ public class Spawner : MonoBehaviour
     //[SerializeField]
     //private Block_Ghost[] Blocks_Ghost;
 
-    private Block OldHoldMino;
-    private Board board;
     private Data data;
-    private GameManager gameManager;
-
-    private int GhostBlockPosition;
-    private int ActiveBlockOrder;
 
 
+    //インスタンス化
     private void Awake()
     {
-        board = FindObjectOfType<Board>();
         data = FindObjectOfType<Data>();
-        gameManager = FindObjectOfType<GameManager>();
     }
 
     //選ばれたミノを生成する関数

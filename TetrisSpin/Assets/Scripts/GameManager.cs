@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     bool HardDrop = false;
 
+    //インスタンス化
     private void Awake()
     {
         spawner = FindObjectOfType<Spawner>();
@@ -64,7 +65,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //スポーン位置の数値を丸める
-        spawner.transform.position = Rounding.Round(spawner.transform.position);
+        //spawner.transform.position = Rounding.Round(spawner.transform.position);
 
         //タイマーの初期設定
         nextKeyDownTimer = Time.time + nextKeyDownInterval;
@@ -74,19 +75,20 @@ public class GameManager : MonoBehaviour
 
         if (!ActiveBlock)
         {
-            //ゲーム開始時、0から13番目のミノの順番を決める
-
             //2回繰り返す
             int length = 2;
 
             for (int i = 0; i < length; i++)
             {
+                //ゲーム開始時、0から13番目のミノの順番を決める
                 data.DecideSpawnMinoOrder();
             }
 
-            ActiveBlock = spawner.SpawnMino(data.spawnMinoOrder[data.count]); //activeBlockの生成
+            //新しいactiveBlockの生成
+            ActiveBlock = spawner.SpawnMino(data.spawnMinoOrder[data.count]);
 
-            spawner.SpawnNextBlocks(); //Next表示
+            //Nextの表示
+            spawner.SpawnNextBlocks();
         }
     }
 
