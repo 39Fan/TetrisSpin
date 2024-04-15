@@ -15,8 +15,11 @@ public class GameManager : MonoBehaviour
     Spawner spawner;
 
     [SerializeField]
-    //操作中のブロック
+    //操作中のミノ
     Block ActiveBlock;
+
+    //ゴーストミノ
+    Block_Ghost ActiveBlock_Ghost;
 
     [SerializeField]
     float dropInteaval; //次にブロックが落ちるまでのインターバル時間
@@ -34,9 +37,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     int SpinActions = 7;
-
-    //GhostBlickの機能に必要なもの
-    Block_Ghost ActiveBlock_Ghost;
 
     //底についた判定
     bool Bottom = false;
