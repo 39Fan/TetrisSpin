@@ -1,9 +1,27 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 //複数のスクリプトに干渉するデータをまとめて扱うスクリプト
 public class Data : MonoBehaviour
 {
     //干渉するスクリプトの設定
+
+    /////ミノの情報/////
+
+    //ミノの生成//
+
+    //ミノの生成番号
+    //何番目に生成されたミノか、で管理する
+    public int Count = 0;
+
+    //ミノの生成座標
+    public Vector3 MinoSpawnPosition = new Vector3(4, 20, 0);
+
+    //生成されたミノのgameobjectを管理
+    //生成されるミノは増え続けるため、リスト型
+    public List<Block> SpawnMinos = new List<Block>();
+
+    //ミノの向き//
 
     //GameManagerとRotationで用いる
     //初期(未回転)状態をNorthとして、
@@ -15,18 +33,53 @@ public class Data : MonoBehaviour
     public int South = 180;
     public int West = 270;
 
-    //ミノが回転した時、回転前の向きを保存する変数
+    //ミノが回転した時、回転前の向き(Before)と回転後の向き(After)を保存する変数
     //初期値はNorthの状態
     public int MinoAngleBefore = 0;
-
     public int MinoAngleAfter = 0;
 
-    private void Start()
+
+    //Hold機能//
+
+    //Holdは1回目の処理と2回目以降の処理が違う
+
+    //1回目
+    //Holdされたミノは、ゲーム画面の左上あたりに移動
+    //その後、Nextミノが新しく降ってくる
+
+    //2回目以降
+    //Holdされたミノは、ゲーム画面の左上あたりに移動(1回目と同じ)
+    //以前Holdしたミノが新しく降ってくる
+
+    //Holdが1回目かどうかを判別する変数
+    //Holdが1回でも使用されるとfalseになる
+    public bool FirstHold = true;
+
+    //Holdされたミノの座標(画面左上に配置)
+    public Vector3 HoldMinoPosition = new Vector3(-3, 17, 0);
+
+    //Holdされたミノの生成番号
+    public int HoldMinoCount;
+
+    //Holdが使用されたか判別する変数
+    //Holdを使うと、次のミノを設置するまで使用できない
+    public bool UseHold = false;
+
+    /*private void Start()
     {
 
+    }*/
+
+    //各種変数の初期化する関数
+    public void AllReset()
+    {
+        AngleReset();
+
+        UseHold = false;
     }
 
-    public void Reset()
+    //ミノの向きを初期化する関数
+    public void AngleReset()
     {
         MinoAngleBefore = 0;
         MinoAngleAfter = 0;
