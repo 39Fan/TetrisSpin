@@ -1,44 +1,41 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField]
-    private Block[] Blocks;
+    //[SerializeField]
+    //private Block[] Blocks;
 
-    [SerializeField]
-    private Block_Ghost[] Blocks_Ghost;
-    private Block[] NextBlocks = new Block[5];
+    //[SerializeField]
+    //private Block_Ghost[] Blocks_Ghost;
+
     private Block OldHoldMino;
-    Board board;
-    Spawner spawner;
+    private Board board;
+    private Data data;
+    private GameManager gameManager;
 
     private int GhostBlockPosition;
     private int ActiveBlockOrder;
 
 
-    private void Start()
+    private void Awake()
     {
         board = FindObjectOfType<Board>();
+        data = FindObjectOfType<Data>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     //選ばれたミノを生成する関数
-    public Block SpawnBlock(int mino)
+    public Block SpawnMino(int mino)
     {
-        Blocks[mino].transform.localScale = Vector3.one * 1;
+        //Blocks[mino].transform.localScale = Vector3.one * 1;
 
-        Block block = Instantiate(Blocks[mino],
-        transform.position, Quaternion.identity);
+        //Quaternion.identityは、向きの回転に関する設定をしないことを表す
+        Block spawnMino = Instantiate(data.minos[mino],
+        data.minoSpawnPosition, Quaternion.identity);
 
-        if (block)
+        if (spawnMino)
         {
-            return block;
+            return spawnMino;
         }
         else
         {
@@ -47,7 +44,7 @@ public class Spawner : MonoBehaviour
     }
 
     //GhostBloskを生成する関数
-    public Block_Ghost SpawnBlock_Ghost(Block activeBlock)
+    /*public Block_Ghost SpawnBlock_Ghost(Block activeBlock)
     {
         for (int i = 0; i < 20; i++)
         {
@@ -92,9 +89,9 @@ public class Spawner : MonoBehaviour
         {
             return null;
         }
-    }
+    }*/
 
-    //HoldミノをActiveBlockに戻す関数
+    /*HoldミノをActiveBlockに戻す関数
     public Block HoldChange()
     {
         Block block = Instantiate(OldHoldMino,
@@ -108,60 +105,86 @@ public class Spawner : MonoBehaviour
         {
             return null;
         }
-    }
-
-    //Holdミノを表示する関数
-    public Block SpawnHoldBlock(bool firstHold, Block newHoldMino)
-    {
-        if (firstHold == false) //2回目以降のHoldの時
-        {
-            board.DestroyBlock(OldHoldMino);
-        }
-
-        Block block = Instantiate(newHoldMino,
-            new Vector3(-3, 17, 0), Quaternion.identity);
-
-        OldHoldMino = block;
-
-        if (block)
-        {
-            return block;
-        }
-        else
-        {
-            return null;
-        }
-    }
+    }*/
 
     //Nextミノを表示する関数
-    public Block SpawnNextBlocks(int count, int[] minos) //この時もらうcountは1足されているので、ちょうどずれていてそのまま使用できる。
+    public Block SpawnNextBlocks()
     {
         //Debug.Log("====this is SpawnNextBlocks====");
 
-        for (int i = 0; i < 5; i++)
+        //Nextの数は5に設定
+        int nexts = 5;
+
+        //ゲーム画面で表示するNext1〜5の座標を格納する配列
+        Vector3[] nextMinoPositions = new Vector3[nexts];
+
+        //Next1〜5の座標は、Y座標を3ずつ下に下げて配置する
+        int position_y = 3;
+
+        //Nextの数だけ繰り返す
+        for (int count = 0; count < nexts; count++)
         {
-            if (count == 1) //ゲームスタート時のNext表示
+            //Y座標をposition_yずつ下げて宣言
+            nextMinoPositions[count] = new Vector3(12, 17 - (position_y * count), 0);
+        }
+
+        //以下のように設定される
+        // nextMinoPosition[0] = new Vector3 (12, 17, 0);
+        // nextMinoPosition[1] = new Vector3 (12, 14, 0);
+        // nextMinoPosition[2] = new Vector3 (12, 11, 0);
+        // nextMinoPosition[3] = new Vector3 (12, 8, 0);
+        // nextMinoPosition[4] = new Vector3 (12, 5, 0);
+
+        //Nextの数だけ繰り返す
+        for (int nextMinoOrder = 0; nextMinoOrder < nexts; nextMinoOrder++)
+        {
+            //ゲームスタート時のNext表示
+            if (data.count == 0)
             {
-                //Blocks[minos[count]].transform.localScale = Vector3.one * 0.9f;
-
-                Block block = Instantiate(Blocks[minos[count + i]],
-                    new Vector3(12, 17 - 3 * i, 0), Quaternion.identity); //Next1の表示
-
-                NextBlocks[i] = block;
+                //Next1〜5の表示
+                //nextBlocksに格納
+                data.nextBlocks[nextMinoOrder] = Instantiate(data.minos[data.spawnMinoOrder[data.count + nextMinoOrder + 1]],
+                    nextMinoPositions[nextMinoOrder], Quaternion.identity);
             }
+            //2回目以降のNext表示
             else
             {
-                //Blocks[minos[count + i]].transform.localScale = Vector3.one * 0.8f;
+                //以前のNextMinoを消去
+                Destroy(data.nextBlocks[nextMinoOrder].gameObject);
 
-                Block block = Instantiate(Blocks[minos[count + i]],
-                    new Vector3(12, 17 - 3 * i, 0), Quaternion.identity); //Next2〜5の表示
-
-                board.DestroyBlock(NextBlocks[i]);
-
-                NextBlocks[i] = block;
+                //Next1〜5の表示
+                //nextBlocksに格納
+                data.nextBlocks[nextMinoOrder] = Instantiate(data.minos[data.spawnMinoOrder[data.count + nextMinoOrder + 1]],
+                    nextMinoPositions[nextMinoOrder], Quaternion.identity);
             }
         }
         return null;
     }
+
+    //Holdした時の処理をする関数
+    /*public Block Hold(Block activeBlock)
+    {
+        //ホールドが使用された
+        data.UseHold = true;
+
+        activeBlock.transform.position = data.HoldMinoPosition;
+
+        //Holdが1回目の時
+        if (data.FirstHold == true) //最初のHoldの時
+        {
+            gameManager.MinoSpawn(); //新たなActiveBlockの表示
+            SpawnNextBlocks();
+            data.FirstHold = false;
+        }
+        //Holdが2回目以降の時
+        else
+        {
+            activeBlock = data.SpawnMinos[data.HoldMinoCount];
+        }
+
+        data.AngleReset();
+
+        return activeBlock;
+    }*/
 }
 
