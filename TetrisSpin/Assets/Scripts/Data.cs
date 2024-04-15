@@ -85,7 +85,9 @@ public class Data : MonoBehaviour
 
     // 回転の使用を判別する変数
     // ミノのSpin判定に必要
-    public bool UseSpin = false;
+    // Spin判定は2つあり、SpinとSpinMiniがある
+    public bool useSpin = false;
+    public bool spinMini = false;
 
     // 最後に行ったスーパーローテーションシステム(SRS)の段階を表す変数
     // 0〜4の値が格納される
@@ -157,7 +159,7 @@ public class Data : MonoBehaviour
     //ミノの回転のフラグを初期化する関数
     public void SpinReset()
     {
-        UseSpin = false;
+        useSpin = false;
         lastSRS = 0;
     }
 

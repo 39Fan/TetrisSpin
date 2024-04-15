@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     float dropInteaval; //次にブロックが落ちるまでのインターバル時間
-    float NextdropTimer;  //次にブロックが落ちるまでの時間
+    float nextdropTimer;  //次にブロックが落ちるまでの時間
     float nextKeyDownTimer, nextKeyLeftRightTimer, nextKeyRotateTimer; //入力受付タイマー(3種類)
 
     [SerializeField]
@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     int SpinActions = 7;
-    public bool SpinMini = false;
 
     //GhostBlickの機能に必要なもの
     Block_Ghost ActiveBlock_Ghost;
@@ -230,7 +229,7 @@ public class GameManager : MonoBehaviour
         {
             CanNotMove = true;
 
-            SpinMini = false;
+            data.spinMini = false;
 
             data.SpinReset();
 
@@ -298,7 +297,7 @@ public class GameManager : MonoBehaviour
         {
             CanNotMove = true;
 
-            SpinMini = false;
+            data.spinMini = false;
 
             data.SpinReset();
 
@@ -404,7 +403,7 @@ public class GameManager : MonoBehaviour
 
     void Down()
     {
-        if (Input.GetKey(KeyCode.S) && (Time.time > nextKeyDownTimer) && CanNotMove == false || (Time.time > NextdropTimer)) //下入力、または時間経過で落ちる時
+        if (Input.GetKey(KeyCode.S) && (Time.time > nextKeyDownTimer) && CanNotMove == false || (Time.time > nextdropTimer)) //下入力、または時間経過で落ちる時
         {
             ActiveBlock.MoveDown();
 
@@ -429,7 +428,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 //下入力をした際はSEの3を鳴らす
-                if (Time.time <= NextdropTimer)
+                if (Time.time <= nextdropTimer)
                 {
                     se.CallSE(3);
                 }
@@ -437,7 +436,7 @@ public class GameManager : MonoBehaviour
                 data.SpinReset();
                 SpinActions = 7;
             }
-            NextdropTimer = Time.time + dropInteaval;
+            nextdropTimer = Time.time + dropInteaval;
         }
     }
 
@@ -489,7 +488,7 @@ public class GameManager : MonoBehaviour
                 }
 
                 //TspinMini判定
-                if (SpinMini == true)
+                if (data.spinMini == true)
                 {
                     Debug.Log("TspinMini!");
                 }
@@ -505,7 +504,7 @@ public class GameManager : MonoBehaviour
                 se.CallSE(9);
 
                 //TspinMini判定
-                if (SpinMini == true)
+                if (data.spinMini == true)
                 {
                     Debug.Log("TspinMini!");
                 }
@@ -521,7 +520,7 @@ public class GameManager : MonoBehaviour
                 se.CallSE(9);
 
                 //TspinMini判定
-                if (SpinMini == true)
+                if (data.spinMini == true)
                 {
                     Debug.Log("TspinDoubleMini!");
                 }
@@ -566,7 +565,7 @@ public class GameManager : MonoBehaviour
 
         SpinActions = 7;
 
-        SpinMini = false;
+        data.spinMini = false;
 
         HardDrop = false;
 

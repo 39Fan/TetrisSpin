@@ -616,7 +616,7 @@ public class Rotation : MonoBehaviour
                         if (AroundBlocksCheck_ForT[0] == 0 || AroundBlocksCheck_ForT[1] == 0)
                         {
                             Debug.Log("270でMini");
-                            gameManager.SpinMini = true;
+                            data.spinMini = true;
                             return 4;
                         }
                         break;
@@ -624,7 +624,7 @@ public class Rotation : MonoBehaviour
                         if (AroundBlocksCheck_ForT[1] == 0 || AroundBlocksCheck_ForT[3] == 0)
                         {
                             Debug.Log("180でMini");
-                            gameManager.SpinMini = true;
+                            data.spinMini = true;
                             return 4;
                         }
                         break;
@@ -632,7 +632,7 @@ public class Rotation : MonoBehaviour
                         if (AroundBlocksCheck_ForT[2] == 0 || AroundBlocksCheck_ForT[3] == 0)
                         {
                             Debug.Log("90でMini");
-                            gameManager.SpinMini = true;
+                            data.spinMini = true;
                             return 4;
                         }
                         break;
@@ -640,7 +640,7 @@ public class Rotation : MonoBehaviour
                         if (AroundBlocksCheck_ForT[0] == 0 || AroundBlocksCheck_ForT[2] == 0)
                         {
                             Debug.Log("0でMini");
-                            gameManager.SpinMini = true;
+                            data.spinMini = true;
                             return 4;
                         }
                         break;
@@ -659,7 +659,7 @@ public class Rotation : MonoBehaviour
 
     public int SpinTerminal(Block block)
     {
-        if (data.UseSpin == false)
+        if (data.useSpin == false)
         {
             return 7;
         }
