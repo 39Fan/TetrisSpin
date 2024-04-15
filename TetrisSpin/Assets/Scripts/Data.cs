@@ -6,20 +6,63 @@ public class Data : MonoBehaviour
 {
     //干渉するスクリプトの設定
 
-    /////ミノの情報/////
 
-    //ミノの生成//
+    //テトリミノの基本情報//
 
-    //ミノの生成番号
-    //何番目に生成されたミノか、で管理する
-    public int Count = 0;
+    //テトリスには合計7種類のテトリミノが存在する (以後テトリミノをミノと呼ぶことにする)
+    //各ミノはアルファベットで呼ばれる(I, J, L, O, S, T, Z)
 
-    //ミノの生成座標
-    public Vector3 MinoSpawnPosition = new Vector3(4, 20, 0);
+    //ゲーム進行は、この7種類のミノをランダムに並べて生成し、
+    //7種類全てが生成された時に、また新しく7種類のミノをランダムに並べて生成していくことを繰り返す
+    //この法則を『七種一巡の法則』と呼ぶ
 
-    //生成されたミノのgameobjectを管理
+    //ミノのPrefabsをminosに格納
+    //順番は(I, J, L, O, S, T, Z)
+    public Block[] minos;
+
+    //プログラム内での判別は数値で行う
+    // I_mino = 0
+    // J_mino = 1
+    // L_mino = 2
+    // O_mino = 3
+    // S_mino = 4
+    // T_mino = 5
+    // Z_mino = 6
+
+    //例
+    //minos[5]→T_mino
+
+
+    //ゴーストミノについて//
+
+    //ゴーストミノとは、操作中のミノをそのままドロップした時、またはハードドロップした時に
+    //設置される想定の場所を薄く表示するミノのこと
+    //これを実装することで、テトリスのプレイが格段にしやすくなる
+
+    //ゴーストミノのPrefabsをminos_Ghostに格納
+    //順番は(I, J, L, O, S, T, Z)
+    public Block_Ghost[] minos_Ghost;
+
+
+    //生成されるミノの順番//
+
+    //ミノの順番はこのスクリプト内の DecideSpawnMinoOrder() で決定する
+    //決定されたミノの順番をspawnMinoOrderに格納
     //生成されるミノは増え続けるため、リスト型
-    public List<Block> SpawnMinos = new List<Block>();
+    public List<int> spawnMinoOrder = new List<int>();
+
+
+    //ミノの生成番号//
+
+    //何番目に生成されたミノか、で管理する
+    public int count = 0;
+
+
+    //ミノの生成座標//
+
+    //新しくミノが降ってくる時の初期座標
+    public Vector3 minoSpawnPosition = new Vector3(4, 20, 0);
+
 
     //ミノの向き//
 
@@ -39,14 +82,24 @@ public class Data : MonoBehaviour
     public int MinoAngleAfter = 0;
 
 
+    //Nextミノについて//
+
+    //次にどのミノが生成されるかを確認できる機能
+    //ゲーム画面右側に表示される
+    //このTetrisSpinでは、表示されるNextの数を5つにする
+
+    //Nextに表示されるミノのGameObjectを格納
+    public Block[] nextBlocks = new Block[5];
+
+
     //Hold機能//
 
     //Holdは1回目の処理と2回目以降の処理が違う
+    //Holdを使用すると...
 
     //1回目
     //Holdされたミノは、ゲーム画面の左上あたりに移動
     //その後、Nextミノが新しく降ってくる
-
     //2回目以降
     //Holdされたミノは、ゲーム画面の左上あたりに移動(1回目と同じ)
     //以前Holdしたミノが新しく降ってくる
@@ -70,7 +123,7 @@ public class Data : MonoBehaviour
 
     }*/
 
-    //各種変数の初期化する関数
+    //各種変数の初期化をする関数
     public void AllReset()
     {
         AngleReset();
@@ -84,6 +137,41 @@ public class Data : MonoBehaviour
         MinoAngleBefore = 0;
         MinoAngleAfter = 0;
     }
+
+    //ミノの配列を決めてspawnMinoOrderに追加する関数
+    public void DecideSpawnMinoOrder()
+    {
+        //七種一巡の法則実装に必要な配列
+
+        //range0to6は、0から6までの整数が入ったリスト
+        //[0,1,2,3,4,5,6] ←このようなもの
+        //range0To6を使用して、ランダムな配列をminoOrderに格納する
+        //[2,4,3,6,1,5,0] ←このようなもの
+        List<int> range0to6 = new List<int>();
+
+        for (int numbers = 0; numbers <= 6; numbers++)
+        {
+            //0から6までの整数が入ったリストの生成
+            range0to6.Add(numbers);
+        }
+
+        //range0to6の配列がなくなるまで繰り返す
+        while (range0to6.Count > 0)
+        {
+            //0からrange0to6の配列数までの範囲でランダムな数値を取得し、indexに格納
+            int index = Random.Range(0, range0to6.Count);
+
+            //indexの数値をrandomNumberに格納
+            int randomNumber = range0to6[index];
+
+            //minoOrderにrandomNumberを追加
+            spawnMinoOrder.Add(randomNumber);
+
+            //インデックス位置の要素を削除
+            range0to6.RemoveAt(index);
+        }
+    }
+
 
     //Iミノの軸を計算し、Vectoe3で返す関数
     public Vector3 AxisCheck(Block block)
