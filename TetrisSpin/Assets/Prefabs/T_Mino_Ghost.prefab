@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 626196993800855889}
   - component: {fileID: -5285132481949497058}
   m_Layer: 0
-  m_Name: Block_T_Ghost
+  m_Name: T_Mino_Ghost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

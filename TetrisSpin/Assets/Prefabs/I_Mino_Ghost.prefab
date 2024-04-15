@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8018271074280432741}
   - component: {fileID: 6454492804131910616}
   m_Layer: 0
-  m_Name: Block_I_Ghost
+  m_Name: I_Mino_Ghost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
