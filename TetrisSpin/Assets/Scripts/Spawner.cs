@@ -2,18 +2,14 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    //[SerializeField]
-    //private Block[] Blocks;
-
-    //[SerializeField]
-    //private Block_Ghost[] Blocks_Ghost;
-
-    private Data data;
-
+    //各種干渉するスクリプトの設定
+    Board board;
+    Data data;
 
     //インスタンス化
     private void Awake()
     {
+        board = FindObjectOfType<Board>();
         data = FindObjectOfType<Data>();
     }
 
@@ -37,54 +33,48 @@ public class Spawner : MonoBehaviour
     }
 
     //GhostBloskを生成する関数
-    /*public Block_Ghost SpawnBlock_Ghost(Block activeBlock)
+    public Block_Ghost SpawnMino_Ghost(Block activeMino)
     {
-        for (int i = 0; i < 20; i++)
+        //activeMinoの各座標を格納する変数を宣言
+        int activeMino_x = Mathf.RoundToInt(activeMino.transform.position.x);
+        int activeMino_y = Mathf.RoundToInt(activeMino.transform.position.y);
+        int activeMino_z = Mathf.RoundToInt(activeMino.transform.position.z);
+
+        //activeMinoから他のミノ、または底までの距離を計算
+        data.CheckDistance_Y(activeMino);
+
+        //activeMinoと対応するゴーストミノを探す
+        //対応するミノの数値を格納する変数を宣言
+        int order;
+
+        //ミノは7種類あるので、7回繰り返す
+        for (order = 0; order < data.minos.Length; order++)
         {
-            if (board.CheckPosition(activeBlock)) //ActiveBlockから底までの距離をGhostBlockPositionに格納
+            //ゴーストミノの名前にactiveMinoの名前が含まれるとき
+            if (activeMino.name.Contains(data.minos[order].name))
             {
-                activeBlock.transform.position =
-                    new Vector3(activeBlock.transform.position.x, activeBlock.transform.position.y - 1, activeBlock.transform.position.z);
-
-                GhostBlockPosition++;
-            }
-        }
-
-        activeBlock.transform.position =
-            new Vector3(activeBlock.transform.position.x, activeBlock.transform.position.y + GhostBlockPosition, activeBlock.transform.position.z);
-
-        for (int i = 0; i < Blocks.Length; i++)
-        {
-            if (activeBlock.name.Contains(Blocks[i].name))
-            {
-                ActiveBlockOrder = i;
+                //breakでこのfor文を抜けて、orderの値を保存する
                 break;
             }
         }
 
-        Block_Ghost block = Instantiate(Blocks_Ghost[ActiveBlockOrder],
-            new Vector3(activeBlock.transform.position.x, activeBlock.transform.position.y - GhostBlockPosition, activeBlock.transform.position.z),
-            activeBlock.transform.rotation);
+        //orderに対応するゴーストミノを、activeMinoのY座標からdistanceの値だけ下に移動した位置に生成
+        Block_Ghost mino_Ghost = Instantiate(data.minos_Ghost[order],
+            new Vector3(activeMino_x, activeMino_y - data.distance, activeMino_z), Quaternion.identity);
 
-        if (!board.CheckPosition_Ghost(block))
+        if (mino_Ghost)
         {
-            block.transform.position =
-                new Vector3(block.transform.position.x, block.transform.position.y + 1, block.transform.position.z);
-        }
-
-        GhostBlockPosition = 0;
-
-        if (block)
-        {
-            return block;
+            return mino_Ghost;
         }
         else
         {
             return null;
         }
-    }*/
+    }
 
-    /*HoldミノをActiveBlockに戻す関数
+
+
+    /*HoldミノをactiveMinoに戻す関数
     public Block HoldChange()
     {
         Block block = Instantiate(OldHoldMino,
@@ -155,29 +145,29 @@ public class Spawner : MonoBehaviour
     }
 
     //Holdした時の処理をする関数
-    /*public Block Hold(Block activeBlock)
+    /*public Block Hold(Block activeMino)
     {
         //ホールドが使用された
         data.UseHold = true;
 
-        activeBlock.transform.position = data.HoldMinoPosition;
+        activeMino.transform.position = data.HoldMinoPosition;
 
         //Holdが1回目の時
         if (data.FirstHold == true) //最初のHoldの時
         {
-            gameManager.MinoSpawn(); //新たなActiveBlockの表示
+            gameManager.MinoSpawn(); //新たなactiveMinoの表示
             SpawnNextBlocks();
             data.FirstHold = false;
         }
         //Holdが2回目以降の時
         else
         {
-            activeBlock = data.SpawnMinos[data.HoldMinoCount];
+            activeMino = data.SpawnMinos[data.HoldMinoCount];
         }
 
         data.AngleReset();
 
-        return activeBlock;
+        return activeMino;
     }*/
 }
 
