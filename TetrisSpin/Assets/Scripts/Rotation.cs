@@ -15,7 +15,7 @@ public class Rotation : MonoBehaviour
     Data data;
     GameManager gameManager;
 
-    private void Start()
+    private void Awake()
     {
         //Board, Data, GameManagerオブジェクトをそれぞれboard, data, gamemanager変数に格納する
         board = FindObjectOfType<Board>();
