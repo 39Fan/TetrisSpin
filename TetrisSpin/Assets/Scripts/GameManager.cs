@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 
 //GameManager
@@ -15,8 +14,9 @@ public class GameManager : MonoBehaviour
     SE se;
     Spawner spawner;
 
-    int Count = 0; //順番
-    Block ActiveBlock; //生成されたブロック格納
+    [SerializeField]
+    //操作中のブロック
+    Block ActiveBlock;
 
     [SerializeField]
     private float dropInteaval; //次にブロックが落ちるまでのインターバル時間
@@ -32,10 +32,6 @@ public class GameManager : MonoBehaviour
     //ゲームオーバー判定
     bool gameOver;
 
-    //ランダムミノの生成に必要な配列
-    List<int> numbers = new List<int>();
-    public List<int> MinoOrder = new List<int>();
-
     // 回転使用フラグ
     bool UseSpin = false;
 
@@ -44,11 +40,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     int SpinActions = 7;
     public bool SpinMini = false;
-
-    //ホールド機能に必要なもの
-    bool FirstHold = true;
-    bool Hold = false;
-    Block NewHoldmino;
 
     //GhostBlickの機能に必要なもの
     Block_Ghost ActiveBlock_Ghost;
@@ -65,24 +56,19 @@ public class GameManager : MonoBehaviour
 
     bool HardDrop = false;
 
+    private void Awake()
+    {
+        spawner = FindObjectOfType<Spawner>();
+        board = FindObjectOfType<Board>();
+        data = FindObjectOfType<Data>();
+        rotation = FindObjectOfType<Rotation>();
+        ActiveBlock = FindObjectOfType<Block>();
+        se = FindObjectOfType<SE>();
+        sceneTransition = FindObjectOfType<SceneTransition>();
+    }
 
     private void Start()
     {
-        //スポナーオブジェクトをスポナー変数に格納する
-        spawner = FindObjectOfType<Spawner>();
-        //ボードを変数に格納する
-        board = FindObjectOfType<Board>();
-
-        data = FindObjectOfType<Data>();
-
-        rotation = FindObjectOfType<Rotation>();
-
-        ActiveBlock = FindObjectOfType<Block>();
-
-        se = FindObjectOfType<SE>();
-
-        sceneTransition = FindObjectOfType<SceneTransition>();
-
         //スポーン位置の数値を丸める
         spawner.transform.position = Rounding.Round(spawner.transform.position);
 
@@ -92,33 +78,21 @@ public class GameManager : MonoBehaviour
         nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
         keyReceptionTimer = Time.time + keyReceptionInterval;
 
-        //スポナークラスからブロック生成関数を呼んで変数に格納する
         if (!ActiveBlock)
         {
-            for (int i = 0; i < 2; i++) //0から13番目のミノの順番を決める
+            //ゲーム開始時、0から13番目のミノの順番を決める
+
+            //2回繰り返す
+            int length = 2;
+
+            for (int i = 0; i < length; i++)
             {
-                for (int j = 0; j <= 6; j++)
-                {
-                    numbers.Add(j);
-                }
-
-                while (numbers.Count > 0)
-                {
-                    int index = Random.Range(0, numbers.Count);
-
-                    int ransu = numbers[index];
-
-                    MinoOrder.Add(ransu);
-
-                    numbers.RemoveAt(index);
-                }
+                data.DecideSpawnMinoOrder();
             }
 
-            ActiveBlock = spawner.SpawnBlock(MinoOrder[Count]); //activeBlockの生成
+            ActiveBlock = spawner.SpawnMino(data.spawnMinoOrder[data.count]); //activeBlockの生成
 
-            spawner.SpawnNextBlocks(Count + 1, MinoOrder.ToArray()); //Next表示
-
-            Count++;
+            spawner.SpawnNextBlocks(); //Next表示
         }
     }
 
@@ -140,7 +114,7 @@ public class GameManager : MonoBehaviour
             BottomBoard();
         }
 
-        ActiveBlock_Ghost = spawner.SpawnBlock_Ghost(ActiveBlock);
+        //ActiveBlock_Ghost = spawner.SpawnBlock_Ghost(ActiveBlock);
 
         PlayerInput();
 
@@ -425,11 +399,11 @@ public class GameManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Return)) //ホールド
         {
-            if (Hold == false)
+            if (data.UseHold == false)
             {
                 se.CallSE(11);
 
-                HoldBlock();
+                //spawner.Hold(ActiveBlock);
             }
         }
     }
@@ -488,7 +462,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("BottomBoard");
 
         //初期化
-        Hold = false;
         Bottom = false;
         UseSpin = false;
         nextKeyDownTimer = Time.time;
@@ -606,73 +579,45 @@ public class GameManager : MonoBehaviour
 
         ClearRowHistoryCount++;
 
-        data.Reset();
+        data.AllReset();
 
-        MinoSpawn(FirstHold, Hold); //次のactiveBlockの生成
+        MinoSpawn(); //次のactiveBlockの生成
 
         if (!board.CheckPosition(ActiveBlock))
         {
             gameOver = true;
 
+            Debug.Log("aaa");
             sceneTransition.GameOver();
         }
 
-        spawner.SpawnNextBlocks(Count, MinoOrder.ToArray()); //Next表示
+        spawner.SpawnNextBlocks(); //Next表示
     }
 
-    void HoldBlock() //Holdした時の処理
-    {
-        Hold = true;
-        ActiveBlock.transform.position = new Vector3(-3, 17, 0);
-        NewHoldmino = ActiveBlock;
-        board.DestroyBlock(ActiveBlock); //ActiveBlockを消す
-        MinoSpawn(FirstHold, Hold); //新たなActiveBlockの表示
-        spawner.SpawnHoldBlock(FirstHold, NewHoldmino); //Hold画面に表示
-
-        if (FirstHold == true) //最初のHoldの時
-        {
-            spawner.SpawnNextBlocks(Count, MinoOrder.ToArray());
-            FirstHold = false;
-        }
-        data.Reset();
-    }
-
-    void MinoSpawn(bool FirstHold, bool Hold) //ミノを呼び出す関数(順番決定も含む)
+    public void MinoSpawn() //ミノを呼び出す関数(順番決定も含む)
     {
         //Debug.Log("====this is MinoSpawn in GameManager====");
 
-        if (FirstHold == true && Hold == true || Hold == false) //最初のホールドと、NEXT処理
+        data.count++;
+
+        if (data.FirstHold == true && data.UseHold == true || data.UseHold == false) //最初のホールドと、NEXT処理
         {
-            if (Count % 7 == 0) //7の倍数の時
+            if (data.count % 7 == 0) //7の倍数の時
             {
-                for (int j = 0; j <= 6; j++) //次のミノの順番を決める
-                {
-                    numbers.Add(j);
-                }
+                data.DecideSpawnMinoOrder();
 
-                while (numbers.Count > 0)
-                {
-                    int index = Random.Range(0, numbers.Count);
-
-                    int ransu = numbers[index];
-
-                    MinoOrder.Add(ransu);
-
-                    numbers.RemoveAt(index);
-                }
-
-                ActiveBlock = spawner.SpawnBlock(MinoOrder[Count]);
-                Count++;
+                //新しいミノの生成
+                ActiveBlock = spawner.SpawnMino(data.spawnMinoOrder[data.count]);
             }
             else
             {
-                ActiveBlock = spawner.SpawnBlock(MinoOrder[Count]);
-                Count++;
+                ActiveBlock = spawner.SpawnMino(data.spawnMinoOrder[data.count]);
             }
         }
         else //2回目以降のホールド
         {
-            ActiveBlock = spawner.HoldChange();
+            //ActiveBlock = spawner.HoldChange();
+            Debug.Log("あ");
         }
     }
 
