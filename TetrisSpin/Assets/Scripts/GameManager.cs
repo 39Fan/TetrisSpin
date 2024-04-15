@@ -237,7 +237,7 @@ public class GameManager : MonoBehaviour
 
             ActiveBlock.RotateRight(ActiveBlock);
 
-            //回転後の角度(MinoAngleAfter)の調整
+            //回転後の角度(minoAngleAfter)の調整
             data.CalibrateMinoAngleAfter(ActiveBlock);
 
             nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
@@ -255,7 +255,7 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log("スーパーローテーション成功");
 
-                    data.MinoAngleBefore = data.MinoAngleAfter;
+                    data.minoAngleBefore = data.minoAngleAfter;
 
                     SpinActions = rotation.SpinTerminal(ActiveBlock);
 
@@ -273,7 +273,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                data.MinoAngleBefore = data.MinoAngleAfter;
+                data.minoAngleBefore = data.minoAngleAfter;
 
                 SpinActions = rotation.SpinTerminal(ActiveBlock);
 
@@ -305,7 +305,7 @@ public class GameManager : MonoBehaviour
 
             ActiveBlock.Rotateleft(ActiveBlock);
 
-            //回転後の角度(MinoAngleAfter)の調整
+            //回転後の角度(minoAngleAfter)の調整
             data.CalibrateMinoAngleAfter(ActiveBlock);
 
             nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
@@ -323,7 +323,7 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log("スーパーローテーション成功");
 
-                    data.MinoAngleBefore = data.MinoAngleAfter;
+                    data.minoAngleBefore = data.minoAngleAfter;
 
                     SpinActions = rotation.SpinTerminal(ActiveBlock);
 
@@ -341,7 +341,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                data.MinoAngleBefore = data.MinoAngleAfter;
+                data.minoAngleBefore = data.minoAngleAfter;
 
                 SpinActions = rotation.SpinTerminal(ActiveBlock);
 
@@ -592,7 +592,7 @@ public class GameManager : MonoBehaviour
 
         data.count++;
 
-        if (data.FirstHold == true && data.useHold == true || data.useHold == false) //最初のホールドと、NEXT処理
+        if (data.firstHold == true && data.useHold == true || data.useHold == false) //最初のホールドと、NEXT処理
         {
             if (data.count % 7 == 0) //7の倍数の時
             {
