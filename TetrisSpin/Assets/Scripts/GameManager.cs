@@ -19,9 +19,9 @@ public class GameManager : MonoBehaviour
     Block ActiveBlock;
 
     [SerializeField]
-    private float dropInteaval; //次にブロックが落ちるまでのインターバル時間
+    float dropInteaval; //次にブロックが落ちるまでのインターバル時間
     float NextdropTimer;  //次にブロックが落ちるまでの時間
-    float nextKeyDownTimer, nextKeyLeftRightTimer, nextKeyRotateTimer; //入力受付タイマー(4種類)
+    float nextKeyDownTimer, nextKeyLeftRightTimer, nextKeyRotateTimer; //入力受付タイマー(3種類)
 
     [SerializeField]
     float keyReceptionTimer;
@@ -31,11 +31,6 @@ public class GameManager : MonoBehaviour
 
     //ゲームオーバー判定
     bool gameOver;
-
-    // 回転使用フラグ
-    bool UseSpin = false;
-
-    public int LastSRS; // 最後に行ったスーパーローテーション(SR)パターン(0-4)
 
     [SerializeField]
     int SpinActions = 7;
@@ -140,8 +135,8 @@ public class GameManager : MonoBehaviour
             {
                 se.CallSE(2);
 
-                UseSpin = false;
-                LastSRS = 0;
+                data.SpinReset();
+
                 SpinActions = 7;
             }
 
@@ -163,8 +158,7 @@ public class GameManager : MonoBehaviour
             {
                 se.CallSE(2);
 
-                UseSpin = false;
-                LastSRS = 0;
+                data.SpinReset();
                 SpinActions = 7;
             }
 
@@ -195,8 +189,7 @@ public class GameManager : MonoBehaviour
             {
                 se.CallSE(2);
 
-                UseSpin = false;
-                LastSRS = 0;
+                data.SpinReset();
                 SpinActions = 7;
             }
 
@@ -218,8 +211,7 @@ public class GameManager : MonoBehaviour
             {
                 se.CallSE(2);
 
-                UseSpin = false;
-                LastSRS = 0;
+                data.SpinReset();
                 SpinActions = 7;
             }
 
@@ -238,9 +230,10 @@ public class GameManager : MonoBehaviour
         {
             CanNotMove = true;
 
-            UseSpin = true;
             SpinMini = false;
-            LastSRS = 0;
+
+            data.SpinReset();
+
             SpinActions = 7;
 
             ActiveBlock.RotateRight(ActiveBlock);
@@ -265,7 +258,7 @@ public class GameManager : MonoBehaviour
 
                     data.MinoAngleBefore = data.MinoAngleAfter;
 
-                    SpinActions = rotation.SpinTerminal(UseSpin, ActiveBlock);
+                    SpinActions = rotation.SpinTerminal(ActiveBlock);
 
                     if (SpinActions == 4)
                     {
@@ -283,7 +276,7 @@ public class GameManager : MonoBehaviour
             {
                 data.MinoAngleBefore = data.MinoAngleAfter;
 
-                SpinActions = rotation.SpinTerminal(UseSpin, ActiveBlock);
+                SpinActions = rotation.SpinTerminal(ActiveBlock);
 
                 if (SpinActions == 4)
                 {
@@ -305,9 +298,10 @@ public class GameManager : MonoBehaviour
         {
             CanNotMove = true;
 
-            UseSpin = true;
             SpinMini = false;
-            LastSRS = 0;
+
+            data.SpinReset();
+
             SpinActions = 7;
 
             ActiveBlock.Rotateleft(ActiveBlock);
@@ -332,7 +326,7 @@ public class GameManager : MonoBehaviour
 
                     data.MinoAngleBefore = data.MinoAngleAfter;
 
-                    SpinActions = rotation.SpinTerminal(UseSpin, ActiveBlock);
+                    SpinActions = rotation.SpinTerminal(ActiveBlock);
 
                     if (SpinActions == 4)
                     {
@@ -350,7 +344,7 @@ public class GameManager : MonoBehaviour
             {
                 data.MinoAngleBefore = data.MinoAngleAfter;
 
-                SpinActions = rotation.SpinTerminal(UseSpin, ActiveBlock);
+                SpinActions = rotation.SpinTerminal(ActiveBlock);
 
                 if (SpinActions == 4)
                 {
@@ -382,7 +376,7 @@ public class GameManager : MonoBehaviour
                 }
 
                 Debug.Log("ハードドロップで1マス以上動いた");
-                UseSpin = false; //1マスでも落ちたらspin判定は消える。
+                data.SpinReset(); //1マスでも落ちたらspin判定は消える。
                 SpinActions = 7;
             }
 
@@ -399,7 +393,7 @@ public class GameManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Return)) //ホールド
         {
-            if (data.UseHold == false)
+            if (data.useHold == false)
             {
                 se.CallSE(11);
 
@@ -440,7 +434,7 @@ public class GameManager : MonoBehaviour
                     se.CallSE(3);
                 }
 
-                UseSpin = false;
+                data.SpinReset();
                 SpinActions = 7;
             }
             NextdropTimer = Time.time + dropInteaval;
@@ -463,7 +457,6 @@ public class GameManager : MonoBehaviour
 
         //初期化
         Bottom = false;
-        UseSpin = false;
         nextKeyDownTimer = Time.time;
         nextKeyLeftRightTimer = Time.time;
         nextKeyRotateTimer = Time.time;
@@ -600,7 +593,7 @@ public class GameManager : MonoBehaviour
 
         data.count++;
 
-        if (data.FirstHold == true && data.UseHold == true || data.UseHold == false) //最初のホールドと、NEXT処理
+        if (data.FirstHold == true && data.useHold == true || data.useHold == false) //最初のホールドと、NEXT処理
         {
             if (data.count % 7 == 0) //7の倍数の時
             {

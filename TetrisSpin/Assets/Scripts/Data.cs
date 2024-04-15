@@ -76,10 +76,24 @@ public class Data : MonoBehaviour
     public int South = 180;
     public int West = 270;
 
+    //ミノの回転//
+
     //ミノが回転した時、回転前の向き(Before)と回転後の向き(After)を保存する変数
     //初期値はNorthの状態
     public int MinoAngleBefore = 0;
     public int MinoAngleAfter = 0;
+
+    // 回転の使用を判別する変数
+    // ミノのSpin判定に必要
+    public bool UseSpin = false;
+
+    // 最後に行ったスーパーローテーションシステム(SRS)の段階を表す変数
+    // 0〜4の値が格納される
+    // SRSが使用されていないときは0
+    // 1〜4の時は、SRSの段階を表す
+    public int lastSRS;
+
+
 
 
     //Nextミノについて//
@@ -116,7 +130,7 @@ public class Data : MonoBehaviour
 
     //Holdが使用されたか判別する変数
     //Holdを使うと、次のミノを設置するまで使用できない
-    public bool UseHold = false;
+    public bool useHold = false;
 
     /*private void Start()
     {
@@ -128,7 +142,9 @@ public class Data : MonoBehaviour
     {
         AngleReset();
 
-        UseHold = false;
+        SpinReset();
+
+        useHold = false;
     }
 
     //ミノの向きを初期化する関数
@@ -136,6 +152,13 @@ public class Data : MonoBehaviour
     {
         MinoAngleBefore = 0;
         MinoAngleAfter = 0;
+    }
+
+    //ミノの回転のフラグを初期化する関数
+    public void SpinReset()
+    {
+        UseSpin = false;
+        lastSRS = 0;
     }
 
     //ミノの配列を決めてspawnMinoOrderに追加する関数
