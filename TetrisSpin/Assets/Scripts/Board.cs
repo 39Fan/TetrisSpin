@@ -112,6 +112,9 @@ public class Board : MonoBehaviour
         {
             Vector2 pos = Rounding.Round(item.position);
 
+            //Debug.Log((int)pos.x);
+            //Debug.Log((int)pos.y);
+
             Grid[(int)pos.x, (int)pos.y] = item;
         }
     }
