@@ -62,7 +62,7 @@ public class Rotation : MonoBehaviour
 
                 //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
                 //LastSRSは1
-                gameManager.LastSRS++;
+                data.lastSRS++;
 
                 if (!board.CheckPosition(block))
                 {
@@ -71,7 +71,7 @@ public class Rotation : MonoBehaviour
                     block.MoveUp();
 
                     //LastSRSは2
-                    gameManager.LastSRS++;
+                    data.lastSRS++;
 
                     if (!board.CheckPosition(block))
                     {
@@ -83,7 +83,7 @@ public class Rotation : MonoBehaviour
                         block.MoveDown();
 
                         //LastSRSは3
-                        gameManager.LastSRS++;
+                        data.lastSRS++;
 
                         if (!board.CheckPosition(block))
                         {
@@ -92,7 +92,7 @@ public class Rotation : MonoBehaviour
                             block.MoveLeft();
 
                             //LastSRSは4
-                            gameManager.LastSRS++;
+                            data.lastSRS++;
 
                             if (!board.CheckPosition(block))
                             {
@@ -124,7 +124,7 @@ public class Rotation : MonoBehaviour
 
                 //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
                 //LastSRSは1
-                gameManager.LastSRS++;
+                data.lastSRS++;
 
                 if (!board.CheckPosition(block))
                 {
@@ -133,7 +133,7 @@ public class Rotation : MonoBehaviour
                     block.MoveDown();
 
                     //LastSRSは2
-                    gameManager.LastSRS++;
+                    data.lastSRS++;
 
                     if (!board.CheckPosition(block))
                     {
@@ -145,7 +145,7 @@ public class Rotation : MonoBehaviour
                         block.MoveUp();
 
                         //LastSRSは3
-                        gameManager.LastSRS++;
+                        data.lastSRS++;
 
                         if (!board.CheckPosition(block))
                         {
@@ -154,7 +154,7 @@ public class Rotation : MonoBehaviour
                             block.MoveLeft();
 
                             //LastSRSは4
-                            gameManager.LastSRS++;
+                            data.lastSRS++;
 
                             if (!board.CheckPosition(block))
                             {
@@ -186,7 +186,7 @@ public class Rotation : MonoBehaviour
 
                 //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
                 //LastSRSは1
-                gameManager.LastSRS++;
+                data.lastSRS++;
 
                 if (!board.CheckPosition(block))
                 {
@@ -195,7 +195,7 @@ public class Rotation : MonoBehaviour
                     block.MoveDown();
 
                     //LastSRSは2
-                    gameManager.LastSRS++;
+                    data.lastSRS++;
 
                     if (!board.CheckPosition(block))
                     {
@@ -207,7 +207,7 @@ public class Rotation : MonoBehaviour
                         block.MoveUp();
 
                         //LastSRSは3
-                        gameManager.LastSRS++;
+                        data.lastSRS++;
 
                         if (!board.CheckPosition(block))
                         {
@@ -216,7 +216,7 @@ public class Rotation : MonoBehaviour
                             block.MoveRight();
 
                             //LastSRSは4
-                            gameManager.LastSRS++;
+                            data.lastSRS++;
 
                             if (!board.CheckPosition(block))
                             {
@@ -248,7 +248,7 @@ public class Rotation : MonoBehaviour
 
                 //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
                 //LastSRSは1
-                gameManager.LastSRS++;
+                data.lastSRS++;
 
                 if (!board.CheckPosition(block))
                 {
@@ -257,7 +257,7 @@ public class Rotation : MonoBehaviour
                     block.MoveUp();
 
                     //LastSRSは2
-                    gameManager.LastSRS++;
+                    data.lastSRS++;
 
                     if (!board.CheckPosition(block))
                     {
@@ -269,7 +269,7 @@ public class Rotation : MonoBehaviour
                         block.MoveDown();
 
                         //LastSRSは3
-                        gameManager.LastSRS++;
+                        data.lastSRS++;
 
                         if (!board.CheckPosition(block))
                         {
@@ -278,7 +278,7 @@ public class Rotation : MonoBehaviour
                             block.MoveRight();
 
                             //LastSRSは4
-                            gameManager.LastSRS++;
+                            data.lastSRS++;
 
                             if (!board.CheckPosition(block))
                             {
@@ -606,7 +606,7 @@ public class Rotation : MonoBehaviour
             Debug.Log(AroundBlocksCheck_ForT[i]);
         }
 
-        if (gameManager.LastSRS != 4)
+        if (data.lastSRS != 4)
         {
             if (AroundBlocksCheck_ForT.FindAll(x => x == 1).Count == 3)
             {
@@ -657,9 +657,9 @@ public class Rotation : MonoBehaviour
         return 7;
     }
 
-    public int SpinTerminal(bool useSpin, Block block)
+    public int SpinTerminal(Block block)
     {
-        if (useSpin == false)
+        if (data.UseSpin == false)
         {
             return 7;
         }
