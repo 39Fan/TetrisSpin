@@ -6,6 +6,8 @@ public class Data : MonoBehaviour
 {
     //干渉するスクリプトの設定
     Board board;
+    GameManager gameManager;
+    Spawner spawner;
 
     //テトリミノの基本情報//
 
@@ -124,19 +126,19 @@ public class Data : MonoBehaviour
     //Holdされたミノは、ゲーム画面の左上あたりに移動(1回目と同じ)
     //以前Holdしたミノが新しく降ってくる
 
+    //Holdが使用されたか判別する変数
+    //Holdを使うと、次のミノを設置するまで使用できない
+    public bool useHold = false;
+
     //Holdが1回目かどうかを判別する変数
     //Holdが1回でも使用されるとfalseになる
     public bool firstHold = true;
 
-    //Holdされたミノの座標(画面左上に配置)
-    public Vector3 holdMinoPosition = new Vector3(-3, 17, 0);
-
     //Holdされたミノの生成番号
     public int holdMinoCount;
 
-    //Holdが使用されたか判別する変数
-    //Holdを使うと、次のミノを設置するまで使用できない
-    public bool useHold = false;
+    //Holdされたミノの座標(画面左上に配置)
+    public Vector3 holdMinoPosition = new Vector3(-3, 17, 0);
 
 
     //テトリスのゲームフィールドについて//
@@ -151,6 +153,8 @@ public class Data : MonoBehaviour
     private void Awake()
     {
         board = FindObjectOfType<Board>();
+        gameManager = FindObjectOfType<GameManager>();
+        spawner = FindObjectOfType<Spawner>();
     }
 
     //各種変数の初期化をする関数
@@ -340,6 +344,67 @@ public class Data : MonoBehaviour
         {
             //右回転で回転前の状態に戻す
             block.RotateRight(block);
+        }
+    }
+
+
+    //Hold機能の処理をする関数
+    public void Hold()
+    {
+        //1回目のHold
+        if (firstHold == true)
+        {
+            //activeMinoを削除
+            Destroy(gameManager.ActiveMino.gameObject);
+
+            //holdMinoCountに、activeMinoの種類の数値情報を格納
+            //例: activeMinoが T_Mino の時、holdMinoCount = 5
+            holdMinoCount = spawnMinoOrder[count];
+
+            //Holdされたミノを表示
+            gameManager.HoldMino = spawner.SpawnHoldMino(holdMinoCount);
+
+            //1回目のHoldでは、新しく生成されるミノはNext1のミノになるので、
+            //countを1つ進める
+            count++;
+
+            //次のActiveMinoの生成
+            gameManager.MinoSpawn();
+
+            //変数の初期化
+            AngleReset();
+            SpinReset();
+
+            //Nextの表示
+            spawner.SpawnNextBlocks();
+
+            firstHold = false;
+        }
+        //2回目のHold
+        else
+        {
+            //activeMinoを削除
+            Destroy(gameManager.ActiveMino.gameObject);
+
+            //ホールドされていたミノをActiveMinoに戻す
+            gameManager.ActiveMino = spawner.SpawnMino(holdMinoCount);
+
+            //1つ上のコードでactiveMinoが変化しているため、
+            //holdMinoCountに、 "以前" のactiveMinoの種類の数値情報を格納
+            holdMinoCount = spawnMinoOrder[count];
+
+            //以前のホールドミノを削除
+            Destroy(gameManager.HoldMino.gameObject);
+
+            //新しくHoldされたミノを表示
+            gameManager.HoldMino = spawner.SpawnHoldMino(holdMinoCount);
+
+            //次のActiveMinoの生成
+            gameManager.MinoSpawn();
+
+            //変数の初期化
+            AngleReset();
+            SpinReset();
         }
     }
 }

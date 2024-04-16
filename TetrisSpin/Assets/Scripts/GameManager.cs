@@ -14,12 +14,14 @@ public class GameManager : MonoBehaviour
     SE se;
     Spawner spawner;
 
-    [SerializeField]
     //操作中のミノ
-    Block ActiveMino;
+    public Block ActiveMino;
 
     //ゴーストミノ
     Block_Ghost ActiveMino_Ghost;
+
+    //ホールドミノ
+    public Block HoldMino;
 
     [SerializeField]
     float dropInteaval; //次にブロックが落ちるまでのインターバル時間
@@ -432,13 +434,28 @@ public class GameManager : MonoBehaviour
                 BottomBoard();
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Return)) //ホールド
+        //ホールド
+        //Enterキーに割り当て
+        else if (Input.GetKeyDown(KeyCode.Return))
         {
+            //Holdは1度使うと、ミノを設置するまで使えない
+            //ミノを設置すると、useHold = false になる
             if (data.useHold == false)
             {
-                se.CallSE(11);
+                //HoldのSEを鳴らす
+                se.CallSE(se.Hold);
 
-                //spawner.Hold(ActiveMino);
+                //ゴーストミノの削除
+                Destroy(ActiveMino_Ghost.gameObject);
+
+                //ホールドの処理
+                //ActiveMinoをホールドに移動して、新しいミノを生成する
+                data.Hold();
+
+                //ActiveMinoのゴーストミノを生成
+                ActiveMino_Ghost = spawner.SpawnMino_Ghost(ActiveMino);
+
+                data.useHold = true;
             }
         }
     }
