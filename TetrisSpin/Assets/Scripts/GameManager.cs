@@ -418,7 +418,6 @@ public class GameManager : MonoBehaviour
                     break;
                 }
 
-                Debug.Log("ハードドロップで1マス以上動いた");
                 data.SpinReset(); //1マスでも落ちたらspin判定は消える。
                 SpinActions = 7;
             }
