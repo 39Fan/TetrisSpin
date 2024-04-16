@@ -366,7 +366,7 @@ public class Data : MonoBehaviour
 
             //1回目のHoldでは、新しく生成されるミノはNext1のミノになるので、
             //countを1つ進める
-            count++;
+            //count++;
 
             //次のActiveMinoの生成
             gameManager.MinoSpawn();
@@ -398,9 +398,6 @@ public class Data : MonoBehaviour
 
             //新しくHoldされたミノを表示
             gameManager.HoldMino = spawner.SpawnHoldMino(holdMinoCount);
-
-            //次のActiveMinoの生成
-            gameManager.MinoSpawn();
 
             //変数の初期化
             AngleReset();
