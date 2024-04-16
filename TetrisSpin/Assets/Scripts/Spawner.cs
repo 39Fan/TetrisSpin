@@ -169,5 +169,23 @@ public class Spawner : MonoBehaviour
 
         return activeMino;
     }*/
+
+    //Holdされたミノを表示する関数
+    public Block SpawnHoldMino(int mino)
+    {
+        //minoに対応するミノを生成
+        //Quaternion.identityは、向きの回転に関する設定をしないことを表す
+        Block spawnHoldMino = Instantiate(data.minos[mino],
+        data.holdMinoPosition, Quaternion.identity);
+
+        if (spawnHoldMino)
+        {
+            return spawnHoldMino;
+        }
+        else
+        {
+            return null;
+        }
+    }
 }
 
