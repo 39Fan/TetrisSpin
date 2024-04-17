@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening; //アニメーションに関するライブラリ
+using DG.Tweening;
 
 //ゲーム画面のテキストに関するスクリプト
 //表示できるテキストの一覧はData.csに記載
@@ -58,6 +58,13 @@ public class MainSceneText : MonoBehaviour
     //0の時は透明、1の時は不透明
     int alpha = 1;
 
+    //x軸とy軸それぞれのテキストを移動させる時間
+    float moveInterval_x = 2f;
+    float moveInterval_y = 1.2f;
+
+    //テキストの移動量
+    float moveDistance = 600f;
+
     //インスタンス化
     void Start()
     {
@@ -70,67 +77,89 @@ public class MainSceneText : MonoBehaviour
         //textと合致するGameObjectのTextコンポーネントを取得
         if (text == data.one_Line_Clear)
         {
-            //選ばれたテキストのテキストコンポーネントを取得
-            one_Line_Clear.GetComponent<Text>();
+            //選ばれたテキストのテキストコンポーネントとトランスフォームコンポーネントを取得
+            Text SelectText_Text = one_Line_Clear.GetComponent<Text>();
+            Transform SelectText_Transform = one_Line_Clear.GetComponent<Transform>();
 
-            //選ばれたテキストのフェードインとフェードアウトを行う関数
-            TextFadeInAndOut(one_Line_Clear);
+            //選ばれたテキストのフェードインとフェードアウトを行う
+            TextFadeInAndOut(SelectText_Text);
+
+            //選ばれたテキストの移動アニメーションを行う
+            TextMove(SelectText_Transform);
 
             //↓以下同文
         }
         else if (text == data.two_Line_Clear)
         {
-            two_Line_Clear.GetComponent<Text>();
+            Text SelectText_Text = two_Line_Clear.GetComponent<Text>();
+            Transform SelectText_Transform = two_Line_Clear.GetComponent<Transform>();
 
-            TextFadeInAndOut(two_Line_Clear);
+            TextFadeInAndOut(SelectText_Text);
+            TextMove(SelectText_Transform);
         }
         else if (text == data.three_Line_Clear)
         {
-            three_Line_Clear.GetComponent<Text>();
+            Text SelectText_Text = three_Line_Clear.GetComponent<Text>();
+            Transform SelectText_Transform = three_Line_Clear.GetComponent<Transform>();
 
-            TextFadeInAndOut(three_Line_Clear);
+            TextFadeInAndOut(SelectText_Text);
+            TextMove(SelectText_Transform);
         }
         else if (text == data.Tetris)
         {
-            Tetris.GetComponent<Text>();
+            Text SelectText_Text = Tetris.GetComponent<Text>();
+            Transform SelectText_Transform = Tetris.GetComponent<Transform>();
 
-            TextFadeInAndOut(Tetris);
+            TextFadeInAndOut(SelectText_Text);
+            TextMove(SelectText_Transform);
         }
         else if (text == data.Tspin)
         {
-            Tspin.GetComponent<Text>();
+            Text SelectText_Text = Tspin.GetComponent<Text>();
+            Transform SelectText_Transform = Tspin.GetComponent<Transform>();
 
-            TextFadeInAndOut(Tspin);
+            TextFadeInAndOut(SelectText_Text);
+            TextMove(SelectText_Transform);
         }
         else if (text == data.Tspin_Single)
         {
-            Tspin_Single.GetComponent<Text>();
+            Text SelectText_Text = Tspin_Single.GetComponent<Text>();
+            Transform SelectText_Transform = Tspin_Single.GetComponent<Transform>();
 
-            TextFadeInAndOut(Tspin_Single);
+            TextFadeInAndOut(SelectText_Text);
+            TextMove(SelectText_Transform);
         }
         else if (text == data.Tspin_Double)
         {
-            Tspin_Double.GetComponent<Text>();
+            Text SelectText_Text = Tspin_Double.GetComponent<Text>();
+            Transform SelectText_Transform = Tspin_Double.GetComponent<Transform>();
 
-            TextFadeInAndOut(Tspin_Double);
+            TextFadeInAndOut(SelectText_Text);
+            TextMove(SelectText_Transform);
         }
         else if (text == data.Tspin_Triple)
         {
-            Tspin_Triple.GetComponent<Text>();
+            Text SelectText_Text = Tspin_Triple.GetComponent<Text>();
+            Transform SelectText_Transform = Tspin_Triple.GetComponent<Transform>();
 
-            TextFadeInAndOut(Tspin_Triple);
+            TextFadeInAndOut(SelectText_Text);
+            TextMove(SelectText_Transform);
         }
         else if (text == data.Tspin_Mini)
         {
-            Tspin_Mini.GetComponent<Text>();
+            Text SelectText_Text = Tspin_Mini.GetComponent<Text>();
+            Transform SelectText_Transform = Tspin_Mini.GetComponent<Transform>();
 
-            TextFadeInAndOut(Tspin_Mini);
+            TextFadeInAndOut(SelectText_Text);
+            TextMove(SelectText_Transform);
         }
         else if (text == data.Tspin_Double_Mini)
         {
-            Tspin_Double_Mini.GetComponent<Text>();
+            Text SelectText_Text = Tspin_Double_Mini.GetComponent<Text>();
+            Transform SelectText_Transform = Tspin_Double_Mini.GetComponent<Transform>();
 
-            TextFadeInAndOut(Tspin_Double_Mini);
+            TextFadeInAndOut(SelectText_Text);
+            TextMove(SelectText_Transform);
         }
     }
 
@@ -143,7 +172,7 @@ public class MainSceneText : MonoBehaviour
         //0.3秒かけてアルファ値を256(=不透明)に変化させる
         sequence.Append(selectText.DOFade(alpha, fadeInInterval));
 
-        //秒表示
+        //2秒表示
         sequence.AppendInterval(waitInterval);
 
         //透明度を0にする
@@ -154,5 +183,30 @@ public class MainSceneText : MonoBehaviour
 
         //透明度を1に戻す
         alpha = 1;
+    }
+
+
+    //選ばれたテキストの移動アニメーションを行う関数
+    private void TextMove(Transform selectText)
+    {
+        //selectTextの各座標を格納する変数を宣言
+        float selectText_x = Mathf.RoundToInt(selectText.transform.position.x);
+        float selectText_y = Mathf.RoundToInt(selectText.transform.position.y);
+        float selectText_z = Mathf.RoundToInt(selectText.transform.position.z);
+
+        //Sequenceのインスタンス化
+        var sequence = DOTween.Sequence();
+
+        //現在位置から3秒で、Y座標を600移動する
+        //移動量が時間が経つにつれて小さくなるような動きに設定
+        sequence
+            .Append(selectText.transform.DOMoveY(selectText_y + moveDistance, moveInterval_x).SetEase(Ease.OutSine))
+            .Append(selectText.transform.DOMoveX(selectText_x - moveDistance, moveInterval_y).SetEase(Ease.InQuint))
+            //.Join(selectText.transform.DOScale(new Vector3(0, 1f, 0), moveInterval_y))
+            .OnComplete(() =>
+            {
+                // アニメーションが完了したら元の位置に戻す
+                selectText.transform.position = new Vector3(selectText_x, selectText_y, selectText_z);
+            });
     }
 }
