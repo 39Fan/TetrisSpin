@@ -158,6 +158,48 @@ public class Data : MonoBehaviour
     public int height = 40, width = 10, header = 20;
 
 
+    //ゲーム画面のテキストについて//
+
+    //表示できるテキストの一覧
+    //変数宣言の文法上、実際にゲーム画面に表示するテキストと変数名が合致しない場合がある
+    public int one_Line_Clear = 1;
+    public int two_Line_Clear = 2;
+    public int three_Line_Clear = 3;
+    public int Tetris = 4;
+    public int Ispin = 5;
+    public int Ispin_Single = 6;
+    public int Ispin_Double = 7;
+    public int Ispin_Triple = 8;
+    public int Ispin_Quattro = 9;
+    public int Jspin = 10;
+    public int Jspin_Single = 11;
+    public int Jspin_Double = 12;
+    public int Jspin_Triple = 13;
+    public int Lspin = 14;
+    public int Lspin_Single = 15;
+    public int Lspin_Double = 16;
+    public int Lspin_Triple = 17;
+    public int Ospin = 18;
+    public int Ospin_Single = 19;
+    public int Ospin_Double = 20;
+    public int Ospin_Triple = 21;
+    public int Sspin = 22;
+    public int Sspin_Single = 23;
+    public int Sspin_Double = 24;
+    public int Sspin_Triple = 25;
+    public int Tspin = 26;
+    public int Tspin_Single = 27;
+    public int Tspin_Double = 28;
+    public int Tspin_Triple = 29;
+    public int Tspin_Mini = 30;
+    public int Tspin_Double_Mini = 31;
+    public int Zspin = 32;
+    public int Zspin_Single = 33;
+    public int Zspin_Double = 34;
+    public int Zspin_Triple = 35;
+
+
+
     //インスタンス化
     private void Awake()
     {
