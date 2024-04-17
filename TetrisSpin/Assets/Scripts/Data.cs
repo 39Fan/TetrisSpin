@@ -70,7 +70,7 @@ public class Data : MonoBehaviour
     //ミノの生成座標//
 
     //新しくミノが降ってくる時の初期座標
-    public Vector3 minoSpawnPosition = new Vector3(4, 20, 0);
+    public Vector3 spawnMinoPosition = new Vector3(4, 20, 0);
 
 
     //ミノの向きについて//

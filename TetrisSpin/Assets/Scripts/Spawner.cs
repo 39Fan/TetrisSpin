@@ -20,7 +20,7 @@ public class Spawner : MonoBehaviour
 
         //Quaternion.identityは、向きの回転に関する設定をしないことを表す
         Block spawnMino = Instantiate(data.minos[mino],
-        data.minoSpawnPosition, Quaternion.identity);
+        data.spawnMinoPosition, Quaternion.identity);
 
         if (spawnMino)
         {
