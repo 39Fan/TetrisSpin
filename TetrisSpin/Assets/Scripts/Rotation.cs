@@ -665,13 +665,13 @@ public class Rotation : MonoBehaviour
         Debug.Log("SpinTerminal");
         Debug.Log(mino);
         //ミノの識別()
-        int I_mino = 0;
-        int J_mino = 1;
-        int L_mino = 2;
-        int O_mino = 3;
-        int S_mino = 4;
+        // int I_mino = 0;
+        // int J_mino = 1;
+        // int L_mino = 2;
+        // int O_mino = 3;
+        // int S_mino = 4;
         int T_mino = 5;
-        int Z_mino = 6;
+        // int Z_mino = 6;
 
         //最後の動作がスピンでないならSpin判定はなし
         if (data.useSpin == false)
