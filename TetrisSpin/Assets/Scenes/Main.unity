@@ -123,6 +123,871 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &19853280
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 19853281}
+  - component: {fileID: 19853285}
+  - component: {fileID: 19853284}
+  - component: {fileID: 19853283}
+  - component: {fileID: 19853282}
+  m_Layer: 5
+  m_Name: 1 Line Clear (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &19853281
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19853280}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &19853282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19853280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &19853283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19853280}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &19853284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19853280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1 Line Clear
+--- !u!222 &19853285
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19853280}
+  m_CullTransparentMesh: 1
+--- !u!1 &28742332
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 28742333}
+  - component: {fileID: 28742337}
+  - component: {fileID: 28742336}
+  - component: {fileID: 28742335}
+  - component: {fileID: 28742334}
+  m_Layer: 5
+  m_Name: 1 Line Clear (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &28742333
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28742332}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &28742334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28742332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &28742335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28742332}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &28742336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28742332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1 Line Clear
+--- !u!222 &28742337
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28742332}
+  m_CullTransparentMesh: 1
+--- !u!1 &43248592
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 43248593}
+  - component: {fileID: 43248597}
+  - component: {fileID: 43248596}
+  - component: {fileID: 43248595}
+  - component: {fileID: 43248594}
+  m_Layer: 5
+  m_Name: Tetris! (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &43248593
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43248592}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 720}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &43248594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43248592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &43248595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43248592}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &43248596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43248592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.007843138, g: 0.9843137, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Tetris!
+--- !u!222 &43248597
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43248592}
+  m_CullTransparentMesh: 1
+--- !u!1 &77718992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 77718993}
+  - component: {fileID: 77718997}
+  - component: {fileID: 77718996}
+  - component: {fileID: 77718995}
+  - component: {fileID: 77718994}
+  m_Layer: 5
+  m_Name: 1 Line Clear (10)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &77718993
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77718992}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &77718994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77718992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &77718995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77718992}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &77718996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77718992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1 Line Clear
+--- !u!222 &77718997
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77718992}
+  m_CullTransparentMesh: 1
+--- !u!1 &92276268
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 92276269}
+  - component: {fileID: 92276273}
+  - component: {fileID: 92276272}
+  - component: {fileID: 92276271}
+  - component: {fileID: 92276270}
+  m_Layer: 5
+  m_Name: 1 Line Clear (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &92276269
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92276268}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &92276270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92276268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &92276271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92276268}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &92276272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92276268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1 Line Clear
+--- !u!222 &92276273
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92276268}
+  m_CullTransparentMesh: 1
 --- !u!1 &95011468
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,15 +1099,416 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
   two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
   three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
   Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
   Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
   Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
   Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
   Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
   Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
   Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!1 &141448886
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 141448887}
+  - component: {fileID: 141448891}
+  - component: {fileID: 141448890}
+  - component: {fileID: 141448889}
+  - component: {fileID: 141448888}
+  m_Layer: 5
+  m_Name: 2 Line Clear (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &141448887
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141448886}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &141448888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141448886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &141448889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141448886}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &141448890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141448886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 2 Line Clear
+--- !u!222 &141448891
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141448886}
+  m_CullTransparentMesh: 1
+--- !u!1 &169418607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 169418608}
+  - component: {fileID: 169418612}
+  - component: {fileID: 169418611}
+  - component: {fileID: 169418610}
+  - component: {fileID: 169418609}
+  m_Layer: 5
+  m_Name: 2 Line Clear (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &169418608
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169418607}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &169418609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169418607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &169418610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169418607}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &169418611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169418607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 2 Line Clear
+--- !u!222 &169418612
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169418607}
+  m_CullTransparentMesh: 1
 --- !u!1 &174773188
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,6 +1632,179 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &179468639
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 179468640}
+  - component: {fileID: 179468644}
+  - component: {fileID: 179468643}
+  - component: {fileID: 179468642}
+  - component: {fileID: 179468641}
+  m_Layer: 5
+  m_Name: 1 Line Clear (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &179468640
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179468639}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &179468641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179468639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &179468642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179468639}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &179468643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179468639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1 Line Clear
+--- !u!222 &179468644
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179468639}
+  m_CullTransparentMesh: 1
 --- !u!1 &290090474
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,7 +1817,6 @@ GameObject:
   - component: {fileID: 290090478}
   - component: {fileID: 290090477}
   - component: {fileID: 290090476}
-  - component: {fileID: 290090479}
   m_Layer: 5
   m_Name: 1 Line Clear
   m_TagString: Untagged
@@ -462,28 +1900,179 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 290090474}
   m_CullTransparentMesh: 1
---- !u!114 &290090479
+--- !u!1 &318741913
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 318741914}
+  - component: {fileID: 318741918}
+  - component: {fileID: 318741917}
+  - component: {fileID: 318741916}
+  - component: {fileID: 318741915}
+  m_Layer: 5
+  m_Name: 1 Line Clear (12)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &318741914
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318741913}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &318741915
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 290090474}
+  m_GameObject: {fileID: 318741913}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
   two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
   three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
   Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
   Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
   Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
   Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
   Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
   Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
   Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &318741916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318741913}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &318741917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318741913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1 Line Clear
+--- !u!222 &318741918
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318741913}
+  m_CullTransparentMesh: 1
 --- !u!1 &319631125
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,15 +2279,416 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
   two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
   three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
   Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
   Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
   Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
   Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
   Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
   Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
   Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!1 &392504103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 392504104}
+  - component: {fileID: 392504108}
+  - component: {fileID: 392504107}
+  - component: {fileID: 392504106}
+  - component: {fileID: 392504105}
+  m_Layer: 5
+  m_Name: 1 Line Clear (8)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &392504104
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392504103}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &392504105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392504103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &392504106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392504103}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &392504107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392504103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1 Line Clear
+--- !u!222 &392504108
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392504103}
+  m_CullTransparentMesh: 1
+--- !u!1 &400517524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 400517525}
+  - component: {fileID: 400517529}
+  - component: {fileID: 400517528}
+  - component: {fileID: 400517527}
+  - component: {fileID: 400517526}
+  m_Layer: 5
+  m_Name: 1 Line Clear (14)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &400517525
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400517524}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &400517526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400517524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &400517527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400517524}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &400517528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400517524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1 Line Clear
+--- !u!222 &400517529
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400517524}
+  m_CullTransparentMesh: 1
 --- !u!1 &455657793
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,15 +2800,416 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
   two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
   three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
   Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
   Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
   Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
   Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
   Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
   Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
   Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!1 &462274661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 462274662}
+  - component: {fileID: 462274666}
+  - component: {fileID: 462274665}
+  - component: {fileID: 462274664}
+  - component: {fileID: 462274663}
+  m_Layer: 5
+  m_Name: 3 Line Clear (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &462274662
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462274661}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &462274663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462274661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &462274664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462274661}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &462274665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462274661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 3 Line Clear
+--- !u!222 &462274666
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462274661}
+  m_CullTransparentMesh: 1
+--- !u!1 &476184386
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 476184387}
+  - component: {fileID: 476184391}
+  - component: {fileID: 476184390}
+  - component: {fileID: 476184389}
+  - component: {fileID: 476184388}
+  m_Layer: 5
+  m_Name: 1 Line Clear (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &476184387
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476184386}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &476184388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476184386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &476184389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476184386}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &476184390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476184386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1 Line Clear
+--- !u!222 &476184391
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476184386}
+  m_CullTransparentMesh: 1
 --- !u!1 &519060628
 GameObject:
   m_ObjectHideFlags: 0
@@ -1089,6 +3480,179 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &588508580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 588508581}
+  - component: {fileID: 588508585}
+  - component: {fileID: 588508584}
+  - component: {fileID: 588508583}
+  - component: {fileID: 588508582}
+  m_Layer: 5
+  m_Name: Tetris! (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &588508581
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588508580}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 720}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &588508582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588508580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &588508583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588508580}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &588508584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588508580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.007843138, g: 0.9843137, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Tetris!
+--- !u!222 &588508585
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588508580}
+  m_CullTransparentMesh: 1
 --- !u!1 &590872036
 GameObject:
   m_ObjectHideFlags: 0
@@ -1254,15 +3818,70 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
   two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
   three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
   Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
   Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
   Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
   Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
   Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
   Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
   Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
 --- !u!1 &656307167
 GameObject:
   m_ObjectHideFlags: 0
@@ -1376,15 +3995,762 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
   two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
   three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
   Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
   Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
   Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
   Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
   Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
   Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
   Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!1 &695713024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 695713025}
+  - component: {fileID: 695713029}
+  - component: {fileID: 695713028}
+  - component: {fileID: 695713027}
+  - component: {fileID: 695713026}
+  m_Layer: 5
+  m_Name: 1 Line Clear (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &695713025
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695713024}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &695713026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695713024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &695713027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695713024}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &695713028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695713024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1 Line Clear
+--- !u!222 &695713029
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695713024}
+  m_CullTransparentMesh: 1
+--- !u!1 &746121578
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 746121579}
+  - component: {fileID: 746121583}
+  - component: {fileID: 746121582}
+  - component: {fileID: 746121581}
+  - component: {fileID: 746121580}
+  m_Layer: 5
+  m_Name: Tetris! (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &746121579
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746121578}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 720}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &746121580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746121578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &746121581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746121578}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &746121582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746121578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.007843138, g: 0.9843137, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Tetris!
+--- !u!222 &746121583
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746121578}
+  m_CullTransparentMesh: 1
+--- !u!1 &777679815
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 777679816}
+  - component: {fileID: 777679820}
+  - component: {fileID: 777679819}
+  - component: {fileID: 777679818}
+  - component: {fileID: 777679817}
+  m_Layer: 5
+  m_Name: 1 Line Clear (13)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &777679816
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777679815}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &777679817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777679815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &777679818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777679815}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &777679819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777679815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1 Line Clear
+--- !u!222 &777679820
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777679815}
+  m_CullTransparentMesh: 1
+--- !u!1 &850105981
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 850105982}
+  - component: {fileID: 850105986}
+  - component: {fileID: 850105985}
+  - component: {fileID: 850105984}
+  - component: {fileID: 850105983}
+  m_Layer: 5
+  m_Name: 2 Line Clear (8)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &850105982
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850105981}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &850105983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850105981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &850105984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850105981}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &850105985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850105981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 2 Line Clear
+--- !u!222 &850105986
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850105981}
+  m_CullTransparentMesh: 1
 --- !u!1 &894058681
 GameObject:
   m_ObjectHideFlags: 0
@@ -1489,9 +4855,40 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 290090475}
+  - {fileID: 19853281}
+  - {fileID: 695713025}
+  - {fileID: 476184387}
+  - {fileID: 92276269}
+  - {fileID: 994211449}
+  - {fileID: 28742333}
+  - {fileID: 179468640}
+  - {fileID: 392504104}
+  - {fileID: 2031647433}
+  - {fileID: 77718993}
+  - {fileID: 1759425175}
+  - {fileID: 318741914}
+  - {fileID: 777679816}
+  - {fileID: 400517525}
   - {fileID: 1994564616}
+  - {fileID: 141448887}
+  - {fileID: 1246681848}
+  - {fileID: 2065187981}
+  - {fileID: 1693415472}
+  - {fileID: 169418608}
+  - {fileID: 894469871}
+  - {fileID: 1085012087}
+  - {fileID: 850105982}
+  - {fileID: 1488775507}
   - {fileID: 337321717}
+  - {fileID: 462274662}
+  - {fileID: 1998629461}
+  - {fileID: 1794113970}
+  - {fileID: 1446160415}
   - {fileID: 1719630477}
+  - {fileID: 1038755185}
+  - {fileID: 43248593}
+  - {fileID: 588508581}
+  - {fileID: 746121579}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1499,6 +4896,352 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &894469870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 894469871}
+  - component: {fileID: 894469875}
+  - component: {fileID: 894469874}
+  - component: {fileID: 894469873}
+  - component: {fileID: 894469872}
+  m_Layer: 5
+  m_Name: 2 Line Clear (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &894469871
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894469870}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &894469872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894469870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &894469873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894469870}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &894469874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894469870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 2 Line Clear
+--- !u!222 &894469875
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894469870}
+  m_CullTransparentMesh: 1
+--- !u!1 &994211448
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 994211449}
+  - component: {fileID: 994211453}
+  - component: {fileID: 994211452}
+  - component: {fileID: 994211451}
+  - component: {fileID: 994211450}
+  m_Layer: 5
+  m_Name: 1 Line Clear (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &994211449
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994211448}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &994211450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994211448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &994211451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994211448}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &994211452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994211448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1 Line Clear
+--- !u!222 &994211453
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994211448}
+  m_CullTransparentMesh: 1
 --- !u!1 &1027385552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1543,6 +5286,179 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1038755184
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1038755185}
+  - component: {fileID: 1038755189}
+  - component: {fileID: 1038755188}
+  - component: {fileID: 1038755187}
+  - component: {fileID: 1038755186}
+  m_Layer: 5
+  m_Name: Tetris! (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1038755185
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038755184}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 720}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1038755186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038755184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &1038755187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038755184}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &1038755188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038755184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.007843138, g: 0.9843137, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Tetris!
+--- !u!222 &1038755189
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038755184}
+  m_CullTransparentMesh: 1
 --- !u!1 &1064717129
 GameObject:
   m_ObjectHideFlags: 0
@@ -1658,6 +5574,352 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1085012086
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1085012087}
+  - component: {fileID: 1085012091}
+  - component: {fileID: 1085012090}
+  - component: {fileID: 1085012089}
+  - component: {fileID: 1085012088}
+  m_Layer: 5
+  m_Name: 2 Line Clear (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1085012087
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085012086}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1085012088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085012086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &1085012089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085012086}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &1085012090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085012086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 2 Line Clear
+--- !u!222 &1085012091
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085012086}
+  m_CullTransparentMesh: 1
+--- !u!1 &1246681847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1246681848}
+  - component: {fileID: 1246681852}
+  - component: {fileID: 1246681851}
+  - component: {fileID: 1246681850}
+  - component: {fileID: 1246681849}
+  m_Layer: 5
+  m_Name: 2 Line Clear (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1246681848
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246681847}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1246681849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246681847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &1246681850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246681847}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &1246681851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246681847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 2 Line Clear
+--- !u!222 &1246681852
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246681847}
+  m_CullTransparentMesh: 1
 --- !u!1 &1329966019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1864,15 +6126,70 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
   two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
   three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
   Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
   Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
   Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
   Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
   Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
   Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
   Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
 --- !u!1 &1420884694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1969,6 +6286,179 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1420884694}
+  m_CullTransparentMesh: 1
+--- !u!1 &1446160414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1446160415}
+  - component: {fileID: 1446160419}
+  - component: {fileID: 1446160418}
+  - component: {fileID: 1446160417}
+  - component: {fileID: 1446160416}
+  m_Layer: 5
+  m_Name: 3 Line Clear (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1446160415
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446160414}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1446160416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446160414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &1446160417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446160414}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &1446160418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446160414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 3 Line Clear
+--- !u!222 &1446160419
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446160414}
   m_CullTransparentMesh: 1
 --- !u!1 &1477865913
 GameObject:
@@ -2079,15 +6569,243 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
   two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
   three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
   Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
   Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
   Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
   Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
   Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
   Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
   Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!1 &1488775506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1488775507}
+  - component: {fileID: 1488775511}
+  - component: {fileID: 1488775510}
+  - component: {fileID: 1488775509}
+  - component: {fileID: 1488775508}
+  m_Layer: 5
+  m_Name: 2 Line Clear (9)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1488775507
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488775506}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1488775508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488775506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &1488775509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488775506}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &1488775510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488775506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 2 Line Clear
+--- !u!222 &1488775511
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488775506}
+  m_CullTransparentMesh: 1
 --- !u!1 &1579998752
 GameObject:
   m_ObjectHideFlags: 0
@@ -2184,6 +6902,179 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1579998752}
+  m_CullTransparentMesh: 1
+--- !u!1 &1693415471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1693415472}
+  - component: {fileID: 1693415476}
+  - component: {fileID: 1693415475}
+  - component: {fileID: 1693415474}
+  - component: {fileID: 1693415473}
+  m_Layer: 5
+  m_Name: 2 Line Clear (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1693415472
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693415471}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1693415473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693415471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &1693415474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693415471}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &1693415475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693415471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 2 Line Clear
+--- !u!222 &1693415476
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693415471}
   m_CullTransparentMesh: 1
 --- !u!1 &1719630476
 GameObject:
@@ -2294,15 +7185,416 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
   two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
   three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
   Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
   Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
   Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
   Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
   Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
   Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
   Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!1 &1759425174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1759425175}
+  - component: {fileID: 1759425179}
+  - component: {fileID: 1759425178}
+  - component: {fileID: 1759425177}
+  - component: {fileID: 1759425176}
+  m_Layer: 5
+  m_Name: 1 Line Clear (11)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1759425175
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759425174}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1759425176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759425174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &1759425177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759425174}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &1759425178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759425174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1 Line Clear
+--- !u!222 &1759425179
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759425174}
+  m_CullTransparentMesh: 1
+--- !u!1 &1794113969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1794113970}
+  - component: {fileID: 1794113974}
+  - component: {fileID: 1794113973}
+  - component: {fileID: 1794113972}
+  - component: {fileID: 1794113971}
+  m_Layer: 5
+  m_Name: 3 Line Clear (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1794113970
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1794113969}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1794113971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1794113969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &1794113972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1794113969}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &1794113973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1794113969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 3 Line Clear
+--- !u!222 &1794113974
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1794113969}
+  m_CullTransparentMesh: 1
 --- !u!1 &1832803214
 GameObject:
   m_ObjectHideFlags: 0
@@ -2392,16 +7684,71 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  one_Line_Clear: {fileID: 290090477}
-  two_Line_Clear: {fileID: 1994564618}
-  three_Line_Clear: {fileID: 337321719}
-  Tetris: {fileID: 1719630479}
-  Tspin: {fileID: 1477865916}
-  Tspin_Single: {fileID: 95011471}
-  Tspin_Double: {fileID: 1375585258}
-  Tspin_Triple: {fileID: 593872518}
-  Tspin_Mini: {fileID: 455657796}
-  Tspin_Double_Mini: {fileID: 656307170}
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
 --- !u!1 &1985886953
 GameObject:
   m_ObjectHideFlags: 0
@@ -2677,15 +8024,70 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
   two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
   three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
   Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
   Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
   Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
   Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
   Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
   Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
   Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
 --- !u!1 &1998628569
 GameObject:
   m_ObjectHideFlags: 0
@@ -2783,6 +8185,179 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1998628569}
   m_CullTransparentMesh: 1
+--- !u!1 &1998629460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1998629461}
+  - component: {fileID: 1998629465}
+  - component: {fileID: 1998629464}
+  - component: {fileID: 1998629463}
+  - component: {fileID: 1998629462}
+  m_Layer: 5
+  m_Name: 3 Line Clear (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1998629461
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998629460}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1998629462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998629460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &1998629463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998629460}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &1998629464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998629460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 3 Line Clear
+--- !u!222 &1998629465
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998629460}
+  m_CullTransparentMesh: 1
 --- !u!1 &2000342501
 GameObject:
   m_ObjectHideFlags: 0
@@ -2827,6 +8402,352 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2031647432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2031647433}
+  - component: {fileID: 2031647437}
+  - component: {fileID: 2031647436}
+  - component: {fileID: 2031647435}
+  - component: {fileID: 2031647434}
+  m_Layer: 5
+  m_Name: 1 Line Clear (9)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2031647433
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031647432}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &2031647434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031647432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &2031647435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031647432}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &2031647436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031647432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 1 Line Clear
+--- !u!222 &2031647437
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031647432}
+  m_CullTransparentMesh: 1
+--- !u!1 &2065187980
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2065187981}
+  - component: {fileID: 2065187985}
+  - component: {fileID: 2065187984}
+  - component: {fileID: 2065187983}
+  - component: {fileID: 2065187982}
+  m_Layer: 5
+  m_Name: 2 Line Clear (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2065187981
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065187980}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894058686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 370}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &2065187982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065187980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  one_Line_Clear_1: {fileID: 0}
+  one_Line_Clear_2: {fileID: 0}
+  one_Line_Clear_3: {fileID: 0}
+  one_Line_Clear_4: {fileID: 0}
+  one_Line_Clear_5: {fileID: 0}
+  one_Line_Clear_6: {fileID: 0}
+  one_Line_Clear_7: {fileID: 0}
+  one_Line_Clear_8: {fileID: 0}
+  one_Line_Clear_9: {fileID: 0}
+  one_Line_Clear_10: {fileID: 0}
+  one_Line_Clear_11: {fileID: 0}
+  one_Line_Clear_12: {fileID: 0}
+  one_Line_Clear_13: {fileID: 0}
+  one_Line_Clear_14: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  two_Line_Clear_1: {fileID: 0}
+  two_Line_Clear_2: {fileID: 0}
+  two_Line_Clear_3: {fileID: 0}
+  two_Line_Clear_4: {fileID: 0}
+  two_Line_Clear_5: {fileID: 0}
+  two_Line_Clear_6: {fileID: 0}
+  two_Line_Clear_7: {fileID: 0}
+  two_Line_Clear_8: {fileID: 0}
+  two_Line_Clear_9: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  three_Line_Clear_1: {fileID: 0}
+  three_Line_Clear_2: {fileID: 0}
+  three_Line_Clear_3: {fileID: 0}
+  three_Line_Clear_4: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tetris_1: {fileID: 0}
+  Tetris_2: {fileID: 0}
+  Tetris_3: {fileID: 0}
+  Tetris_4: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_1: {fileID: 0}
+  Tspin_2: {fileID: 0}
+  Tspin_3: {fileID: 0}
+  Tspin_4: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Single_1: {fileID: 0}
+  Tspin_Single_2: {fileID: 0}
+  Tspin_Single_3: {fileID: 0}
+  Tspin_Single_4: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Double_1: {fileID: 0}
+  Tspin_Double_2: {fileID: 0}
+  Tspin_Double_3: {fileID: 0}
+  Tspin_Double_4: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Triple_1: {fileID: 0}
+  Tspin_Triple_2: {fileID: 0}
+  Tspin_Triple_3: {fileID: 0}
+  Tspin_Triple_4: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Mini_1: {fileID: 0}
+  Tspin_Mini_2: {fileID: 0}
+  Tspin_Mini_3: {fileID: 0}
+  Tspin_Mini_4: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
+  Tspin_Double_Mini_1: {fileID: 0}
+  Tspin_Double_Mini_2: {fileID: 0}
+  Tspin_Double_Mini_3: {fileID: 0}
+  Tspin_Double_Mini_4: {fileID: 0}
+--- !u!114 &2065187983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065187980}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 0
+--- !u!114 &2065187984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065187980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: e3a1a10bbc383424b8db010964c6f600, type: 3}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 144
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 2 Line Clear
+--- !u!222 &2065187985
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065187980}
+  m_CullTransparentMesh: 1
 --- !u!1 &2104615795
 GameObject:
   m_ObjectHideFlags: 0

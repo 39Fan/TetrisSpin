@@ -14,7 +14,8 @@ public class MainSceneText : MonoBehaviour
     //表示できるテキストの一覧
     //変数宣言の文法上、実際にゲーム画面に表示するテキストと変数名が合致しない場合がある
     // _数値 と末尾についているテキストはコピー(同じテキストを複数呼び出せるようにするため)　
-    [SerializeField] private Text one_Line_Clear;
+    [SerializeField] private Text[] one_Line_Clear;
+    [SerializeField] private Text one_Line_Clear_1;
     [SerializeField] private Text one_Line_Clear_2;
     [SerializeField] private Text one_Line_Clear_3;
     [SerializeField] private Text one_Line_Clear_4;
@@ -183,11 +184,11 @@ public class MainSceneText : MonoBehaviour
             {
                 one_Line_Clear_Array[0] = use;
 
-                Debug.Log(one_Line_Clear);
-
                 //選ばれたテキストのテキストコンポーネントとトランスフォームコンポーネントを取得
-                Text SelectText_Text = one_Line_Clear.GetComponent<Text>();
-                Transform SelectText_Transform = one_Line_Clear.GetComponent<Transform>();
+                Text SelectText_Text = one_Line_Clear[0].GetComponent<Text>();
+                Transform SelectText_Transform = one_Line_Clear[0].GetComponent<Transform>();
+
+                Debug.Log("_0");
 
                 //選ばれたテキストのフェードインとフェードアウトを行う
                 TextFadeInAndOut(SelectText_Text);
@@ -197,7 +198,27 @@ public class MainSceneText : MonoBehaviour
 
                 WaitTime();
 
-                one_Line_Clear_Array[0] = noUse;
+                //one_Line_Clear_Array[0] = noUse;
+            }
+            else if (one_Line_Clear_Array[1] == noUse)
+            {
+                one_Line_Clear_Array[1] = use;
+
+                //選ばれたテキストのテキストコンポーネントとトランスフォームコンポーネントを取得
+                Text SelectText_Text = one_Line_Clear[1].GetComponent<Text>();
+                Transform SelectText_Transform = one_Line_Clear[1].GetComponent<Transform>();
+
+                Debug.Log("_1");
+
+                //選ばれたテキストのフェードインとフェードアウトを行う
+                TextFadeInAndOut(SelectText_Text);
+
+                //選ばれたテキストの移動アニメーションを行う
+                TextMove(SelectText_Transform);
+
+                WaitTime();
+
+                one_Line_Clear_Array[1] = noUse;
             }
 
             //↓以下同文

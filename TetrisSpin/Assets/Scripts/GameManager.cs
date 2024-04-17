@@ -66,9 +66,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        mainSceneText.TextDisplay(data.one_Line_Clear);
-        mainSceneText.TextDisplay(data.one_Line_Clear);
-
         //タイマーの初期設定
         nextKeyDownTimer = Time.time + nextKeyDownInterval;
         nextKeyLeftRightTimer = Time.time + nextKeyLeftRightInterval;
@@ -681,6 +678,8 @@ public class GameManager : MonoBehaviour
         }
 
         spawner.SpawnNextBlocks(); //Next表示
+
+        mainSceneText.TextDisplay(data.one_Line_Clear);
     }
 
 
