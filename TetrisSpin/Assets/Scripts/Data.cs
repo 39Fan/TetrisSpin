@@ -9,7 +9,7 @@ public class Data : MonoBehaviour
     GameManager gameManager;
     Spawner spawner;
 
-    //テトリミノの基本情報//
+    //テトリミノの基本情報について//
 
     //テトリスには合計7種類のテトリミノが存在する (以後テトリミノをミノと呼ぶことにする)
     //各ミノはアルファベットで呼ばれる(I, J, L, O, S, T, Z)
@@ -53,7 +53,7 @@ public class Data : MonoBehaviour
     public int distance;
 
 
-    //生成されるミノの順番//
+    //生成されるミノの順番について//
 
     //ミノの順番はこのスクリプト内の DecideSpawnMinoOrder() で決定する
     //決定されたミノの順番をspawnMinoOrderに格納
@@ -61,7 +61,7 @@ public class Data : MonoBehaviour
     public List<int> spawnMinoOrder = new List<int>();
 
 
-    //ミノの生成番号//
+    //ミノの生成番号について//
 
     //何番目に生成されたミノか、で管理する
     public int count = 0;
@@ -73,7 +73,7 @@ public class Data : MonoBehaviour
     public Vector3 minoSpawnPosition = new Vector3(4, 20, 0);
 
 
-    //ミノの向き//
+    //ミノの向きについて//
 
     //GameManagerとRotationで用いる
     //初期(未回転)状態をnorthとして、
@@ -85,7 +85,7 @@ public class Data : MonoBehaviour
     public int south = 180;
     public int west = 270;
 
-    //ミノの回転//
+    //ミノの回転について//
 
     //ミノが回転した時、回転前の向き(Before)と回転後の向き(After)を保存する変数
     //初期値はnorthの状態
@@ -105,9 +105,15 @@ public class Data : MonoBehaviour
     public int lastSRS;
 
 
+    //ハードドロップについて
+
+    //操作中のミノを瞬時に最下部まで落下させる機能
+
+    //ハードドロップが使用されたか判別する変数
+    public bool hardDrop = false;
 
 
-    //Nextミノについて//
+    //Nextについて//
 
     //次にどのミノが生成されるかを確認できる機能
     //ゲーム画面右側に表示される
@@ -117,10 +123,10 @@ public class Data : MonoBehaviour
     public Block[] nextBlocks = new Block[5];
 
 
-    //Hold機能//
+    //Holdについて//
 
+    //操作中のミノを一時的に保持する機能
     //Holdは1回目の処理と2回目以降の処理が違う
-    //Holdを使用すると...
 
     //1回目
     //Holdされたミノは、ゲーム画面の左上あたりに移動
@@ -166,6 +172,8 @@ public class Data : MonoBehaviour
         AngleReset();
 
         SpinReset();
+
+        hardDrop = false;
 
         useHold = false;
     }
