@@ -34,6 +34,9 @@ public class Data : MonoBehaviour
     //例
     //minos[5]→T_mino
 
+    //対応するミノの数値を格納する変数を宣言
+    public int order;
+
 
     //ゴーストミノについて//
 
@@ -216,6 +219,23 @@ public class Data : MonoBehaviour
     }
 
 
+    //activeMinoの種類を判別する関数
+    public void CheckActiveMinoShape()
+    {
+        //ミノは7種類あるので、7回繰り返す
+        for (order = 0; order < minos.Length; order++)
+        {
+            //ゴーストミノの名前にactiveMinoの名前が含まれるとき
+            if (gameManager.ActiveMino.name.Contains(minos[order].name))
+            {
+                //breakでこのfor文を抜けて、orderの値を保存する
+                break;
+            }
+        }
+    }
+
+
+
     //activeMinoから他のミノ、または底までの距離を計算する関数
     public void CheckDistance_Y(Block activeMino)
     {
@@ -366,10 +386,13 @@ public class Data : MonoBehaviour
 
             //1回目のHoldでは、新しく生成されるミノはNext1のミノになるので、
             //countを1つ進める
-            count++;
+            //count++;
 
             //次のActiveMinoの生成
             gameManager.MinoSpawn();
+
+            //activeMinoの種類を判別
+            CheckActiveMinoShape();
 
             //変数の初期化
             AngleReset();
@@ -389,6 +412,9 @@ public class Data : MonoBehaviour
             //ホールドされていたミノをActiveMinoに戻す
             gameManager.ActiveMino = spawner.SpawnMino(holdMinoCount);
 
+            //activeMinoの種類を判別
+            CheckActiveMinoShape();
+
             //1つ上のコードでactiveMinoが変化しているため、
             //holdMinoCountに、 "以前" のactiveMinoの種類の数値情報を格納
             holdMinoCount = spawnMinoOrder[count];
@@ -398,9 +424,6 @@ public class Data : MonoBehaviour
 
             //新しくHoldされたミノを表示
             gameManager.HoldMino = spawner.SpawnHoldMino(holdMinoCount);
-
-            //次のActiveMinoの生成
-            gameManager.MinoSpawn();
 
             //変数の初期化
             AngleReset();

@@ -43,23 +43,8 @@ public class Spawner : MonoBehaviour
         //activeMinoから他のミノ、または底までの距離を計算
         data.CheckDistance_Y(activeMino);
 
-        //activeMinoと対応するゴーストミノを探す
-        //対応するミノの数値を格納する変数を宣言
-        int order;
-
-        //ミノは7種類あるので、7回繰り返す
-        for (order = 0; order < data.minos.Length; order++)
-        {
-            //ゴーストミノの名前にactiveMinoの名前が含まれるとき
-            if (activeMino.name.Contains(data.minos[order].name))
-            {
-                //breakでこのfor文を抜けて、orderの値を保存する
-                break;
-            }
-        }
-
         //orderに対応するゴーストミノを、activeMinoのY座標からdistanceの値だけ下に移動した位置に生成
-        Block_Ghost mino_Ghost = Instantiate(data.minos_Ghost[order],
+        Block_Ghost mino_Ghost = Instantiate(data.minos_Ghost[data.order],
             new Vector3(activeMino_x, activeMino_y - data.distance, activeMino_z), Quaternion.identity);
 
         if (mino_Ghost)

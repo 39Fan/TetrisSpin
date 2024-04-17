@@ -89,6 +89,9 @@ public class GameManager : MonoBehaviour
             //新しいActiveMinoの生成
             ActiveMino = spawner.SpawnMino(data.spawnMinoOrder[data.count]);
 
+            //activeMinoの種類を判別
+            data.CheckActiveMinoShape();
+
             //ActiveMinoのゴーストミノの生成
             ActiveMino_Ghost = spawner.SpawnMino_Ghost(ActiveMino);
 
@@ -249,9 +252,11 @@ public class GameManager : MonoBehaviour
         {
             CanNotMove = true;
 
+            data.useSpin = true;
+
             data.spinMini = false;
 
-            data.SpinReset();
+            data.lastSRS = 0;
 
             SpinActions = 7;
 
@@ -283,7 +288,7 @@ public class GameManager : MonoBehaviour
 
                     data.minoAngleBefore = data.minoAngleAfter;
 
-                    SpinActions = rotation.SpinTerminal(ActiveMino);
+                    SpinActions = rotation.SpinTerminal(data.order);
 
                     if (SpinActions == 4)
                     {
@@ -307,7 +312,7 @@ public class GameManager : MonoBehaviour
 
                 data.minoAngleBefore = data.minoAngleAfter;
 
-                SpinActions = rotation.SpinTerminal(ActiveMino);
+                SpinActions = rotation.SpinTerminal(data.order);
 
                 if (SpinActions == 4)
                 {
@@ -329,9 +334,11 @@ public class GameManager : MonoBehaviour
         {
             CanNotMove = true;
 
+            data.useSpin = true;
+
             data.spinMini = false;
 
-            data.SpinReset();
+            data.lastSRS = 0;
 
             SpinActions = 7;
 
@@ -363,7 +370,7 @@ public class GameManager : MonoBehaviour
 
                     data.minoAngleBefore = data.minoAngleAfter;
 
-                    SpinActions = rotation.SpinTerminal(ActiveMino);
+                    SpinActions = rotation.SpinTerminal(data.order);
 
                     if (SpinActions == 4)
                     {
@@ -387,7 +394,7 @@ public class GameManager : MonoBehaviour
 
                 data.minoAngleBefore = data.minoAngleAfter;
 
-                SpinActions = rotation.SpinTerminal(ActiveMino);
+                SpinActions = rotation.SpinTerminal(data.order);
 
                 if (SpinActions == 4)
                 {
@@ -418,7 +425,6 @@ public class GameManager : MonoBehaviour
                     break;
                 }
 
-                Debug.Log("ハードドロップで1マス以上動いた");
                 data.SpinReset(); //1マスでも落ちたらspin判定は消える。
                 SpinActions = 7;
             }
@@ -636,6 +642,9 @@ public class GameManager : MonoBehaviour
         data.AllReset();
 
         MinoSpawn(); //次のActiveMinoの生成
+
+        //activeMinoの種類を判別
+        data.CheckActiveMinoShape();
 
         //ActiveMinoのゴーストミノを生成
         ActiveMino_Ghost = spawner.SpawnMino_Ghost(ActiveMino);
