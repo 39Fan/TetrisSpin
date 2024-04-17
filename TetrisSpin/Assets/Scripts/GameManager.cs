@@ -66,6 +66,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        mainSceneText.TextDisplay(data.one_Line_Clear);
+        mainSceneText.TextDisplay(data.one_Line_Clear);
+
         //タイマーの初期設定
         nextKeyDownTimer = Time.time + nextKeyDownInterval;
         nextKeyLeftRightTimer = Time.time + nextKeyLeftRightInterval;

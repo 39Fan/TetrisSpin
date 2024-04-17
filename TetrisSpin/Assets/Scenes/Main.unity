@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 95011472}
   - component: {fileID: 95011471}
   - component: {fileID: 95011470}
+  - component: {fileID: 95011473}
   m_Layer: 5
   m_Name: T-Spin! Single
   m_TagString: Untagged
@@ -220,6 +221,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 95011468}
   m_CullTransparentMesh: 1
+--- !u!114 &95011473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95011468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
 --- !u!1 &174773188
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,6 +378,7 @@ GameObject:
   - component: {fileID: 290090478}
   - component: {fileID: 290090477}
   - component: {fileID: 290090476}
+  - component: {fileID: 290090479}
   m_Layer: 5
   m_Name: 1 Line Clear
   m_TagString: Untagged
@@ -438,6 +462,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 290090474}
   m_CullTransparentMesh: 1
+--- !u!114 &290090479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290090474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
 --- !u!1 &319631125
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,6 +593,7 @@ GameObject:
   - component: {fileID: 337321720}
   - component: {fileID: 337321719}
   - component: {fileID: 337321718}
+  - component: {fileID: 337321721}
   m_Layer: 5
   m_Name: 3 Line Clear
   m_TagString: Untagged
@@ -630,6 +677,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 337321716}
   m_CullTransparentMesh: 1
+--- !u!114 &337321721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 337321716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
 --- !u!1 &455657793
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,6 +711,7 @@ GameObject:
   - component: {fileID: 455657797}
   - component: {fileID: 455657796}
   - component: {fileID: 455657795}
+  - component: {fileID: 455657798}
   m_Layer: 5
   m_Name: T-Spin! Mini
   m_TagString: Untagged
@@ -727,6 +797,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 455657793}
   m_CullTransparentMesh: 1
+--- !u!114 &455657798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455657793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
 --- !u!1 &519060628
 GameObject:
   m_ObjectHideFlags: 0
@@ -1063,6 +1155,7 @@ GameObject:
   - component: {fileID: 593872519}
   - component: {fileID: 593872518}
   - component: {fileID: 593872517}
+  - component: {fileID: 593872520}
   m_Layer: 5
   m_Name: T-Spin! Triple
   m_TagString: Untagged
@@ -1148,6 +1241,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 593872515}
   m_CullTransparentMesh: 1
+--- !u!114 &593872520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593872515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
 --- !u!1 &656307167
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,6 +1275,7 @@ GameObject:
   - component: {fileID: 656307171}
   - component: {fileID: 656307170}
   - component: {fileID: 656307169}
+  - component: {fileID: 656307172}
   m_Layer: 5
   m_Name: T-Spin! Double Mini
   m_TagString: Untagged
@@ -1247,140 +1363,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 656307167}
   m_CullTransparentMesh: 1
---- !u!1 &698567241
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 698567242}
-  - component: {fileID: 698567244}
-  - component: {fileID: 698567243}
-  m_Layer: 5
-  m_Name: Text (TMP)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &698567242
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 698567241}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 894058686}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 800}
-  m_Pivot: {x: 0, y: 0}
---- !u!114 &698567243
+--- !u!114 &656307172
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 698567241}
+  m_GameObject: {fileID: 656307167}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: New Text
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 53c41e1d31f0849ea8b9a0d776296144, type: 2}
-  m_sharedMaterial: {fileID: 6214407514305054370, guid: 53c41e1d31f0849ea8b9a0d776296144, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &698567244
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 698567241}
-  m_CullTransparentMesh: 1
+  one_Line_Clear: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
 --- !u!1 &894058681
 GameObject:
   m_ObjectHideFlags: 0
@@ -1488,7 +1492,6 @@ RectTransform:
   - {fileID: 1994564616}
   - {fileID: 337321717}
   - {fileID: 1719630477}
-  - {fileID: 698567242}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1762,6 +1765,7 @@ GameObject:
   - component: {fileID: 1375585259}
   - component: {fileID: 1375585258}
   - component: {fileID: 1375585257}
+  - component: {fileID: 1375585260}
   m_Layer: 5
   m_Name: T-Spin! Double
   m_TagString: Untagged
@@ -1847,6 +1851,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1375585255}
   m_CullTransparentMesh: 1
+--- !u!114 &1375585260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375585255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
 --- !u!1 &1420884694
 GameObject:
   m_ObjectHideFlags: 0
@@ -2056,37 +2082,12 @@ MonoBehaviour:
   two_Line_Clear: {fileID: 0}
   three_Line_Clear: {fileID: 0}
   Tetris: {fileID: 0}
-  Ispin: {fileID: 0}
-  Ispin_Single: {fileID: 0}
-  Ispin_Double: {fileID: 0}
-  Ispin_Triple: {fileID: 0}
-  Ispin_Quattro: {fileID: 0}
-  Jspin: {fileID: 0}
-  Jspin_Single: {fileID: 0}
-  Jspin_Double: {fileID: 0}
-  Jspin_Triple: {fileID: 0}
-  Lspin: {fileID: 0}
-  Lspin_Single: {fileID: 0}
-  Lspin_Double: {fileID: 0}
-  Lspin_Triple: {fileID: 0}
-  Ospin: {fileID: 0}
-  Ospin_Single: {fileID: 0}
-  Ospin_Double: {fileID: 0}
-  Ospin_Triple: {fileID: 0}
-  Sspin: {fileID: 0}
-  Sspin_Single: {fileID: 0}
-  Sspin_Double: {fileID: 0}
-  Sspin_Triple: {fileID: 0}
   Tspin: {fileID: 0}
   Tspin_Single: {fileID: 0}
   Tspin_Double: {fileID: 0}
   Tspin_Triple: {fileID: 0}
   Tspin_Mini: {fileID: 0}
   Tspin_Double_Mini: {fileID: 0}
-  Zspin: {fileID: 0}
-  Zspin_Single: {fileID: 0}
-  Zspin_Double: {fileID: 0}
-  Zspin_Triple: {fileID: 0}
 --- !u!1 &1579998752
 GameObject:
   m_ObjectHideFlags: 0
@@ -2196,6 +2197,7 @@ GameObject:
   - component: {fileID: 1719630480}
   - component: {fileID: 1719630479}
   - component: {fileID: 1719630478}
+  - component: {fileID: 1719630481}
   m_Layer: 5
   m_Name: Tetris!
   m_TagString: Untagged
@@ -2250,7 +2252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.007843138, g: 0.9843137, b: 1, a: 1}
+  m_Color: {r: 0.007843138, g: 0.9843137, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2279,6 +2281,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1719630476}
   m_CullTransparentMesh: 1
+--- !u!114 &1719630481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719630476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
 --- !u!1 &1832803214
 GameObject:
   m_ObjectHideFlags: 0
@@ -2333,7 +2357,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1865245058}
-  - component: {fileID: 1865245057}
+  - component: {fileID: 1865245059}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
@@ -2341,53 +2365,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1865245057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1865245056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  one_Line_Clear: {fileID: 290090477}
-  two_Line_Clear: {fileID: 1994564618}
-  three_Line_Clear: {fileID: 337321719}
-  Tetris: {fileID: 1719630479}
-  Ispin: {fileID: 0}
-  Ispin_Single: {fileID: 0}
-  Ispin_Double: {fileID: 0}
-  Ispin_Triple: {fileID: 0}
-  Ispin_Quattro: {fileID: 0}
-  Jspin: {fileID: 0}
-  Jspin_Single: {fileID: 0}
-  Jspin_Double: {fileID: 0}
-  Jspin_Triple: {fileID: 0}
-  Lspin: {fileID: 0}
-  Lspin_Single: {fileID: 0}
-  Lspin_Double: {fileID: 0}
-  Lspin_Triple: {fileID: 0}
-  Ospin: {fileID: 0}
-  Ospin_Single: {fileID: 0}
-  Ospin_Double: {fileID: 0}
-  Ospin_Triple: {fileID: 0}
-  Sspin: {fileID: 0}
-  Sspin_Single: {fileID: 0}
-  Sspin_Double: {fileID: 0}
-  Sspin_Triple: {fileID: 0}
-  Tspin: {fileID: 1477865916}
-  Tspin_Single: {fileID: 95011471}
-  Tspin_Double: {fileID: 1375585258}
-  Tspin_Triple: {fileID: 593872518}
-  Tspin_Mini: {fileID: 455657796}
-  Tspin_Double_Mini: {fileID: 656307170}
-  Zspin: {fileID: 0}
-  Zspin_Single: {fileID: 0}
-  Zspin_Double: {fileID: 0}
-  Zspin_Triple: {fileID: 0}
 --- !u!4 &1865245058
 Transform:
   m_ObjectHideFlags: 0
@@ -2403,6 +2380,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1865245059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865245056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 290090477}
+  two_Line_Clear: {fileID: 1994564618}
+  three_Line_Clear: {fileID: 337321719}
+  Tetris: {fileID: 1719630479}
+  Tspin: {fileID: 1477865916}
+  Tspin_Single: {fileID: 95011471}
+  Tspin_Double: {fileID: 1375585258}
+  Tspin_Triple: {fileID: 593872518}
+  Tspin_Mini: {fileID: 455657796}
+  Tspin_Double_Mini: {fileID: 656307170}
 --- !u!1 &1985886953
 GameObject:
   m_ObjectHideFlags: 0
@@ -2581,6 +2580,7 @@ GameObject:
   - component: {fileID: 1994564619}
   - component: {fileID: 1994564618}
   - component: {fileID: 1994564617}
+  - component: {fileID: 1994564620}
   m_Layer: 5
   m_Name: 2 Line Clear
   m_TagString: Untagged
@@ -2664,6 +2664,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1994564615}
   m_CullTransparentMesh: 1
+--- !u!114 &1994564620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994564615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  one_Line_Clear: {fileID: 0}
+  two_Line_Clear: {fileID: 0}
+  three_Line_Clear: {fileID: 0}
+  Tetris: {fileID: 0}
+  Tspin: {fileID: 0}
+  Tspin_Single: {fileID: 0}
+  Tspin_Double: {fileID: 0}
+  Tspin_Triple: {fileID: 0}
+  Tspin_Mini: {fileID: 0}
+  Tspin_Double_Mini: {fileID: 0}
 --- !u!1 &1998628569
 GameObject:
   m_ObjectHideFlags: 0
@@ -2818,7 +2840,6 @@ GameObject:
   - component: {fileID: 2104615798}
   - component: {fileID: 2104615797}
   - component: {fileID: 2104615796}
-  - component: {fileID: 2104615801}
   m_Layer: 5
   m_Name: Canvas_T-Spins
   m_TagString: Untagged
@@ -2922,53 +2943,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &2104615801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2104615795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  one_Line_Clear: {fileID: 0}
-  two_Line_Clear: {fileID: 0}
-  three_Line_Clear: {fileID: 0}
-  Tetris: {fileID: 0}
-  Ispin: {fileID: 0}
-  Ispin_Single: {fileID: 0}
-  Ispin_Double: {fileID: 0}
-  Ispin_Triple: {fileID: 0}
-  Ispin_Quattro: {fileID: 0}
-  Jspin: {fileID: 0}
-  Jspin_Single: {fileID: 0}
-  Jspin_Double: {fileID: 0}
-  Jspin_Triple: {fileID: 0}
-  Lspin: {fileID: 0}
-  Lspin_Single: {fileID: 0}
-  Lspin_Double: {fileID: 0}
-  Lspin_Triple: {fileID: 0}
-  Ospin: {fileID: 0}
-  Ospin_Single: {fileID: 0}
-  Ospin_Double: {fileID: 0}
-  Ospin_Triple: {fileID: 0}
-  Sspin: {fileID: 0}
-  Sspin_Single: {fileID: 0}
-  Sspin_Double: {fileID: 0}
-  Sspin_Triple: {fileID: 0}
-  Tspin: {fileID: 0}
-  Tspin_Single: {fileID: 0}
-  Tspin_Double: {fileID: 0}
-  Tspin_Triple: {fileID: 0}
-  Tspin_Mini: {fileID: 0}
-  Tspin_Double_Mini: {fileID: 0}
-  Zspin: {fileID: 0}
-  Zspin_Single: {fileID: 0}
-  Zspin_Double: {fileID: 0}
-  Zspin_Triple: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
