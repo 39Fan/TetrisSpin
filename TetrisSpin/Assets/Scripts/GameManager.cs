@@ -50,8 +50,6 @@ public class GameManager : MonoBehaviour
 
     int ClearRowHistoryCount = 0;
 
-    bool HardDrop = false;
-
     //インスタンス化
     private void Awake()
     {
@@ -414,7 +412,7 @@ public class GameManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space)) //ハードドロップ
         {
-            HardDrop = true;
+            data.hardDrop = true;
 
             for (int i = 0; i < 30; i++)
             {
@@ -544,7 +542,7 @@ public class GameManager : MonoBehaviour
             if (ClearRowHistory[ClearRowHistoryCount] == 0)
             {
                 //1列も消していない時のSE
-                if (HardDrop == true)
+                if (data.hardDrop == true)
                 {
                     //7 Hard Drop
                     se.CallSE(7);
@@ -619,7 +617,7 @@ public class GameManager : MonoBehaviour
             se.CallSE(8);
         }
         //ハードドロップで1列も消していない時
-        else if (HardDrop == true)
+        else if (data.hardDrop == true)
         {
             //7 Hard Drop
             se.CallSE(7);
@@ -634,8 +632,6 @@ public class GameManager : MonoBehaviour
         SpinActions = 7;
 
         data.spinMini = false;
-
-        HardDrop = false;
 
         ClearRowHistoryCount++;
 
