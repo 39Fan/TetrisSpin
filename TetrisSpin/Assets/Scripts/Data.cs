@@ -396,8 +396,23 @@ public class Data : MonoBehaviour
             //countを1つ進める
             //count++;
 
-            //次のActiveMinoの生成
-            gameManager.MinoSpawn();
+            //count進行
+            count++;
+
+            //countが7の倍数の時
+            if (count % 7 == 0)
+            {
+                //ミノの配列の補充
+                DecideSpawnMinoOrder();
+
+                //次のActiveMinoの生成
+                gameManager.ActiveMino = spawner.SpawnMino(spawnMinoOrder[count]);
+            }
+            else
+            {
+                //次のActiveMinoの生成
+                gameManager.ActiveMino = spawner.SpawnMino(spawnMinoOrder[count]);
+            }
 
             //activeMinoの種類を判別
             CheckActiveMinoShape();

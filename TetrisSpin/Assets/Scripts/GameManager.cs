@@ -637,7 +637,23 @@ public class GameManager : MonoBehaviour
 
         data.AllReset();
 
-        MinoSpawn(); //次のActiveMinoの生成
+        //count進行
+        data.count++;
+
+        //countが7の倍数の時
+        if (data.count % 7 == 0)
+        {
+            //ミノの配列の補充
+            data.DecideSpawnMinoOrder();
+
+            //次のActiveMinoの生成
+            ActiveMino = spawner.SpawnMino(data.spawnMinoOrder[data.count]);
+        }
+        else
+        {
+            //次のActiveMinoの生成
+            ActiveMino = spawner.SpawnMino(data.spawnMinoOrder[data.count]);
+        }
 
         //activeMinoの種類を判別
         data.CheckActiveMinoShape();
@@ -655,32 +671,6 @@ public class GameManager : MonoBehaviour
         spawner.SpawnNextBlocks(); //Next表示
     }
 
-    public void MinoSpawn() //ミノを呼び出す関数(順番決定も含む)
-    {
-        //Debug.Log("====this is MinoSpawn in GameManager====");
-
-        data.count++;
-
-        if (data.firstHold == true && data.useHold == true || data.useHold == false) //最初のホールドと、NEXT処理
-        {
-            if (data.count % 7 == 0) //7の倍数の時
-            {
-                data.DecideSpawnMinoOrder();
-
-                //新しいミノの生成
-                ActiveMino = spawner.SpawnMino(data.spawnMinoOrder[data.count]);
-            }
-            else
-            {
-                ActiveMino = spawner.SpawnMino(data.spawnMinoOrder[data.count]);
-            }
-        }
-        else //2回目以降のホールド
-        {
-            //ActiveMino = spawner.HoldChange();
-            Debug.Log("あ");
-        }
-    }
 
     /*void SpinEffect(int i)
     {
