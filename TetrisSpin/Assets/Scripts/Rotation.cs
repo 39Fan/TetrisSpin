@@ -539,38 +539,43 @@ public class Rotation : MonoBehaviour
     }
 
     //SRS時に重複しないか判定する関数
-    bool RotationCheck(int Rx, int Ry, Block block)
+    //Rx, Ry はそれぞれX, Y座標のオフセット 
+    bool RotationCheck(int Rx, int Ry, Block mino)
     {
-        foreach (Transform item in block.transform)
+        //minoを構成する4つのブロックをそれぞれ調べる
+        foreach (Transform item in mino.transform)
         {
+            //ブロックのX, Y座標をposに格納
             Vector2 pos = Rounding.Round(item.position);
 
-            //Gridの座標が負の場合false
+            //オフセット分移動した時、Gridの座標が負ならfalse
             if ((int)pos.x + Rx < 0 || (int)pos.y + Ry < 0)
             {
-                Debug.Log("SRS中に枠外に出た。A");
+                Debug.Log("SRS移動先のGrid座標が負");
                 return false;
             }
 
-            //各gameobjectの位置を調べて、そこが重複していたらfalse
+            //オフセット分移動した時、ほかのミノと重なったらfalse
             if (board.Grid[(int)pos.x + Rx, (int)pos.y + Ry] != null
-                && board.Grid[(int)pos.x + Rx, (int)pos.y + Ry].parent != block.transform)
+                && board.Grid[(int)pos.x + Rx, (int)pos.y + Ry].parent != mino.transform)
             {
                 Debug.Log("SRS先が重複");
                 return false;
             }
 
-            //枠外に出てもfalse
+            //オフセット分移動した時、ゲームフィールド外に移動していたならfalse
             if (!board.BoardOutCheck((int)pos.x + Rx, (int)pos.y + Ry))
             {
-                Debug.Log("SRS中に枠外に出た。");
+                Debug.Log("SRS先がゲームフィールド外");
                 return false;
             }
         }
         return true;
     }
 
-    public int TspinCheck(Block block)
+    //Tspinの判定をする関数
+    //TspinにはMiniがあるので、それも判定する
+    public int TspinCheck()
     {
         Debug.Log("====this is TspinCheck====");
 
@@ -591,7 +596,7 @@ public class Rotation : MonoBehaviour
         {
             for (int y = 1; y >= -1; y -= 2)
             {
-                if (board.BlockCheckForTspin((int)Mathf.Round(block.transform.position.x) + x, (int)Mathf.Round(block.transform.position.y) + y, block))
+                if (board.BlockCheckForTspin((int)Mathf.Round(gameManager.ActiveMino.transform.position.x) + x, (int)Mathf.Round(gameManager.ActiveMino.transform.position.y) + y, gameManager.ActiveMino))
                 {
                     AroundBlocksCheck_ForT.Add(1);
                 }
@@ -602,16 +607,11 @@ public class Rotation : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < 4; i++)
-        {
-            Debug.Log(AroundBlocksCheck_ForT[i]);
-        }
-
         if (data.lastSRS != 4)
         {
             if (AroundBlocksCheck_ForT.FindAll(x => x == 1).Count == 3)
             {
-                switch (block.transform.rotation.eulerAngles.z)
+                switch (gameManager.ActiveMino.transform.rotation.eulerAngles.z)
                 {
                     case 270:
                         if (AroundBlocksCheck_ForT[0] == 0 || AroundBlocksCheck_ForT[1] == 0)
@@ -658,41 +658,54 @@ public class Rotation : MonoBehaviour
         return 7;
     }
 
-    public int SpinTerminal(Block block)
+    //各ミノのスピン判定をチェックするターミナル
+    //この関数は、回転時とミノの設置時に呼び出される
+    public int SpinTerminal(int mino)
     {
+        Debug.Log("SpinTerminal");
+        Debug.Log(mino);
+        //ミノの識別()
+        int I_mino = 0;
+        int J_mino = 1;
+        int L_mino = 2;
+        int O_mino = 3;
+        int S_mino = 4;
+        int T_mino = 5;
+        int Z_mino = 6;
+
+        //最後の動作がスピンでないならSpin判定はなし
         if (data.useSpin == false)
         {
             return 7;
         }
-        /*if (block.name.Contains("I"))
+        /*else if (mino == I_mino)
         {
             return IspinCheck(block);
         }*/
-        /*else if (block.name.Contains("J"))
+        /*else if (mino == J_mino)
         {
             return JspinCheck(block);
         }*/
-        /*else if (block.name.Contains("L"))
+        /*else if (mino == L_mino)
         {
             return LspinCheck(block);
         }*/
-        /*else if (block.name.Contains("S"))
-        {
-            return SspinCheck(block);
-        }*/
-        else if (block.name.Contains("T"))
-        {
-            return TspinCheck(block);
-        }
-        /*else if (block.name.Contains("Z"))
-        {
-            return ZspinCheck(block);
-        }*/
-        /*else if (block.name.Contains("O"))
+        /*else if (mino == O_mino)
         {
             return OspinCheck(block);
         }*/
-        Debug.Log("T以外のミノ");
+        /*else if (mino == S_mino)
+        {
+            return SspinCheck(block);
+        }*/
+        else if (mino == T_mino)
+        {
+            return TspinCheck();
+        }
+        /*else if (mino == Z_mino)
+        {
+            return ZspinCheck(block);
+        }*/
         return 7;
     }
 
