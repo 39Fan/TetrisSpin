@@ -50,9 +50,6 @@ public class SE : MonoBehaviour
         //audioSourceのclipに選ばれたSEを格納
         audioSource.clip = SEs[selectSE];
 
-        Debug.Log("CallSE");
-        Debug.Log(selectSE);
-
         if (selectSE == Start_or_Retry)
         {
             audioSource.volume = LowVolume;

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     //各種干渉するスクリプトの設定
     Board board;
     Data data;
+    MainSceneText mainSceneText;
     Rotation rotation;
     SceneTransition sceneTransition;
     SE se;
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
         spawner = FindObjectOfType<Spawner>();
         board = FindObjectOfType<Board>();
         data = FindObjectOfType<Data>();
+        mainSceneText = FindObjectOfType<MainSceneText>();
         rotation = FindObjectOfType<Rotation>();
         ActiveMino = FindObjectOfType<Block>();
         se = FindObjectOfType<SE>();
@@ -64,9 +66,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //スポーン位置の数値を丸める
-        //spawner.transform.position = Rounding.Round(spawner.transform.position);
-
         //タイマーの初期設定
         nextKeyDownTimer = Time.time + nextKeyDownInterval;
         nextKeyLeftRightTimer = Time.time + nextKeyLeftRightInterval;
@@ -556,11 +555,13 @@ public class GameManager : MonoBehaviour
                 //TspinMini判定
                 if (data.spinMini == true)
                 {
-                    Debug.Log("TspinMini!");
+                    //ゲーム画面に表示
+                    mainSceneText.TextDisplay(data.Tspin_Mini);
                 }
                 else
                 {
-                    Debug.Log("Tspin!");
+                    //ゲーム画面に表示
+                    mainSceneText.TextDisplay(data.Tspin);
                 }
             }
             //Tspinで1ライン消去した時
@@ -572,11 +573,13 @@ public class GameManager : MonoBehaviour
                 //TspinMini判定
                 if (data.spinMini == true)
                 {
-                    Debug.Log("TspinMini!");
+                    //ゲーム画面に表示
+                    mainSceneText.TextDisplay(data.Tspin_Mini);
                 }
                 else
                 {
-                    Debug.Log("TspinSingle!");
+                    //ゲーム画面に表示
+                    mainSceneText.TextDisplay(data.Tspin_Single);
                 }
             }
             //Tspinで2ライン消去した時
@@ -588,11 +591,13 @@ public class GameManager : MonoBehaviour
                 //TspinMini判定
                 if (data.spinMini == true)
                 {
-                    Debug.Log("TspinDoubleMini!");
+                    //ゲーム画面に表示
+                    mainSceneText.TextDisplay(data.Tspin_Double_Mini);
                 }
                 else
                 {
-                    Debug.Log("TspinDouble!");
+                    //ゲーム画面に表示
+                    mainSceneText.TextDisplay(data.Tspin_Double);
                 }
             }
             //Tspinで3ライン消去した時(TspinTripleMiniは存在しない)
@@ -601,7 +606,8 @@ public class GameManager : MonoBehaviour
                 //9 Spin Destroy
                 se.CallSE(9);
 
-                Debug.Log("TspinTriple!");
+                //ゲーム画面に表示
+                mainSceneText.TextDisplay(data.Tspin_Triple);
             }
         }
         //4列消えた時(Tetris!)
@@ -609,6 +615,9 @@ public class GameManager : MonoBehaviour
         {
             //10 Tetris!
             se.CallSE(10);
+
+            //ゲーム画面に表示
+            mainSceneText.TextDisplay(data.Tetris);
         }
         //1〜3列消えた時
         else if (ClearRowHistory[ClearRowHistoryCount] >= 1 && ClearRowHistory[ClearRowHistoryCount] <= 3)
