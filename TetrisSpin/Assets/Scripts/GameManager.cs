@@ -678,8 +678,6 @@ public class GameManager : MonoBehaviour
         }
 
         spawner.SpawnNextBlocks(); //Next表示
-
-        mainSceneText.TextDisplay(data.one_Line_Clear);
     }
 
 
