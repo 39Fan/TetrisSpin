@@ -1,8 +1,7 @@
 using UnityEngine;
-using System;
+using System.Collections;
 using UnityEngine.UI;
 using DG.Tweening;
-using Cysharp.Threading.Tasks;
 
 //ゲーム画面のテキストに関するスクリプト
 //表示できるテキストの一覧はData.csに記載
@@ -14,138 +13,41 @@ public class MainSceneText : MonoBehaviour
     //表示できるテキストの一覧
     //変数宣言の文法上、実際にゲーム画面に表示するテキストと変数名が合致しない場合がある
     // _数値 と末尾についているテキストはコピー(同じテキストを複数呼び出せるようにするため)　
-    [SerializeField] private Text[] one_Line_Clear;
-    [SerializeField] private Text one_Line_Clear_1;
-    [SerializeField] private Text one_Line_Clear_2;
-    [SerializeField] private Text one_Line_Clear_3;
-    [SerializeField] private Text one_Line_Clear_4;
-    [SerializeField] private Text one_Line_Clear_5;
-    [SerializeField] private Text one_Line_Clear_6;
-    [SerializeField] private Text one_Line_Clear_7;
-    [SerializeField] private Text one_Line_Clear_8;
-    [SerializeField] private Text one_Line_Clear_9;
-    [SerializeField] private Text one_Line_Clear_10;
-    [SerializeField] private Text one_Line_Clear_11;
-    [SerializeField] private Text one_Line_Clear_12;
-    [SerializeField] private Text one_Line_Clear_13;
-    [SerializeField] private Text one_Line_Clear_14;
-    [SerializeField] private Text two_Line_Clear;
-    [SerializeField] private Text two_Line_Clear_1;
-    [SerializeField] private Text two_Line_Clear_2;
-    [SerializeField] private Text two_Line_Clear_3;
-    [SerializeField] private Text two_Line_Clear_4;
-    [SerializeField] private Text two_Line_Clear_5;
-    [SerializeField] private Text two_Line_Clear_6;
-    [SerializeField] private Text two_Line_Clear_7;
-    [SerializeField] private Text two_Line_Clear_8;
-    [SerializeField] private Text two_Line_Clear_9;
-    [SerializeField] private Text three_Line_Clear;
-    [SerializeField] private Text three_Line_Clear_1;
-    [SerializeField] private Text three_Line_Clear_2;
-    [SerializeField] private Text three_Line_Clear_3;
-    [SerializeField] private Text three_Line_Clear_4;
-    [SerializeField] private Text Tetris;
-    [SerializeField] private Text Tetris_1;
-    [SerializeField] private Text Tetris_2;
-    [SerializeField] private Text Tetris_3;
-    [SerializeField] private Text Tetris_4;
-    // [SerializeField] private Text Ispin;
-    // [SerializeField] private Text Ispin_Single;
-    // [SerializeField] private Text Ispin_Double;
-    // [SerializeField] private Text Ispin_Triple;
-    // [SerializeField] private Text Ispin_Quattro;
-    // [SerializeField] private Text Jspin;
-    // [SerializeField] private Text Jspin_Single;
-    // [SerializeField] private Text Jspin_Double;
-    // [SerializeField] private Text Jspin_Triple;
-    // [SerializeField] private Text Lspin;
-    // [SerializeField] private Text Lspin_Single;
-    // [SerializeField] private Text Lspin_Double;
-    // [SerializeField] private Text Lspin_Triple;
-    // [SerializeField] private Text Ospin;
-    // [SerializeField] private Text Ospin_Single;
-    // [SerializeField] private Text Ospin_Double;
-    // [SerializeField] private Text Ospin_Triple;
-    // [SerializeField] private Text Sspin;
-    // [SerializeField] private Text Sspin_Single;
-    // [SerializeField] private Text Sspin_Double;
-    // [SerializeField] private Text Sspin_Triple;
-    [SerializeField] private Text Tspin;
-    [SerializeField] private Text Tspin_1;
-    [SerializeField] private Text Tspin_2;
-    [SerializeField] private Text Tspin_3;
-    [SerializeField] private Text Tspin_4;
-    [SerializeField] private Text Tspin_Single;
-    [SerializeField] private Text Tspin_Single_1;
-    [SerializeField] private Text Tspin_Single_2;
-    [SerializeField] private Text Tspin_Single_3;
-    [SerializeField] private Text Tspin_Single_4;
-    [SerializeField] private Text Tspin_Double;
-    [SerializeField] private Text Tspin_Double_1;
-    [SerializeField] private Text Tspin_Double_2;
-    [SerializeField] private Text Tspin_Double_3;
-    [SerializeField] private Text Tspin_Double_4;
-    [SerializeField] private Text Tspin_Triple;
-    [SerializeField] private Text Tspin_Triple_1;
-    [SerializeField] private Text Tspin_Triple_2;
-    [SerializeField] private Text Tspin_Triple_3;
-    [SerializeField] private Text Tspin_Triple_4;
-    [SerializeField] private Text Tspin_Mini;
-    [SerializeField] private Text Tspin_Mini_1;
-    [SerializeField] private Text Tspin_Mini_2;
-    [SerializeField] private Text Tspin_Mini_3;
-    [SerializeField] private Text Tspin_Mini_4;
-    [SerializeField] private Text Tspin_Double_Mini;
-    [SerializeField] private Text Tspin_Double_Mini_1;
-    [SerializeField] private Text Tspin_Double_Mini_2;
-    [SerializeField] private Text Tspin_Double_Mini_3;
-    [SerializeField] private Text Tspin_Double_Mini_4;
-    // [SerializeField] private Text Zspin;
-    // [SerializeField] private Text Zspin_Single;
-    // [SerializeField] private Text Zspin_Double;
-    // [SerializeField] private Text Zspin_Triple;
-
-    //使用中のテキストと未使用のテキストを判別する配列
-    private int[] one_Line_Clear_Array = new int[15];
-    private int[] two_Line_Clear_Array = new int[10];
-    private int[] three_Line_Clear_Array = new int[5];
-    private int[] Tetris_Array = new int[5];
-    private int[] Ispin_Array = new int[5];
-    private int[] Ispin_Single_Array = new int[5];
-    private int[] Ispin_Double_Array = new int[5];
-    private int[] Ispin_Triple_Array = new int[5];
-    private int[] Ispin_Quattro_Array = new int[5];
-    private int[] Jspin_Array = new int[5];
-    private int[] Jspin_Single_Array = new int[5];
-    private int[] Jspin_Double_Array = new int[5];
-    private int[] Jspin_Triple_Array = new int[5];
-    private int[] Lspin_Array = new int[5];
-    private int[] Lspin_Single_Array = new int[5];
-    private int[] Lspin_Double_Array = new int[5];
-    private int[] Lspin_Triple_Array = new int[5];
-    private int[] Ospin_Array = new int[5];
-    private int[] Ospin_Single_Array = new int[5];
-    private int[] Ospin_Double_Array = new int[5];
-    private int[] Ospin_Triple_Array = new int[5];
-    private int[] Sspin_Array = new int[5];
-    private int[] Sspin_Single_Array = new int[5];
-    private int[] Sspin_Double_Array = new int[5];
-    private int[] Sspin_Triple_Array = new int[5];
-    private int[] Tspin_Array = new int[5];
-    private int[] Tspin_Single_Array = new int[5];
-    private int[] Tspin_Double_Array = new int[5];
-    private int[] Tspin_Triple_Array = new int[5];
-    private int[] Tspin_Mini_Array = new int[5];
-    private int[] Tspin_Double_Mini_Array = new int[5];
-    private int[] Zspin_Array = new int[5];
-    private int[] Zspin_Single_Array = new int[5];
-    private int[] Zspin_Double_Array = new int[5];
-    private int[] Zspin_Triple_Array = new int[5];
-
-    //上記の配列の判別は0と1で行う
-    //0は未使用、1は使用中とする
-    int noUse = 0;
-    int use = 1;
+    [SerializeField] private Text[] one_Line_Clears;
+    [SerializeField] private Text[] two_Line_Clears;
+    [SerializeField] private Text[] three_Line_Clears;
+    [SerializeField] private Text[] Tetrises;
+    // [SerializeField] private Text[] Ispins;
+    // [SerializeField] private Text[] Ispin_Singles;
+    // [SerializeField] private Text[] Ispin_Doubles;
+    // [SerializeField] private Text[] Ispin_Triples;
+    // [SerializeField] private Text[] Ispin_Quattros;
+    // [SerializeField] private Text[] Jspins;
+    // [SerializeField] private Text[] Jspin_Singles;
+    // [SerializeField] private Text[] Jspin_Doubles;
+    // [SerializeField] private Text[] Jspin_Triples;
+    // [SerializeField] private Text[] Lspins;
+    // [SerializeField] private Text[] Lspin_Singles;
+    // [SerializeField] private Text[] Lspin_Doubles;
+    // [SerializeField] private Text[] Lspin_Triples;
+    // [SerializeField] private Text[] Ospins;
+    // [SerializeField] private Text[] Ospin_Singles;
+    // [SerializeField] private Text[] Ospin_Doubles;
+    // [SerializeField] private Text[] Ospin_Triples;
+    // [SerializeField] private Text[] Sspins;
+    // [SerializeField] private Text[] Sspin_Singles;
+    // [SerializeField] private Text[] Sspin_Doubles;
+    // [SerializeField] private Text[] Sspin_Triples;
+    [SerializeField] private Text[] Tspins;
+    [SerializeField] private Text[] Tspin_Singles;
+    [SerializeField] private Text[] Tspin_Doubles;
+    [SerializeField] private Text[] Tspin_Triples;
+    [SerializeField] private Text[] Tspin_Minis;
+    [SerializeField] private Text[] Tspin_Double_Minis;
+    // [SerializeField] private Text[] Zspins;
+    // [SerializeField] private Text[] Zspin_Singles;
+    // [SerializeField] private Text[] Zspin_Doubles;
+    // [SerializeField] private Text[] Zspin_Triples;
 
     //フェードインとフェードアウトする時間
     float fadeInInterval = 0.2f;
@@ -156,7 +58,8 @@ public class MainSceneText : MonoBehaviour
 
     //透明度
     //0の時は透明、1の時は不透明
-    int alpha = 1;
+    int alpha_0 = 0;
+    int alpha_1 = 1;
 
     //x軸とy軸それぞれのテキストを移動させる時間
     float moveInterval_x = 2f;
@@ -180,129 +83,154 @@ public class MainSceneText : MonoBehaviour
         //textと合致するGameObjectのTextコンポーネントを取得
         if (text == data.one_Line_Clear)
         {
-            if (one_Line_Clear_Array[0] == noUse)
+            //one_Line_Clear_Arrayの数だけ繰り返す
+            for (int count = 0; count < one_Line_Clears.Length; count++)
             {
-                one_Line_Clear_Array[0] = use;
+                //count番目のone_Line_Clearsのテキストが未使用なら
+                if (one_Line_Clears[count].gameObject.activeSelf == false)
+                {
+                    //アニメーションを行う
+                    //コルーチンで演出が終わるまで待機し、完全にアニメーションが終了したら未使用に戻す
+                    StartCoroutine(TextAnimationCoroutine(one_Line_Clears[count]));
 
-                //選ばれたテキストのテキストコンポーネントとトランスフォームコンポーネントを取得
-                Text SelectText_Text = one_Line_Clear[0].GetComponent<Text>();
-                Transform SelectText_Transform = one_Line_Clear[0].GetComponent<Transform>();
-
-                Debug.Log("_0");
-
-                //選ばれたテキストのフェードインとフェードアウトを行う
-                TextFadeInAndOut(SelectText_Text);
-
-                //選ばれたテキストの移動アニメーションを行う
-                TextMove(SelectText_Transform);
-
-                WaitTime();
-
-                //one_Line_Clear_Array[0] = noUse;
+                    //このfor文を抜ける
+                    break;
+                }
             }
-            else if (one_Line_Clear_Array[1] == noUse)
-            {
-                one_Line_Clear_Array[1] = use;
-
-                //選ばれたテキストのテキストコンポーネントとトランスフォームコンポーネントを取得
-                Text SelectText_Text = one_Line_Clear[1].GetComponent<Text>();
-                Transform SelectText_Transform = one_Line_Clear[1].GetComponent<Transform>();
-
-                Debug.Log("_1");
-
-                //選ばれたテキストのフェードインとフェードアウトを行う
-                TextFadeInAndOut(SelectText_Text);
-
-                //選ばれたテキストの移動アニメーションを行う
-                TextMove(SelectText_Transform);
-
-                WaitTime();
-
-                one_Line_Clear_Array[1] = noUse;
-            }
-
             //↓以下同文
         }
         else if (text == data.two_Line_Clear)
         {
-            Text SelectText_Text = two_Line_Clear.GetComponent<Text>();
-            Transform SelectText_Transform = two_Line_Clear.GetComponent<Transform>();
+            for (int count = 0; count < two_Line_Clears.Length; count++)
+            {
+                if (two_Line_Clears[count].gameObject.activeSelf == false)
+                {
+                    StartCoroutine(TextAnimationCoroutine(two_Line_Clears[count]));
 
-            TextFadeInAndOut(SelectText_Text);
-            TextMove(SelectText_Transform);
+                    break;
+                }
+            }
         }
         else if (text == data.three_Line_Clear)
         {
-            Text SelectText_Text = three_Line_Clear.GetComponent<Text>();
-            Transform SelectText_Transform = three_Line_Clear.GetComponent<Transform>();
+            for (int count = 0; count < three_Line_Clears.Length; count++)
+            {
+                if (three_Line_Clears[count].gameObject.activeSelf == false)
+                {
+                    StartCoroutine(TextAnimationCoroutine(three_Line_Clears[count]));
 
-            TextFadeInAndOut(SelectText_Text);
-            TextMove(SelectText_Transform);
+                    break;
+                }
+            }
         }
         else if (text == data.Tetris)
         {
-            Text SelectText_Text = Tetris.GetComponent<Text>();
-            Transform SelectText_Transform = Tetris.GetComponent<Transform>();
+            for (int count = 0; count < Tetrises.Length; count++)
+            {
+                if (Tetrises[count].gameObject.activeSelf == false)
+                {
+                    StartCoroutine(TextAnimationCoroutine(Tetrises[count]));
 
-            TextFadeInAndOut(SelectText_Text);
-            TextMove(SelectText_Transform);
+                    break;
+                }
+            }
         }
         else if (text == data.Tspin)
         {
-            Text SelectText_Text = Tspin.GetComponent<Text>();
-            Transform SelectText_Transform = Tspin.GetComponent<Transform>();
+            for (int count = 0; count < Tspins.Length; count++)
+            {
+                if (Tspins[count].gameObject.activeSelf == false)
+                {
+                    StartCoroutine(TextAnimationCoroutine(Tspins[count]));
 
-            TextFadeInAndOut(SelectText_Text);
-            TextMove(SelectText_Transform);
+                    break;
+                }
+            }
         }
         else if (text == data.Tspin_Single)
         {
-            Text SelectText_Text = Tspin_Single.GetComponent<Text>();
-            Transform SelectText_Transform = Tspin_Single.GetComponent<Transform>();
+            for (int count = 0; count < Tspin_Singles.Length; count++)
+            {
+                if (Tspin_Singles[count].gameObject.activeSelf == false)
+                {
+                    StartCoroutine(TextAnimationCoroutine(Tspin_Singles[count]));
 
-            TextFadeInAndOut(SelectText_Text);
-            TextMove(SelectText_Transform);
+                    break;
+                }
+            }
         }
         else if (text == data.Tspin_Double)
         {
-            Text SelectText_Text = Tspin_Double.GetComponent<Text>();
-            Transform SelectText_Transform = Tspin_Double.GetComponent<Transform>();
+            for (int count = 0; count < Tspin_Doubles.Length; count++)
+            {
+                if (Tspin_Doubles[count].gameObject.activeSelf == false)
+                {
+                    StartCoroutine(TextAnimationCoroutine(Tspin_Doubles[count]));
 
-            TextFadeInAndOut(SelectText_Text);
-            TextMove(SelectText_Transform);
+                    break;
+                }
+            }
         }
         else if (text == data.Tspin_Triple)
         {
-            Text SelectText_Text = Tspin_Triple.GetComponent<Text>();
-            Transform SelectText_Transform = Tspin_Triple.GetComponent<Transform>();
+            for (int count = 0; count < Tspin_Triples.Length; count++)
+            {
+                if (Tspin_Triples[count].gameObject.activeSelf == false)
+                {
+                    StartCoroutine(TextAnimationCoroutine(Tspin_Triples[count]));
 
-            TextFadeInAndOut(SelectText_Text);
-            TextMove(SelectText_Transform);
+                    break;
+                }
+            }
         }
         else if (text == data.Tspin_Mini)
         {
-            Text SelectText_Text = Tspin_Mini.GetComponent<Text>();
-            Transform SelectText_Transform = Tspin_Mini.GetComponent<Transform>();
+            for (int count = 0; count < Tspin_Minis.Length; count++)
+            {
+                if (Tspin_Minis[count].gameObject.activeSelf == false)
+                {
+                    StartCoroutine(TextAnimationCoroutine(Tspin_Minis[count]));
 
-            TextFadeInAndOut(SelectText_Text);
-            TextMove(SelectText_Transform);
+                    break;
+                }
+            }
         }
         else if (text == data.Tspin_Double_Mini)
         {
-            Text SelectText_Text = Tspin_Double_Mini.GetComponent<Text>();
-            Transform SelectText_Transform = Tspin_Double_Mini.GetComponent<Transform>();
+            for (int count = 0; count < Tspin_Double_Minis.Length; count++)
+            {
+                if (Tspin_Double_Minis[count].gameObject.activeSelf == false)
+                {
+                    StartCoroutine(TextAnimationCoroutine(Tspin_Double_Minis[count]));
 
-            TextFadeInAndOut(SelectText_Text);
-            TextMove(SelectText_Transform);
+                    break;
+                }
+            }
         }
     }
 
-    private async void WaitTime()
+    private IEnumerator TextAnimationCoroutine(Text selectText)
     {
-        //_waitTime秒待つ
-        await UniTask.Delay(TimeSpan.FromSeconds(waitTime));
+        //アクティブにする
+        selectText.gameObject.SetActive(true);
 
+        //選ばれたテキストのテキストコンポーネントとトランスフォームコンポーネントを取得
+        Text SelectText_Text = selectText.GetComponent<Text>();
+        Transform SelectText_Transform = selectText.GetComponent<Transform>();
 
+        //選ばれたテキストのフェードインとフェードアウトを行う
+        TextFadeInAndOut(SelectText_Text);
+
+        //選ばれたテキストの移動アニメーションを行う
+        TextMove(SelectText_Transform);
+
+        //3.2秒待つ
+        yield return new WaitForSeconds(waitTime);
+
+        Debug.Log("3.2秒待った");
+
+        //アニメーションが完了したら非表示に戻す
+        selectText.gameObject.SetActive(false);
     }
 
     //選ばれたテキストのフェードインとフェードアウトを行う関数
@@ -311,20 +239,12 @@ public class MainSceneText : MonoBehaviour
         //Sequenceのインスタンス化
         var sequence = DOTween.Sequence();
 
-        //0.3秒かけてアルファ値を256(=不透明)に変化させる
-        sequence.Append(selectText.DOFade(alpha, fadeInInterval));
-
-        //2秒表示
-        sequence.AppendInterval(waitInterval);
-
-        //透明度を0にする
-        alpha = 0;
-
-        //1秒かけてアルファ値を0(=透明)に変化させる
-        sequence.Append(selectText.DOFade(alpha, fadeOutInterval));
-
-        //透明度を1に戻す
-        alpha = 1;
+        //0.3秒かけてアルファ値を1(=不透明)に変化させる
+        //その後、2秒表示
+        //最後に、1秒かけてアルファ値を0(=透明)に変化させる
+        sequence.Append(selectText.DOFade(alpha_1, fadeInInterval))
+                .AppendInterval(waitInterval)
+                .Append(selectText.DOFade(alpha_0, fadeOutInterval));
     }
 
 
