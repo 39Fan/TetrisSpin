@@ -1,5 +1,7 @@
 using UnityEngine;
 
+//ミノの移動、通常回転を扱うスクリプト
+
 public class Block : MonoBehaviour
 {
     //干渉するスクリプトの設定

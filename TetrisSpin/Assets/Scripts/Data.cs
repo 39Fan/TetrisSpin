@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //複数のスクリプトに干渉するデータをまとめて扱うスクリプト
+//計算する関数も扱う
+
 public class Data : MonoBehaviour
 {
     //干渉するスクリプトの設定
