@@ -5,6 +5,7 @@ using DG.Tweening;
 
 //ゲーム画面のテキストに関するスクリプト
 //表示できるテキストの一覧はData.csに記載
+
 public class MainSceneText : MonoBehaviour
 {
     //干渉するスクリプトの設定
@@ -226,8 +227,6 @@ public class MainSceneText : MonoBehaviour
 
         //3.2秒待つ
         yield return new WaitForSeconds(waitTime);
-
-        Debug.Log("3.2秒待った");
 
         //アニメーションが完了したら非表示に戻す
         selectText.gameObject.SetActive(false);

@@ -1,5 +1,7 @@
 using UnityEngine;
 
+//ミノの出現に関するスクリプト
+
 public class Spawner : MonoBehaviour
 {
     //各種干渉するスクリプトの設定
@@ -57,24 +59,6 @@ public class Spawner : MonoBehaviour
         }
     }
 
-
-
-    /*HoldミノをactiveMinoに戻す関数
-    public Block HoldChange()
-    {
-        Block block = Instantiate(OldHoldMino,
-        transform.position, Quaternion.identity);
-
-        if (block)
-        {
-            return block;
-        }
-        else
-        {
-            return null;
-        }
-    }*/
-
     //Nextミノを表示する関数
     public Block SpawnNextBlocks()
     {
@@ -128,32 +112,6 @@ public class Spawner : MonoBehaviour
         }
         return null;
     }
-
-    //Holdした時の処理をする関数
-    /*public Block Hold(Block activeMino)
-    {
-        //ホールドが使用された
-        data.UseHold = true;
-
-        activeMino.transform.position = data.HoldMinoPosition;
-
-        //Holdが1回目の時
-        if (data.FirstHold == true) //最初のHoldの時
-        {
-            gameManager.MinoSpawn(); //新たなactiveMinoの表示
-            SpawnNextBlocks();
-            data.FirstHold = false;
-        }
-        //Holdが2回目以降の時
-        else
-        {
-            activeMino = data.SpawnMinos[data.HoldMinoCount];
-        }
-
-        data.AngleReset();
-
-        return activeMino;
-    }*/
 
     //Holdされたミノを表示する関数
     public Block SpawnHoldMino(int mino)

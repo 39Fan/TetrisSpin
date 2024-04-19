@@ -1,5 +1,7 @@
 using UnityEngine;
 
+//ゴーストミノの移動、通常回転を扱うスクリプト
+
 public class Block_Ghost : MonoBehaviour
 {
     //干渉するスクリプトの設定
