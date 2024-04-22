@@ -2,31 +2,55 @@ using UnityEngine;
 
 //ミノの出現に関するスクリプト
 
+// public class SpawnMinos : MonoBehaviour
+// {
+//     //ミノのPrefabsをminosに格納
+//     //順番は(I, J, L, O, S, T, Z)
+//     public Mino[] Minos;
+
+//     //ゴーストミノについて//
+
+//     //ゴーストミノとは、操作中のミノをそのままドロップした時、またはハードドロップした時に
+//     //設置される想定の場所を薄く表示するミノのこと
+//     //これを実装することで、テトリスのプレイが格段にしやすくなる
+
+//     //ゴーストミノのPrefabsをminos_Ghostに格納
+//     //順番は(I, J, L, O, S, T, Z)
+//     public Mino_Ghost[] Minos_Ghost;
+// }
+
 public class Spawner : MonoBehaviour
 {
     //各種干渉するスクリプトの設定
-    Board board;
-    Data data;
+    //Board board;
+    Calculate calculate;
+    TetrisSpinData tetrisSpinData;
+    GameStatus gameStatus;
+    // SpawnMinos spawnMinos;
 
     //インスタンス化
     private void Awake()
     {
-        board = FindObjectOfType<Board>();
-        data = FindObjectOfType<Data>();
+        //board = FindObjectOfType<Board>();
+        calculate = FindObjectOfType<Calculate>();
+        tetrisSpinData = FindObjectOfType<TetrisSpinData>();
+        gameStatus = FindObjectOfType<GameStatus>();
+        // SpawnMinos spawnMinos = new SpawnMinos();
     }
 
     //選ばれたミノを生成する関数
-    public Block SpawnMino(int mino)
+    // 新しいActiveMinoまたは、Holdされたミノが選択肢にあるため、仮引数名は_SelectMinoにしている
+    public Mino SpawnMino(int _SelectMino)
     {
-        //Blocks[mino].transform.localScale = Vector3.one * 1;
+        //Minos[mino].transform.localScale = Vector3.one * 1;
 
         //Quaternion.identityは、向きの回転に関する設定をしないことを表す
-        Block spawnMino = Instantiate(data.minos[mino],
-        data.spawnMinoPosition, Quaternion.identity);
+        Mino newSpawnMino = Instantiate(tetrisSpinData.MINOS[_SelectMino],
+        tetrisSpinData.SPAWNMINOPOSITION, Quaternion.identity);
 
-        if (spawnMino)
+        if (newSpawnMino)
         {
-            return spawnMino;
+            return newSpawnMino;
         }
         else
         {
@@ -34,24 +58,27 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    //GhostBloskを生成する関数
-    public Block_Ghost SpawnMino_Ghost(Block activeMino)
+    //ゴーストミノを生成する関数
+    public Mino_Ghost SpawnMino_Ghost()
     {
-        //activeMinoの各座標を格納する変数を宣言
-        int activeMino_x = Mathf.RoundToInt(activeMino.transform.position.x);
-        int activeMino_y = Mathf.RoundToInt(activeMino.transform.position.y);
-        int activeMino_z = Mathf.RoundToInt(activeMino.transform.position.z);
+        //active_mino_infoの各座標を格納する変数を宣言
+        int activeMinoInfo_x = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.x);
+        int activeMinoInfo_y = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.y);
+        int activeMinoInfo_z = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.z);
 
-        //activeMinoから他のミノ、または底までの距離を計算
-        data.CheckDistance_Y(activeMino);
+        //active_mino_infoから他のミノ、または底までの距離を計算
+        calculate.CheckDistance_Y();
 
-        //orderに対応するゴーストミノを、activeMinoのY座標からdistanceの値だけ下に移動した位置に生成
-        Block_Ghost mino_Ghost = Instantiate(data.minos_Ghost[data.order],
-            new Vector3(activeMino_x, activeMino_y - data.distance, activeMino_z), Quaternion.identity);
+        // gameStatus.ActiveMinoの種類を判別
+        int order = calculate.CheckActiveMinoShape();
 
-        if (mino_Ghost)
+        //orderに対応するゴーストミノを、active_mino_infoのY座標からdistanceの値だけ下に移動した位置に生成
+        Mino_Ghost ghostMino = Instantiate(tetrisSpinData.MINOS_GHOST[order],
+            new Vector3(activeMinoInfo_x, activeMinoInfo_y - gameStatus.Distance, activeMinoInfo_z), Quaternion.identity);
+
+        if (ghostMino)
         {
-            return mino_Ghost;
+            return ghostMino;
         }
         else
         {
@@ -60,9 +87,9 @@ public class Spawner : MonoBehaviour
     }
 
     //Nextミノを表示する関数
-    public Block SpawnNextBlocks()
+    public Mino SpawnNextMinos()
     {
-        //Debug.Log("====this is SpawnNextBlocks====");
+        //Debug.Log("====this is SpawnNextMinos====");
 
         //Nextの数は5に設定
         int nexts = 5;
@@ -91,22 +118,22 @@ public class Spawner : MonoBehaviour
         for (int nextMinoOrder = 0; nextMinoOrder < nexts; nextMinoOrder++)
         {
             //ゲームスタート時のNext表示
-            if (data.count == 0)
+            if (gameStatus.MinoPopNumber == 0)
             {
                 //Next1〜5の表示
-                //nextBlocksに格納
-                data.nextBlocks[nextMinoOrder] = Instantiate(data.minos[data.spawnMinoOrder[data.count + nextMinoOrder + 1]],
+                //nextMinosに格納
+                gameStatus.NextMino_Array[nextMinoOrder] = Instantiate(tetrisSpinData.MINOS[gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber + nextMinoOrder + 1]],
                     nextMinoPositions[nextMinoOrder], Quaternion.identity);
             }
             //2回目以降のNext表示
             else
             {
                 //以前のNextMinoを消去
-                Destroy(data.nextBlocks[nextMinoOrder].gameObject);
+                Destroy(gameStatus.NextMino_Array[nextMinoOrder].gameObject);
 
                 //Next1〜5の表示
-                //nextBlocksに格納
-                data.nextBlocks[nextMinoOrder] = Instantiate(data.minos[data.spawnMinoOrder[data.count + nextMinoOrder + 1]],
+                //nextMinosに格納
+                gameStatus.NextMino_Array[nextMinoOrder] = Instantiate(tetrisSpinData.MINOS[gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber + nextMinoOrder + 1]],
                     nextMinoPositions[nextMinoOrder], Quaternion.identity);
             }
         }
@@ -114,12 +141,12 @@ public class Spawner : MonoBehaviour
     }
 
     //Holdされたミノを表示する関数
-    public Block SpawnHoldMino(int mino)
+    public Mino SpawnHoldMino()
     {
         //minoに対応するミノを生成
         //Quaternion.identityは、向きの回転に関する設定をしないことを表す
-        Block spawnHoldMino = Instantiate(data.minos[mino],
-        data.holdMinoPosition, Quaternion.identity);
+        Mino spawnHoldMino = Instantiate(tetrisSpinData.MINOS[gameStatus.HoldMinoNumber],
+        tetrisSpinData.HOLDMINOPOSITION, Quaternion.identity);
 
         if (spawnHoldMino)
         {
