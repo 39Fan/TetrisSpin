@@ -9,7 +9,7 @@ using DG.Tweening;
 public class MainSceneText : MonoBehaviour
 {
     //干渉するスクリプトの設定
-    Data data;
+    Calculate calculate;
 
     //表示できるテキストの一覧
     //変数宣言の文法上、実際にゲーム画面に表示するテキストと変数名が合致しない場合がある
@@ -75,14 +75,14 @@ public class MainSceneText : MonoBehaviour
     //インスタンス化
     void Awake()
     {
-        data = FindObjectOfType<Data>();
+        calculate = FindObjectOfType<Calculate>();
     }
 
     //表示するテキストを判別して、実際に表示する関数
     public void TextDisplay(int text)
     {
         //textと合致するGameObjectのTextコンポーネントを取得
-        if (text == data.one_Line_Clear)
+        if (text == calculate.one_Line_Clear)
         {
             //one_Line_Clear_Arrayの数だけ繰り返す
             for (int count = 0; count < one_Line_Clears.Length; count++)
@@ -100,7 +100,7 @@ public class MainSceneText : MonoBehaviour
             }
             //↓以下同文
         }
-        else if (text == data.two_Line_Clear)
+        else if (text == calculate.two_Line_Clear)
         {
             for (int count = 0; count < two_Line_Clears.Length; count++)
             {
@@ -112,7 +112,7 @@ public class MainSceneText : MonoBehaviour
                 }
             }
         }
-        else if (text == data.three_Line_Clear)
+        else if (text == calculate.three_Line_Clear)
         {
             for (int count = 0; count < three_Line_Clears.Length; count++)
             {
@@ -124,7 +124,7 @@ public class MainSceneText : MonoBehaviour
                 }
             }
         }
-        else if (text == data.Tetris)
+        else if (text == calculate.Tetris)
         {
             for (int count = 0; count < Tetrises.Length; count++)
             {
@@ -136,7 +136,7 @@ public class MainSceneText : MonoBehaviour
                 }
             }
         }
-        else if (text == data.Tspin)
+        else if (text == calculate.Tspin)
         {
             for (int count = 0; count < Tspins.Length; count++)
             {
@@ -148,7 +148,7 @@ public class MainSceneText : MonoBehaviour
                 }
             }
         }
-        else if (text == data.Tspin_Single)
+        else if (text == calculate.Tspin_Single)
         {
             for (int count = 0; count < Tspin_Singles.Length; count++)
             {
@@ -160,7 +160,7 @@ public class MainSceneText : MonoBehaviour
                 }
             }
         }
-        else if (text == data.Tspin_Double)
+        else if (text == calculate.Tspin_Double)
         {
             for (int count = 0; count < Tspin_Doubles.Length; count++)
             {
@@ -172,7 +172,7 @@ public class MainSceneText : MonoBehaviour
                 }
             }
         }
-        else if (text == data.Tspin_Triple)
+        else if (text == calculate.Tspin_Triple)
         {
             for (int count = 0; count < Tspin_Triples.Length; count++)
             {
@@ -184,7 +184,7 @@ public class MainSceneText : MonoBehaviour
                 }
             }
         }
-        else if (text == data.Tspin_Mini)
+        else if (text == calculate.Tspin_Mini)
         {
             for (int count = 0; count < Tspin_Minis.Length; count++)
             {
@@ -196,7 +196,7 @@ public class MainSceneText : MonoBehaviour
                 }
             }
         }
-        else if (text == data.Tspin_Double_Mini)
+        else if (text == calculate.Tspin_Double_Mini)
         {
             for (int count = 0; count < Tspin_Double_Minis.Length; count++)
             {

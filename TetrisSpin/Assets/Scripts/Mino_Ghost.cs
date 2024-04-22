@@ -2,20 +2,20 @@ using UnityEngine;
 
 //ゴーストミノの移動、通常回転を扱うスクリプト
 
-public class Block_Ghost : MonoBehaviour
+public class Mino_Ghost : MonoBehaviour
 {
     //干渉するスクリプトの設定
-    Data data;
+    Calculate calculate;
 
     //回転していいブロックかどうか
     //Oミノは回転しないので、falseに設定
     [SerializeField]
-    private bool canRotate = true;
+    private bool can_rotate = true;
 
     //インスタンス化
     private void Awake()
     {
-        data = FindObjectOfType<Data>();
+        calculate = FindObjectOfType<Calculate>();
     }
 
     //移動用
@@ -50,17 +50,17 @@ public class Block_Ghost : MonoBehaviour
     }
 
     //通常右回転
-    public void RotateRight(Block_Ghost block)
+    public void RotateRight(Mino_Ghost _GhostMino)
     {
         //回転できるブロックかどうか
         //Oミノは回転できないので弾かれる
-        if (canRotate)
+        if (can_rotate)
         {
             //Z軸の回転量を格納
             int rotateAroundZ = -90;
 
             //Iミノ以外の回転
-            if (!block.name.Contains("I"))
+            if (!_GhostMino.name.Contains("I"))
             {
                 transform.Rotate(0, 0, rotateAroundZ);
             }
@@ -70,8 +70,8 @@ public class Block_Ghost : MonoBehaviour
             {
                 //Iミノの軸を取得する
                 //Iミノのx, y座標を渡す
-                Vector3 IminoAxis = data.AxisCheck
-                    (Mathf.RoundToInt(block.transform.position.x), Mathf.RoundToInt(block.transform.position.y));
+                Vector3 IminoAxis = calculate.AxisCheck
+                    (Mathf.RoundToInt(_GhostMino.transform.position.x), Mathf.RoundToInt(_GhostMino.transform.position.y));
 
                 //IminoAxisを中心に右回転する
                 transform.RotateAround(IminoAxis, Vector3.forward, rotateAroundZ);
@@ -80,17 +80,17 @@ public class Block_Ghost : MonoBehaviour
     }
 
     //通常左回転
-    public void Rotateleft(Block_Ghost block)
+    public void Rotateleft(Mino_Ghost _GhostMino)
     {
         //回転できるブロックかどうか
         //Oミノは回転できないので弾かれる
-        if (canRotate)
+        if (can_rotate)
         {
             //Z軸の回転量を格納
             int rotateAroundZ = 90;
 
             //Iミノ以外の回転
-            if (!block.name.Contains("I"))
+            if (!_GhostMino.name.Contains("I"))
             {
                 transform.Rotate(0, 0, rotateAroundZ);
             }
@@ -99,8 +99,8 @@ public class Block_Ghost : MonoBehaviour
             else
             {
                 //Iミノの軸を取得する
-                Vector3 IminoAxis = data.AxisCheck
-                    (Mathf.RoundToInt(block.transform.position.x), Mathf.RoundToInt(block.transform.position.y));
+                Vector3 IminoAxis = calculate.AxisCheck
+                    (Mathf.RoundToInt(_GhostMino.transform.position.x), Mathf.RoundToInt(_GhostMino.transform.position.y));
 
                 //IminoAxisを中心に右回転する
                 transform.RotateAround(IminoAxis, Vector3.forward, rotateAroundZ);

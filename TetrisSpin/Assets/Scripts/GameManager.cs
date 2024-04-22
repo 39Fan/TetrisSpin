@@ -1,81 +1,88 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-// GameManager
-// ゲームの進行を制御するスクリプト
-
+// ゲームマネージャー
 public class GameManager : MonoBehaviour
 {
     // 各種干渉するスクリプトの設定
     Board board;
-    Data data;
+    Calculate calculate;
     MainSceneText mainSceneText;
     Rotation rotation;
     SceneTransition sceneTransition;
     SE se;
     Spawner spawner;
 
-    // 操作中のミノ
-    public Block ActiveMino;
+    GameStatus gameStatus;
+    Timer timer;
+    //TetrisSpinData tetrisSpinData;
 
-    // ゴーストミノ
-    Block_Ghost ActiveMino_Ghost;
+    //public Mino gameStatus.ActiveMino; // 操作中のミノ
+    //Mino_Ghost gameStatus.GhostMino; // ゴーストミノ
+    //public Mino HoldMino; // ホールドミノ
 
-    // ホールドミノ
-    public Block HoldMino;
+    //private Minos gameStatus.ActiveMino;
+    //private Minos gameStatus.GhostMino;
+    //private Minos hold_mino;
+
+    // private string[] gameStatus.ActiveMino_angle = new string[]
+    // {
+    //     "north", "east", "south", "west"
+    // };
 
     // タイマー
     // 次にブロックが落ちるまでのインターバル時間
     // 次にブロックが落ちるまでの時間
     // 入力受付タイマー(3種類)
-    [SerializeField] float dropInteaval;
-    [SerializeField] float nextdropTimer;
-    [SerializeField] float nextKeyDownTimer, nextKeyLeftRightTimer, nextKeyRotateTimer;
+    // [SerializeField] float dropInteaval;
+    // [SerializeField] float nextdropTimer;
+    // [SerializeField] float nextKeyDownTimer, nextKeyLeftRightTimer, nextKeyRotateTimer;
 
-    [SerializeField] float keyReceptionTimer;
+    // [SerializeField] float keyReceptionTimer;
 
-    // 入力インターバル(4種類)
-    [SerializeField] private float nextKeyDownInterval, nextKeyLeftRightInterval, nextKeyRotateInterval, keyReceptionInterval;
+    // // 入力インターバル(4種類)
+    // [SerializeField] private float nextKeyDownInterval, nextKeyLeftRightInterval, nextKeyRotateInterval, keyReceptionInterval;
 
-    // ゲームオーバー判定
-    bool gameOver;
+    // // ゲームオーバー判定
+    // bool gameover;
 
-    [SerializeField] int SpinActions = 7;
+    // int SpinActions = 7;
 
-    // 底についた判定
-    bool Bottom = false;
+    // // 底についた判定
+    // bool Bottom = false;
 
-    bool CanNotMove = false;
+    // bool CanNotMove = false;
 
-    // ライン消去の履歴を表すリストと
-    // それに対応するカウントの変数
-    // カウントの変数は、ミノの設置で1ずつ増加する
-    [SerializeField]
-    List<int> clearRowHistory = new List<int>();
-    int clearRowHistoryCount = 0;
+    // // ライン消去の履歴を表すリストと
+    // // それに対応するカウントの変数
+    // // カウントの変数は、ミノの設置で1ずつ増加する
+    // [SerializeField]
+    // List<int> line_elimination_count_history = new List<int>();
+    // int mino_installation_number = 0;
 
     // インスタンス化
     private void Awake()
     {
         spawner = FindObjectOfType<Spawner>();
         board = FindObjectOfType<Board>();
-        data = FindObjectOfType<Data>();
+        calculate = FindObjectOfType<Calculate>();
         mainSceneText = FindObjectOfType<MainSceneText>();
         rotation = FindObjectOfType<Rotation>();
-        ActiveMino = FindObjectOfType<Block>();
         se = FindObjectOfType<SE>();
         sceneTransition = FindObjectOfType<SceneTransition>();
+
+        gameStatus = FindObjectOfType<GameStatus>();
+        timer = FindObjectOfType<Timer>();
+        //tetrisSpinData = FindObjectOfType<TetrisSpinData>();
     }
 
     private void Start()
     {
         // タイマーの初期設定
-        nextKeyDownTimer = Time.time + nextKeyDownInterval;
-        nextKeyLeftRightTimer = Time.time + nextKeyLeftRightInterval;
-        nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
-        keyReceptionTimer = Time.time + keyReceptionInterval;
+        timer.ResetTimer();
 
-        if (!ActiveMino)
+        if (!gameStatus.ActiveMino)
         {
             // 2回繰り返す
             int length = 2;
@@ -83,33 +90,30 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < length; i++)
             {
                 // ゲーム開始時、0から13番目のミノの順番を決める
-                data.DecideSpawnMinoOrder();
+                calculate.DetermineSpawnMinoOrder();
             }
 
-            // 新しいActiveMinoの生成
-            ActiveMino = spawner.SpawnMino(data.spawnMinoOrder[data.count]);
+            // 新しいgameStatus.ActiveMinoの生成
+            gameStatus.ActiveMino = spawner.SpawnMino(gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber]);
 
-            // activeMinoの種類を判別
-            data.CheckActiveMinoShape();
-
-            // ActiveMinoのゴーストミノの生成
-            ActiveMino_Ghost = spawner.SpawnMino_Ghost(ActiveMino);
+            // gameStatus.ActiveMinoのゴーストミノの生成
+            gameStatus.GhostMino = spawner.SpawnMino_Ghost();
 
             // Nextの表示
-            spawner.SpawnNextBlocks();
+            spawner.SpawnNextMinos();
         }
     }
 
     private void Update()
     {
-        if (gameOver)
+        if (gameStatus.GameOver)
         {
             return;
         }
 
-        if (Time.time > keyReceptionTimer && Bottom == true)
+        if (Time.time > timer.keyReceptionTimer && gameStatus.Bottom == true)
         {
-            ActiveMino.MoveDown();
+            gameStatus.ActiveMino.MoveDown();
             BottomBoard();
         }
 
@@ -123,55 +127,55 @@ public class GameManager : MonoBehaviour
     {
         // 右入力された時
         // Dキーに割り当て
-        if (Input.GetKeyDown(KeyCode.D) && CanNotMove == false)
+        if (Input.GetKeyDown(KeyCode.D) && gameStatus.CanNotMove == false)
         {
-            nextKeyLeftRightInterval = 0.20f;
+            gameStatus.ActiveMino.MoveRight();
 
-            ActiveMino.MoveRight();
+            timer.ContinuousLRKey = false;
 
-            nextKeyLeftRightTimer = Time.time + nextKeyLeftRightInterval;
+            timer.UpdateLeftRightTimer();
 
-            if (!board.CheckPosition(ActiveMino))
+            if (!board.CheckPosition(gameStatus.ActiveMino))
             {
-                ActiveMino.MoveLeft();
+                gameStatus.ActiveMino.MoveLeft();
             }
             else
             {
                 se.CallSE(2);
 
                 // ゴーストミノの位置調整を実行
-                ActiveMino_Ghost.transform.position = data.PositionAdjustmentActiveMino_Ghost(ActiveMino);
+                gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
 
-                data.SpinReset();
+                gameStatus.SpinResetFlag();
 
-                SpinActions = 7;
+                gameStatus.SpinActions = 7;
             }
 
             BottomMove();
         }
         // 連続で右入力がされた時(右入力キーを長押しされている時)
-        else if (Input.GetKey(KeyCode.D) && (Time.time > nextKeyLeftRightTimer) && CanNotMove == false)
+        else if (Input.GetKey(KeyCode.D) && (Time.time > timer.NextKeyLeftRightTimer) && gameStatus.CanNotMove == false)
         {
-            nextKeyLeftRightInterval = 0.05f;
+            timer.ContinuousLRKey = true;
 
-            ActiveMino.MoveRight();
+            timer.UpdateLeftRightTimer();
 
-            nextKeyLeftRightTimer = Time.time + nextKeyLeftRightInterval;
+            gameStatus.ActiveMino.MoveRight();
 
-            if (!board.CheckPosition(ActiveMino))
+            if (!board.CheckPosition(gameStatus.ActiveMino))
             {
-                ActiveMino.MoveLeft();
+                gameStatus.ActiveMino.MoveLeft();
             }
             else
             {
                 se.CallSE(2);
 
                 // ゴーストミノの位置調整を実行
-                ActiveMino_Ghost.transform.position = data.PositionAdjustmentActiveMino_Ghost(ActiveMino);
+                gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
 
-                data.SpinReset();
+                gameStatus.SpinResetFlag();
 
-                SpinActions = 7;
+                gameStatus.SpinActions = 7;
             }
 
             BottomMove();
@@ -179,64 +183,64 @@ public class GameManager : MonoBehaviour
         // 連続右入力の解除
         else if (Input.GetKeyUp(KeyCode.D))
         {
-            nextKeyLeftRightInterval = 0.20f;
+            timer.ContinuousLRKey = false;
 
-            if (!board.CheckPosition(ActiveMino))
+            if (!board.CheckPosition(gameStatus.ActiveMino))
             {
-                ActiveMino.MoveRight();
+                gameStatus.ActiveMino.MoveRight();
             }
         }
         // 左入力された時
         // Aキーに割り当て
-        else if (Input.GetKeyDown(KeyCode.A) && CanNotMove == false)
+        else if (Input.GetKeyDown(KeyCode.A) && gameStatus.CanNotMove == false)
         {
-            nextKeyLeftRightInterval = 0.20f;
+            timer.ContinuousLRKey = false;
 
-            ActiveMino.MoveLeft();
+            timer.UpdateLeftRightTimer();
 
-            nextKeyLeftRightTimer = Time.time + nextKeyLeftRightInterval;
+            gameStatus.ActiveMino.MoveLeft();
 
-            if (!board.CheckPosition(ActiveMino))
+            if (!board.CheckPosition(gameStatus.ActiveMino))
             {
-                ActiveMino.MoveRight();
+                gameStatus.ActiveMino.MoveRight();
             }
             else
             {
                 se.CallSE(2);
 
                 // ゴーストミノの位置調整を実行
-                ActiveMino_Ghost.transform.position = data.PositionAdjustmentActiveMino_Ghost(ActiveMino);
+                gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
 
-                data.SpinReset();
+                gameStatus.SpinResetFlag();
 
-                SpinActions = 7;
+                gameStatus.SpinActions = 7;
             }
 
             BottomMove();
         }
         // 連続で左入力がされた時(左入力キーを長押しされている時)
-        else if (Input.GetKey(KeyCode.A) && (Time.time > nextKeyLeftRightTimer) && CanNotMove == false)
+        else if (Input.GetKey(KeyCode.A) && (Time.time > timer.NextKeyLeftRightTimer) && gameStatus.CanNotMove == false)
         {
-            nextKeyLeftRightInterval = 0.05f;
+            timer.ContinuousLRKey = true;
 
-            ActiveMino.MoveLeft();
+            timer.UpdateLeftRightTimer();
 
-            nextKeyLeftRightTimer = Time.time + nextKeyLeftRightInterval;
+            gameStatus.ActiveMino.MoveLeft();
 
-            if (!board.CheckPosition(ActiveMino))
+            if (!board.CheckPosition(gameStatus.ActiveMino))
             {
-                ActiveMino.MoveRight();
+                gameStatus.ActiveMino.MoveRight();
             }
             else
             {
                 se.CallSE(2);
 
                 // ゴーストミノの位置調整を実行
-                ActiveMino_Ghost.transform.position = data.PositionAdjustmentActiveMino_Ghost(ActiveMino);
+                gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
 
-                data.SpinReset();
+                gameStatus.SpinResetFlag();
 
-                SpinActions = 7;
+                gameStatus.SpinActions = 7;
             }
 
             BottomMove();
@@ -244,66 +248,65 @@ public class GameManager : MonoBehaviour
         // 連続右入力の解除
         else if (Input.GetKeyUp(KeyCode.A))
         {
-            nextKeyLeftRightInterval = 0.20f;
+            timer.ContinuousLRKey = false;
 
-            if (!board.CheckPosition(ActiveMino))
+            if (!board.CheckPosition(gameStatus.ActiveMino))
             {
-                ActiveMino.MoveRight();
+                gameStatus.ActiveMino.MoveRight();
             }
         }
         // 下入力された時
         // Sキーに割り当て
-        else if (Input.GetKey(KeyCode.S) && (Time.time > nextKeyDownTimer) && CanNotMove == false)
+        else if (Input.GetKey(KeyCode.S) && (Time.time > timer.NextKeyDownTimer) && gameStatus.CanNotMove == false)
         {
-            ActiveMino.MoveDown();
+            gameStatus.ActiveMino.MoveDown();
 
-            nextKeyDownTimer = Time.time + nextKeyDownInterval;
+            timer.UpdateDownTimer();
 
-            if (!board.CheckPosition(ActiveMino))
+            if (!board.CheckPosition(gameStatus.ActiveMino))
             {
-                if (board.OverLimit(ActiveMino))
+                if (board.OverLimit(gameStatus.ActiveMino))
                 {
                     //ゲームオーバー
-                    gameOver = true;
+                    gameStatus.GameOver = true;
+
                     sceneTransition.GameOver();
                 }
                 else
                 {
-                    ActiveMino.MoveUp();
-                    Bottom = true;
+                    gameStatus.ActiveMino.MoveUp();
+
+                    gameStatus.Bottom = true;
+
                     BottomMove();
-                    keyReceptionTimer = Time.time + keyReceptionInterval;
+
+                    timer.keyReceptionTimer = Time.time + timer.keyReceptionInterval;
                 }
             }
             se.CallSE(3);
-            data.SpinReset();
-            SpinActions = 7;
-            nextdropTimer = Time.time + dropInteaval;
+
+            gameStatus.SpinResetFlag();
+
+            gameStatus.SpinActions = 7;
         }
         // 右回転入力された時
         // Pキーに割り当て
-        else if (Input.GetKeyDown(KeyCode.P) && (Time.time > nextKeyRotateTimer))
+        else if (Input.GetKeyDown(KeyCode.P) && (Time.time > timer.NextKeyRotateTimer))
         {
-            CanNotMove = true;
+            gameStatus.CanNotMove = true;
 
-            data.useSpin = true;
+            gameStatus.SpinSetFlag();
 
-            data.spinMini = false;
+            timer.UpdateRotateTimer();
 
-            data.lastSRS = 0;
-
-            SpinActions = 7;
-
-            ActiveMino.RotateRight(ActiveMino);
+            gameStatus.ActiveMino.RotateRight(gameStatus.ActiveMino);
 
             // 回転後の角度(minoAngleAfter)の調整
-            data.CalibrateMinoAngleAfter(ActiveMino);
+            calculate.CalibrateMinoAngleAfter();
 
-            nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
-
-            if (!board.CheckPosition(ActiveMino))
+            if (!board.CheckPosition(gameStatus.ActiveMino))
             {
-                if (!rotation.MinoSuperRotation(ActiveMino))
+                if (!rotation.MinoSuperRotation(gameStatus.ActiveMino))
                 {
                     Debug.Log("回転禁止");
 
@@ -315,16 +318,16 @@ public class GameManager : MonoBehaviour
                     Debug.Log("スーパーローテーション成功");
 
                     // ゴーストミノの向きを調整
-                    ActiveMino_Ghost.RotateRight(ActiveMino_Ghost);
+                    gameStatus.GhostMino.RotateRight(gameStatus.GhostMino);
 
                     // ゴーストミノの位置を調整
-                    ActiveMino_Ghost.transform.position = data.PositionAdjustmentActiveMino_Ghost(ActiveMino);
+                    gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
 
-                    data.minoAngleBefore = data.minoAngleAfter;
+                    gameStatus.MinoAngleBefore = gameStatus.MinoAngleAfter;
 
-                    SpinActions = rotation.SpinTerminal(data.order);
+                    gameStatus.SpinActions = rotation.SpinTerminal(gameStatus.ActiveMino);
 
-                    if (SpinActions == 4)
+                    if (gameStatus.SpinActions == 4)
                     {
                         //5 Spin
                         se.CallSE(5);
@@ -339,16 +342,16 @@ public class GameManager : MonoBehaviour
             else
             {
                 // ゴーストミノの向きを調整
-                ActiveMino_Ghost.RotateRight(ActiveMino_Ghost);
+                gameStatus.GhostMino.RotateRight(gameStatus.GhostMino);
 
                 // ゴーストミノの位置を調整
-                ActiveMino_Ghost.transform.position = data.PositionAdjustmentActiveMino_Ghost(ActiveMino);
+                gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
 
-                data.minoAngleBefore = data.minoAngleAfter;
+                gameStatus.MinoAngleBefore = gameStatus.MinoAngleAfter;
 
-                SpinActions = rotation.SpinTerminal(data.order);
+                gameStatus.SpinActions = rotation.SpinTerminal(gameStatus.ActiveMino);
 
-                if (SpinActions == 4)
+                if (gameStatus.SpinActions == 4)
                 {
                     //5 Spin
                     se.CallSE(5);
@@ -362,32 +365,26 @@ public class GameManager : MonoBehaviour
 
             BottomMove();
 
-            CanNotMove = false;
+            gameStatus.CanNotMove = false;
         }
         // 左回転入力された時
         // Lキーに割り当て
-        else if (Input.GetKeyDown(KeyCode.L) && (Time.time > nextKeyRotateTimer))
+        else if (Input.GetKeyDown(KeyCode.L) && (Time.time > timer.NextKeyRotateTimer))
         {
-            CanNotMove = true;
+            gameStatus.CanNotMove = true;
 
-            data.useSpin = true;
+            gameStatus.SpinSetFlag();
 
-            data.spinMini = false;
+            timer.UpdateRotateTimer();
 
-            data.lastSRS = 0;
-
-            SpinActions = 7;
-
-            ActiveMino.Rotateleft(ActiveMino);
+            gameStatus.ActiveMino.Rotateleft(gameStatus.ActiveMino);
 
             // 回転後の角度(minoAngleAfter)の調整
-            data.CalibrateMinoAngleAfter(ActiveMino);
+            calculate.CalibrateMinoAngleAfter();
 
-            nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
-
-            if (!board.CheckPosition(ActiveMino))
+            if (!board.CheckPosition(gameStatus.ActiveMino))
             {
-                if (!rotation.MinoSuperRotation(ActiveMino))
+                if (!rotation.MinoSuperRotation(gameStatus.ActiveMino))
                 {
                     Debug.Log("回転禁止");
 
@@ -399,16 +396,16 @@ public class GameManager : MonoBehaviour
                     Debug.Log("スーパーローテーション成功");
 
                     // ゴーストミノの向きを調整
-                    ActiveMino_Ghost.Rotateleft(ActiveMino_Ghost);
+                    gameStatus.GhostMino.Rotateleft(gameStatus.GhostMino);
 
                     // ゴーストミノの位置を調整
-                    ActiveMino_Ghost.transform.position = data.PositionAdjustmentActiveMino_Ghost(ActiveMino);
+                    gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
 
-                    data.minoAngleBefore = data.minoAngleAfter;
+                    gameStatus.MinoAngleBefore = gameStatus.MinoAngleAfter;
 
-                    SpinActions = rotation.SpinTerminal(data.order);
+                    gameStatus.SpinActions = rotation.SpinTerminal(gameStatus.ActiveMino);
 
-                    if (SpinActions == 4)
+                    if (gameStatus.SpinActions == 4)
                     {
                         //5 Spin
                         se.CallSE(5);
@@ -423,16 +420,16 @@ public class GameManager : MonoBehaviour
             else
             {
                 // ゴーストミノの向きを調整
-                ActiveMino_Ghost.Rotateleft(ActiveMino_Ghost);
+                gameStatus.GhostMino.Rotateleft(gameStatus.GhostMino);
 
                 // ゴーストミノの位置を調整
-                ActiveMino_Ghost.transform.position = data.PositionAdjustmentActiveMino_Ghost(ActiveMino);
+                gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
 
-                data.minoAngleBefore = data.minoAngleAfter;
+                gameStatus.MinoAngleBefore = gameStatus.MinoAngleAfter;
 
-                SpinActions = rotation.SpinTerminal(data.order);
+                gameStatus.SpinActions = rotation.SpinTerminal(gameStatus.ActiveMino);
 
-                if (SpinActions == 4)
+                if (gameStatus.SpinActions == 4)
                 {
                     //5 Spin
                     se.CallSE(5);
@@ -446,31 +443,33 @@ public class GameManager : MonoBehaviour
 
             BottomMove();
 
-            CanNotMove = false;
+            gameStatus.CanNotMove = false;
         }
         // ハードドロップ入力された時
         // Spaceキーに割り当て
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            data.hardDrop = true;
+            gameStatus.UseHardDrop = true;
 
             for (int i = 0; i < 30; i++)
             {
-                ActiveMino.MoveDown();
+                gameStatus.ActiveMino.MoveDown();
 
-                if (!board.CheckPosition(ActiveMino))
+                if (!board.CheckPosition(gameStatus.ActiveMino))
                 {
                     break;
                 }
 
                 // 1マスでも落ちたらspin判定は消える。
-                data.SpinReset();
-                SpinActions = 7;
+                gameStatus.SpinResetFlag();
+
+                gameStatus.SpinActions = 7;
             }
 
-            if (board.OverLimit(ActiveMino))
+            if (board.OverLimit(gameStatus.ActiveMino))
             {
-                gameOver = true;
+                gameStatus.GameOver = true;
+
                 sceneTransition.GameOver();
             }
             else
@@ -485,23 +484,23 @@ public class GameManager : MonoBehaviour
         {
             // Holdは1度使うと、ミノを設置するまで使えない
             // ミノを設置すると、useHold = false になる
-            if (data.useHold == false)
+            if (gameStatus.UseHold == false)
             {
                 // ホールドの使用
-                data.useHold = true;
+                gameStatus.UseHold = true;
 
                 // HoldのSEを鳴らす
                 se.CallSE(se.Hold);
 
                 // ゴーストミノの削除
-                Destroy(ActiveMino_Ghost.gameObject);
+                Destroy(gameStatus.GhostMino.gameObject);
 
                 // ホールドの処理
-                // ActiveMinoをホールドに移動して、新しいミノを生成する
-                data.Hold();
+                // gameStatus.ActiveMinoをホールドに移動して、新しいミノを生成する
+                calculate.Hold();
 
-                // ActiveMinoのゴーストミノを生成
-                ActiveMino_Ghost = spawner.SpawnMino_Ghost(ActiveMino);
+                // gameStatus.ActiveMinoのゴーストミノを生成
+                gameStatus.GhostMino = spawner.SpawnMino_Ghost();
             }
         }
     }
@@ -509,41 +508,47 @@ public class GameManager : MonoBehaviour
     // 時間経過で落ちる時の処理をする関数
     void AutoDown()
     {
-        if (Time.time > nextdropTimer)
+        if (Time.time > timer.AutoDropTimer)
         {
-            ActiveMino.MoveDown();
+            gameStatus.ActiveMino.MoveDown();
 
-            nextKeyDownTimer = Time.time + nextKeyDownInterval;
+            timer.UpdateDownTimer();
 
-            if (!board.CheckPosition(ActiveMino))
+            if (!board.CheckPosition(gameStatus.ActiveMino))
             {
-                if (board.OverLimit(ActiveMino))
+                if (board.OverLimit(gameStatus.ActiveMino))
                 {
                     //ゲームオーバー
-                    gameOver = true;
+                    gameStatus.GameOver = true;
+
                     sceneTransition.GameOver();
                 }
                 else
                 {
-                    ActiveMino.MoveUp();
-                    Bottom = true;
+                    gameStatus.ActiveMino.MoveUp();
+
+                    gameStatus.Bottom = true;
+
                     BottomMove();
-                    keyReceptionTimer = Time.time + keyReceptionInterval;
+
+                    timer.keyReceptionTimer = Time.time + timer.keyReceptionInterval;
                 }
             }
-            data.SpinReset();
-            SpinActions = 7;
-            nextdropTimer = Time.time + dropInteaval;
+            gameStatus.SpinResetFlag();
+
+            gameStatus.SpinActions = 7;
+
+            // nextdropTimer = Time.time + dropInteaval;
         }
     }
 
     //Bottomで移動、回転したとき
     void BottomMove()
     {
-        if (keyReceptionTimer > Time.time && Bottom == true)
+        if (timer.keyReceptionTimer > Time.time && gameStatus.Bottom == true)
         {
-            keyReceptionInterval = keyReceptionInterval - (keyReceptionTimer - Time.time) / 10;
-            keyReceptionTimer = Time.time + keyReceptionInterval;
+            timer.keyReceptionInterval = timer.keyReceptionInterval - (timer.keyReceptionTimer - Time.time) / 10;
+            timer.keyReceptionTimer = Time.time + timer.keyReceptionInterval;
         }
     }
 
@@ -552,31 +557,30 @@ public class GameManager : MonoBehaviour
         Debug.Log("BottomBoard");
 
         //ゴーストミノの削除
-        Destroy(ActiveMino_Ghost.gameObject);
+        Destroy(gameStatus.GhostMino.gameObject);
 
         //初期化
-        Bottom = false;
-        nextKeyDownTimer = Time.time;
-        nextKeyLeftRightTimer = Time.time;
-        nextKeyRotateTimer = Time.time;
-        keyReceptionTimer = Time.time;
-        keyReceptionInterval = 1;
+        gameStatus.Bottom = false;
 
-        ActiveMino.MoveUp(); //ミノを正常な位置に戻す
+        timer.ResetTimer();
 
-        board.SaveBlockInGrid(ActiveMino); //ActiveMinoをセーブ
+        timer.keyReceptionInterval = 1f;
 
-        clearRowHistory.Add(board.ClearAllRows()); //埋まっていれば削除し、ClearRowCountに消去ライン数を追加していく
+        gameStatus.ActiveMino.MoveUp(); //ミノを正常な位置に戻す
+
+        board.SaveBlockInGrid(gameStatus.ActiveMino); //gameStatus.ActiveMinoをセーブ
+
+        gameStatus.LineEliminationCountHistory.Add(board.ClearAllRows()); //埋まっていれば削除し、ClearRowCountに消去ライン数を追加していく
 
         //Tspin判定(SpinActionsが4の時)
-        if (SpinActions == 4)
+        if (gameStatus.SpinActions == 4)
         {
             //Tspinで1列も消去していない時
             //1列も消していなくてもTspin判定は行われる
-            if (clearRowHistory[clearRowHistoryCount] == 0)
+            if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] == 0)
             {
                 //1列も消していない時のSE
-                if (data.hardDrop == true)
+                if (gameStatus.UseHardDrop == true)
                 {
                     //7 Hard Drop
                     se.CallSE(7);
@@ -588,51 +592,51 @@ public class GameManager : MonoBehaviour
                 }
 
                 //TspinMini判定
-                if (data.spinMini == true)
+                if (gameStatus.UseSpinMini == true)
                 {
                     //ゲーム画面に表示
-                    mainSceneText.TextDisplay(data.Tspin_Mini);
+                    mainSceneText.TextDisplay(calculate.Tspin_Mini); //修正予定
                 }
                 else
                 {
                     //ゲーム画面に表示
-                    mainSceneText.TextDisplay(data.Tspin);
+                    mainSceneText.TextDisplay(calculate.Tspin); //修正予定
                 }
             }
             //Tspinで1ライン消去した時
-            else if (clearRowHistory[clearRowHistoryCount] == 1)
+            else if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] == 1)
             {
                 //9 Spin Destroy
                 se.CallSE(9);
 
                 //TspinMini判定
-                if (data.spinMini == true)
+                if (gameStatus.UseSpinMini == true)
                 {
                     //ゲーム画面に表示
-                    mainSceneText.TextDisplay(data.Tspin_Mini);
+                    mainSceneText.TextDisplay(calculate.Tspin_Mini); //修正予定
                 }
                 else
                 {
                     //ゲーム画面に表示
-                    mainSceneText.TextDisplay(data.Tspin_Single);
+                    mainSceneText.TextDisplay(calculate.Tspin_Single); //修正予定
                 }
             }
             //Tspinで2ライン消去した時
-            else if (clearRowHistory[clearRowHistoryCount] == 2)
+            else if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] == 2)
             {
                 //9 Spin Destroy
                 se.CallSE(9);
 
                 //TspinMini判定
-                if (data.spinMini == true)
+                if (gameStatus.UseSpinMini == true)
                 {
                     //ゲーム画面に表示
-                    mainSceneText.TextDisplay(data.Tspin_Double_Mini);
+                    mainSceneText.TextDisplay(calculate.Tspin_Double_Mini);
                 }
                 else
                 {
                     //ゲーム画面に表示
-                    mainSceneText.TextDisplay(data.Tspin_Double);
+                    mainSceneText.TextDisplay(calculate.Tspin_Double);
                 }
             }
             //Tspinで3ライン消去した時(TspinTripleMiniは存在しない)
@@ -642,26 +646,27 @@ public class GameManager : MonoBehaviour
                 se.CallSE(9);
 
                 //ゲーム画面に表示
-                mainSceneText.TextDisplay(data.Tspin_Triple);
+                mainSceneText.TextDisplay(calculate.Tspin_Triple);
             }
         }
         //4列消えた時(Tetris!)
-        else if (clearRowHistory[clearRowHistoryCount] == 4)
+        else if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] == 4)
         {
             //10 Tetris!
             se.CallSE(10);
 
             //ゲーム画面に表示
-            mainSceneText.TextDisplay(data.Tetris);
+            mainSceneText.TextDisplay(calculate.Tetris);
         }
         //1〜3列消えた時
-        else if (clearRowHistory[clearRowHistoryCount] >= 1 && clearRowHistory[clearRowHistoryCount] <= 3)
+        else if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] >= 1
+            && gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] <= 3)
         {
             //8 Normal Destroy
             se.CallSE(8);
         }
         //ハードドロップで1列も消していない時
-        else if (data.hardDrop == true)
+        else if (gameStatus.UseHardDrop == true)
         {
             //7 Hard Drop
             se.CallSE(7);
@@ -673,46 +678,35 @@ public class GameManager : MonoBehaviour
             se.CallSE(6);
         }
 
-        SpinActions = 7;
+        gameStatus.SpinResetFlag();
 
-        data.spinMini = false;
+        gameStatus.AllReset();
 
-        clearRowHistoryCount++;
+        gameStatus.MinoPopNumber++;
 
-        data.AllReset();
-
-        //count進行
-        data.count++;
+        gameStatus.LineEliminationCountHistoryNumber++;
 
         //countが7の倍数の時
-        if (data.count % 7 == 0)
+        if (gameStatus.MinoPopNumber % 7 == 0)
         {
             //ミノの配列の補充
-            data.DecideSpawnMinoOrder();
-
-            //次のActiveMinoの生成
-            ActiveMino = spawner.SpawnMino(data.spawnMinoOrder[data.count]);
-        }
-        else
-        {
-            //次のActiveMinoの生成
-            ActiveMino = spawner.SpawnMino(data.spawnMinoOrder[data.count]);
+            calculate.DetermineSpawnMinoOrder();
         }
 
-        //activeMinoの種類を判別
-        data.CheckActiveMinoShape();
+        //次のgameStatus.ActiveMinoの生成
+        gameStatus.ActiveMino = spawner.SpawnMino(gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber]);
 
-        //ActiveMinoのゴーストミノを生成
-        ActiveMino_Ghost = spawner.SpawnMino_Ghost(ActiveMino);
+        //gameStatus.ActiveMinoのゴーストミノを生成
+        gameStatus.GhostMino = spawner.SpawnMino_Ghost();
 
-        if (!board.CheckPosition(ActiveMino))
+        if (!board.CheckPosition(gameStatus.ActiveMino))
         {
-            gameOver = true;
+            gameStatus.GameOver = true;
 
             sceneTransition.GameOver();
         }
 
-        spawner.SpawnNextBlocks(); //Next表示
+        spawner.SpawnNextMinos(); //Next表示
     }
 
 
