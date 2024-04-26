@@ -48,13 +48,13 @@ using UnityEngine;
 
 public class Calculate : MonoBehaviour
 {
-    //干渉するスクリプトの設定
-    Board board;
-    //GameManager gameManager;
-    GameStatus gameStatus;
-    Spawner spawner;
-    TetrisSpinData tetrisSpinData;
-    Mino mino;
+    // //干渉するスクリプトの設定
+    // Board board;
+    // //GameManager gameManager;
+    // GameStatus gameStatus;
+    // Spawner spawner;
+    // TetrisSpinData tetrisSpinData;
+    // Mino mino;
 
     //テトリミノの基本情報について//
 
@@ -209,54 +209,54 @@ public class Calculate : MonoBehaviour
 
     //表示できるテキストの一覧
     //変数宣言の文法上、実際にゲーム画面に表示するテキストと変数名が合致しない場合がある
-    public int one_Line_Clear = 1;
-    public int two_Line_Clear = 2;
-    public int three_Line_Clear = 3;
-    public int Tetris = 4;
-    public int Ispin = 5;
-    public int Ispin_Single = 6;
-    public int Ispin_Double = 7;
-    public int Ispin_Triple = 8;
-    public int Ispin_Quattro = 9;
-    public int Jspin = 10;
-    public int Jspin_Single = 11;
-    public int Jspin_Double = 12;
-    public int Jspin_Triple = 13;
-    public int Lspin = 14;
-    public int Lspin_Single = 15;
-    public int Lspin_Double = 16;
-    public int Lspin_Triple = 17;
-    public int Ospin = 18;
-    public int Ospin_Single = 19;
-    public int Ospin_Double = 20;
-    public int Ospin_Triple = 21;
-    public int Sspin = 22;
-    public int Sspin_Single = 23;
-    public int Sspin_Double = 24;
-    public int Sspin_Triple = 25;
-    public int Tspin = 26;
-    public int Tspin_Single = 27;
-    public int Tspin_Double = 28;
-    public int Tspin_Triple = 29;
-    public int Tspin_Mini = 30;
-    public int Tspin_Double_Mini = 31;
-    public int Zspin = 32;
-    public int Zspin_Single = 33;
-    public int Zspin_Double = 34;
-    public int Zspin_Triple = 35;
+    // public int one_Line_Clear = 1;
+    // public int two_Line_Clear = 2;
+    // public int three_Line_Clear = 3;
+    // public int Tetris = 4;
+    // public int Ispin = 5;
+    // public int Ispin_Single = 6;
+    // public int Ispin_Double = 7;
+    // public int Ispin_Triple = 8;
+    // public int Ispin_Quattro = 9;
+    // public int Jspin = 10;
+    // public int Jspin_Single = 11;
+    // public int Jspin_Double = 12;
+    // public int Jspin_Triple = 13;
+    // public int Lspin = 14;
+    // public int Lspin_Single = 15;
+    // public int Lspin_Double = 16;
+    // public int Lspin_Triple = 17;
+    // public int Ospin = 18;
+    // public int Ospin_Single = 19;
+    // public int Ospin_Double = 20;
+    // public int Ospin_Triple = 21;
+    // public int Sspin = 22;
+    // public int Sspin_Single = 23;
+    // public int Sspin_Double = 24;
+    // public int Sspin_Triple = 25;
+    // public int Tspin = 26;
+    // public int Tspin_Single = 27;
+    // public int Tspin_Double = 28;
+    // public int Tspin_Triple = 29;
+    // public int Tspin_Mini = 30;
+    // public int Tspin_Double_Mini = 31;
+    // public int Zspin = 32;
+    // public int Zspin_Single = 33;
+    // public int Zspin_Double = 34;
+    // public int Zspin_Triple = 35;
 
 
 
-    //インスタンス化
-    private void Awake()
-    {
-        board = FindObjectOfType<Board>();
-        //gameManager = GetComponent<GameManager>();
-        gameStatus = FindObjectOfType<GameStatus>();
-        spawner = FindObjectOfType<Spawner>();
-        tetrisSpinData = FindObjectOfType<TetrisSpinData>();
-        mino = FindObjectOfType<Mino>();
-    }
+    // //インスタンス化
+    // private void Awake()
+    // {
+    //     board = FindObjectOfType<Board>();
+    //     //gameManager = GetComponent<GameManager>();
+    //     gameStatus = FindObjectOfType<GameStatus>();
+    //     spawner = FindObjectOfType<Spawner>();
+    //     tetrisSpinData = FindObjectOfType<TetrisSpinData>();
+    //     mino = FindObjectOfType<Mino>();
+    // }
 
     // //各種変数の初期化をする関数
     // public void AllReset()
@@ -284,268 +284,268 @@ public class Calculate : MonoBehaviour
     //     lastSRS = 0;
     // }
 
-    //ミノの配列を決めてspawnMinoOrderに追加する関数
-    public void DetermineSpawnMinoOrder()
-    {
-        //七種一巡の法則実装に必要な配列
+    // //ミノの配列を決めてspawnMinoOrderに追加する関数
+    // public void DetermineSpawnMinoOrder()
+    // {
+    //     //七種一巡の法則実装に必要な配列
 
-        //range0to6は、0から6までの整数が入ったリスト
-        //[0,1,2,3,4,5,6] ←このようなもの
-        //range0To6を使用して、ランダムな配列をminoOrderに格納する
-        //[2,4,3,6,1,5,0] ←このようなもの
-        List<int> range0to6 = new List<int>();
+    //     //range0to6は、0から6までの整数が入ったリスト
+    //     //[0,1,2,3,4,5,6] ←このようなもの
+    //     //range0To6を使用して、ランダムな配列をminoOrderに格納する
+    //     //[2,4,3,6,1,5,0] ←このようなもの
+    //     List<int> range0to6 = new List<int>();
 
-        for (int numbers = 0; numbers <= 6; numbers++)
-        {
-            //0から6までの整数が入ったリストの生成
-            range0to6.Add(numbers);
-        }
+    //     for (int numbers = 0; numbers <= 6; numbers++)
+    //     {
+    //         //0から6までの整数が入ったリストの生成
+    //         range0to6.Add(numbers);
+    //     }
 
-        //range0to6の配列がなくなるまで繰り返す
-        while (range0to6.Count > 0)
-        {
-            //0からrange0to6の配列数までの範囲でランダムな数値を取得し、indexに格納
-            int index = Random.Range(0, range0to6.Count);
+    //     //range0to6の配列がなくなるまで繰り返す
+    //     while (range0to6.Count > 0)
+    //     {
+    //         //0からrange0to6の配列数までの範囲でランダムな数値を取得し、indexに格納
+    //         int index = Random.Range(0, range0to6.Count);
 
-            //indexの数値をrandomNumberに格納
-            int randomNumber = range0to6[index];
+    //         //indexの数値をrandomNumberに格納
+    //         int randomNumber = range0to6[index];
 
-            //minoOrderにrandomNumberを追加
-            gameStatus.SpawnMinoOrder_List.Add(randomNumber);
+    //         //minoOrderにrandomNumberを追加
+    //         gameStatus.SpawnMinoOrder_List.Add(randomNumber);
 
-            //インデックス位置の要素を削除
-            range0to6.RemoveAt(index);
-        }
-    }
-
-
-    //activeMinoの種類を判別する関数
-    public int CheckActiveMinoShape()
-    {
-        int order;
-
-        //ミノは7種類あるので、7回繰り返す
-        for (order = 0; order < tetrisSpinData.MINOS.Length; order++)
-        {
-            //ゴーストミノの名前にactiveMinoの名前が含まれるとき
-            if (gameStatus.ActiveMino.name.Contains(tetrisSpinData.MINOS[order].name))
-            {
-                //breakでこのfor文を抜けて、orderの値を保存する
-                break;
-            }
-        }
-        return order;
-    }
+    //         //インデックス位置の要素を削除
+    //         range0to6.RemoveAt(index);
+    //     }
+    // }
 
 
+    // //activeMinoの種類を判別する関数
+    // public int CheckActiveMinoShape()
+    // {
+    //     int order;
 
-    //activeMinoから他のミノ、または底までの距離を計算する関数
-    public void CheckDistance_Y()
-    {
-        //activeMinoの各座標を格納する変数を宣言
-        int activeMino_x = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.x);
-        int activeMino_y = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.y);
-        int activeMino_z = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.z);
-
-        //ゲームフィールドの高さのマスの数 + 2　回繰り返す
-        for (gameStatus.Distance = 0; gameStatus.Distance < tetrisSpinData.HEIGHT - tetrisSpinData.HEADER + 2; gameStatus.Distance++)
-        {
-            //activeMinoのY座標をdistanceの値だけ下に移動する
-            gameStatus.ActiveMino.transform.position = new Vector3
-                (activeMino_x, activeMino_y - gameStatus.Distance, activeMino_z);
-
-            //activeMinoが他のミノにぶつかる、またはゲームフィールドからはみ出した時
-            if (!board.CheckPosition(gameStatus.ActiveMino)) //activeMinoから底までの距離をGhostBlockPositionに格納
-            {
-                //activeMinoの位置を元に戻す
-                gameStatus.ActiveMino.transform.position = new Vector3
-                    (activeMino_x, activeMino_y, activeMino_z);
-
-                //この段階でdistanceから1引いた値が、activeMinoから底までの距離となる
-                gameStatus.Distance--;
-
-                //breakでこのfor文を抜けて、distanceの値を保存する
-                break;
-            }
-
-            //activeMinoの位置を元に戻す
-            gameStatus.ActiveMino.transform.position = new Vector3
-                (activeMino_x, activeMino_y, activeMino_z);
-        }
-    }
+    //     //ミノは7種類あるので、7回繰り返す
+    //     for (order = 0; order < tetrisSpinData.MINOS.Length; order++)
+    //     {
+    //         //ゴーストミノの名前にactiveMinoの名前が含まれるとき
+    //         if (gameStatus.ActiveMino.name.Contains(tetrisSpinData.MINOS[order].name))
+    //         {
+    //             //breakでこのfor文を抜けて、orderの値を保存する
+    //             break;
+    //         }
+    //     }
+    //     return order;
+    // }
 
 
-    //ゴーストミノの位置調整を行う関数
-    public Vector3 PositionAdjustmentGhostMino()
-    {
-        //activeMinoから他のミノ、または底までの距離を取得
-        CheckDistance_Y();
 
-        //activeMinoの各座標を取得
-        int activeMino_x = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.x);
-        int activeMino_y = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.y);
-        int activeMino_z = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.z);
+    // //activeMinoから他のミノ、または底までの距離を計算する関数
+    // public void CheckDistance_Y()
+    // {
+    //     //activeMinoの各座標を格納する変数を宣言
+    //     int activeMino_x = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.x);
+    //     int activeMino_y = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.y);
+    //     int activeMino_z = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.z);
 
-        return new Vector3(activeMino_x, activeMino_y - gameStatus.Distance, activeMino_z);
-    }
+    //     //ゲームフィールドの高さのマスの数 + 2　回繰り返す
+    //     for (gameStatus.Distance = 0; gameStatus.Distance < tetrisSpinData.HEIGHT - tetrisSpinData.HEADER + 2; gameStatus.Distance++)
+    //     {
+    //         //activeMinoのY座標をdistanceの値だけ下に移動する
+    //         gameStatus.ActiveMino.transform.position = new Vector3
+    //             (activeMino_x, activeMino_y - gameStatus.Distance, activeMino_z);
 
+    //         //activeMinoが他のミノにぶつかる、またはゲームフィールドからはみ出した時
+    //         if (!board.CheckPosition(gameStatus.ActiveMino)) //activeMinoから底までの距離をGhostBlockPositionに格納
+    //         {
+    //             //activeMinoの位置を元に戻す
+    //             gameStatus.ActiveMino.transform.position = new Vector3
+    //                 (activeMino_x, activeMino_y, activeMino_z);
 
-    //Iミノの軸を計算し、Vectoe3で返す関数
-    //Imino_xとImino_yはIミノのx, y座標
-    public Vector3 AxisCheck(int Imino_x, int Imino_y)
-    {
-        Debug.Log("AxisCheck");
-        //xとyのオフセットを宣言
-        //zは関係ない
-        float xOffset = 0.5f;
-        float yOffset = 0.5f;
+    //             //この段階でdistanceから1引いた値が、activeMinoから底までの距離となる
+    //             gameStatus.Distance--;
 
-        //回転軸は現在位置から、x軸をxOffset動かし、y軸をyOffset動かした座標にある
-        //xOffsetとyOffsetの正負は回転前の向きによって変化する
+    //             //breakでこのfor文を抜けて、distanceの値を保存する
+    //             break;
+    //         }
 
-        //回転前の向きがnorthの時
-        if (gameStatus.MinoAngleBefore == tetrisSpinData.NORTH)
-        {
-            return new Vector3(Imino_x + xOffset, Imino_y - yOffset, 0);
-        }
-        //回転前の向きがeastの時
-        else if (gameStatus.MinoAngleBefore == tetrisSpinData.EAST)
-        {
-            return new Vector3(Imino_x - xOffset, Imino_y - yOffset, 0);
-        }
-        //回転前の向きがsouthの時
-        else if (gameStatus.MinoAngleBefore == tetrisSpinData.SOUTH)
-        {
-            return new Vector3(Imino_x - xOffset, Imino_y + yOffset, 0);
-        }
-        //回転前の向きがwestの時
-        //minoAngleBefore == west
-        else
-        {
-            return new Vector3(Imino_x + xOffset, Imino_y + yOffset, 0);
-        }
-    }
-
-    //回転後の角度(minoAnglefter)の調整
-    //Z軸で回転を行っているため、90°(east)と270°(west)はプログラム上 270, 90 と表記されているため(左右反転している)
-    public void CalibrateMinoAngleAfter()
-    {
-        //block.transform.rotation.eulerAngles.zはZ軸の回転角度
-        //eulerAnglesはオイラー角の意
-        //調整前の角度
-        int originalAngle = Mathf.RoundToInt(gameStatus.ActiveMino.transform.rotation.eulerAngles.z);
-
-        if (originalAngle == tetrisSpinData.WEST)
-        {
-            gameStatus.MinoAngleAfter = tetrisSpinData.EAST;
-        }
-        else if (originalAngle == tetrisSpinData.EAST)
-        {
-            gameStatus.MinoAngleAfter = tetrisSpinData.WEST;
-        }
-        else
-        {
-            //修正の必要なし
-            gameStatus.MinoAngleAfter = originalAngle;
-        }
-    }
-
-    //通常回転のリセットをする関数
-    public void RotateReset()
-    {
-        //通常回転が右回転だった時
-        if ((gameStatus.MinoAngleBefore == tetrisSpinData.NORTH && gameStatus.MinoAngleAfter == tetrisSpinData.EAST) ||
-        (gameStatus.MinoAngleBefore == tetrisSpinData.EAST && gameStatus.MinoAngleAfter == tetrisSpinData.SOUTH) ||
-        (gameStatus.MinoAngleBefore == tetrisSpinData.SOUTH && gameStatus.MinoAngleAfter == tetrisSpinData.WEST) ||
-        (gameStatus.MinoAngleBefore == tetrisSpinData.WEST && gameStatus.MinoAngleAfter == tetrisSpinData.NORTH))
-        {
-            //左回転で回転前の状態に戻す
-            mino.Rotateleft(gameStatus.ActiveMino);
-        }
-        //通常回転が左回転だった時
-        else
-        {
-            //右回転で回転前の状態に戻す
-            mino.RotateRight(gameStatus.ActiveMino);
-        }
-    }
+    //         //activeMinoの位置を元に戻す
+    //         gameStatus.ActiveMino.transform.position = new Vector3
+    //             (activeMino_x, activeMino_y, activeMino_z);
+    //     }
+    // }
 
 
-    //Hold機能の処理をする関数
-    public void Hold()
-    {
-        //1回目のHold
-        if (gameStatus.FirstHold == true)
-        {
-            //activeMinoを削除
-            Destroy(gameStatus.ActiveMino.gameObject);
+    // //ゴーストミノの位置調整を行う関数
+    // public Vector3 PositionAdjustmentGhostMino()
+    // {
+    //     //activeMinoから他のミノ、または底までの距離を取得
+    //     CheckDistance_Y();
 
-            //holdMinoCountに、activeMinoの種類の数値情報を格納
-            //例: activeMinoが T_Mino の時、holdMinoCount = 5
-            gameStatus.HoldMinoNumber = gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber];
+    //     //activeMinoの各座標を取得
+    //     int activeMino_x = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.x);
+    //     int activeMino_y = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.y);
+    //     int activeMino_z = Mathf.RoundToInt(gameStatus.ActiveMino.transform.position.z);
 
-            //Holdされたミノを表示
-            gameStatus.HoldMino = spawner.SpawnHoldMino();
+    //     return new Vector3(activeMino_x, activeMino_y - gameStatus.Distance, activeMino_z);
+    // }
 
-            //1回目のHoldでは、新しく生成されるミノはNext1のミノになるので、
-            //countを1つ進める
-            //count++;
 
-            //count進行
-            gameStatus.MinoPopNumber++;
+    // //Iミノの軸を計算し、Vectoe3で返す関数
+    // //Imino_xとImino_yはIミノのx, y座標
+    // public Vector3 AxisCheck(int Imino_x, int Imino_y)
+    // {
+    //     Debug.Log("AxisCheck");
+    //     //xとyのオフセットを宣言
+    //     //zは関係ない
+    //     float xOffset = 0.5f;
+    //     float yOffset = 0.5f;
 
-            //countが7の倍数の時
-            if (gameStatus.MinoPopNumber % 7 == 0)
-            {
-                //ミノの配列の補充
-                DetermineSpawnMinoOrder();
+    //     //回転軸は現在位置から、x軸をxOffset動かし、y軸をyOffset動かした座標にある
+    //     //xOffsetとyOffsetの正負は回転前の向きによって変化する
 
-                //次のActiveMinoの生成
-                gameStatus.ActiveMino = spawner.SpawnMino(gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber]);
-            }
-            else
-            {
-                //次のActiveMinoの生成
-                gameStatus.ActiveMino = spawner.SpawnMino(gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber]);
-            }
+    //     //回転前の向きがnorthの時
+    //     if (gameStatus.MinoAngleBefore == tetrisSpinData.NORTH)
+    //     {
+    //         return new Vector3(Imino_x + xOffset, Imino_y - yOffset, 0);
+    //     }
+    //     //回転前の向きがeastの時
+    //     else if (gameStatus.MinoAngleBefore == tetrisSpinData.EAST)
+    //     {
+    //         return new Vector3(Imino_x - xOffset, Imino_y - yOffset, 0);
+    //     }
+    //     //回転前の向きがsouthの時
+    //     else if (gameStatus.MinoAngleBefore == tetrisSpinData.SOUTH)
+    //     {
+    //         return new Vector3(Imino_x - xOffset, Imino_y + yOffset, 0);
+    //     }
+    //     //回転前の向きがwestの時
+    //     //minoAngleBefore == west
+    //     else
+    //     {
+    //         return new Vector3(Imino_x + xOffset, Imino_y + yOffset, 0);
+    //     }
+    // }
 
-            //activeMinoの種類を判別
-            CheckActiveMinoShape();
+    // //回転後の角度(minoAnglefter)の調整
+    // //Z軸で回転を行っているため、90°(east)と270°(west)はプログラム上 270, 90 と表記されているため(左右反転している)
+    // public void CalibrateMinoAngleAfter()
+    // {
+    //     //block.transform.rotation.eulerAngles.zはZ軸の回転角度
+    //     //eulerAnglesはオイラー角の意
+    //     //調整前の角度
+    //     int originalAngle = Mathf.RoundToInt(gameStatus.ActiveMino.transform.rotation.eulerAngles.z);
 
-            //変数の初期化
-            gameStatus.AngleReset();
-            gameStatus.SpinResetFlag();
+    //     if (originalAngle == tetrisSpinData.WEST)
+    //     {
+    //         gameStatus.MinoAngleAfter = tetrisSpinData.EAST;
+    //     }
+    //     else if (originalAngle == tetrisSpinData.EAST)
+    //     {
+    //         gameStatus.MinoAngleAfter = tetrisSpinData.WEST;
+    //     }
+    //     else
+    //     {
+    //         //修正の必要なし
+    //         gameStatus.MinoAngleAfter = originalAngle;
+    //     }
+    // }
 
-            //Nextの表示
-            spawner.SpawnNextMinos();
+    // //通常回転のリセットをする関数
+    // public void RotateReset()
+    // {
+    //     //通常回転が右回転だった時
+    //     if ((gameStatus.MinoAngleBefore == tetrisSpinData.NORTH && gameStatus.MinoAngleAfter == tetrisSpinData.EAST) ||
+    //     (gameStatus.MinoAngleBefore == tetrisSpinData.EAST && gameStatus.MinoAngleAfter == tetrisSpinData.SOUTH) ||
+    //     (gameStatus.MinoAngleBefore == tetrisSpinData.SOUTH && gameStatus.MinoAngleAfter == tetrisSpinData.WEST) ||
+    //     (gameStatus.MinoAngleBefore == tetrisSpinData.WEST && gameStatus.MinoAngleAfter == tetrisSpinData.NORTH))
+    //     {
+    //         //左回転で回転前の状態に戻す
+    //         mino.Rotateleft(gameStatus.ActiveMino);
+    //     }
+    //     //通常回転が左回転だった時
+    //     else
+    //     {
+    //         //右回転で回転前の状態に戻す
+    //         mino.RotateRight(gameStatus.ActiveMino);
+    //     }
+    // }
 
-            gameStatus.FirstHold = false;
-        }
-        //2回目のHold
-        else
-        {
-            //activeMinoを削除
-            Destroy(gameStatus.ActiveMino.gameObject);
 
-            //ホールドされていたミノをActiveMinoに戻す
-            gameStatus.ActiveMino = spawner.SpawnMino(gameStatus.HoldMinoNumber);
+    // //Hold機能の処理をする関数
+    // public void Hold()
+    // {
+    //     //1回目のHold
+    //     if (gameStatus.FirstHold == true)
+    //     {
+    //         //activeMinoを削除
+    //         Destroy(gameStatus.ActiveMino.gameObject);
 
-            //activeMinoの種類を判別
-            CheckActiveMinoShape();
+    //         //holdMinoCountに、activeMinoの種類の数値情報を格納
+    //         //例: activeMinoが T_Mino の時、holdMinoCount = 5
+    //         gameStatus.HoldMinoNumber = gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber];
 
-            //1つ上のコードでactiveMinoが変化しているため、
-            //holdMinoCountに、 "以前" のactiveMinoの種類の数値情報を格納
-            gameStatus.HoldMinoNumber = gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber];
+    //         //Holdされたミノを表示
+    //         gameStatus.HoldMino = spawner.SpawnHoldMino();
 
-            //以前のホールドミノを削除
-            Destroy(gameStatus.HoldMino.gameObject);
+    //         //1回目のHoldでは、新しく生成されるミノはNext1のミノになるので、
+    //         //countを1つ進める
+    //         //count++;
 
-            //新しくHoldされたミノを表示
-            gameStatus.HoldMino = spawner.SpawnHoldMino();
+    //         //count進行
+    //         gameStatus.MinoPopNumber++;
 
-            //変数の初期化
-            gameStatus.AngleReset();
-            gameStatus.SpinResetFlag();
-        }
-    }
+    //         //countが7の倍数の時
+    //         if (gameStatus.MinoPopNumber % 7 == 0)
+    //         {
+    //             //ミノの配列の補充
+    //             DetermineSpawnMinoOrder();
+
+    //             //次のActiveMinoの生成
+    //             gameStatus.ActiveMino = spawner.SpawnMino(gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber]);
+    //         }
+    //         else
+    //         {
+    //             //次のActiveMinoの生成
+    //             gameStatus.ActiveMino = spawner.SpawnMino(gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber]);
+    //         }
+
+    //         //activeMinoの種類を判別
+    //         CheckActiveMinoShape();
+
+    //         //変数の初期化
+    //         gameStatus.AngleReset();
+    //         gameStatus.SpinResetFlag();
+
+    //         //Nextの表示
+    //         spawner.SpawnNextMinos();
+
+    //         gameStatus.FirstHold = false;
+    //     }
+    //     //2回目のHold
+    //     else
+    //     {
+    //         //activeMinoを削除
+    //         Destroy(gameStatus.ActiveMino.gameObject);
+
+    //         //ホールドされていたミノをActiveMinoに戻す
+    //         gameStatus.ActiveMino = spawner.SpawnMino(gameStatus.HoldMinoNumber);
+
+    //         //activeMinoの種類を判別
+    //         CheckActiveMinoShape();
+
+    //         //1つ上のコードでactiveMinoが変化しているため、
+    //         //holdMinoCountに、 "以前" のactiveMinoの種類の数値情報を格納
+    //         gameStatus.HoldMinoNumber = gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber];
+
+    //         //以前のホールドミノを削除
+    //         Destroy(gameStatus.HoldMino.gameObject);
+
+    //         //新しくHoldされたミノを表示
+    //         gameStatus.HoldMino = spawner.SpawnHoldMino();
+
+    //         //変数の初期化
+    //         gameStatus.AngleReset();
+    //         gameStatus.SpinResetFlag();
+    //     }
+    // }
 }

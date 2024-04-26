@@ -8,7 +8,7 @@ public class Timer : MonoBehaviour
     // 自動でミノが落ちるまでのインターバル時間
     // 次にブロックが落ちるまでの時間
     // 入力受付タイマー(4種類)
-    [SerializeField] private float AutoDropInteaval { get; set; } = 1f;
+    public float AutoDropInteaval { get; private set; } = 1f;
     public float NextKeyLeftRightTimer { get; private set; }
     public float NextKeyRotateTimer { get; private set; }
     public float NextKeyDownTimer { get; private set; }
