@@ -5,28 +5,38 @@ using UnityEngine;
 // ゲームマネージャー
 public class GameManager : MonoBehaviour
 {
-    // 各種干渉するスクリプトの設定
+    // ミノの生成数、または設置数 //
+    private int MinoPopNumber = 0;
+    private int MinoPutNumber = 0; // Holdを使用すると、MinoPopNumberより1少なくなる
+
+    // Hold //
+    private bool UseHold = false; // Holdが使用されたか判別する変数
+    private bool FirstHold = true; // ゲーム中で最初のHoldかどうかを判別する変数
+
+    // 干渉するスクリプト //
     Board board;
-    Calculate calculate;
+    //Calculate calculate;
     MainSceneText mainSceneText;
-    Rotation rotation;
+    //Rotation rotation;
     SceneTransition sceneTransition;
     SE se;
+    SpinCheck spinCheck;
     Spawner spawner;
 
     GameStatus gameStatus;
     Timer timer;
+    Mino mino;
     //TetrisSpinData tetrisSpinData;
 
-    //public Mino gameStatus.ActiveMino; // 操作中のミノ
+    //public Mino mino.activeMino; // 操作中のミノ
     //Mino_Ghost gameStatus.GhostMino; // ゴーストミノ
     //public Mino HoldMino; // ホールドミノ
 
-    //private Minos gameStatus.ActiveMino;
+    //private Minos mino.activeMino;
     //private Minos gameStatus.GhostMino;
     //private Minos hold_mino;
 
-    // private string[] gameStatus.ActiveMino_angle = new string[]
+    // private string[] mino.activeMino_angle = new string[]
     // {
     //     "north", "east", "south", "west"
     // };
@@ -66,14 +76,16 @@ public class GameManager : MonoBehaviour
     {
         spawner = FindObjectOfType<Spawner>();
         board = FindObjectOfType<Board>();
-        calculate = FindObjectOfType<Calculate>();
+        //calculate = FindObjectOfType<Calculate>();
         mainSceneText = FindObjectOfType<MainSceneText>();
-        rotation = FindObjectOfType<Rotation>();
+        //rotation = FindObjectOfType<Rotation>();
         se = FindObjectOfType<SE>();
         sceneTransition = FindObjectOfType<SceneTransition>();
+        spinCheck = FindObjectOfType<SpinCheck>();
 
         gameStatus = FindObjectOfType<GameStatus>();
         timer = FindObjectOfType<Timer>();
+        mino = FindObjectOfType<Mino>();
         //tetrisSpinData = FindObjectOfType<TetrisSpinData>();
     }
 
@@ -82,38 +94,36 @@ public class GameManager : MonoBehaviour
         // タイマーの初期設定
         timer.ResetTimer();
 
-        if (!gameStatus.ActiveMino)
+        // 2回繰り返す
+        int length = 2;
+
+        for (int i = 0; i < length; i++)
         {
-            // 2回繰り返す
-            int length = 2;
-
-            for (int i = 0; i < length; i++)
-            {
-                // ゲーム開始時、0から13番目のミノの順番を決める
-                calculate.DetermineSpawnMinoOrder();
-            }
-
-            // 新しいgameStatus.ActiveMinoの生成
-            gameStatus.ActiveMino = spawner.SpawnMino(gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber]);
-
-            // gameStatus.ActiveMinoのゴーストミノの生成
-            gameStatus.GhostMino = spawner.SpawnMino_Ghost();
-
-            // Nextの表示
-            spawner.SpawnNextMinos();
+            // ゲーム開始時、0から13番目のミノの順番を決める
+            spawner.DetermineSpawnMinoOrder();
         }
+
+        // 新しいActiveMinoの生成
+        spawner.CreateNewActiveMino(MinoPopNumber);
+
+        // // mino.activeMinoのゴーストミノの生成
+        // gameStatus.GhostMino = spawner.SpawnMino_Ghost();
+
+        // Nextの表示
+        spawner.CreateNewNextMinos(MinoPopNumber);
+
     }
 
     private void Update()
     {
-        if (gameStatus.GameOver)
+        if (gameStatus.gameOver)
         {
             return;
         }
 
         if (Time.time > timer.keyReceptionTimer && gameStatus.Bottom == true)
         {
-            gameStatus.ActiveMino.MoveDown();
+            spawner.activeMino.MoveDown();
             BottomBoard();
         }
 
@@ -129,26 +139,25 @@ public class GameManager : MonoBehaviour
         // Dキーに割り当て
         if (Input.GetKeyDown(KeyCode.D) && gameStatus.CanNotMove == false)
         {
-            gameStatus.ActiveMino.MoveRight();
+            spawner.activeMino.MoveRight();
 
             timer.ContinuousLRKey = false;
 
             timer.UpdateLeftRightTimer();
 
-            if (!board.CheckPosition(gameStatus.ActiveMino))
+            if (!board.CheckPosition(spawner.activeMino))
             {
-                gameStatus.ActiveMino.MoveLeft();
+                spawner.activeMino.MoveLeft();
             }
             else
             {
                 se.CallSE(2);
 
-                // ゴーストミノの位置調整を実行
-                gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
+                spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
                 gameStatus.SpinResetFlag();
 
-                gameStatus.SpinActions = 7;
+                //gameStatus.SpinActions = 7;
             }
 
             BottomMove();
@@ -160,22 +169,21 @@ public class GameManager : MonoBehaviour
 
             timer.UpdateLeftRightTimer();
 
-            gameStatus.ActiveMino.MoveRight();
+            spawner.activeMino.MoveRight();
 
-            if (!board.CheckPosition(gameStatus.ActiveMino))
+            if (!board.CheckPosition(spawner.activeMino))
             {
-                gameStatus.ActiveMino.MoveLeft();
+                spawner.activeMino.MoveLeft();
             }
             else
             {
                 se.CallSE(2);
 
-                // ゴーストミノの位置調整を実行
-                gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
+                spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
                 gameStatus.SpinResetFlag();
 
-                gameStatus.SpinActions = 7;
+                //gameStatus.SpinActions = 7;
             }
 
             BottomMove();
@@ -185,9 +193,9 @@ public class GameManager : MonoBehaviour
         {
             timer.ContinuousLRKey = false;
 
-            if (!board.CheckPosition(gameStatus.ActiveMino))
+            if (!board.CheckPosition(spawner.activeMino))
             {
-                gameStatus.ActiveMino.MoveRight();
+                spawner.activeMino.MoveRight();
             }
         }
         // 左入力された時
@@ -198,22 +206,21 @@ public class GameManager : MonoBehaviour
 
             timer.UpdateLeftRightTimer();
 
-            gameStatus.ActiveMino.MoveLeft();
+            spawner.activeMino.MoveLeft();
 
-            if (!board.CheckPosition(gameStatus.ActiveMino))
+            if (!board.CheckPosition(spawner.activeMino))
             {
-                gameStatus.ActiveMino.MoveRight();
+                spawner.activeMino.MoveRight();
             }
             else
             {
                 se.CallSE(2);
 
-                // ゴーストミノの位置調整を実行
-                gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
+                spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
                 gameStatus.SpinResetFlag();
 
-                gameStatus.SpinActions = 7;
+                //gameStatus.SpinActions = 7;
             }
 
             BottomMove();
@@ -225,22 +232,21 @@ public class GameManager : MonoBehaviour
 
             timer.UpdateLeftRightTimer();
 
-            gameStatus.ActiveMino.MoveLeft();
+            spawner.activeMino.MoveLeft();
 
-            if (!board.CheckPosition(gameStatus.ActiveMino))
+            if (!board.CheckPosition(spawner.activeMino))
             {
-                gameStatus.ActiveMino.MoveRight();
+                spawner.activeMino.MoveRight();
             }
             else
             {
                 se.CallSE(2);
 
-                // ゴーストミノの位置調整を実行
-                gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
+                spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
                 gameStatus.SpinResetFlag();
 
-                gameStatus.SpinActions = 7;
+                //gameStatus.SpinActions = 7;
             }
 
             BottomMove();
@@ -250,31 +256,31 @@ public class GameManager : MonoBehaviour
         {
             timer.ContinuousLRKey = false;
 
-            if (!board.CheckPosition(gameStatus.ActiveMino))
+            if (!board.CheckPosition(spawner.activeMino))
             {
-                gameStatus.ActiveMino.MoveRight();
+                spawner.activeMino.MoveRight();
             }
         }
         // 下入力された時
         // Sキーに割り当て
         else if (Input.GetKey(KeyCode.S) && (Time.time > timer.NextKeyDownTimer) && gameStatus.CanNotMove == false)
         {
-            gameStatus.ActiveMino.MoveDown();
+            spawner.activeMino.MoveDown();
 
             timer.UpdateDownTimer();
 
-            if (!board.CheckPosition(gameStatus.ActiveMino))
+            if (!board.CheckPosition(spawner.activeMino))
             {
-                if (board.OverLimit(gameStatus.ActiveMino))
+                if (board.OverLimit(spawner.activeMino))
                 {
                     //ゲームオーバー
-                    gameStatus.GameOver = true;
+                    gameStatus.GameOverAction();
 
                     sceneTransition.GameOver();
                 }
                 else
                 {
-                    gameStatus.ActiveMino.MoveUp();
+                    spawner.activeMino.MoveUp();
 
                     gameStatus.Bottom = true;
 
@@ -287,7 +293,7 @@ public class GameManager : MonoBehaviour
 
             gameStatus.SpinResetFlag();
 
-            gameStatus.SpinActions = 7;
+            //gameStatus.SpinActions = 7;
         }
         // 右回転入力された時
         // Pキーに割り当て
@@ -299,16 +305,20 @@ public class GameManager : MonoBehaviour
 
             timer.UpdateRotateTimer();
 
-            gameStatus.ActiveMino.RotateRight(gameStatus.ActiveMino);
+            spawner.activeMino.RotateRight();
+
+            Debug.Log("通過");
 
             // 回転後の角度(minoAngleAfter)の調整
-            calculate.CalibrateMinoAngleAfter();
+            //calculate.CalibrateMinoAngleAfter();
 
-            if (!board.CheckPosition(gameStatus.ActiveMino))
+            if (!board.CheckPosition(spawner.activeMino))
             {
-                if (!rotation.MinoSuperRotation(gameStatus.ActiveMino))
+                if (!mino.SuperRotationSystem())
                 {
                     Debug.Log("回転禁止");
+
+                    gameStatus.ResetMinoAngleAfter();
 
                     //4 Rotation
                     se.CallSE(4);
@@ -318,16 +328,15 @@ public class GameManager : MonoBehaviour
                     Debug.Log("スーパーローテーション成功");
 
                     // ゴーストミノの向きを調整
-                    gameStatus.GhostMino.RotateRight(gameStatus.GhostMino);
+                    //gameStatus.GhostMino.RotateRight(gameStatus.GhostMino);
 
-                    // ゴーストミノの位置を調整
-                    gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
+                    spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
-                    gameStatus.MinoAngleBefore = gameStatus.MinoAngleAfter;
+                    gameStatus.UpdateMinoAngleBefore();
 
-                    gameStatus.SpinActions = rotation.SpinTerminal(gameStatus.ActiveMino);
+                    spinCheck.CheckSpinType();
 
-                    if (gameStatus.SpinActions == 4)
+                    if (spinCheck.spinTypeName != "None")
                     {
                         //5 Spin
                         se.CallSE(5);
@@ -342,16 +351,15 @@ public class GameManager : MonoBehaviour
             else
             {
                 // ゴーストミノの向きを調整
-                gameStatus.GhostMino.RotateRight(gameStatus.GhostMino);
+                //gameStatus.GhostMino.RotateRight(gameStatus.GhostMino);
 
-                // ゴーストミノの位置を調整
-                gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
+                spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置を調整
 
-                gameStatus.MinoAngleBefore = gameStatus.MinoAngleAfter;
+                gameStatus.UpdateMinoAngleBefore();
 
-                gameStatus.SpinActions = rotation.SpinTerminal(gameStatus.ActiveMino);
+                spinCheck.CheckSpinType();
 
-                if (gameStatus.SpinActions == 4)
+                if (spinCheck.spinTypeName != "None")
                 {
                     //5 Spin
                     se.CallSE(5);
@@ -377,16 +385,18 @@ public class GameManager : MonoBehaviour
 
             timer.UpdateRotateTimer();
 
-            gameStatus.ActiveMino.Rotateleft(gameStatus.ActiveMino);
+            spawner.activeMino.Rotateleft();
 
             // 回転後の角度(minoAngleAfter)の調整
-            calculate.CalibrateMinoAngleAfter();
+            //calculate.CalibrateMinoAngleAfter();
 
-            if (!board.CheckPosition(gameStatus.ActiveMino))
+            if (!board.CheckPosition(spawner.activeMino))
             {
-                if (!rotation.MinoSuperRotation(gameStatus.ActiveMino))
+                if (!mino.SuperRotationSystem())
                 {
                     Debug.Log("回転禁止");
+
+                    gameStatus.ResetMinoAngleAfter();
 
                     //4 Rotation
                     se.CallSE(4);
@@ -396,16 +406,15 @@ public class GameManager : MonoBehaviour
                     Debug.Log("スーパーローテーション成功");
 
                     // ゴーストミノの向きを調整
-                    gameStatus.GhostMino.Rotateleft(gameStatus.GhostMino);
+                    //gameStatus.GhostMino.Rotateleft(gameStatus.GhostMino);
 
-                    // ゴーストミノの位置を調整
-                    gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
+                    spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置を調整
 
-                    gameStatus.MinoAngleBefore = gameStatus.MinoAngleAfter;
+                    gameStatus.UpdateMinoAngleBefore();
 
-                    gameStatus.SpinActions = rotation.SpinTerminal(gameStatus.ActiveMino);
+                    spinCheck.CheckSpinType();
 
-                    if (gameStatus.SpinActions == 4)
+                    if (spinCheck.spinTypeName != "None")
                     {
                         //5 Spin
                         se.CallSE(5);
@@ -419,17 +428,13 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                // ゴーストミノの向きを調整
-                gameStatus.GhostMino.Rotateleft(gameStatus.GhostMino);
+                spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置を調整
 
-                // ゴーストミノの位置を調整
-                gameStatus.GhostMino.transform.position = calculate.PositionAdjustmentGhostMino();
+                gameStatus.UpdateMinoAngleBefore();
 
-                gameStatus.MinoAngleBefore = gameStatus.MinoAngleAfter;
+                spinCheck.CheckSpinType();
 
-                gameStatus.SpinActions = rotation.SpinTerminal(gameStatus.ActiveMino);
-
-                if (gameStatus.SpinActions == 4)
+                if (spinCheck.spinTypeName != "None")
                 {
                     //5 Spin
                     se.CallSE(5);
@@ -453,9 +458,9 @@ public class GameManager : MonoBehaviour
 
             for (int i = 0; i < 30; i++)
             {
-                gameStatus.ActiveMino.MoveDown();
+                spawner.activeMino.MoveDown();
 
-                if (!board.CheckPosition(gameStatus.ActiveMino))
+                if (!board.CheckPosition(spawner.activeMino))
                 {
                     break;
                 }
@@ -463,12 +468,12 @@ public class GameManager : MonoBehaviour
                 // 1マスでも落ちたらspin判定は消える。
                 gameStatus.SpinResetFlag();
 
-                gameStatus.SpinActions = 7;
+                //gameStatus.SpinActions = 7;
             }
 
-            if (board.OverLimit(gameStatus.ActiveMino))
+            if (board.OverLimit(spawner.activeMino))
             {
-                gameStatus.GameOver = true;
+                gameStatus.GameOverAction();
 
                 sceneTransition.GameOver();
             }
@@ -484,23 +489,33 @@ public class GameManager : MonoBehaviour
         {
             // Holdは1度使うと、ミノを設置するまで使えない
             // ミノを設置すると、useHold = false になる
-            if (gameStatus.UseHold == false)
+            if (UseHold == false)
             {
                 // ホールドの使用
-                gameStatus.UseHold = true;
+                UseHold = true;
 
                 // HoldのSEを鳴らす
                 se.CallSE(se.Hold);
 
                 // ゴーストミノの削除
-                Destroy(gameStatus.GhostMino.gameObject);
+                //Destroy(gameStatus.GhostMino.gameObject);
 
-                // ホールドの処理
-                // gameStatus.ActiveMinoをホールドに移動して、新しいミノを生成する
-                calculate.Hold();
+                // mino.activeMinoのゴーストミノを生成
+                //gameStatus.GhostMino = spawner.SpawnMino_Ghost();
 
-                // gameStatus.ActiveMinoのゴーストミノを生成
-                gameStatus.GhostMino = spawner.SpawnMino_Ghost();
+                if (FirstHold == true) // ゲーム中で最初のHoldだった時
+                {
+                    MinoPopNumber++;
+
+                    // ホールドの処理
+                    spawner.CreateNewHoldMino(FirstHold, MinoPopNumber); // ActiveMinoをホールドに移動して、新しいミノを生成する
+
+                    FirstHold = false; // ゲームオーバーまでfalse
+                }
+                else
+                {
+                    spawner.CreateNewHoldMino(FirstHold, MinoPopNumber);
+                }
             }
         }
     }
@@ -510,22 +525,22 @@ public class GameManager : MonoBehaviour
     {
         if (Time.time > timer.AutoDropTimer)
         {
-            gameStatus.ActiveMino.MoveDown();
+            spawner.activeMino.MoveDown();
 
             timer.UpdateDownTimer();
 
-            if (!board.CheckPosition(gameStatus.ActiveMino))
+            if (!board.CheckPosition(spawner.activeMino))
             {
-                if (board.OverLimit(gameStatus.ActiveMino))
+                if (board.OverLimit(spawner.activeMino))
                 {
                     //ゲームオーバー
-                    gameStatus.GameOver = true;
+                    gameStatus.GameOverAction();
 
                     sceneTransition.GameOver();
                 }
                 else
                 {
-                    gameStatus.ActiveMino.MoveUp();
+                    spawner.activeMino.MoveUp();
 
                     gameStatus.Bottom = true;
 
@@ -536,7 +551,7 @@ public class GameManager : MonoBehaviour
             }
             gameStatus.SpinResetFlag();
 
-            gameStatus.SpinActions = 7;
+            //gameStatus.SpinActions = 7;
 
             // nextdropTimer = Time.time + dropInteaval;
         }
@@ -557,156 +572,167 @@ public class GameManager : MonoBehaviour
         Debug.Log("BottomBoard");
 
         //ゴーストミノの削除
-        Destroy(gameStatus.GhostMino.gameObject);
+        //Destroy(gameStatus.GhostMino.gameObject);
 
         //初期化
+        //gameStatus.ResetUseHold();
+
+        UseHold = false;
+
         gameStatus.Bottom = false;
 
         timer.ResetTimer();
 
         timer.keyReceptionInterval = 1f;
 
-        gameStatus.ActiveMino.MoveUp(); //ミノを正常な位置に戻す
+        spawner.activeMino.MoveUp(); //ミノを正常な位置に戻す
 
-        board.SaveBlockInGrid(gameStatus.ActiveMino); //gameStatus.ActiveMinoをセーブ
+        board.SaveBlockInGrid(spawner.activeMino); //mino.activeMinoをセーブ
 
-        gameStatus.LineEliminationCountHistory.Add(board.ClearAllRows()); //埋まっていれば削除し、ClearRowCountに消去ライン数を追加していく
+        gameStatus.AddLineClearCountHistory(board.ClearAllRows(), MinoPutNumber); // 横列が埋まっていれば消去し、消去数を記録する
 
-        //Tspin判定(SpinActionsが4の時)
-        if (gameStatus.SpinActions == 4)
-        {
-            //Tspinで1列も消去していない時
-            //1列も消していなくてもTspin判定は行われる
-            if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] == 0)
-            {
-                //1列も消していない時のSE
-                if (gameStatus.UseHardDrop == true)
-                {
-                    //7 Hard Drop
-                    se.CallSE(7);
-                }
-                else
-                {
-                    //6 Normal Drop
-                    se.CallSE(6);
-                }
+        mainSceneText.TextDisplay(gameStatus.lineClearCountHistory[MinoPutNumber]); // 消去数、Spinに対応したテキストを表示し、それに対応したSEも鳴らす
 
-                //TspinMini判定
-                if (gameStatus.UseSpinMini == true)
-                {
-                    //ゲーム画面に表示
-                    mainSceneText.TextDisplay(calculate.Tspin_Mini); //修正予定
-                }
-                else
-                {
-                    //ゲーム画面に表示
-                    mainSceneText.TextDisplay(calculate.Tspin); //修正予定
-                }
-            }
-            //Tspinで1ライン消去した時
-            else if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] == 1)
-            {
-                //9 Spin Destroy
-                se.CallSE(9);
+        // //Tspin判定(SpinActionsが4の時)
+        // if (gameStatus.SpinActions == 4)
+        // {
+        //     //Tspinで1列も消去していない時
+        //     //1列も消していなくてもTspin判定は行われる
+        //     if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] == 0)
+        //     {
+        //         //1列も消していない時のSE
+        //         if (gameStatus.UseHardDrop == true)
+        //         {
+        //             //7 Hard Drop
+        //             se.CallSE(7);
+        //         }
+        //         else
+        //         {
+        //             //6 Normal Drop
+        //             se.CallSE(6);
+        //         }
 
-                //TspinMini判定
-                if (gameStatus.UseSpinMini == true)
-                {
-                    //ゲーム画面に表示
-                    mainSceneText.TextDisplay(calculate.Tspin_Mini); //修正予定
-                }
-                else
-                {
-                    //ゲーム画面に表示
-                    mainSceneText.TextDisplay(calculate.Tspin_Single); //修正予定
-                }
-            }
-            //Tspinで2ライン消去した時
-            else if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] == 2)
-            {
-                //9 Spin Destroy
-                se.CallSE(9);
+        //         //TspinMini判定
+        //         if (gameStatus.UseSpinMini == true)
+        //         {
+        //             //ゲーム画面に表示
+        //             mainSceneText.TextDisplay(calculate.Tspin_Mini); //修正予定
+        //         }
+        //         else
+        //         {
+        //             //ゲーム画面に表示
+        //             mainSceneText.TextDisplay(calculate.Tspin); //修正予定
+        //         }
+        //     }
+        //     //Tspinで1ライン消去した時
+        //     else if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] == 1)
+        //     {
+        //         //9 Spin Destroy
+        //         se.CallSE(9);
 
-                //TspinMini判定
-                if (gameStatus.UseSpinMini == true)
-                {
-                    //ゲーム画面に表示
-                    mainSceneText.TextDisplay(calculate.Tspin_Double_Mini);
-                }
-                else
-                {
-                    //ゲーム画面に表示
-                    mainSceneText.TextDisplay(calculate.Tspin_Double);
-                }
-            }
-            //Tspinで3ライン消去した時(TspinTripleMiniは存在しない)
-            else
-            {
-                //9 Spin Destroy
-                se.CallSE(9);
+        //         //TspinMini判定
+        //         if (gameStatus.UseSpinMini == true)
+        //         {
+        //             //ゲーム画面に表示
+        //             mainSceneText.TextDisplay(calculate.Tspin_Mini); //修正予定
+        //         }
+        //         else
+        //         {
+        //             //ゲーム画面に表示
+        //             mainSceneText.TextDisplay(calculate.Tspin_Single); //修正予定
+        //         }
+        //     }
+        //     //Tspinで2ライン消去した時
+        //     else if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] == 2)
+        //     {
+        //         //9 Spin Destroy
+        //         se.CallSE(9);
 
-                //ゲーム画面に表示
-                mainSceneText.TextDisplay(calculate.Tspin_Triple);
-            }
-        }
-        //4列消えた時(Tetris!)
-        else if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] == 4)
-        {
-            //10 Tetris!
-            se.CallSE(10);
+        //         //TspinMini判定
+        //         if (gameStatus.UseSpinMini == true)
+        //         {
+        //             //ゲーム画面に表示
+        //             mainSceneText.TextDisplay(calculate.Tspin_Double_Mini);
+        //         }
+        //         else
+        //         {
+        //             //ゲーム画面に表示
+        //             mainSceneText.TextDisplay(calculate.Tspin_Double);
+        //         }
+        //     }
+        //     //Tspinで3ライン消去した時(TspinTripleMiniは存在しない)
+        //     else
+        //     {
+        //         //9 Spin Destroy
+        //         se.CallSE(9);
 
-            //ゲーム画面に表示
-            mainSceneText.TextDisplay(calculate.Tetris);
-        }
-        //1〜3列消えた時
-        else if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] >= 1
-            && gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] <= 3)
-        {
-            //8 Normal Destroy
-            se.CallSE(8);
-        }
-        //ハードドロップで1列も消していない時
-        else if (gameStatus.UseHardDrop == true)
-        {
-            //7 Hard Drop
-            se.CallSE(7);
-        }
-        //通常ドロップで1列も消していない時
-        else
-        {
-            //6 Normal Drop
-            se.CallSE(6);
-        }
+        //         //ゲーム画面に表示
+        //         mainSceneText.TextDisplay(calculate.Tspin_Triple);
+        //     }
+        // }
+        // //4列消えた時(Tetris!)
+        // else if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] == 4)
+        // {
+        //     //10 Tetris!
+        //     se.CallSE(10);
+
+        //     //ゲーム画面に表示
+        //     mainSceneText.TextDisplay(calculate.Tetris);
+        // }
+        // //1〜3列消えた時
+        // else if (gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] >= 1
+        //     && gameStatus.LineEliminationCountHistory[gameStatus.LineEliminationCountHistoryNumber] <= 3)
+        // {
+        //     //8 Normal Destroy
+        //     se.CallSE(8);
+        // }
+        // //ハードドロップで1列も消していない時
+        // else if (gameStatus.UseHardDrop == true)
+        // {
+        //     //7 Hard Drop
+        //     se.CallSE(7);
+        // }
+        // //通常ドロップで1列も消していない時
+        // else
+        // {
+        //     //6 Normal Drop
+        //     se.CallSE(6);
+        // }
 
         gameStatus.SpinResetFlag();
 
         gameStatus.AllReset();
 
-        gameStatus.MinoPopNumber++;
+        MinoPutNumber++;
+        MinoPopNumber++;
 
-        gameStatus.LineEliminationCountHistoryNumber++;
+        //gameStatus.LineEliminationCountHistoryNumber++;
 
-        //countが7の倍数の時
-        if (gameStatus.MinoPopNumber % 7 == 0)
+        // //countが7の倍数の時
+        // if (gameStatus.MinoPopNumber % 7 == 0)
+        // {
+        //     //ミノの配列の補充
+        //     calculate.DetermineSpawnMinoOrder();
+        // }
+
+        // //次のminoMovement.ActiveMinoの生成
+        // mino.activeMino = spawner.SpawnMino(gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber]);
+
+        // //mino.activeMinoのゴーストミノを生成
+        // gameStatus.GhostMino = spawner.SpawnMino_Ghost();
+
+        spawner.CreateNewActiveMino(MinoPopNumber);
+
+        if (!board.CheckPosition(spawner.activeMino))
         {
-            //ミノの配列の補充
-            calculate.DetermineSpawnMinoOrder();
-        }
-
-        //次のgameStatus.ActiveMinoの生成
-        gameStatus.ActiveMino = spawner.SpawnMino(gameStatus.SpawnMinoOrder_List[gameStatus.MinoPopNumber]);
-
-        //gameStatus.ActiveMinoのゴーストミノを生成
-        gameStatus.GhostMino = spawner.SpawnMino_Ghost();
-
-        if (!board.CheckPosition(gameStatus.ActiveMino))
-        {
-            gameStatus.GameOver = true;
+            gameStatus.GameOverAction();
 
             sceneTransition.GameOver();
         }
 
-        spawner.SpawnNextMinos(); //Next表示
+        spawner.CreateNewNextMinos(MinoPopNumber);
+
+        //spawner.SpawnNextMinos(); //Next表示
     }
 
 

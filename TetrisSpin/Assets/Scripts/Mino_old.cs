@@ -1,13 +1,13 @@
 // using UnityEngine;
 
-// //ゴーストミノの移動、通常回転を扱うスクリプト
+// //ミノの移動、通常回転を扱うスクリプト
 
-// public class Mino_Ghost : MonoBehaviour
+// public class Mino : MonoBehaviour
 // {
 //     //干渉するスクリプトの設定
 //     Calculate calculate;
 
-//     //回転していいブロックかどうか
+//     //回転していいミノかどうか
 //     //Oミノは回転しないので、falseに設定
 //     [SerializeField]
 //     private bool can_rotate = true;
@@ -50,7 +50,7 @@
 //     }
 
 //     //通常右回転
-//     public void RotateRight(Mino_Ghost _GhostMino)
+//     public void RotateRight(Mino _ActiveMino)
 //     {
 //         //回転できるブロックかどうか
 //         //Oミノは回転できないので弾かれる
@@ -60,7 +60,7 @@
 //             int rotateAroundZ = -90;
 
 //             //Iミノ以外の回転
-//             if (!_GhostMino.name.Contains("I"))
+//             if (!_ActiveMino.name.Contains("I"))
 //             {
 //                 transform.Rotate(0, 0, rotateAroundZ);
 //             }
@@ -69,9 +69,8 @@
 //             else
 //             {
 //                 //Iミノの軸を取得する
-//                 //Iミノのx, y座標を渡す
 //                 Vector3 IminoAxis = calculate.AxisCheck
-//                     (Mathf.RoundToInt(_GhostMino.transform.position.x), Mathf.RoundToInt(_GhostMino.transform.position.y));
+//                     (Mathf.RoundToInt(_ActiveMino.transform.position.x), Mathf.RoundToInt(_ActiveMino.transform.position.y));
 
 //                 //IminoAxisを中心に右回転する
 //                 transform.RotateAround(IminoAxis, Vector3.forward, rotateAroundZ);
@@ -80,7 +79,7 @@
 //     }
 
 //     //通常左回転
-//     public void Rotateleft(Mino_Ghost _GhostMino)
+//     public void Rotateleft(Mino _ActiveMino)
 //     {
 //         //回転できるブロックかどうか
 //         //Oミノは回転できないので弾かれる
@@ -90,7 +89,7 @@
 //             int rotateAroundZ = 90;
 
 //             //Iミノ以外の回転
-//             if (!_GhostMino.name.Contains("I"))
+//             if (!_ActiveMino.name.Contains("I"))
 //             {
 //                 transform.Rotate(0, 0, rotateAroundZ);
 //             }
@@ -100,7 +99,7 @@
 //             {
 //                 //Iミノの軸を取得する
 //                 Vector3 IminoAxis = calculate.AxisCheck
-//                     (Mathf.RoundToInt(_GhostMino.transform.position.x), Mathf.RoundToInt(_GhostMino.transform.position.y));
+//                     (Mathf.RoundToInt(_ActiveMino.transform.position.x), Mathf.RoundToInt(_ActiveMino.transform.position.y));
 
 //                 //IminoAxisを中心に右回転する
 //                 transform.RotateAround(IminoAxis, Vector3.forward, rotateAroundZ);
