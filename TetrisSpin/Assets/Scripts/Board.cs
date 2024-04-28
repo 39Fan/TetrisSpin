@@ -20,7 +20,8 @@ public class Board : MonoBehaviour
     //干渉するスクリプトの設定
     //Calculate calculate;
     //TetrisSpinData tetrisSpinData;
-    GameStatus gameStatus;
+    // GameStatus gameStatus;
+    // Spawner spawner;
 
     //ゲーム画面内のグリッド
     public Transform[,] Grid;
@@ -35,7 +36,8 @@ public class Board : MonoBehaviour
     {
         //calculate = FindObjectOfType<Calculate>();
         //tetrisSpinData = FindObjectOfType<TetrisSpinData>();
-        gameStatus = FindObjectOfType<GameStatus>();
+        //gameStatus = FindObjectOfType<GameStatus>();
+        //spawner = FindObjectOfType<Spawner>();
 
         Grid = new Transform[Width, Height];
     }
@@ -112,7 +114,7 @@ public class Board : MonoBehaviour
     }
 
     //移動先にブロックがないか判定する関数
-    bool BlockCheck(int x, int y, Mino _ActiveMino)
+    private bool BlockCheck(int x, int y, Mino _ActiveMino)
     {
         //二次元配列が空ではない(他のブロックがある時)
         //親が違う
@@ -200,7 +202,7 @@ public class Board : MonoBehaviour
     }
 
     //削除する関数
-    void ClearRow(int y)
+    private void ClearRow(int y)
     {
         for (int x = 0; x < Width; x++)
         {
@@ -213,7 +215,7 @@ public class Board : MonoBehaviour
     }
 
     //上にあるブロックを1段下げる関数
-    void ShiftRowsDown(int startY)
+    private void ShiftRowsDown(int startY)
     {
         for (int y = startY; y < Height; y++)
         {
@@ -227,6 +229,26 @@ public class Board : MonoBehaviour
                 }
             }
         }
+    }
+
+    // ミノを構成するブロックについて、1番底に近いブロックのy座標データを返す関数 //
+    public int CheckActiveMinoBottomBlockPosition_y(Mino _activeMino, int _StartingBottomBlockPosition_y)
+    {
+        int bottomBlockPosition_y = _StartingBottomBlockPosition_y; // 1番下のブロックのY座標(初期値はゲームボードの高さの数値)
+        int temp; // 一時的な変数
+
+        foreach (Transform item in _activeMino.transform) // ミノの各ブロックを調べる
+        {
+            temp = Mathf.RoundToInt(item.transform.position.y); // ブロックのy座標の値
+
+            // 1番ブロックのy座標が低い値を探す
+            if (temp < bottomBlockPosition_y)
+            {
+                bottomBlockPosition_y = temp;
+            }
+        }
+
+        return bottomBlockPosition_y;
     }
 
     // //Blockを消す関数

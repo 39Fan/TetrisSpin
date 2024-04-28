@@ -429,6 +429,8 @@ public class Spawner : MonoBehaviour
 
             ActiveMino = SpawnActiveMino(HoldMino); // HoldミノをActiveMinoに戻す
 
+            AdjustGhostMinoPosition();  // ゴーストミノの位置調整
+
             GhostMino = SpawnGhostMino(GhostMinoDictionary[ActiveMinoName], ActiveMino, ActiveMinoToBaseDistance);
 
             //activeMinoの種類を判別

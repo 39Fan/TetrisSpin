@@ -164,16 +164,16 @@ public class MainSceneText : MonoBehaviour
                     case 1:
                         Debug.Log("1ライン消去");
                         One_Line_Clear.gameObject.SetActive(true);
-                        StartCoroutine(TextAnimationCoroutine(One_Line_Clear));
+                        TextAnimation(One_Line_Clear);
                         break;
                     case 2:
-                        StartCoroutine(TextAnimationCoroutine(Two_Line_Clear));
+                        TextAnimation(Two_Line_Clear);
                         break;
                     case 3:
-                        StartCoroutine(TextAnimationCoroutine(Three_Line_Clear));
+                        TextAnimation(Three_Line_Clear);
                         break;
                     case 4:
-                        StartCoroutine(TextAnimationCoroutine(Tetris));
+                        TextAnimation(Tetris);
                         break;
                 }
                 break;
@@ -182,17 +182,17 @@ public class MainSceneText : MonoBehaviour
                 switch (_LineClearCount)
                 {
                     case 0:
-                        StartCoroutine(TextAnimationCoroutine(Tspin));
+                        TextAnimation(Tspin);
                         break;
                     case 1:
-                        StartCoroutine(TextAnimationCoroutine(Tspin_Single));
+                        TextAnimation(Tspin_Single);
                         break;
                     case 2:
                         Tspin_Double.gameObject.SetActive(true);
-                        StartCoroutine(TextAnimationCoroutine(Tspin_Double));
+                        TextAnimation(Tspin_Double);
                         break;
                     case 3:
-                        StartCoroutine(TextAnimationCoroutine(Tspin_Triple));
+                        TextAnimation(Tspin_Triple);
                         break;
                 }
                 break;
@@ -200,13 +200,13 @@ public class MainSceneText : MonoBehaviour
                 switch (_LineClearCount)
                 {
                     case 0:
-                        StartCoroutine(TextAnimationCoroutine(Tspin_Mini));
+                        TextAnimation(Tspin_Mini);
                         break;
                     case 1:
-                        StartCoroutine(TextAnimationCoroutine(Tspin_Mini));
+                        TextAnimation(Tspin_Mini);
                         break;
                     case 2:
-                        StartCoroutine(TextAnimationCoroutine(Tspin_Double_Mini));
+                        TextAnimation(Tspin_Double_Mini);
                         break;
                 }
                 break;
@@ -242,7 +242,7 @@ public class MainSceneText : MonoBehaviour
     //             {
     //                 //アニメーションを行う
     //                 //コルーチンで演出が終わるまで待機し、完全にアニメーションが終了したら未使用に戻す
-    //                 StartCoroutine(TextAnimationCoroutine(one_Line_Clears[count]));
+    //                 TextAnimation(one_Line_Clears[count]));
 
     //                 //このfor文を抜ける
     //                 break;
@@ -256,7 +256,7 @@ public class MainSceneText : MonoBehaviour
     //         {
     //             if (two_Line_Clears[count].gameObject.activeSelf == false)
     //             {
-    //                 StartCoroutine(TextAnimationCoroutine(two_Line_Clears[count]));
+    //                 TextAnimation(two_Line_Clears[count]));
 
     //                 break;
     //             }
@@ -268,7 +268,7 @@ public class MainSceneText : MonoBehaviour
     //         {
     //             if (three_Line_Clears[count].gameObject.activeSelf == false)
     //             {
-    //                 StartCoroutine(TextAnimationCoroutine(three_Line_Clears[count]));
+    //                 TextAnimation(three_Line_Clears[count]));
 
     //                 break;
     //             }
@@ -280,7 +280,7 @@ public class MainSceneText : MonoBehaviour
     //         {
     //             if (Tetrises[count].gameObject.activeSelf == false)
     //             {
-    //                 StartCoroutine(TextAnimationCoroutine(Tetrises[count]));
+    //                 TextAnimation(Tetrises[count]));
 
     //                 break;
     //             }
@@ -292,7 +292,7 @@ public class MainSceneText : MonoBehaviour
     //         {
     //             if (Tspins[count].gameObject.activeSelf == false)
     //             {
-    //                 StartCoroutine(TextAnimationCoroutine(Tspins[count]));
+    //                 TextAnimation(Tspins[count]));
 
     //                 break;
     //             }
@@ -304,7 +304,7 @@ public class MainSceneText : MonoBehaviour
     //         {
     //             if (Tspin_Singles[count].gameObject.activeSelf == false)
     //             {
-    //                 StartCoroutine(TextAnimationCoroutine(Tspin_Singles[count]));
+    //                 TextAnimation(Tspin_Singles[count]));
 
     //                 break;
     //             }
@@ -316,7 +316,7 @@ public class MainSceneText : MonoBehaviour
     //         {
     //             if (Tspin_Doubles[count].gameObject.activeSelf == false)
     //             {
-    //                 StartCoroutine(TextAnimationCoroutine(Tspin_Doubles[count]));
+    //                 TextAnimation(Tspin_Doubles[count]));
 
     //                 break;
     //             }
@@ -328,7 +328,7 @@ public class MainSceneText : MonoBehaviour
     //         {
     //             if (Tspin_Triples[count].gameObject.activeSelf == false)
     //             {
-    //                 StartCoroutine(TextAnimationCoroutine(Tspin_Triples[count]));
+    //                 TextAnimation(Tspin_Triples[count]));
 
     //                 break;
     //             }
@@ -340,7 +340,7 @@ public class MainSceneText : MonoBehaviour
     //         {
     //             if (Tspin_Minis[count].gameObject.activeSelf == false)
     //             {
-    //                 StartCoroutine(TextAnimationCoroutine(Tspin_Minis[count]));
+    //                 TextAnimation(Tspin_Minis[count]));
 
     //                 break;
     //             }
@@ -352,7 +352,7 @@ public class MainSceneText : MonoBehaviour
     //         {
     //             if (Tspin_Double_Minis[count].gameObject.activeSelf == false)
     //             {
-    //                 StartCoroutine(TextAnimationCoroutine(Tspin_Double_Minis[count]));
+    //                 TextAnimation(Tspin_Double_Minis[count]));
 
     //                 break;
     //             }
@@ -360,7 +360,7 @@ public class MainSceneText : MonoBehaviour
     //     }
     // }
 
-    private IEnumerator TextAnimationCoroutine(Text _SelectText)
+    private void TextAnimation(Text _SelectText)
     {
         // //アクティブにする
         // _SelectText.gameObject.SetActive(true);
@@ -380,7 +380,7 @@ public class MainSceneText : MonoBehaviour
         TextMove(SelectText_Transform);
 
         //3.2秒待つ
-        yield return new WaitForSeconds(waitTime);
+        //yield return new WaitForSeconds(waitTime);
 
         // //アニメーションが完了したら非表示に戻す
         // _SelectText.gameObject.SetActive(false);
