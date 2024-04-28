@@ -134,10 +134,6 @@ public class Mino : MonoBehaviour
         //右回転後の向きをEast
         //左回転後の向きをWest
         //2回右回転または左回転した時の向きをSouthとする
-        // int North = North;
-        // int East = East;
-        // int South = South;
-        // int West = West;
 
         //回転後の角度(gameStatus.minoAngleAfter)の調整
         //CalibrategameStatus.minoAngleAfter();
@@ -149,483 +145,395 @@ public class Mino : MonoBehaviour
             //Debug.Log("Iミノ以外のSRS");
 
             if ((gameStatus.minoAngleBefore == gameStatus.North && gameStatus.minoAngleAfter == gameStatus.East) ||
-                (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.East))   //North から East , South から East に回転する時
+                (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.East))   // North から East , South から East に回転する時
             {
                 Debug.Log("North から East , South から East に回転する時");
 
-                //第一法則
-                //左に1つ移動
-                spawner.activeMino.MoveLeft();
+                // 第一法則
+                spawner.activeMino.MoveLeft(); // 左に1つ移動
 
-                //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
-                //LastSRSは1
-                gameStatus.IncreaseLastSRS();
+                // SRSの段階数を格納(TspinMiniの判定に必要)
+                gameStatus.IncreaseLastSRS(); // 1
 
                 if (!board.CheckPosition(spawner.activeMino))
                 {
-                    //第二法則
-                    //上に1つ移動
-                    spawner.activeMino.MoveUp();
+                    // 第二法則
+                    spawner.activeMino.MoveUp(); // 上に1つ移動
 
-                    //LastSRSは2
-                    gameStatus.IncreaseLastSRS();
+                    gameStatus.IncreaseLastSRS(); // 2
 
                     if (!board.CheckPosition(spawner.activeMino))
                     {
-                        //第三法則
-                        //右に1つ移動、下に3つ移動
-                        spawner.activeMino.MoveRight();
+                        // 第三法則
+                        spawner.activeMino.MoveRight(); // 右に1つ移動
                         spawner.activeMino.MoveDown();
                         spawner.activeMino.MoveDown();
-                        spawner.activeMino.MoveDown();
+                        spawner.activeMino.MoveDown(); // 下に3つ移動
 
-                        //LastSRSは3
-                        gameStatus.IncreaseLastSRS();
+                        gameStatus.IncreaseLastSRS(); // 3
 
                         if (!board.CheckPosition(spawner.activeMino))
                         {
-                            //第四法則
-                            //左に1つ移動
-                            spawner.activeMino.MoveLeft();
+                            // 第四法則
+                            spawner.activeMino.MoveLeft(); // 左に1つ移動
 
-                            //LastSRSは4
-                            gameStatus.IncreaseLastSRS();
+                            gameStatus.IncreaseLastSRS(); // 4
 
                             if (!board.CheckPosition(spawner.activeMino))
                             {
-                                //SRSができなかった際に回転前の状態に戻る
+                                // SRSができなかった時、回転前の状態に戻る
                                 spawner.activeMino.MoveRight();
                                 spawner.activeMino.MoveUp();
                                 spawner.activeMino.MoveUp();
 
-                                //通常回転のリセット
-                                gameStatus.RotateReset();
+                                gameStatus.RotateReset(); // 通常回転のリセット
 
-                                //SRSができなかった時、falseを返す
-                                return false;
+                                return false; // SRSができなかった時、falseを返す
                             }
                         }
                     }
                 }
             }
-            //WestからNorth
-            //WestからSouthに回転する時
             else if ((gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.North) ||
-                (gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.South))
+                (gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.South))   // West から North , West から South に回転する時
             {
-                //第一法則
-                //左に1つ移動
-                spawner.activeMino.MoveLeft();
+                // 第一法則
+                spawner.activeMino.MoveLeft(); // 左に1つ移動
 
-                //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
-                //LastSRSは1
-                gameStatus.IncreaseLastSRS();
+                // SRSの段階数を格納(TspinMiniの判定に必要)
+                gameStatus.IncreaseLastSRS(); // 1
 
                 if (!board.CheckPosition(spawner.activeMino))
                 {
-                    //第二法則
-                    //下に1つ移動
-                    spawner.activeMino.MoveDown();
+                    // 第二法則
+                    spawner.activeMino.MoveDown(); // 下に1つ移動
 
-                    //LastSRSは2
-                    gameStatus.IncreaseLastSRS();
+                    gameStatus.IncreaseLastSRS(); // 2
 
                     if (!board.CheckPosition(spawner.activeMino))
                     {
-                        //第三法則
-                        //右に1つ移動、上に3つ移動
-                        spawner.activeMino.MoveRight();
+                        // 第三法則
+                        spawner.activeMino.MoveRight(); // 右に1つ移動
                         spawner.activeMino.MoveUp();
                         spawner.activeMino.MoveUp();
-                        spawner.activeMino.MoveUp();
+                        spawner.activeMino.MoveUp(); // 上に3つ移動
 
-                        //LastSRSは3
-                        gameStatus.IncreaseLastSRS();
+                        gameStatus.IncreaseLastSRS(); // 3
 
                         if (!board.CheckPosition(spawner.activeMino))
                         {
-                            //第四法則
-                            //左に1つ移動
-                            spawner.activeMino.MoveLeft();
+                            // 第四法則
+                            spawner.activeMino.MoveLeft(); // 左に1つ移動
 
-                            //LastSRSは4
-                            gameStatus.IncreaseLastSRS();
+                            gameStatus.IncreaseLastSRS(); // 4
 
                             if (!board.CheckPosition(spawner.activeMino))
                             {
                                 //SRSができなかった際に回転前の状態に戻る
                                 spawner.activeMino.MoveRight();
-                                spawner.activeMino.MoveUp();
-                                spawner.activeMino.MoveUp();
+                                spawner.activeMino.MoveDown();
+                                spawner.activeMino.MoveDown();
 
-                                //通常回転のリセット
-                                gameStatus.RotateReset();
+                                gameStatus.RotateReset(); // 通常回転のリセット
 
-                                //SRSができなかった時、falseを返す
-                                return false;
+                                return false; // SRSができなかった時、falseを返す
                             }
                         }
                     }
                 }
             }
-            //EastからNorth
-            //EastからSouthに回転する時
             else if ((gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.North) ||
-                (gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.South))
+                (gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.South))   // East から North , East から South に回転する時
             {
-                //第一法則
-                //右に1つ移動
-                spawner.activeMino.MoveRight();
+                // 第一法則
+                spawner.activeMino.MoveRight(); // 右に1つ移動
 
-                //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
-                //LastSRSは1
-                gameStatus.IncreaseLastSRS();
+                // SRSの段階数を格納(TspinMiniの判定に必要)
+                gameStatus.IncreaseLastSRS(); // 1
 
                 if (!board.CheckPosition(spawner.activeMino))
                 {
-                    //第二法則
-                    //下に1つ移動
-                    spawner.activeMino.MoveDown();
+                    // 第二法則
+                    spawner.activeMino.MoveDown(); // 下に1つ移動
 
-                    //LastSRSは2
-                    gameStatus.IncreaseLastSRS();
+                    gameStatus.IncreaseLastSRS(); // 2
 
                     if (!board.CheckPosition(spawner.activeMino))
                     {
-                        //第三法則
-                        //左に1つ移動、上に3つ移動
-                        spawner.activeMino.MoveLeft();
+                        // 第三法則
+                        spawner.activeMino.MoveLeft(); // 左に1つ移動
                         spawner.activeMino.MoveUp();
                         spawner.activeMino.MoveUp();
-                        spawner.activeMino.MoveUp();
+                        spawner.activeMino.MoveUp(); // 上に3つ移動
 
-                        //LastSRSは3
-                        gameStatus.IncreaseLastSRS();
+                        gameStatus.IncreaseLastSRS(); // 3
 
                         if (!board.CheckPosition(spawner.activeMino))
                         {
-                            //第四法則
-                            //右に1つ移動
-                            spawner.activeMino.MoveRight();
+                            // 第四法則
+                            spawner.activeMino.MoveRight(); // 右に1つ移動
 
-                            //LastSRSは4
-                            gameStatus.IncreaseLastSRS();
+                            gameStatus.IncreaseLastSRS(); // 4
 
                             if (!board.CheckPosition(spawner.activeMino))
                             {
-                                //SRSができなかった際に回転前の状態に戻る
+                                // SRSができなかった際に回転前の状態に戻る
                                 spawner.activeMino.MoveLeft();
                                 spawner.activeMino.MoveDown();
                                 spawner.activeMino.MoveDown();
 
-                                //通常回転のリセット
-                                gameStatus.RotateReset();
+                                gameStatus.RotateReset(); // 通常回転のリセット
 
-                                //SRSができなかった時、falseを返す
-                                return false;
+                                return false; // SRSができなかった時、falseを返す
                             }
                         }
                     }
                 }
             }
-            //NorthからWest
-            //SouthからWestに回転する時
             else if ((gameStatus.minoAngleBefore == gameStatus.North && gameStatus.minoAngleAfter == gameStatus.West) ||
-                (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.West))
+                (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.West))   // North から West , South から West に回転する時
             {
-                //第一法則
-                //右に1つ移動
-                spawner.activeMino.MoveRight();
+                // 第一法則
+                spawner.activeMino.MoveRight(); // 右に1つ移動
 
-                //LastSRSには、SRSが成功した際の軌跡の段階を格納(TspinMiniの判定に必要)
-                //LastSRSは1
-                gameStatus.IncreaseLastSRS();
+                // SRSの段階数を格納(TspinMiniの判定に必要)
+                gameStatus.IncreaseLastSRS(); // 1
 
                 if (!board.CheckPosition(spawner.activeMino))
                 {
-                    //第二法則
-                    //上に1つ移動
-                    spawner.activeMino.MoveUp();
+                    // 第二法則
+                    spawner.activeMino.MoveUp(); // 上に1つ移動
 
-                    //LastSRSは2
-                    gameStatus.IncreaseLastSRS();
+                    gameStatus.IncreaseLastSRS(); // 2
 
                     if (!board.CheckPosition(spawner.activeMino))
                     {
-                        //第三法則
-                        //左に1つ移動、下に3つ移動
-                        spawner.activeMino.MoveLeft();
+                        // 第三法則
+                        spawner.activeMino.MoveLeft(); // 左に1つ移動
                         spawner.activeMino.MoveDown();
                         spawner.activeMino.MoveDown();
-                        spawner.activeMino.MoveDown();
+                        spawner.activeMino.MoveDown(); // 下に3つ移動
 
-                        //LastSRSは3
-                        gameStatus.IncreaseLastSRS();
+                        gameStatus.IncreaseLastSRS(); // 3
 
                         if (!board.CheckPosition(spawner.activeMino))
                         {
-                            //第四法則
-                            //右に1つ移動
-                            spawner.activeMino.MoveRight();
+                            // 第四法則
+                            spawner.activeMino.MoveRight(); // 右に1つ移動
 
-                            //LastSRSは4
-                            gameStatus.IncreaseLastSRS();
+                            gameStatus.IncreaseLastSRS(); // 4
 
                             if (!board.CheckPosition(spawner.activeMino))
                             {
-                                //SRSができなかった時、通常回転前の状態に戻る
-                                //SRSのリセット
+                                // SRSができなかった時、通常回転前の状態に戻る
                                 spawner.activeMino.MoveLeft();
                                 spawner.activeMino.MoveUp();
                                 spawner.activeMino.MoveUp();
 
-                                //通常回転のリセット
-                                gameStatus.RotateReset();
+                                gameStatus.RotateReset(); // 通常回転のリセット
 
-                                //SRSができなかった時、falseを返す
-                                return false;
+                                return false; // SRSができなかった時、falseを返す
                             }
                         }
                     }
                 }
             }
         }
-        //IミノのSRS(かなり複雑)
-        //Iミノは軸が他のミノと違うため別の処理
-        //IミノはLastSRSを扱わない
+        // IミノのSRS(かなり複雑)
         else
         {
             //Debug.Log("IミノのSRS");
 
-            //NorthからEast
-            //WestからSouthに回転する時
             if ((gameStatus.minoAngleBefore == gameStatus.North && gameStatus.minoAngleAfter == gameStatus.East) ||
-                (gameStatus.minoAngleBefore == gameStatus.North && gameStatus.minoAngleAfter == gameStatus.South))
+                (gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.South))  // North から East , West から South に回転する時
             {
-                //Debug.Log("NorthからEastまたはWestからSouthに回転する時");
-
-                //第一法則
-                //左に2つ移動
+                // 第一法則
                 spawner.activeMino.MoveLeft();
-                spawner.activeMino.MoveLeft();
+                spawner.activeMino.MoveLeft(); // 左に2つ移動
 
                 if (!board.CheckPosition(spawner.activeMino))
                 {
-                    //第二法則
-                    //右に3つ移動
+                    // 第二法則
                     spawner.activeMino.MoveRight();
                     spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight();
+                    spawner.activeMino.MoveRight(); // 右に3つ移動
 
                     if (!board.CheckPosition(spawner.activeMino))
                     {
-                        //第三法則
-                        //左に3つ移動、下に1つ移動
+                        // 第三法則
                         spawner.activeMino.MoveLeft();
                         spawner.activeMino.MoveLeft();
-                        spawner.activeMino.MoveLeft();
-                        spawner.activeMino.MoveDown();
+                        spawner.activeMino.MoveLeft(); // 左に3つ移動
+                        spawner.activeMino.MoveDown(); // 下に1つ移動
 
                         if (!board.CheckPosition(spawner.activeMino))
                         {
-                            //第四法則
-                            //右に3つ移動、上に3つ移動
+                            // 第四法則
                             spawner.activeMino.MoveRight();
                             spawner.activeMino.MoveRight();
-                            spawner.activeMino.MoveRight();
+                            spawner.activeMino.MoveRight(); // 右に3つ移動
                             spawner.activeMino.MoveUp();
                             spawner.activeMino.MoveUp();
-                            spawner.activeMino.MoveUp();
+                            spawner.activeMino.MoveUp(); // 上に3つ移動
 
                             if (!board.CheckPosition(spawner.activeMino))
                             {
-                                //SRSができなかった際に回転前の状態に戻る
+                                // SRSができなかった際に回転前の状態に戻る
                                 spawner.activeMino.MoveLeft();
                                 spawner.activeMino.MoveDown();
                                 spawner.activeMino.MoveDown();
 
-                                //通常回転のリセット
-                                gameStatus.RotateReset();
+                                gameStatus.RotateReset(); // 通常回転のリセット
 
-                                //SRSができなかった時、falseを返す
-                                return false;
+                                return false; // SRSができなかった時、falseを返す
                             }
                         }
                     }
                 }
             }
-            //WestからNorth
-            //SouthからEastに回転する時
             else if ((gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.North) ||
-                (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.East))
+                (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.East))   // West から North , South から East に回転する時
             {
-                //Debug.Log("WestからNorthまたはSouthからEastに回転する時");
-
-                //第一法則
-                //右に1つ移動
-                spawner.activeMino.MoveRight();
+                // 第一法則
+                spawner.activeMino.MoveRight(); // 右に1つ移動
 
                 if (!board.CheckPosition(spawner.activeMino))
                 {
-                    //第二法則
-                    //左に3つ移動
+                    // 第二法則
                     spawner.activeMino.MoveLeft();
                     spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft();
+                    spawner.activeMino.MoveLeft(); // 左に3つ移動
 
                     if (!board.CheckPosition(spawner.activeMino))
                     {
-                        //第三法則
-                        //右に3つ移動、下に2つ移動
+                        // 第三法則
                         spawner.activeMino.MoveRight();
                         spawner.activeMino.MoveRight();
-                        spawner.activeMino.MoveRight();
+                        spawner.activeMino.MoveRight(); // 右に3つ移動
                         spawner.activeMino.MoveDown();
-                        spawner.activeMino.MoveDown();
+                        spawner.activeMino.MoveDown(); // 下に2つ移動
 
                         if (!board.CheckPosition(spawner.activeMino))
                         {
-                            //第四法則
-                            //左に3つ移動、上に3つ移動
+                            // 第四法則
                             spawner.activeMino.MoveLeft();
                             spawner.activeMino.MoveLeft();
-                            spawner.activeMino.MoveLeft();
+                            spawner.activeMino.MoveLeft(); // 左に3つ移動
                             spawner.activeMino.MoveUp();
                             spawner.activeMino.MoveUp();
-                            spawner.activeMino.MoveUp();
+                            spawner.activeMino.MoveUp(); // 上に3つ移動
 
                             if (!board.CheckPosition(spawner.activeMino))
                             {
-                                //SRSができなかった際に回転前の状態に戻る
+                                // SRSができなかった際に回転前の状態に戻る
                                 spawner.activeMino.MoveRight();
                                 spawner.activeMino.MoveRight();
                                 spawner.activeMino.MoveDown();
 
-                                //通常回転のリセット
-                                gameStatus.RotateReset();
+                                gameStatus.RotateReset(); // 通常回転のリセット
 
-                                //SRSができなかった時、falseを返す
-                                return false;
+                                return false; // SRSができなかった時、falseを返す
                             }
                         }
                     }
                 }
             }
-            //EastからNorthまたはSouthからWestに回転する時
             else if ((gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.North) ||
-                (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.West))
+                (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.West))   // East から North , South から West に回転する時
             {
-                //Debug.Log("EastからNorthまたはSouthからWestに回転する時");
-
-                //第一法則
-                //右に2つ移動
+                // 第一法則
                 spawner.activeMino.MoveRight();
-                spawner.activeMino.MoveRight();
+                spawner.activeMino.MoveRight(); // 右に2つ移動
 
                 if (!board.CheckPosition(spawner.activeMino))
                 {
-                    //第二法則
-                    //左に3つ移動
+                    // 第二法則
                     spawner.activeMino.MoveLeft();
                     spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft();
+                    spawner.activeMino.MoveLeft(); // 左に3つ移動
 
                     if (!board.CheckPosition(spawner.activeMino))
                     {
-                        //第三法則
-                        //右に3つ移動、上に1つ移動
+                        // 第三法則
                         spawner.activeMino.MoveRight();
                         spawner.activeMino.MoveRight();
-                        spawner.activeMino.MoveRight();
-                        spawner.activeMino.MoveUp();
+                        spawner.activeMino.MoveRight(); // 右に3つ移動
+                        spawner.activeMino.MoveUp(); // 上に1つ移動
 
                         if (!board.CheckPosition(spawner.activeMino))
                         {
-                            //第四法則
-                            //左に3つ移動、下に3つ移動
+                            // 第四法則
                             spawner.activeMino.MoveLeft();
                             spawner.activeMino.MoveLeft();
-                            spawner.activeMino.MoveLeft();
+                            spawner.activeMino.MoveLeft(); // 左に3つ移動
                             spawner.activeMino.MoveDown();
                             spawner.activeMino.MoveDown();
-                            spawner.activeMino.MoveDown();
+                            spawner.activeMino.MoveDown(); // 下に3つ移動
 
                             if (!board.CheckPosition(spawner.activeMino))
                             {
-                                //SRSができなかった際に回転前の状態に戻る
+                                // SRSができなかった際に回転前の状態に戻る
                                 spawner.activeMino.MoveRight();
                                 spawner.activeMino.MoveUp();
                                 spawner.activeMino.MoveUp();
 
-                                //通常回転のリセット
-                                gameStatus.RotateReset();
+                                gameStatus.RotateReset(); // 通常回転のリセット
 
-                                //SRSができなかった時、falseを返す
-                                return false;
+                                return false; // SRSができなかった時、falseを返す
                             }
                         }
                     }
                 }
             }
-            //NorthからWestまたはEastからSouthに回転する時
             else if ((gameStatus.minoAngleBefore == gameStatus.North && gameStatus.minoAngleAfter == gameStatus.West) ||
-                (gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.South))
+                (gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.South))   // North から West , East から South に回転する時
             {
-                //Debug.Log("NorthからWestまたはEastからSouthに回転する時");
-
-                //第一法則
-                //左に1つ移動
-                spawner.activeMino.MoveLeft();
+                // 第一法則
+                spawner.activeMino.MoveLeft(); // 左に1つ移動
 
                 if (!board.CheckPosition(spawner.activeMino))
                 {
-                    //第二法則
-                    //右に3つ移動
+                    // 第二法則
                     spawner.activeMino.MoveRight();
                     spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight();
+                    spawner.activeMino.MoveRight(); // 右に3つ移動
 
                     if (!board.CheckPosition(spawner.activeMino))
                     {
-                        //第三法則
-                        //左に3つ移動、上に2つ移動
+                        // 第三法則
                         spawner.activeMino.MoveLeft();
                         spawner.activeMino.MoveLeft();
-                        spawner.activeMino.MoveLeft();
+                        spawner.activeMino.MoveLeft(); // 左に3つ移動
                         spawner.activeMino.MoveUp();
-                        spawner.activeMino.MoveUp();
+                        spawner.activeMino.MoveUp(); // 上に2つ移動
 
                         if (!board.CheckPosition(spawner.activeMino))
                         {
-                            //第四法則
-                            //右に3つ移動、下に3つ移動
+                            // 第四法則
                             spawner.activeMino.MoveRight();
                             spawner.activeMino.MoveRight();
-                            spawner.activeMino.MoveRight();
+                            spawner.activeMino.MoveRight(); // 右に3つ移動
                             spawner.activeMino.MoveDown();
                             spawner.activeMino.MoveDown();
-                            spawner.activeMino.MoveDown();
+                            spawner.activeMino.MoveDown(); // 下に3つ移動
 
                             if (!board.CheckPosition(spawner.activeMino))
                             {
-                                //SRSができなかった時、回転前の状態に戻る
+                                // SRSができなかった時、回転前の状態に戻る
                                 spawner.activeMino.MoveLeft();
                                 spawner.activeMino.MoveLeft();
                                 spawner.activeMino.MoveUp();
 
-                                //通常回転のリセット
-                                gameStatus.RotateReset();
+                                gameStatus.RotateReset(); // 通常回転のリセット
 
-                                //SRSができなかった時、falseを返す
-                                return false;
+                                return false; // SRSができなかった時、falseを返す
                             }
                         }
                     }
                 }
             }
         }
-        //SRSができた時、trueを返す
-        return true;
+        return true; // SRSができた時、trueを返す
     }
 
     // Iミノの軸を計算し、Vectoe3で返す関数 //

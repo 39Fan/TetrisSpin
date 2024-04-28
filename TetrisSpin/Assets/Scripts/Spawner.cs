@@ -197,6 +197,10 @@ public class Spawner : MonoBehaviour
     {
         get { return ActiveMino; }
     }
+    public Mino ghostMino
+    {
+        get { return GhostMino; }
+    }
     public string activeMinoName
     {
         get { return ActiveMinoName; }
