@@ -206,7 +206,6 @@ public class GameStatus : MonoBehaviour
     // MinoAngleBeforeの更新をする関数 //
     public void UpdateMinoAngleBefore()
     {
-        Debug.Log("はーい1");
         MinoAngleBefore = MinoAngleAfter;
     }
 

@@ -165,17 +165,19 @@ public class MainSceneText : MonoBehaviour
                 switch (_LineClearCount) // 消去数で表示するテキストが変わる
                 {
                     case 1:
-                        Debug.Log("1ライン消去");
-                        One_Line_Clear.gameObject.SetActive(true);
+                        AudioManager.Instance.PlaySound("Normal_Destroy");
                         TextAnimation(One_Line_Clear);
                         break;
                     case 2:
+                        AudioManager.Instance.PlaySound("Normal_Destroy");
                         TextAnimation(Two_Line_Clear);
                         break;
                     case 3:
+                        AudioManager.Instance.PlaySound("Normal_Destroy");
                         TextAnimation(Three_Line_Clear);
                         break;
                     case 4:
+                        AudioManager.Instance.PlaySound("Tetris");
                         TextAnimation(Tetris);
                         break;
                 }
@@ -185,16 +187,20 @@ public class MainSceneText : MonoBehaviour
                 switch (_LineClearCount)
                 {
                     case 0:
+                        AudioManager.Instance.PlaySound("Normal_Drop");
                         TextAnimation(Tspin);
                         break;
                     case 1:
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
                         TextAnimation(Tspin_Single);
                         break;
                     case 2:
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
                         Tspin_Double.gameObject.SetActive(true);
                         TextAnimation(Tspin_Double);
                         break;
                     case 3:
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
                         TextAnimation(Tspin_Triple);
                         break;
                 }
@@ -203,12 +209,15 @@ public class MainSceneText : MonoBehaviour
                 switch (_LineClearCount)
                 {
                     case 0:
+                        AudioManager.Instance.PlaySound("Normal_Drop");
                         TextAnimation(Tspin_Mini);
                         break;
                     case 1:
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
                         TextAnimation(Tspin_Mini);
                         break;
                     case 2:
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
                         TextAnimation(Tspin_Double_Mini);
                         break;
                 }

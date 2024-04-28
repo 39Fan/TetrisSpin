@@ -20,13 +20,30 @@ public class GameManager : MonoBehaviour
     private bool UseHold = false; // Holdが使用されたか判別する変数
     private bool FirstHold = true; // ゲーム中で最初のHoldかどうかを判別する変数
 
+    // オーディオ //
+
+    // "GameOver"
+    // "Hard_Drop
+    // "Hold"
+    // "Move_Down"
+    // "Move_Left_Right"
+    // "Normal_Destroy"
+    // "Normal_Drop"
+    // "Rotation"
+    // "Spin"
+    // "Spin_Destroy"
+    // "Start_or_Retry"
+    // "Tetris"
+
+    // 以上のオーディオが登録されている。
+
     // 干渉するスクリプト //
     Board board;
     //Calculate calculate;
     MainSceneText mainSceneText;
     //Rotation rotation;
     SceneTransition sceneTransition;
-    SE se;
+    // SE se;
     SpinCheck spinCheck;
     Spawner spawner;
 
@@ -86,7 +103,7 @@ public class GameManager : MonoBehaviour
         //calculate = FindObjectOfType<Calculate>();
         mainSceneText = FindObjectOfType<MainSceneText>();
         //rotation = FindObjectOfType<Rotation>();
-        se = FindObjectOfType<SE>();
+        // se = FindObjectOfType<SE>();
         sceneTransition = FindObjectOfType<SceneTransition>();
         spinCheck = FindObjectOfType<SpinCheck>();
 
@@ -134,7 +151,7 @@ public class GameManager : MonoBehaviour
         //     SetMinoFixed();
         // }
 
-        RockDown();
+        RockDown(); // ロックダウン判定
 
         PlayerInput(); // プレイヤーが制御できるコマンド
 
@@ -169,7 +186,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                se.CallSE(2);
+                AudioManager.Instance.PlaySound("Move_Left_Right");
 
                 spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
@@ -197,7 +214,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                se.CallSE(2);
+                AudioManager.Instance.PlaySound("Move_Left_Right");
 
                 spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
@@ -235,7 +252,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                se.CallSE(2);
+                AudioManager.Instance.PlaySound("Move_Left_Right");
 
                 spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
@@ -263,7 +280,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                se.CallSE(2);
+                AudioManager.Instance.PlaySound("Move_Left_Right");
 
                 spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
@@ -314,7 +331,7 @@ public class GameManager : MonoBehaviour
                     //timer.keyReceptionTimer = Time.time + timer.keyReceptionInterval;
                 }
             }
-            se.CallSE(3);
+            AudioManager.Instance.PlaySound("Move_Down");
 
             gameStatus.SpinResetFlag();
 
@@ -342,8 +359,7 @@ public class GameManager : MonoBehaviour
 
                     gameStatus.ResetMinoAngleAfter();
 
-                    //4 Rotation
-                    se.CallSE(4);
+                    AudioManager.Instance.PlaySound("Rotation");
                 }
                 else
                 {
@@ -360,13 +376,11 @@ public class GameManager : MonoBehaviour
 
                     if (spinCheck.spinTypeName != "None")
                     {
-                        //5 Spin
-                        se.CallSE(5);
+                        AudioManager.Instance.PlaySound("Spin");
                     }
                     else
                     {
-                        //4 Rotation
-                        se.CallSE(4);
+                        AudioManager.Instance.PlaySound("Rotation");
                     }
                 }
             }
@@ -383,13 +397,11 @@ public class GameManager : MonoBehaviour
 
                 if (spinCheck.spinTypeName != "None")
                 {
-                    //5 Spin
-                    se.CallSE(5);
+                    AudioManager.Instance.PlaySound("Spin");
                 }
                 else
                 {
-                    //4 Rotation
-                    se.CallSE(4);
+                    AudioManager.Instance.PlaySound("Rotation");
                 }
             }
 
@@ -421,8 +433,7 @@ public class GameManager : MonoBehaviour
 
                     gameStatus.ResetMinoAngleAfter();
 
-                    //4 Rotation
-                    se.CallSE(4);
+                    AudioManager.Instance.PlaySound("Rotation");
                 }
                 else
                 {
@@ -439,13 +450,11 @@ public class GameManager : MonoBehaviour
 
                     if (spinCheck.spinTypeName != "None")
                     {
-                        //5 Spin
-                        se.CallSE(5);
+                        AudioManager.Instance.PlaySound("Spin");
                     }
                     else
                     {
-                        //4 Rotation
-                        se.CallSE(4);
+                        AudioManager.Instance.PlaySound("Rotation");
                     }
                 }
             }
@@ -459,13 +468,11 @@ public class GameManager : MonoBehaviour
 
                 if (spinCheck.spinTypeName != "None")
                 {
-                    //5 Spin
-                    se.CallSE(5);
+                    AudioManager.Instance.PlaySound("Spin");
                 }
                 else
                 {
-                    //4 Rotation
-                    se.CallSE(4);
+                    AudioManager.Instance.PlaySound("Rotation");
                 }
             }
 
@@ -479,6 +486,8 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Space)) // Spaceキーに割り当て
         {
             gameStatus.UseHardDrop = true;
+
+            AudioManager.Instance.PlaySound("Hard_Drop");
 
             for (int i = 0; i < 30; i++)
             {
@@ -523,8 +532,7 @@ public class GameManager : MonoBehaviour
                 // ホールドの使用
                 UseHold = true;
 
-                // HoldのSEを鳴らす
-                se.CallSE(se.Hold);
+                AudioManager.Instance.PlaySound("Hold");
 
                 // RockDownに関する変数のリセット
                 BottomBlockPosition_y = StartingBottomBlockPosition_y;
@@ -616,6 +624,8 @@ public class GameManager : MonoBehaviour
             if (!board.CheckPosition(spawner.activeMino) && (Time.time >= timer.BottomTimer || BottomMoveCount >= BottomMoveCountLimit))
             {
                 spawner.activeMino.MoveUp(); // 元の位置に戻す
+
+                AudioManager.Instance.PlaySound("Normal_Drop");
 
                 // 変数のリセット
                 BottomBlockPosition_y = StartingBottomBlockPosition_y;

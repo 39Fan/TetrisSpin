@@ -761,7 +761,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1985886955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -774,31 +774,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03293d44eca6541d9899252ba100c81a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Start_or_Retry: 0
-  GameOver: 1
-  Move_Left_Right: 2
-  Move_Down: 3
-  Rotation: 4
-  Spin: 5
-  Normal_Drop: 6
-  Hard_Drop: 7
-  Normal_Destroy: 8
-  Spin_Destroy: 9
-  Tetris: 10
-  Hold: 11
-  SEs:
-  - {fileID: 8300000, guid: d6430629e5b4a47f6bc9f481117d8164, type: 3}
-  - {fileID: 8300000, guid: 85c5c15130b254bb6b6fad5a4087ad59, type: 3}
-  - {fileID: 8300000, guid: 68b84264277eb4f22872d58dc2122baa, type: 3}
-  - {fileID: 8300000, guid: 8934658700f8c405fae561f0e0bc00af, type: 3}
-  - {fileID: 8300000, guid: e32c10de991124ace995c6a4a1918683, type: 3}
-  - {fileID: 8300000, guid: 8aa4ba20638d54184b2649354eaf29f4, type: 3}
-  - {fileID: 8300000, guid: 8737e77d8143548e780ca369a30bbedf, type: 3}
-  - {fileID: 8300000, guid: 1741a7e081b6d4a1bb30ef9b54ce2c72, type: 3}
-  - {fileID: 8300000, guid: fca9299a9cde94be9a162ad1891290a6, type: 3}
-  - {fileID: 8300000, guid: b3873ebf0cd914273bc76cf4441575b2, type: 3}
-  - {fileID: 8300000, guid: bf280ad86dcc54ff98d90002c0b55a88, type: 3}
-  - {fileID: 8300000, guid: 1aab6b195254a48deb578919a2e9adc6, type: 3}
+  Audios: []
+  AudioNames:
+  - GameOver
+  - Hard_Drop
+  - Hold
+  - Move_Down
+  - Move_Left_Right
+  - Normal_Destroy
+  - Normal_Drop
+  - Rotation
+  - Spin
+  - Spin_Destroy
+  - Start_or_Retry
+  - Tetris
 --- !u!4 &1985886956
 Transform:
   m_ObjectHideFlags: 0
