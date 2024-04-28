@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
         // if (Time.time > timer.keyReceptionTimer && gameStatus.Bottom == true)
         // {
         //     spawner.activeMino.MoveDown();
-        //     BottomBoard();
+        //     SetMinoFixed();
         // }
 
         RockDown();
@@ -155,7 +155,7 @@ public class GameManager : MonoBehaviour
     void PlayerInput()
     {
         // 右入力された時
-        if (Input.GetKeyDown(KeyCode.D) && gameStatus.CanNotMove == false) // Dキーに割り当て
+        if (Input.GetKeyDown(KeyCode.D)) // Dキーに割り当て
         {
             spawner.activeMino.MoveRight();
 
@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
             //BottomMove();
         }
         // 連続で右入力がされた時(右入力キーを長押しされている時)
-        else if (Input.GetKey(KeyCode.D) && (Time.time > timer.NextKeyLeftRightTimer) && gameStatus.CanNotMove == false)
+        else if (Input.GetKey(KeyCode.D) && (Time.time > timer.NextKeyLeftRightTimer))
         {
             timer.ContinuousLRKey = true;
 
@@ -221,7 +221,7 @@ public class GameManager : MonoBehaviour
             // }
         }
         // 左入力された時
-        else if (Input.GetKeyDown(KeyCode.A) && gameStatus.CanNotMove == false) // Aキーに割り当て
+        else if (Input.GetKeyDown(KeyCode.A)) // Aキーに割り当て
         {
             timer.ContinuousLRKey = false;
 
@@ -249,7 +249,7 @@ public class GameManager : MonoBehaviour
             //BottomMove();
         }
         // 連続で左入力がされた時(左入力キーを長押しされている時)
-        else if (Input.GetKey(KeyCode.A) && (Time.time > timer.NextKeyLeftRightTimer) && gameStatus.CanNotMove == false)
+        else if (Input.GetKey(KeyCode.A) && (Time.time > timer.NextKeyLeftRightTimer))
         {
             timer.ContinuousLRKey = true;
 
@@ -287,7 +287,7 @@ public class GameManager : MonoBehaviour
             // }
         }
         // 下入力された時
-        else if (Input.GetKey(KeyCode.S) && (Time.time > timer.NextKeyDownTimer) && gameStatus.CanNotMove == false) // Sキーに割り当て
+        else if (Input.GetKey(KeyCode.S) && (Time.time > timer.NextKeyDownTimer)) // Sキーに割り当て
         {
             spawner.activeMino.MoveDown();
 
@@ -323,7 +323,7 @@ public class GameManager : MonoBehaviour
         // 右回転入力された時
         else if (Input.GetKeyDown(KeyCode.P) && (Time.time > timer.NextKeyRotateTimer)) // Pキーに割り当て
         {
-            gameStatus.CanNotMove = true;
+            //gameStatus.CanNotMove = true;
 
             gameStatus.SpinSetFlag();
 
@@ -397,12 +397,12 @@ public class GameManager : MonoBehaviour
 
             //BottomMove();
 
-            gameStatus.CanNotMove = false;
+            //gameStatus.CanNotMove = false;
         }
         // 左回転入力された時
         else if (Input.GetKeyDown(KeyCode.L) && (Time.time > timer.NextKeyRotateTimer)) // Lキーに割り当て
         {
-            gameStatus.CanNotMove = true;
+            // gameStatus.CanNotMove = true;
 
             gameStatus.SpinSetFlag();
 
@@ -473,7 +473,7 @@ public class GameManager : MonoBehaviour
 
             //BottomMove();
 
-            gameStatus.CanNotMove = false;
+            ////gameStatus.CanNotMove = false;
         }
         // ハードドロップ入力された時
         else if (Input.GetKeyDown(KeyCode.Space)) // Spaceキーに割り当て
@@ -505,8 +505,12 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                // RockDownに関する変数のリセット
+                BottomBlockPosition_y = StartingBottomBlockPosition_y;
+                BottomMoveCount = 0;
+
                 // 底に着いたときの処理
-                BottomBoard();
+                SetMinoFixed();
             }
         }
         // ホールド入力された時
@@ -617,7 +621,7 @@ public class GameManager : MonoBehaviour
                 BottomBlockPosition_y = StartingBottomBlockPosition_y;
                 BottomMoveCount = 0;
 
-                BottomBoard(); // ミノの設置判定
+                SetMinoFixed(); // ミノの設置判定
             }
             else
             {
@@ -663,7 +667,7 @@ public class GameManager : MonoBehaviour
         //             isBottom = false;
         //             BottomMoveCount = 0;
 
-        //             BottomBoard(); // ミノの設置判定
+        //             SetMinoFixed(); // ミノの設置判定
         //         }
         //     }
         //     else // ActivaMinoが、前回のy座標より下の位置にある時
@@ -699,7 +703,7 @@ public class GameManager : MonoBehaviour
         // if ((Time.time > timer.BottomTimer || BottomMoveCount == 15) && !board.CheckPosition(spawner.activeMino))
         // {
         //     //spawner.activeMino.MoveDown();
-        //     BottomBoard();
+        //     SetMinoFixed();
         // }
     }
 
@@ -714,10 +718,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // 底に着いたときの処理をする関数 //
-    void BottomBoard()
+    // ミノの設置場所が確定した時の処理をする関数 //
+    void SetMinoFixed()
     {
-        Debug.Log("BottomBoard");
+        Debug.Log("");
 
         //ゴーストミノの削除
         //Destroy(gameStatus.GhostMino.gameObject);
@@ -849,6 +853,8 @@ public class GameManager : MonoBehaviour
 
         gameStatus.SpinResetFlag();
 
+        spinCheck.ResetSpinTypeName();
+
         gameStatus.AllReset();
 
         MinoPutNumber++;
@@ -888,4 +894,28 @@ public class GameManager : MonoBehaviour
     {
 
     }*/
+
+    internal static class AssemblyState
+    {
+        public const bool IsDebug =
+#if DEBUG
+                true;
+#else
+            false;
+#endif
+    }
+
+    // public void Foo()
+    // {
+    //     if(AssemblyState.IsDebug)
+    //     {
+    //         Console.WriteLine("デバッグ時に実行");
+    //     }
+    //     else
+    //     {
+    //         Console.WriteLine("デバッグ以外で実行");
+    //     }
+    // }
+
+
 }

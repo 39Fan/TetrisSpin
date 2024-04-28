@@ -27,7 +27,7 @@ public class GameStatus : MonoBehaviour
     // 底についた判定
     //public bool Bottom { get; set; } = false;
 
-    public bool CanNotMove { get; set; } = false;
+    //public bool CanNotMove { get; set; } = false;
 
 
     // ライン消去数 //

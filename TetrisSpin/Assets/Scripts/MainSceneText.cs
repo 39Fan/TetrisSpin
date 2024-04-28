@@ -11,6 +11,9 @@ public class MainSceneText : MonoBehaviour
     // 干渉するスクリプト //
     SpinCheck spinCheck;
 
+    // Canvas //
+    [SerializeField] private RectTransform Canvas;
+
     // 表示できるテキスト //
     // 変数宣言の文法上、実際にゲーム画面に表示するテキストと変数名が合致しない場合がある
     [SerializeField] private Text One_Line_Clear;
@@ -367,7 +370,7 @@ public class MainSceneText : MonoBehaviour
 
         Debug.Log(_SelectText);
 
-        Text InstantiatedText = Instantiate(_SelectText);
+        Text InstantiatedText = Instantiate(_SelectText, Canvas);
 
         //選ばれたテキストのテキストコンポーネントとトランスフォームコンポーネントを取得
         Text SelectText_Text = InstantiatedText.GetComponent<Text>();
