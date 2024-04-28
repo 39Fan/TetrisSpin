@@ -9,6 +9,13 @@ public class GameManager : MonoBehaviour
     private int MinoPopNumber = 0;
     private int MinoPutNumber = 0; // Holdを使用すると、MinoPopNumberより1少なくなる
 
+    // ロックダウン //
+    [SerializeField] private bool isBottom = false;
+    [SerializeField] private int BottomMoveCount = 0;
+    [SerializeField] private int BottomMoveCountLimit = 15;
+    [SerializeField] private int BottomBlockPosition_y = 20;
+    private int StartingBottomBlockPosition_y = 20;
+
     // Hold //
     private bool UseHold = false; // Holdが使用されたか判別する変数
     private bool FirstHold = true; // ゲーム中で最初のHoldかどうかを判別する変数
@@ -121,15 +128,17 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (Time.time > timer.keyReceptionTimer && gameStatus.Bottom == true)
-        {
-            spawner.activeMino.MoveDown();
-            BottomBoard();
-        }
+        // if (Time.time > timer.keyReceptionTimer && gameStatus.Bottom == true)
+        // {
+        //     spawner.activeMino.MoveDown();
+        //     BottomBoard();
+        // }
 
-        PlayerInput();
+        RockDown();
 
-        AutoDown();
+        PlayerInput(); // プレイヤーが制御できるコマンド
+
+        AutoDown(); // 自動落下
     }
 
     // キーの入力を検知してブロックを動かす関数
@@ -160,7 +169,9 @@ public class GameManager : MonoBehaviour
                 //gameStatus.SpinActions = 7;
             }
 
-            BottomMove();
+            CheckBottomMoveCount();
+
+            //BottomMove();
         }
         // 連続で右入力がされた時(右入力キーを長押しされている時)
         else if (Input.GetKey(KeyCode.D) && (Time.time > timer.NextKeyLeftRightTimer) && gameStatus.CanNotMove == false)
@@ -186,7 +197,9 @@ public class GameManager : MonoBehaviour
                 //gameStatus.SpinActions = 7;
             }
 
-            BottomMove();
+            CheckBottomMoveCount();
+
+            //BottomMove();
         }
         // 連続右入力の解除
         else if (Input.GetKeyUp(KeyCode.D))
@@ -223,7 +236,9 @@ public class GameManager : MonoBehaviour
                 //gameStatus.SpinActions = 7;
             }
 
-            BottomMove();
+            CheckBottomMoveCount();
+
+            //BottomMove();
         }
         // 連続で左入力がされた時(左入力キーを長押しされている時)
         else if (Input.GetKey(KeyCode.A) && (Time.time > timer.NextKeyLeftRightTimer) && gameStatus.CanNotMove == false)
@@ -249,7 +264,9 @@ public class GameManager : MonoBehaviour
                 //gameStatus.SpinActions = 7;
             }
 
-            BottomMove();
+            CheckBottomMoveCount();
+
+            //BottomMove();
         }
         // 連続右入力の解除
         else if (Input.GetKeyUp(KeyCode.A))
@@ -281,12 +298,13 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     spawner.activeMino.MoveUp();
+                    // spawner.activeMino.MoveUp();
 
-                    gameStatus.Bottom = true;
+                    // gameStatus.Bottom = true;
 
-                    BottomMove();
+                    // BottomMove();
 
-                    timer.keyReceptionTimer = Time.time + timer.keyReceptionInterval;
+                    //timer.keyReceptionTimer = Time.time + timer.keyReceptionInterval;
                 }
             }
             se.CallSE(3);
@@ -371,7 +389,9 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            BottomMove();
+            CheckBottomMoveCount();
+
+            //BottomMove();
 
             gameStatus.CanNotMove = false;
         }
@@ -446,7 +466,9 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            BottomMove();
+            CheckBottomMoveCount();
+
+            //BottomMove();
 
             gameStatus.CanNotMove = false;
         }
@@ -462,6 +484,8 @@ public class GameManager : MonoBehaviour
 
                 if (!board.CheckPosition(spawner.activeMino))
                 {
+                    spawner.activeMino.MoveUp(); // ミノを正常な位置に戻す
+
                     break;
                 }
 
@@ -540,13 +564,15 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    spawner.activeMino.MoveUp();
+                    spawner.activeMino.MoveUp(); // ミノを正常な位置に戻す
 
-                    gameStatus.Bottom = true;
+                    // spawner.activeMino.MoveUp();
 
-                    BottomMove();
+                    // gameStatus.Bottom = true;
 
-                    timer.keyReceptionTimer = Time.time + timer.keyReceptionInterval;
+                    // BottomMove();
+
+                    // timer.keyReceptionTimer = Time.time + timer.keyReceptionInterval;
                 }
             }
             gameStatus.SpinResetFlag();
@@ -558,12 +584,127 @@ public class GameManager : MonoBehaviour
     }
 
     //Bottomで移動、回転したとき
-    void BottomMove()
+    // void BottomMove()
+    // {
+    //     if (timer.keyReceptionTimer > Time.time && gameStatus.Bottom == true)
+    //     {
+    //         timer.keyReceptionInterval = timer.keyReceptionInterval - (timer.keyReceptionTimer - Time.time) / 10;
+    //         timer.keyReceptionTimer = Time.time + timer.keyReceptionInterval;
+    //     }
+    // }
+
+    private void RockDown()
     {
-        if (timer.keyReceptionTimer > Time.time && gameStatus.Bottom == true)
+        int newBottomBlockPosition_y = board.CheckActiveMinoBottomBlockPosition_y(spawner.activeMino, StartingBottomBlockPosition_y); // ActiveMino の1番下のブロックの座標を取得
+
+        if (BottomBlockPosition_y <= newBottomBlockPosition_y) // ActivaMinoが、前回のy座標以上の位置にある時
         {
-            timer.keyReceptionInterval = timer.keyReceptionInterval - (timer.keyReceptionTimer - Time.time) / 10;
-            timer.keyReceptionTimer = Time.time + timer.keyReceptionInterval;
+            spawner.activeMino.MoveDown();
+
+            // 1マス下が底の時((底に面している時)
+            // かつインターバル時間を超過している、または15回以上移動や回転を行った時
+            if (!board.CheckPosition(spawner.activeMino) && (Time.time >= timer.BottomTimer || BottomMoveCount >= BottomMoveCountLimit))
+            {
+                spawner.activeMino.MoveUp(); // 元の位置に戻す
+
+                // 変数のリセット
+                BottomBlockPosition_y = StartingBottomBlockPosition_y;
+                isBottom = false;
+                BottomMoveCount = 0;
+
+                BottomBoard(); // ミノの設置判定
+            }
+
+            spawner.activeMino.MoveUp(); // 元の位置に戻す
+        }
+        else // ActivaMinoが、前回のy座標より下の位置にある時
+        {
+            // isBottom = true; // 底に面している判定
+
+            BottomMoveCount = 0; // リセットする
+
+            BottomBlockPosition_y = newBottomBlockPosition_y; // BottomPositionの更新
+
+            // timer.BottomTimer = Time.time + timer.BottomTimerInterval; // タイマーをスタート
+        }
+
+        // // Debug.Log(newBottomBlockPosition_y);
+
+        // spawner.activeMino.MoveDown();
+
+        // if (!board.CheckPosition(spawner.activeMino)) // 1マス下が底の時((底に面している時)
+        // {
+        //     spawner.activeMino.MoveUp(); // 元の位置に戻す
+
+        //     if (BottomBlockPosition_y <= newBottomBlockPosition_y) // ActivaMinoが、前回のy座標以上の位置にある時
+        //     {
+        //         if (isBottom == false)
+        //         {
+        //             isBottom = true; // 底に面している判定
+
+        //             BottomMoveCount = 0; // リセットする
+
+        //             BottomBlockPosition_y = newBottomBlockPosition_y; // BottomPositionの更新
+
+        //             timer.BottomTimer = Time.time + timer.BottomTimerInterval; // タイマーをスタート
+        //         }
+
+        //         // 底に面した状態で0.5秒が経過した時
+        //         // または、15回移動や回転を行った時
+        //         if (Time.time >= timer.BottomTimer || BottomMoveCount >= BottomMoveCountLimit)
+        //         {
+        //             // 変数のリセット
+        //             BottomBlockPosition_y = StartingBottomBlockPosition_y;
+        //             isBottom = false;
+        //             BottomMoveCount = 0;
+
+        //             BottomBoard(); // ミノの設置判定
+        //         }
+        //     }
+        //     else // ActivaMinoが、前回のy座標より下の位置にある時
+        //     {
+        //         // isBottom = true; // 底に面している判定
+
+        //         // BottomMoveCount = 0; // リセットする
+
+        //         BottomBlockPosition_y = newBottomBlockPosition_y; // BottomPositionの更新
+
+        //         timer.BottomTimer = Time.time + timer.BottomTimerInterval; // タイマーをスタート
+        //     }
+        // }
+        // else
+        // {
+        //     spawner.activeMino.MoveUp(); // 元の位置に戻す
+
+        //     isBottom = false;
+
+        //     if (BottomBlockPosition_y <= newBottomBlockPosition_y) // ActivaMinoが、前回のy座標以上の位置にある時(更新していない時)
+        //     {
+
+        //     }
+        //     else
+        //     {
+        //         BottomMoveCount = 0; // リセットする
+        //     }
+        // }
+
+        // ロックダウンの判定
+        // 0.5秒動きがない、または同じ高さで15回移動や回転が行われた時
+        // かつ、ミノがブロックや壁に埋まっている時
+        // if ((Time.time > timer.BottomTimer || BottomMoveCount == 15) && !board.CheckPosition(spawner.activeMino))
+        // {
+        //     //spawner.activeMino.MoveDown();
+        //     BottomBoard();
+        // }
+    }
+
+    private void CheckBottomMoveCount()
+    {
+        if (BottomMoveCount < BottomMoveCountLimit) // BottomMoveCount が15未満の時
+        {
+            BottomMoveCount++;
+
+            // timer.BottomTimer = Time.time + timer.BottomTimerInterval;
         }
     }
 
@@ -579,13 +720,13 @@ public class GameManager : MonoBehaviour
 
         UseHold = false;
 
-        gameStatus.Bottom = false;
+        //gameStatus.Bottom = false;
 
         timer.ResetTimer();
 
-        timer.keyReceptionInterval = 1f;
+        //timer.keyReceptionInterval = 1f;
 
-        spawner.activeMino.MoveUp(); //ミノを正常な位置に戻す
+        // spawner.activeMino.MoveUp(); //ミノを正常な位置に戻す
 
         board.SaveBlockInGrid(spawner.activeMino); //mino.activeMinoをセーブ
 

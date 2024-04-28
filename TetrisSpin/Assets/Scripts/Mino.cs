@@ -130,7 +130,6 @@ public class Mino : MonoBehaviour
 
     public bool SuperRotationSystem()
     {
-        Debug.Log("わーい");
         //初期(未回転)状態をNorthとして、
         //右回転後の向きをEast
         //左回転後の向きをWest
@@ -214,8 +213,6 @@ public class Mino : MonoBehaviour
             else if ((gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.North) ||
                 (gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.South))
             {
-                Debug.Log("わーい");
-
                 //第一法則
                 //左に1つ移動
                 spawner.activeMino.MoveLeft();
@@ -276,8 +273,6 @@ public class Mino : MonoBehaviour
             else if ((gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.North) ||
                 (gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.South))
             {
-                Debug.Log("わーい");
-
                 //第一法則
                 //右に1つ移動
                 spawner.activeMino.MoveRight();
@@ -338,8 +333,6 @@ public class Mino : MonoBehaviour
             else if ((gameStatus.minoAngleBefore == gameStatus.North && gameStatus.minoAngleAfter == gameStatus.West) ||
                 (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.West))
             {
-                Debug.Log("わーい");
-
                 //第一法則
                 //右に1つ移動
                 spawner.activeMino.MoveRight();

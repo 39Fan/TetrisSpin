@@ -25,7 +25,7 @@ public class GameStatus : MonoBehaviour
     // private string SpinTypeName;
 
     // 底についた判定
-    public bool Bottom { get; set; } = false;
+    //public bool Bottom { get; set; } = false;
 
     public bool CanNotMove { get; set; } = false;
 
