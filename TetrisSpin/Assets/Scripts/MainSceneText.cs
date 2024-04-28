@@ -2,55 +2,54 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using TMPro;
 using DG.Tweening;
 
 // ゲーム画面のテキストに関するスクリプト //
 
 public class MainSceneText : MonoBehaviour
 {
-    // 干渉するスクリプト //
-    SpinCheck spinCheck;
-
     // Canvas //
     [SerializeField] private RectTransform Canvas;
 
     // 表示できるテキスト //
     // 変数宣言の文法上、実際にゲーム画面に表示するテキストと変数名が合致しない場合がある
-    [SerializeField] private Text One_Line_Clear;
-    [SerializeField] private Text Two_Line_Clear;
-    [SerializeField] private Text Three_Line_Clear;
-    [SerializeField] private Text Tetris;
-    [SerializeField] private Text Ispin;
-    [SerializeField] private Text Ispin_Single;
-    [SerializeField] private Text Ispin_Double;
-    [SerializeField] private Text Ispin_Triple;
-    [SerializeField] private Text Ispin_Quattro;
-    [SerializeField] private Text Jspin;
-    [SerializeField] private Text Jspin_Single;
-    [SerializeField] private Text Jspin_Double;
-    [SerializeField] private Text Jspin_Triple;
-    [SerializeField] private Text Lspin;
-    [SerializeField] private Text Lspin_Single;
-    [SerializeField] private Text Lspin_Double;
-    [SerializeField] private Text Lspin_Triple;
-    [SerializeField] private Text Ospin;
-    [SerializeField] private Text Ospin_Single;
-    [SerializeField] private Text Ospin_Double;
-    [SerializeField] private Text Ospin_Triple;
-    [SerializeField] private Text Sspin;
-    [SerializeField] private Text Sspin_Single;
-    [SerializeField] private Text Sspin_Double;
-    [SerializeField] private Text Sspin_Triple;
-    [SerializeField] private Text Tspin;
-    [SerializeField] private Text Tspin_Single;
-    [SerializeField] private Text Tspin_Double;
-    [SerializeField] private Text Tspin_Triple;
-    [SerializeField] private Text Tspin_Mini;
-    [SerializeField] private Text Tspin_Double_Mini;
-    [SerializeField] private Text Zspin;
-    [SerializeField] private Text Zspin_Single;
-    [SerializeField] private Text Zspin_Double;
-    [SerializeField] private Text Zspin_Triple;
+    [SerializeField] private TextMeshProUGUI BackToBack;
+    [SerializeField] private TextMeshProUGUI One_Line_Clear;
+    [SerializeField] private TextMeshProUGUI Two_Line_Clear;
+    [SerializeField] private TextMeshProUGUI Three_Line_Clear;
+    [SerializeField] private TextMeshProUGUI Tetris;
+    [SerializeField] private TextMeshProUGUI Ispin;
+    [SerializeField] private TextMeshProUGUI Ispin_Single;
+    [SerializeField] private TextMeshProUGUI Ispin_Double;
+    [SerializeField] private TextMeshProUGUI Ispin_Triple;
+    [SerializeField] private TextMeshProUGUI Ispin_Quattro;
+    [SerializeField] private TextMeshProUGUI Jspin;
+    [SerializeField] private TextMeshProUGUI Jspin_Single;
+    [SerializeField] private TextMeshProUGUI Jspin_Double;
+    [SerializeField] private TextMeshProUGUI Jspin_Triple;
+    [SerializeField] private TextMeshProUGUI Lspin;
+    [SerializeField] private TextMeshProUGUI Lspin_Single;
+    [SerializeField] private TextMeshProUGUI Lspin_Double;
+    [SerializeField] private TextMeshProUGUI Lspin_Triple;
+    [SerializeField] private TextMeshProUGUI Ospin;
+    [SerializeField] private TextMeshProUGUI Ospin_Single;
+    [SerializeField] private TextMeshProUGUI Ospin_Double;
+    [SerializeField] private TextMeshProUGUI Ospin_Triple;
+    [SerializeField] private TextMeshProUGUI Sspin;
+    [SerializeField] private TextMeshProUGUI Sspin_Single;
+    [SerializeField] private TextMeshProUGUI Sspin_Double;
+    [SerializeField] private TextMeshProUGUI Sspin_Triple;
+    [SerializeField] private TextMeshProUGUI Tspin;
+    [SerializeField] private TextMeshProUGUI Tspin_Single;
+    [SerializeField] private TextMeshProUGUI Tspin_Double;
+    [SerializeField] private TextMeshProUGUI Tspin_Triple;
+    [SerializeField] private TextMeshProUGUI Tspin_Mini;
+    [SerializeField] private TextMeshProUGUI Tspin_Double_Mini;
+    [SerializeField] private TextMeshProUGUI Zspin;
+    [SerializeField] private TextMeshProUGUI Zspin_Single;
+    [SerializeField] private TextMeshProUGUI Zspin_Double;
+    [SerializeField] private TextMeshProUGUI Zspin_Triple;
 
 
     // private string One_Line_Clear = "One_Line_Clear";
@@ -89,31 +88,21 @@ public class MainSceneText : MonoBehaviour
     // private string Zspin_Double = "Zspin_Double";
     // private string Zspin_Triple = "Zspin_Triple";
 
-
-    // フェードインとフェードアウトする時間 //
-    float FadeInInterval = 0.2f;
-    float FadeOutInterval = 1f;
-
-    // テキストを表示させる時間 //
-    float waitInterval = 2f;
-
     // 透明度 //
-    int alpha_0 = 0; // 0の時は透明
-    int alpha_1 = 1; // 1の時は不透明
-
-    // テキストを移動させる時間 //
-    float moveInterval_x = 2f; // x軸
-    float moveInterval_y = 1.2f; // y軸
-
-    // テキストの移動量 //
-    float moveDistance = 600f;
+    int Alpha_0 = 0; // 0の時は透明
+    int Alpha_1 = 1; // 1の時は不透明
 
     // アニメーションの合計時間 //
-    float waitTime = 3.2f;
+    // float waitTime = 3.2f;
+
+    // 干渉するスクリプト //
+    GameStatus gameStatus;
+    SpinCheck spinCheck;
 
     // インスタンス化 //
     void Awake()
     {
+        gameStatus = FindObjectOfType<GameStatus>();
         spinCheck = FindObjectOfType<SpinCheck>();
 
         // Dictionary<string, Text> textDictionary = new Dictionary<string, Text> // String と Text の Dictionary を作成
@@ -165,18 +154,29 @@ public class MainSceneText : MonoBehaviour
                 switch (_LineClearCount) // 消去数で表示するテキストが変わる
                 {
                     case 1:
+                        gameStatus.DeactivateBackToBack();
                         AudioManager.Instance.PlaySound("Normal_Destroy");
                         TextAnimation(One_Line_Clear);
                         break;
                     case 2:
+                        gameStatus.DeactivateBackToBack();
                         AudioManager.Instance.PlaySound("Normal_Destroy");
                         TextAnimation(Two_Line_Clear);
                         break;
                     case 3:
+                        gameStatus.DeactivateBackToBack();
                         AudioManager.Instance.PlaySound("Normal_Destroy");
                         TextAnimation(Three_Line_Clear);
                         break;
                     case 4:
+                        if (gameStatus.backToBack == true) // BackToBack 条件を満たしている時
+                        {
+                            BackToBackAnimation();
+                        }
+                        else
+                        {
+                            gameStatus.ActivateBackToBack(); // BackToBack 判定を付与
+                        }
                         AudioManager.Instance.PlaySound("Tetris");
                         TextAnimation(Tetris);
                         break;
@@ -184,6 +184,14 @@ public class MainSceneText : MonoBehaviour
                 break;
 
             case "T-Spin":
+                if (gameStatus.backToBack == true) // BackToBack 条件を満たしている時
+                {
+                    BackToBackAnimation();
+                }
+                else
+                {
+                    gameStatus.ActivateBackToBack(); // BackToBack 判定を付与
+                }
                 switch (_LineClearCount)
                 {
                     case 0:
@@ -196,7 +204,6 @@ public class MainSceneText : MonoBehaviour
                         break;
                     case 2:
                         AudioManager.Instance.PlaySound("Spin_Destroy");
-                        Tspin_Double.gameObject.SetActive(true);
                         TextAnimation(Tspin_Double);
                         break;
                     case 3:
@@ -206,6 +213,14 @@ public class MainSceneText : MonoBehaviour
                 }
                 break;
             case "T-Spin Mini":
+                if (gameStatus.backToBack == true) // BackToBack 条件を満たしている時
+                {
+                    BackToBackAnimation();
+                }
+                else
+                {
+                    gameStatus.ActivateBackToBack(); // BackToBack 判定を付与
+                }
                 switch (_LineClearCount)
                 {
                     case 0:
@@ -372,62 +387,74 @@ public class MainSceneText : MonoBehaviour
     //     }
     // }
 
-    private void TextAnimation(Text _SelectText)
+    private void TextAnimation(TextMeshProUGUI _SelectText)
     {
         // //アクティブにする
         // _SelectText.gameObject.SetActive(true);
 
         Debug.Log(_SelectText);
 
-        Text InstantiatedText = Instantiate(_SelectText, Canvas);
+        TextMeshProUGUI InstantiatedText = Instantiate(_SelectText, Canvas);
 
-        //選ばれたテキストのテキストコンポーネントとトランスフォームコンポーネントを取得
-        Text SelectText_Text = InstantiatedText.GetComponent<Text>();
+        // 選ばれたテキストのテキストコンポーネントとトランスフォームコンポーネントを取得
+        TextMeshProUGUI SelectText_Text = InstantiatedText.GetComponent<TextMeshProUGUI>();
         Transform SelectText_Transform = InstantiatedText.GetComponent<Transform>();
 
-        //選ばれたテキストのフェードインとフェードアウトを行う
-        TextFadeInAndOut(SelectText_Text);
+        TextFadeInAndOut(SelectText_Text); // 選ばれたテキストのフェードインとフェードアウトを行う
 
-        //選ばれたテキストの移動アニメーションを行う
-        TextMove(SelectText_Transform);
+        TextMove(SelectText_Transform); // 選ばれたテキストの移動アニメーションを行う
 
-        //3.2秒待つ
-        //yield return new WaitForSeconds(waitTime);
+        // 3.2秒待つ
+        // yield return new WaitForSeconds(waitTime);
 
         // //アニメーションが完了したら非表示に戻す
         // _SelectText.gameObject.SetActive(false);
     }
 
     //選ばれたテキストのフェードインとフェードアウトを行う関数
-    private void TextFadeInAndOut(Text selectText)
+    private void TextFadeInAndOut(TextMeshProUGUI selectText)
     {
-        //Sequenceのインスタンス化
+        // フェードインとフェードアウトする時間 //
+        float fadeInInterval = 0.5f;
+        float fadeOutInterval = 1f;
+
+        // テキストを表示させる時間 //
+        float waitInterval = 2f;
+
+        // Sequenceのインスタンス化
         var sequence = DOTween.Sequence();
 
-        //0.3秒かけてアルファ値を1(=不透明)に変化させる
-        //その後、2秒表示
-        //最後に、1秒かけてアルファ値を0(=透明)に変化させる
-        sequence.Append(selectText.DOFade(alpha_1, FadeInInterval))
+        // 0.3秒かけてアルファ値を1(=不透明)に変化させる
+        // その後、2秒表示
+        // 最後に、1秒かけてアルファ値を0(=透明)に変化させる
+        sequence.Append(selectText.DOFade(Alpha_1, fadeInInterval))
                 .AppendInterval(waitInterval)
-                .Append(selectText.DOFade(alpha_0, FadeOutInterval));
+                .Append(selectText.DOFade(Alpha_0, fadeOutInterval));
     }
 
 
     //選ばれたテキストの移動アニメーションを行う関数
     private void TextMove(Transform selectText)
     {
-        //selectTextの各座標を格納する変数を宣言
+        // テキストを移動させる時間 //
+        float moveInterval_x = 2f; // x軸
+        float moveInterval_y = 1.2f; // y軸
+
+        // テキストの移動量 //
+        float moveDistance = 600f;
+
+        // selectTextの各座標を格納する変数を宣言
         float selectText_x = Mathf.RoundToInt(selectText.transform.position.x);
         float selectText_y = Mathf.RoundToInt(selectText.transform.position.y);
         float selectText_z = Mathf.RoundToInt(selectText.transform.position.z);
 
-        //Sequenceのインスタンス化
+        // Sequenceのインスタンス化
         var sequence = DOTween.Sequence();
 
-        //現在位置から3秒で、Y座標を600移動する
-        //始点と終点の繋ぎ方はOutSineで設定
-        //その後、現在位置から1秒で、X座標を-600移動する(移動中にフェードアウトする)
-        //始点と終点の繋ぎ方はInQuintで設定
+        // 現在位置から3秒で、Y座標を600移動する
+        // 始点と終点の繋ぎ方はOutSineで設定
+        // その後、現在位置から1秒で、X座標を-600移動する(移動中にフェードアウトする)
+        // 始点と終点の繋ぎ方はInQuintで設定
         sequence
             .Append(selectText.transform.DOMoveY(selectText_y + moveDistance, moveInterval_x).SetEase(Ease.OutSine))
             .Append(selectText.transform.DOMoveX(selectText_x - moveDistance, moveInterval_y).SetEase(Ease.InQuint))
@@ -437,5 +464,14 @@ public class MainSceneText : MonoBehaviour
                 // アニメーションが完了したら元の位置に戻す
                 selectText.transform.position = new Vector3(selectText_x, selectText_y, selectText_z);
             });
+    }
+
+    private void BackToBackAnimation()
+    {
+        TextMeshProUGUI InstantiatedText = Instantiate(BackToBack, Canvas);
+
+        TextMeshProUGUI SelectText_Text = InstantiatedText.GetComponent<TextMeshProUGUI>();
+
+        TextFadeInAndOut(SelectText_Text); // 選ばれたテキストのフェードインとフェードアウトを行う
     }
 }

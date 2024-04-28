@@ -17,6 +17,11 @@ public class GameStatus : MonoBehaviour
 
     private bool BackToBack = false;
 
+    public bool backToBack
+    {
+        get { return BackToBack; }
+    }
+
     private int Ren = 0;
 
     private bool GameOver;
@@ -280,5 +285,15 @@ public class GameStatus : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void ActivateBackToBack()
+    {
+        BackToBack = true;
+    }
+
+    public void DeactivateBackToBack()
+    {
+        BackToBack = false;
     }
 }
