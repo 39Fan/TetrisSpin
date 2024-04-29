@@ -1,2 +1,9 @@
-# TetrisSpin
-Original Tetris created in Unity
+## タイトル
+TetrisSpin
+
+## 概要
+このプロジェクトはUnityで制作されたオリジナルのTetrisゲームです。T-Spinだけでなく、I-SpinやL-Spinなど、様々なSpinを使って高得点を目指すことができます。また、100ダメージタイムアタックモードと対戦システムの開発も予定しています。
+3/18 制作開始
+
+## 動作環境
+- Unity 2022.3.21f1
