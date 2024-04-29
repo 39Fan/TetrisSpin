@@ -14,7 +14,11 @@ public class MainSceneText : MonoBehaviour
 
     // 表示できるテキスト //
     // 変数宣言の文法上、実際にゲーム画面に表示するテキストと変数名が合致しない場合がある
+    [SerializeField] private TextMeshProUGUI Ready;
+    [SerializeField] private TextMeshProUGUI Go;
+
     [SerializeField] private TextMeshProUGUI BackToBack;
+
     [SerializeField] private TextMeshProUGUI One_Line_Clear;
     [SerializeField] private TextMeshProUGUI Two_Line_Clear;
     [SerializeField] private TextMeshProUGUI Three_Line_Clear;
@@ -427,9 +431,10 @@ public class MainSceneText : MonoBehaviour
         // 0.3秒かけてアルファ値を1(=不透明)に変化させる
         // その後、2秒表示
         // 最後に、1秒かけてアルファ値を0(=透明)に変化させる
-        sequence.Append(selectText.DOFade(Alpha_1, fadeInInterval))
-                .AppendInterval(waitInterval)
-                .Append(selectText.DOFade(Alpha_0, fadeOutInterval));
+        sequence
+            .Append(selectText.DOFade(Alpha_1, fadeInInterval))
+            .AppendInterval(waitInterval)
+            .Append(selectText.DOFade(Alpha_0, fadeOutInterval));
     }
 
 
@@ -473,5 +478,44 @@ public class MainSceneText : MonoBehaviour
         TextMeshProUGUI SelectText_Text = InstantiatedText.GetComponent<TextMeshProUGUI>();
 
         TextFadeInAndOut(SelectText_Text); // 選ばれたテキストのフェードインとフェードアウトを行う
+    }
+
+    public void ReadtGoAnimation()
+    {
+        // フェードインとフェードアウトする時間 //
+        float fadeInInterval = 0.3f;
+        float fadeOutInterval = 0f;
+
+        // テキストを表示させる時間 //
+        float waitInterval_ready = 3f;
+        float waitInterval_go = 2f;
+
+        TextMeshProUGUI ready = Instantiate(Ready, Canvas);
+        TextMeshProUGUI go = Instantiate(Go, Canvas);
+
+        Sequence sequence_ready = DOTween.Sequence();
+        Sequence sequence_go = DOTween.Sequence(); // Sequenceの作成
+
+        sequence_ready
+            .Append(ready.DOFade(Alpha_1, fadeInInterval))
+            .AppendInterval(waitInterval_ready)
+            .Append(ready.DOFade(Alpha_0, fadeOutInterval))
+            .OnComplete(() =>
+            {
+                // Readyアニメーションが完了したらGoアニメーションを開始
+                sequence_go
+                    .Append(go.DOFade(Alpha_1, fadeInInterval))
+                    // .Join(go.DOScale(Vector3.one, 0.2f))
+                    .AppendInterval(waitInterval_go)
+                    .Append(go.DOFade(Alpha_0, fadeOutInterval));
+            });
+
+        // // フェードイン＆拡大
+        // sequence.Append(textTransform.DOScale(Vector3.one, 0.2f)); // 0.2秒で拡大
+        // sequence.Join(textTransform.DOFade(1, 0.2f)); // 同時にフェードイン
+
+        // // フェードアウト
+        // sequence.AppendInterval(1f); // 1秒待機
+        // sequence.Append(textTransform.DOFade(0, 0.5f)); // 0.5秒でフェードアウト
     }
 }

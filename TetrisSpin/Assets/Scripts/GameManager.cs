@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections;
 
 // ゲームマネージャー
 public class GameManager : MonoBehaviour
@@ -127,15 +128,26 @@ public class GameManager : MonoBehaviour
             spawner.DetermineSpawnMinoOrder();
         }
 
-        // 新しいActiveMinoの生成
-        spawner.CreateNewActiveMino(MinoPopNumber);
-
         // // mino.activeMinoのゴーストミノの生成
         // gameStatus.GhostMino = spawner.SpawnMino_Ghost();
 
-        // Nextの表示
+        //spawner.CreateNewNextMinos(MinoPopNumber - 1); // Nextの表示
+
+        //mainSceneText.ReadtGoAnimation(); // "Ready Go!" の表示
+
+        // yield return new WaitForSeconds(5.6f);
+
+        // 新しいActiveMinoの生成
+        spawner.CreateNewActiveMino(MinoPopNumber);
+
         spawner.CreateNewNextMinos(MinoPopNumber);
 
+        // // Updateの開始
+        // while (true)
+        // {
+        //     Update();
+        //     yield return null; // 次のフレームまで待機
+        // }
     }
 
     private void Update()
@@ -927,5 +939,17 @@ public class GameManager : MonoBehaviour
     //     }
     // }
 
+    // private IEnumerator GameStart()
+    // {
+    //     mainSceneText.ReadtGoAnimation(); // "Ready Go!" の表示
+    //     yield return new WaitForSeconds(2f); // "Ready Go"の表示時間（例えば2秒）
+    //     readyGoText.SetActive(false);
 
+    //     // Updateの開始
+    //     while (true)
+    //     {
+    //         Update();
+    //         yield return null; // 次のフレームまで待機
+    //     }
+    // }
 }

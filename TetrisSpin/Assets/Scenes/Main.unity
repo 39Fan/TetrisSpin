@@ -675,7 +675,7 @@ GameObject:
   - component: {fileID: 1865245058}
   - component: {fileID: 1865245059}
   m_Layer: 0
-  m_Name: Text
+  m_Name: MainSceneText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -709,10 +709,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 2107780354}
-  One_Line_Clear: {fileID: 3623004258827651593, guid: 9475869be7a9c478c83e32a526362220, type: 3}
-  Two_Line_Clear: {fileID: 3089670920896469873, guid: 96aebec022bfa440aba0658ba750301c, type: 3}
-  Three_Line_Clear: {fileID: 1128644284895715190, guid: a08d62c12c0284742aab7dd746ed92b2, type: 3}
-  Tetris: {fileID: 1125984155848637376, guid: 133b9a13c71734f63917f1e3ff981bb1, type: 3}
+  Ready: {fileID: 9221938030515851941, guid: ba777e16d465e411eb29779eb7d62dbc, type: 3}
+  Go: {fileID: 3577881937356462567, guid: 395db873edb3443bb8d63a0ce5287ca5, type: 3}
+  BackToBack: {fileID: 138140958047380289, guid: 606b83e3cd79f40fea5d8afd44151be1, type: 3}
+  One_Line_Clear: {fileID: 685415778677099611, guid: 87fc86337995d4a27b637924744ac573, type: 3}
+  Two_Line_Clear: {fileID: 5712830375027673458, guid: 6fc986b153f6848e09a5dc2c98ea49d0, type: 3}
+  Three_Line_Clear: {fileID: 4037795811324003423, guid: cd1b7d9fa2946455bb9b8aab9d15694c, type: 3}
+  Tetris: {fileID: 3700903264843670351, guid: 0728881853df94d3b943b9c767ad24d4, type: 3}
   Ispin: {fileID: 0}
   Ispin_Single: {fileID: 0}
   Ispin_Double: {fileID: 0}
@@ -734,12 +737,12 @@ MonoBehaviour:
   Sspin_Single: {fileID: 0}
   Sspin_Double: {fileID: 0}
   Sspin_Triple: {fileID: 0}
-  Tspin: {fileID: 8026926489790165366, guid: 37483529489114624aead3513096e9a3, type: 3}
-  Tspin_Single: {fileID: 6176086055611416768, guid: e9965cef19db0461493a4248fdac59d5, type: 3}
-  Tspin_Double: {fileID: 3275814851721123131, guid: 03aa9dcb3d84f44698760e04c7e90fe9, type: 3}
-  Tspin_Triple: {fileID: 2304738410718171050, guid: e27fd5d68837c4e99a9ef8c6cde3fede, type: 3}
-  Tspin_Mini: {fileID: 1698390614371384895, guid: 0fa9b4433479b4f608b9e08f2a3b23bc, type: 3}
-  Tspin_Double_Mini: {fileID: 741075777538369016, guid: a3d35bc46b74049f29c69ab066501476, type: 3}
+  Tspin: {fileID: 1633818741928931802, guid: 5ef42f5abaac74b4e804d66327192c15, type: 3}
+  Tspin_Single: {fileID: 3191080098678034068, guid: ed0023454acc34073808e26c4b5d1bc5, type: 3}
+  Tspin_Double: {fileID: 835706068503385815, guid: 61190addfd5524551bfdb282933266c5, type: 3}
+  Tspin_Triple: {fileID: 2910127633995747759, guid: d350f8e514897454f94a332eab911e30, type: 3}
+  Tspin_Mini: {fileID: 9112384351425725138, guid: e215bbfd339f746b6aa508510d2f2363, type: 3}
+  Tspin_Double_Mini: {fileID: 1481246784689171504, guid: cd2c8d2acc8cc43eaac72b8fd66e1560, type: 3}
   Zspin: {fileID: 0}
   Zspin_Single: {fileID: 0}
   Zspin_Double: {fileID: 0}
@@ -1036,7 +1039,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
