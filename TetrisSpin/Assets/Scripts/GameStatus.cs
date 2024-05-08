@@ -2,127 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// GameManager
-// ゲームの進行を制御するスクリプト
-
-// ゲームステータス
+// ゲームステータス //
 public class GameStatus : MonoBehaviour
 {
-    // public Mino ActiveMino { get; set; } // 操作中のミノ
-    //public Mino_Ghost GhostMino { get; set; } // ゴーストミノ
-    //public Mino[] NextMino_Array { get; set; } = new Mino[5]; //NEXT
-    //public Mino HoldMino { get; set; } // HOLD
+    private bool GameOver; // ゲームオーバの判定
 
-    //public List<int> SpawnMinoOrder_List { get; set; } = new List<int>(); //string型に変更予定
+    private bool BackToBack = false; // BackToBackの判定
 
-    private bool BackToBack = false;
+    private int Ren = 0; // Renの判定
 
-    public bool backToBack
-    {
-        get { return BackToBack; }
-    }
-
-    private int Ren = 0;
-
-    private bool GameOver;
-
-    // Spinの種類 //
-    // private string SpinTypeName;
-
-    // 底についた判定
-    //public bool Bottom { get; set; } = false;
-
-    //public bool CanNotMove { get; set; } = false;
-
-
-    // ライン消去数 //
-    private List<int> LineClearCountHistory = new List<int>(); // ライン消去の履歴を表すリストと
-    // private int LineClearCountHistoryNumber = 0; // それに対応するカウントの変数
-
-
-    /////Data.csから移動した変数↓
-
-    //activeMinoから底までの距離を格納する変数
-    //ゴーストミノの生成座標の計算で必要
-    //public int Distance { get; set; }
-
-    //生成されるミノの順番について//
-
-    //ミノの順番はこのスクリプト内の DecideSpawnMinoOrder() で決定する
-    //決定されたミノの順番をspawnMinoOrderに格納
-    //生成されるミノは増え続けるため、リスト型
-    //public List<int> SpawnMinoOrder { get; set; } = new List<int>();
-
-    //ミノの回転について//
-
-    //ミノが回転した時、回転前の向き(Before)と回転後の向き(After)を保存する変数
-    //初期値はnorthの状態
-    //public int MinoAngleBefore { get; set; } = 0;
-    //public int MinoAngleAfter { get; set; } = 0;
-
-    // 回転の使用を判別する変数
-    // ミノのSpin判定に必要
-    // Spin判定は2つあり、SpinとSpinMiniがある
-    //public bool UseSpin { get; set; } = false;
-    //public bool UseSpinMini { get; set; } = false;
-
-    // 最後に行ったスーパーローテーションシステム(SRS)の段階を表す変数
-    // 0〜4の値が格納される
-    // SRSが使用されていないときは0
-    // 1〜4の時は、SRSの段階を表す
-    private int LastSRS = 0;
-
-    // ゲッタープロパティ //
-    public int lastSRS
-    {
-        get { return LastSRS; }
-    }
-    public bool gameOver
-    {
-        get { return GameOver; }
-    }
-    public List<int> lineClearCountHistory
-    {
-        get { return LineClearCountHistory; }
-    }
-    // public bool useHardDrop
-    // {
-    //     get { return UseHardDrop; }
-    // }
-
-
-    //ハードドロップについて
-
-    //操作中のミノを瞬時に最下部まで落下させる機能
-
-    //ハードドロップが使用されたか判別する変数
-    //private bool UseHardDrop = false;
-
-    //Holdについて//
-
-    //操作中のミノを一時的に保持する機能
-    //Holdは1回目の処理と2回目以降の処理が違う
-
-    //1回目
-    //Holdされたミノは、ゲーム画面の左上あたりに移動
-    //その後、Nextミノが新しく降ってくる
-    //2回目以降
-    //Holdされたミノは、ゲーム画面の左上あたりに移動(1回目と同じ)
-    //以前Holdしたミノが新しく降ってくる
-
-    //Holdが使用されたか判別する変数
-    //Holdを使うと、次のミノを設置するまで使用できない
-    //public bool UseHold { get; set; } = false;
-
-    //Holdが1回目かどうかを判別する変数
-    //Holdが1回でも使用されるとfalseになる
-    public bool FirstHold { get; set; } = true;
-
-    //Holdされたミノの生成番号
-    public int HoldMinoNumber { get; set; }
-
-    // ミノの出現数
-    public int MinoPopNumber { get; set; } = 0;
+    private List<int> LineClearCountHistory = new List<int>(); // ライン消去の履歴を記録するリスト
 
     // 向きの定義 //
     public string North { get; } = "NORTH"; // 初期(未回転)状態をNORTHとして、
@@ -131,9 +20,29 @@ public class GameStatus : MonoBehaviour
     public string West { get; } = "WEST"; // 2回右回転または左回転した時の向きをSOUTHとする
 
     // ミノの回転後と回転前の向き //
-    [SerializeField] private string MinoAngleAfter = "NORTH"; // 初期値はNORTHの状態
-    [SerializeField] private string MinoAngleBefore = "NORTH"; // 初期値はNORTHの状態 // SRSで必要
+    private string MinoAngleAfter = "NORTH"; // 初期値はNORTHの状態
+    private string MinoAngleBefore = "NORTH"; // 初期値はNORTHの状態 // SRSで必要
 
+    // 最後に行ったスーパーローテーションシステム(SRS)の段階を表す変数 //
+    private int LastSRS = 0; // SRSが使用されていないときは0, 1〜4の時は、SRSの段階を表す
+
+    // ゲッタープロパティ //
+    public bool gameOver
+    {
+        get { return GameOver; }
+    }
+    public bool backToBack
+    {
+        get { return BackToBack; }
+    }
+    public int ren
+    {
+        get { return Ren; }
+    }
+    public List<int> lineClearCountHistory
+    {
+        get { return LineClearCountHistory; }
+    }
     public string minoAngleAfter
     {
         get { return MinoAngleAfter; }
@@ -142,76 +51,67 @@ public class GameStatus : MonoBehaviour
     {
         get { return MinoAngleBefore; }
     }
+    public int lastSRS
+    {
+        get { return LastSRS; }
+    }
 
+    // 干渉するスクリプト //
     Spawner spawner;
 
+    // インスタンス化 //
     private void Awake()
     {
         spawner = FindObjectOfType<Spawner>();
     }
 
-
-    // Reset関数 //
-    // public void Reset_UseHardDrop()
-    // {
-    //     UseHardDrop = false;
-    // }
-
-    // public void Set_UseHardDrop()
-    // {
-    //     UseHardDrop = true;
-    // }
-
-    // //ミノの向きを初期化する関数
-    // public void AngleReset()
-    // {
-    //     //MinoAngleBefore = 0;
-    //     //MinoAngleAfter = 0;
-    // }
-
-    public void Reset_LastSRS()
-    {
-        LastSRS = 0;
-    }
-
-    // //ミノの回転フラグを有効にする関数
-    // public void SpinSetFlag()
-    // {
-    //     //UseSpin = true;
-    //     //UseSpinMini = false;
-    //     LastSRS = 0;
-    //     //SpinTypeName = "None";
-    // }
-
-    public void IncreaseLastSRS()
-    {
-        LastSRS++;
-    }
-
-    public void GameOverAction()
+    // ゲームオーバー判定をオンにする関数 //
+    public void Set_GameOver()
     {
         GameOver = true;
     }
 
-    // public void SetSpinTypeName(string _NewSpinTypeName)
-    // {
-    //     SpinTypeName = _NewSpinTypeName;
-    // }
+    // ゲームオーバー判定をオフにする関数 //
+    public void Reset_GameOver()
+    {
+        GameOver = false;
+    }
 
+    // BackToBack判定をオンにする関数 //
+    public void Set_BackToBack()
+    {
+        BackToBack = true;
+    }
+
+    // BackToBack判定をオフにする関数 //
+    public void Reset_BackToBack()
+    {
+        BackToBack = false;
+    }
+
+    // Renの値をリセットする関数 //
+    public void Reset_Ren()
+    {
+        Ren = 0;
+    }
+
+    // Renの値を1増加させる関数 //
+    public void IncreaseRen()
+    {
+        Ren++;
+    }
+
+    // ライン消去数
     public void AddLineClearCountHistory(int _LineClearCount, int _MinoPutNumber)
     {
         LineClearCountHistory.Add(_LineClearCount);
     }
 
-    // public void ResetUseHold()
-    // {
-    //     UseHold = false;
-    // }
-
-    // MinoAngleBeforeの更新をする関数 //
-    public void UpdateMinoAngleBefore()
+    // ミノの向きを初期化する関数 //
+    public void Reset_Angle()
     {
-        MinoAngleBefore = MinoAngleAfter;
+        MinoAngleBefore = "NORTH";
+        MinoAngleAfter = "NORTH";
     }
 
     // MinoAngleAfterのリセットをする関数 //
@@ -240,13 +140,7 @@ public class GameStatus : MonoBehaviour
         }
     }
 
-    // ミノの向きを初期化する関数 //
-    public void Reset_Angle()
-    {
-        MinoAngleBefore = "NORTH";
-        MinoAngleAfter = "NORTH";
-    }
-
+    // MinoAngleAfterの更新をする関数 //
     public void UpdateMinoAngleAfter(string _RotateDirection)
     {
         if (_RotateDirection == "RotateRight") // 右回転の時
@@ -287,13 +181,21 @@ public class GameStatus : MonoBehaviour
         }
     }
 
-    public void Set_BackToBack()
+    // MinoAngleBeforeの更新をする関数 //
+    public void UpdateMinoAngleBefore()
     {
-        BackToBack = true;
+        MinoAngleBefore = MinoAngleAfter;
     }
 
-    public void Reset_BackToBack()
+    // LastSRSの値をリセットする関数 //
+    public void Reset_LastSRS()
     {
-        BackToBack = false;
+        LastSRS = 0;
+    }
+
+    // LastSRSの値を1増加させる関数 //
+    public void IncreaseLastSRS()
+    {
+        LastSRS++;
     }
 }

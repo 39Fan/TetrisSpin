@@ -348,7 +348,7 @@ public class GameManager : MonoBehaviour
 
             if (board.OverLimit(spawner.activeMino))
             {
-                gameStatus.GameOverAction();
+                gameStatus.Set_GameOver();
 
                 sceneTransition.GameOver();
             }
@@ -404,7 +404,7 @@ public class GameManager : MonoBehaviour
                 if (board.OverLimit(spawner.activeMino))
                 {
                     //ゲームオーバー
-                    gameStatus.GameOverAction();
+                    gameStatus.Set_GameOver();
 
                     sceneTransition.GameOver();
                 }
@@ -509,7 +509,7 @@ public class GameManager : MonoBehaviour
 
         if (!board.CheckPosition(spawner.activeMino))
         {
-            gameStatus.GameOverAction();
+            gameStatus.Set_GameOver();
 
             sceneTransition.GameOver();
         }
