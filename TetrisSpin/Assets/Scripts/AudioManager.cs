@@ -1,8 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// ゲームのSEに関してまとめたスクリプト //
-// ボリュームやピッチの調節、再生などを行う
+///// ゲームのオーディオに関するスクリプト /////
+
+
+// ↓このスクリプトで可能なこと↓ //
+
+// オーディオの再生
+// ボリュームやピッチの調節
+
 
 public class AudioManager : MonoBehaviour
 {
@@ -31,7 +37,6 @@ public class AudioManager : MonoBehaviour
 
     // 辞書 //
     private Dictionary<string, AudioClip> AudioClipDictionary = new Dictionary<string, AudioClip>();
-    // private Dictionary<string, int> AudioClipVolumeDictionary = new Dictionary<string, int>();
 
     // SEのボリュームの値 //
     float LowVolume = 0.2f;
@@ -43,6 +48,7 @@ public class AudioManager : MonoBehaviour
     float LowPitch = 0.6f;
     int NormalPitch = 1;
 
+    // インスタンス化 //
     private void Awake()
     {
         if (Instance == null)
@@ -56,14 +62,15 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        BuildAudioClipDictionary();
+        BuildAudioClipDictionary(); // 辞書の作成
     }
 
+    // Audios と AudioNames の辞書を作成する関数 //
     private void BuildAudioClipDictionary()
     {
         if (Audios.Length != AudioNames.Length)
         {
-            Debug.LogError("Audios and AudioNames length mismatch!");
+            Debug.LogError("[AudioManager BuildAudioClipDictionary()] AudiosとAudioNamesの数が一致しません。");
             return;
         }
 
@@ -71,7 +78,7 @@ public class AudioManager : MonoBehaviour
         {
             if (AudioClipDictionary.ContainsKey(AudioNames[i]))
             {
-                Debug.LogWarning($"{AudioNames[i]} はすでに登録されています。");
+                Debug.LogWarning($"[AudioManager BuildAudioClipDictionary()] {AudioNames[i]} はすでに登録されています。");
             }
             else
             {
@@ -80,139 +87,35 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // 名前に基づいてサウンドを再生
+    // 名前に基づいてサウンドを再生する関数 //
     public void PlaySound(string _AudioName)
     {
         if (AudioClipDictionary.TryGetValue(_AudioName, out AudioClip clip))
         {
-            SetVolume(_AudioName);
+            SetVolume(_AudioName); // 音量の調整
 
-            audioSource.PlayOneShot(clip);
+            audioSource.PlayOneShot(clip); // 出力
         }
         else
         {
-            Debug.LogWarning($"オーディオ {_AudioName} は見つかりませんでした。");
+            Debug.LogError($"[AudioManager PlaySound()] オーディオ {_AudioName} は見つかりませんでした。");
         }
     }
 
-    // 音量を設定
+    // 音量を設定する関数 //
     private void SetVolume(string _AudioName)
     {
         switch (_AudioName)
         {
             case "Start_or_Retry":
             case "Move_Down":
-            case "Move_Left_Right":
+            case "Move_Left_Right": // これらのオーディオは音量を下げるように調整
                 audioSource.volume = LowVolume;
                 break;
+
             default:
                 audioSource.volume = MediumVolume;
                 break;
         }
     }
 }
-
-
-// public class SE : MonoBehaviour
-// {
-//     //AudioSource型の変数audioSourceを宣言
-//     AudioSource audioSource;
-
-//     //各種SEの番号振り分け
-//     public int Start_or_Retry = 0;
-//     public int GameOver = 1;
-//     public int Move_Left_Right = 2;
-//     public int Move_Down = 3;
-//     public int Rotation = 4;
-//     public int Spin = 5;
-//     public int Normal_Drop = 6;
-//     public int Hard_Drop = 7;
-//     public int Normal_Destroy = 8;
-//     public int Spin_Destroy = 9;
-//     public int Tetris = 10;
-//     public int Hold = 11;
-
-//     //SEのボリュームの値
-//     float LowVolume = 0.2f;
-//     float MediumVolume = 0.5f;
-//     float HighVolume = 0.9f;
-//     int MaxVolume = 1;
-
-//     //SEのピッチの値
-//     float LowPitch = 0.6f;
-//     int NormalPitch = 1;
-
-//     //各種SEデータを、配列SEsに格納
-//     [SerializeField]
-//     private List<AudioClip> SEs = new List<AudioClip>();
-
-//     private void Awake()
-//     {
-//         //audioSourceにAudioSourceコンポーネントを付与
-//         audioSource = GetComponent<AudioSource>();
-//     }
-
-//     //呼び出されたSEを再生する関数
-//     //ボリュームやピッチの調整もここで調整
-//     public void CallSE(int selectSE)
-//     {
-//         //audioSourceのclipに選ばれたSEを格納
-//         audioSource.clip = SEs[selectSE];
-
-//         if (selectSE == Start_or_Retry)
-//         {
-//             audioSource.volume = LowVolume;
-//         }
-//         else if (selectSE == GameOver)
-//         {
-//             audioSource.volume = MediumVolume;
-//         }
-//         else if (selectSE == Move_Left_Right)
-//         {
-//             audioSource.volume = LowVolume;
-//         }
-//         else if (selectSE == Move_Down)
-//         {
-//             audioSource.volume = LowVolume;
-//         }
-//         else if (selectSE == Rotation)
-//         {
-//             audioSource.volume = MediumVolume;
-//         }
-//         else if (selectSE == Spin)
-//         {
-//             audioSource.volume = MediumVolume;
-//         }
-//         else if (selectSE == Normal_Drop)
-//         {
-//             audioSource.volume = MediumVolume;
-//         }
-//         else if (selectSE == Hard_Drop)
-//         {
-//             audioSource.volume = MediumVolume;
-//         }
-//         else if (selectSE == Normal_Destroy)
-//         {
-//             audioSource.volume = MediumVolume;
-//         }
-//         else if (selectSE == Spin_Destroy)
-//         {
-//             audioSource.volume = MediumVolume;
-//         }
-//         else if (selectSE == Tetris)
-//         {
-//             audioSource.volume = MediumVolume;
-//         }
-//         else if (selectSE == Hold)
-//         {
-//             audioSource.volume = MediumVolume;
-//         }
-//         else
-//         {
-//             Debug.Log("未設定のSE");
-//         }
-
-//         //設定したボリュームやピッチで再生
-//         audioSource.PlayOneShot(audioSource.clip);
-//     }
-// }

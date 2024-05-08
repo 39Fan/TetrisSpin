@@ -22,7 +22,7 @@ public class Spawner : MonoBehaviour
         "I_Mino", "J_Mino", "L_Mino", "O_Mino", "S_Mino", "T_Mino", "Z_Mino"
     };
 
-    // Dictionaryの作成 //
+    // 辞書 //
     Dictionary<string, Mino> MinoDictionary = new Dictionary<string, Mino>(); // MinosとMinoNamesのDictionary
     Dictionary<string, Mino> GhostMinoDictionary = new Dictionary<string, Mino>(); // GhostMinosとMinoNamesのDictionary
 
@@ -78,12 +78,12 @@ public class Spawner : MonoBehaviour
         board = FindObjectOfType<Board>();
         gameStatus = FindObjectOfType<GameStatus>();
 
-        // Minos と MinoNames に対応する要素を MinoDictionary に追加
+        // Minos と MinoNames の辞書を作成
         for (int i = 0; i < MinoNames.Length; i++)
         {
             MinoDictionary[MinoNames[i]] = Minos[i];
         }
-        // GhostMinos と MinoNames に対応する要素を MinoDictionary に追加
+        // GhostMinos と MinoNames の辞書を作成
         for (int i = 0; i < MinoNames.Length; i++)
         {
             GhostMinoDictionary[MinoNames[i]] = GhostMinos[i];
