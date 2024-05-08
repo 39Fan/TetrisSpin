@@ -23,17 +23,17 @@ public class SpinCheck : MonoBehaviour
     Board board;
     GameStatus gameStatus;
     Spawner spawner;
-    Mino mino;
+    //Mino mino;
 
     private void Awake() // インスタンス化
     {
         board = FindObjectOfType<Board>();
         gameStatus = FindObjectOfType<GameStatus>();
         spawner = FindObjectOfType<Spawner>();
-        mino = FindObjectOfType<Mino>();
+        //mino = FindObjectOfType<Mino>();
     }
 
-    public void ResetSpinTypeName()
+    public void Reset_SpinTypeName()
     {
         SpinTypeName = "None";
     }

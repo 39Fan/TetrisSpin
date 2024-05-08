@@ -210,7 +210,7 @@ public class Spawner : MonoBehaviour
     private int ActiveMinoToBaseDistance; // ゴーストミノの生成座標の計算で必要
 
     // ミノの生成座標
-    private Vector3 SpawnMinoPosition { get; } = new Vector3(4, 20, 0); // ActiveMino
+    private Vector3 SpawnMinoPosition { get; } = new Vector3(4, 19, 0); // ActiveMino
     private Vector3 HoldMinoPosition { get; } = new Vector3(-3, 17, 0); // HoldMino
     private Vector3[] NextMinoPositions = new Vector3[5] // NextMinos
     {
@@ -330,7 +330,7 @@ public class Spawner : MonoBehaviour
 
         GhostMino = SpawnGhostMino(GhostMinoDictionary[SpawnMinoOrders[_MinoPopNumber]], ActiveMino, ActiveMinoToBaseDistance); // ゴーストミノの生成も同時に行う
 
-        gameStatus.AllReset();
+        // gameStatus.AllReset();
     }
 
     // ゴーストミノの位置調整を行う関数
@@ -450,8 +450,8 @@ public class Spawner : MonoBehaviour
             HoldMino = SpawnHoldMino(MinoDictionary[HoldMinoName]); // Holdされたミノを画面左上に表示
 
             //変数の初期化
-            gameStatus.AngleReset();
-            gameStatus.SpinResetFlag();
+            gameStatus.Reset_Angle();
+            gameStatus.Reset_LastSRS();
         }
     }
 

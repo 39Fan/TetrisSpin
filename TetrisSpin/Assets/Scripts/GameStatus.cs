@@ -64,7 +64,7 @@ public class GameStatus : MonoBehaviour
     // ミノのSpin判定に必要
     // Spin判定は2つあり、SpinとSpinMiniがある
     //public bool UseSpin { get; set; } = false;
-    public bool UseSpinMini { get; set; } = false;
+    //public bool UseSpinMini { get; set; } = false;
 
     // 最後に行ったスーパーローテーションシステム(SRS)の段階を表す変数
     // 0〜4の値が格納される
@@ -85,6 +85,10 @@ public class GameStatus : MonoBehaviour
     {
         get { return LineClearCountHistory; }
     }
+    // public bool useHardDrop
+    // {
+    //     get { return UseHardDrop; }
+    // }
 
 
     //ハードドロップについて
@@ -92,7 +96,7 @@ public class GameStatus : MonoBehaviour
     //操作中のミノを瞬時に最下部まで落下させる機能
 
     //ハードドロップが使用されたか判別する変数
-    public bool UseHardDrop { get; set; } = false;
+    //private bool UseHardDrop = false;
 
     //Holdについて//
 
@@ -147,17 +151,16 @@ public class GameStatus : MonoBehaviour
     }
 
 
-    //各種変数の初期化をする関数
-    public void AllReset()
-    {
-        AngleReset();
+    // Reset関数 //
+    // public void Reset_UseHardDrop()
+    // {
+    //     UseHardDrop = false;
+    // }
 
-        SpinResetFlag();
-
-        UseHardDrop = false;
-
-        //UseHold = false;
-    }
+    // public void Set_UseHardDrop()
+    // {
+    //     UseHardDrop = true;
+    // }
 
     // //ミノの向きを初期化する関数
     // public void AngleReset()
@@ -166,22 +169,19 @@ public class GameStatus : MonoBehaviour
     //     //MinoAngleAfter = 0;
     // }
 
-    //ミノの回転フラグを無効にする関数
-    public void SpinResetFlag()
+    public void Reset_LastSRS()
     {
-        //UseSpin = false;
         LastSRS = 0;
-        //SpinTypeName = "None";
     }
 
-    //ミノの回転フラグを有効にする関数
-    public void SpinSetFlag()
-    {
-        //UseSpin = true;
-        UseSpinMini = false;
-        LastSRS = 0;
-        //SpinTypeName = "None";
-    }
+    // //ミノの回転フラグを有効にする関数
+    // public void SpinSetFlag()
+    // {
+    //     //UseSpin = true;
+    //     //UseSpinMini = false;
+    //     LastSRS = 0;
+    //     //SpinTypeName = "None";
+    // }
 
     public void IncreaseLastSRS()
     {
@@ -215,13 +215,13 @@ public class GameStatus : MonoBehaviour
     }
 
     // MinoAngleAfterのリセットをする関数 //
-    public void ResetMinoAngleAfter()
+    public void Reset_MinoAngleAfter()
     {
         MinoAngleAfter = MinoAngleBefore;
     }
 
     // 通常回転のリセットをする関数 //
-    public void RotateReset()
+    public void Reset_Rotate()
     {
         //通常回転が右回転だった時
         if ((MinoAngleBefore == North && MinoAngleAfter == East) ||
@@ -241,7 +241,7 @@ public class GameStatus : MonoBehaviour
     }
 
     // ミノの向きを初期化する関数 //
-    public void AngleReset()
+    public void Reset_Angle()
     {
         MinoAngleBefore = "NORTH";
         MinoAngleAfter = "NORTH";
@@ -287,12 +287,12 @@ public class GameStatus : MonoBehaviour
         }
     }
 
-    public void ActivateBackToBack()
+    public void Set_BackToBack()
     {
         BackToBack = true;
     }
 
-    public void DeactivateBackToBack()
+    public void Reset_BackToBack()
     {
         BackToBack = false;
     }

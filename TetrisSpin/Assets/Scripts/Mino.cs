@@ -186,7 +186,7 @@ public class Mino : MonoBehaviour
                                 spawner.activeMino.MoveUp();
                                 spawner.activeMino.MoveUp();
 
-                                gameStatus.RotateReset(); // 通常回転のリセット
+                                gameStatus.Reset_Rotate(); // 通常回転のリセット
 
                                 return false; // SRSができなかった時、falseを返す
                             }
@@ -234,7 +234,7 @@ public class Mino : MonoBehaviour
                                 spawner.activeMino.MoveDown();
                                 spawner.activeMino.MoveDown();
 
-                                gameStatus.RotateReset(); // 通常回転のリセット
+                                gameStatus.Reset_Rotate(); // 通常回転のリセット
 
                                 return false; // SRSができなかった時、falseを返す
                             }
@@ -282,7 +282,7 @@ public class Mino : MonoBehaviour
                                 spawner.activeMino.MoveDown();
                                 spawner.activeMino.MoveDown();
 
-                                gameStatus.RotateReset(); // 通常回転のリセット
+                                gameStatus.Reset_Rotate(); // 通常回転のリセット
 
                                 return false; // SRSができなかった時、falseを返す
                             }
@@ -330,7 +330,7 @@ public class Mino : MonoBehaviour
                                 spawner.activeMino.MoveUp();
                                 spawner.activeMino.MoveUp();
 
-                                gameStatus.RotateReset(); // 通常回転のリセット
+                                gameStatus.Reset_Rotate(); // 通常回転のリセット
 
                                 return false; // SRSができなかった時、falseを返す
                             }
@@ -383,7 +383,7 @@ public class Mino : MonoBehaviour
                                 spawner.activeMino.MoveDown();
                                 spawner.activeMino.MoveDown();
 
-                                gameStatus.RotateReset(); // 通常回転のリセット
+                                gameStatus.Reset_Rotate(); // 通常回転のリセット
 
                                 return false; // SRSができなかった時、falseを返す
                             }
@@ -430,7 +430,7 @@ public class Mino : MonoBehaviour
                                 spawner.activeMino.MoveRight();
                                 spawner.activeMino.MoveDown();
 
-                                gameStatus.RotateReset(); // 通常回転のリセット
+                                gameStatus.Reset_Rotate(); // 通常回転のリセット
 
                                 return false; // SRSができなかった時、falseを返す
                             }
@@ -477,7 +477,7 @@ public class Mino : MonoBehaviour
                                 spawner.activeMino.MoveUp();
                                 spawner.activeMino.MoveUp();
 
-                                gameStatus.RotateReset(); // 通常回転のリセット
+                                gameStatus.Reset_Rotate(); // 通常回転のリセット
 
                                 return false; // SRSができなかった時、falseを返す
                             }
@@ -524,7 +524,7 @@ public class Mino : MonoBehaviour
                                 spawner.activeMino.MoveLeft();
                                 spawner.activeMino.MoveUp();
 
-                                gameStatus.RotateReset(); // 通常回転のリセット
+                                gameStatus.Reset_Rotate(); // 通常回転のリセット
 
                                 return false; // SRSができなかった時、falseを返す
                             }
