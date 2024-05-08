@@ -337,7 +337,7 @@ public class GameManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySound("Hard_Drop");
 
-            int height = 20; // ゲームフィールドの高さの値
+            int height = 20; // ゲームボードの高さの値
 
             for (int i = 0; i < height; i++) // heightの値分繰り返す
             {
@@ -353,18 +353,9 @@ public class GameManager : MonoBehaviour
                 gameStatus.Reset_LastSRS(); // 1マスでも下に移動した時、LastSRSの値を0にする
             }
 
-            if (board.OverLimit(spawner.activeMino))
-            {
-                gameStatus.Set_GameOver();
+            Reset_RockDown(); // RockDownに関する変数のリセット
 
-                sceneTransition.GameOver();
-            }
-            else
-            {
-                Reset_RockDown(); // RockDownに関する変数のリセット
-
-                SetMinoFixed(); // 底に着いたときの処理
-            }
+            SetMinoFixed(); // 底に着いたときの処理
         }
 
         // ホールド入力された時
@@ -408,17 +399,7 @@ public class GameManager : MonoBehaviour
 
             if (!board.CheckPosition(spawner.activeMino))
             {
-                if (board.OverLimit(spawner.activeMino))
-                {
-                    //ゲームオーバー
-                    gameStatus.Set_GameOver();
-
-                    sceneTransition.GameOver();
-                }
-                else
-                {
-                    spawner.activeMino.MoveUp(); // ミノを正常な位置に戻す
-                }
+                spawner.activeMino.MoveUp(); // ミノを正常な位置に戻す
             }
             else
             {
@@ -430,7 +411,7 @@ public class GameManager : MonoBehaviour
     // ロックダウンの処理をする関数 //
     private void RockDown()
     {
-        int newBottomBlockPosition_y = board.CheckActiveMinoBottomBlockPosition_y(spawner.activeMino, StartingBottomBlockPosition_y); // ActiveMino の1番下のブロックの座標を取得
+        int newBottomBlockPosition_y = board.CheckActiveMinoBottomBlockPosition_y(spawner.activeMino); // ActiveMino の1番下のブロックのy座標を取得
 
         if (BottomBlockPosition_y <= newBottomBlockPosition_y) // ActivaMinoが、前回のy座標以上の位置にある時
         {
@@ -490,6 +471,15 @@ public class GameManager : MonoBehaviour
     // ミノの設置場所が確定した時の処理をする関数 //
     void SetMinoFixed()
     {
+        if (board.CheckGameOver(spawner.activeMino)) // ミノの設置時にゲームオーバーの条件を満たした場合
+        {
+            gameStatus.Set_GameOver();
+
+            sceneTransition.GameOver();
+
+            return;
+        }
+
         // 各種変数のリセット
         Reset_RockDown();
         UseHold = false;
@@ -514,11 +504,13 @@ public class GameManager : MonoBehaviour
 
         spawner.CreateNewNextMinos(MinoPopNumber);
 
-        if (!board.CheckPosition(spawner.activeMino))
+        if (!board.CheckPosition(spawner.activeMino)) // ミノを生成した際に、ブロックと重なってしまった場合
         {
             gameStatus.Set_GameOver();
 
             sceneTransition.GameOver();
+
+            return;
         }
     }
 
