@@ -1,9 +1,13 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using System.Collections;
 
-// ゲームマネージャー //
+///// ゲームマネージャー /////
+
+
+// ↓このスクリプトで可能なこと↓ //
+
+// ゲームの進行
+
+
 public class GameManager : MonoBehaviour
 {
     // ミノの生成数、または設置数 //
@@ -37,6 +41,9 @@ public class GameManager : MonoBehaviour
     // "Tetris"
 
     // 以上のオーディオが登録されている。
+
+    // 以下の関数で呼び出す
+    // AudioManager.Instance.PlaySound("オーディオ名")
 
 
     // 干渉するスクリプト //
@@ -110,12 +117,12 @@ public class GameManager : MonoBehaviour
 
         if (!board.CheckPosition(spawner.activeMino))
         {
-            Debug.LogError("[GameManager] ゲームボードからミノがはみ出した。または、ブロックに重なった。");
+            Debug.LogError("[GameManager Update()] ゲームボードからミノがはみ出した。または、ブロックに重なった。");
         }
 
         if (!board.CheckPosition(spawner.ghostMino))
         {
-            Debug.LogError("[GameManager] ゲームボードからゴーストミノがはみ出した。または、ブロックに重なった。");
+            Debug.LogError("[GameManager Update()] ゲームボードからゴーストミノがはみ出した。または、ブロックに重なった。");
         }
     }
 

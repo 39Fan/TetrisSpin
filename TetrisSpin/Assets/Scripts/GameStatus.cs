@@ -1,8 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ゲームステータス //
+///// ゲームステータスに関するスクリプト /////
+
+
+// ↓このスクリプトで可能なこと↓ //
+
+// ゲームの状態を管理(状態が変化する時は、他のスクリプトで計算される)
+
+
 public class GameStatus : MonoBehaviour
 {
     private bool GameOver; // ゲームオーバの判定
