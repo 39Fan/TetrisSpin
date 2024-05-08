@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// ゲームのSEに関してまとめたスクリプト
+// ゲームのSEに関してまとめたスクリプト //
 // ボリュームやピッチの調節、再生などを行う
 
 public class AudioManager : MonoBehaviour

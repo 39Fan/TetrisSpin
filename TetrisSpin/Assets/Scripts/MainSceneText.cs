@@ -158,17 +158,17 @@ public class MainSceneText : MonoBehaviour
                 switch (_LineClearCount) // 消去数で表示するテキストが変わる
                 {
                     case 1:
-                        gameStatus.DeactivateBackToBack();
+                        gameStatus.Reset_BackToBack();
                         AudioManager.Instance.PlaySound("Normal_Destroy");
                         TextAnimation(One_Line_Clear);
                         break;
                     case 2:
-                        gameStatus.DeactivateBackToBack();
+                        gameStatus.Reset_BackToBack();
                         AudioManager.Instance.PlaySound("Normal_Destroy");
                         TextAnimation(Two_Line_Clear);
                         break;
                     case 3:
-                        gameStatus.DeactivateBackToBack();
+                        gameStatus.Reset_BackToBack();
                         AudioManager.Instance.PlaySound("Normal_Destroy");
                         TextAnimation(Three_Line_Clear);
                         break;
@@ -179,7 +179,7 @@ public class MainSceneText : MonoBehaviour
                         }
                         else
                         {
-                            gameStatus.ActivateBackToBack(); // BackToBack 判定を付与
+                            gameStatus.Set_BackToBack(); // BackToBack 判定を付与
                         }
                         AudioManager.Instance.PlaySound("Tetris");
                         TextAnimation(Tetris);
@@ -194,7 +194,7 @@ public class MainSceneText : MonoBehaviour
                 }
                 else
                 {
-                    gameStatus.ActivateBackToBack(); // BackToBack 判定を付与
+                    gameStatus.Set_BackToBack(); // BackToBack 判定を付与
                 }
                 switch (_LineClearCount)
                 {
@@ -223,7 +223,7 @@ public class MainSceneText : MonoBehaviour
                 }
                 else
                 {
-                    gameStatus.ActivateBackToBack(); // BackToBack 判定を付与
+                    gameStatus.Set_BackToBack(); // BackToBack 判定を付与
                 }
                 switch (_LineClearCount)
                 {
