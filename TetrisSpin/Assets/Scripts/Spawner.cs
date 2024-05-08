@@ -1,7 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// ミノの出現に関するスクリプト //
+///// ミノの出現に関するスクリプト /////
+
+
+// ↓このスクリプトで可能なこと↓ //
+
+// 生成するミノの決定
+// ゲーム画面にミノを表示する
+
+
 public class Spawner : MonoBehaviour
 {
     // ミノのPrefabs //
