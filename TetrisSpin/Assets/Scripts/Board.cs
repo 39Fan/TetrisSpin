@@ -1,5 +1,14 @@
 using UnityEngine;
 
+///// ゲームボードに関するスクリプト /////
+
+
+// ↓このスクリプトで可能なこと↓ //
+
+// ゲームボードの作成
+// ミノの位置判定
+// ミノの設置場所を管理
+
 public class Board : MonoBehaviour
 {
     // ゲームボード //
@@ -17,46 +26,33 @@ public class Board : MonoBehaviour
         get { return Height; }
     }
 
-    //干渉するスクリプトの設定
-    //Calculate calculate;
-    //TetrisSpinData tetrisSpinData;
-    // GameStatus gameStatus;
-    // Spawner spawner;
-
-    //ゲーム画面内のグリッド
+    // ゲーム画面内のグリッド //
     public Transform[,] Grid;
 
-    //ボード基盤用の四角形格納用
-    [SerializeField]
-    private Transform emptySprite;
+    // ボード基盤の四角形 //
+    [SerializeField] private Transform EmptySprite;
 
-    //インスタンス化と
-    //テトリス画面のフィールドを作成
     private void Awake()
     {
-        //calculate = FindObjectOfType<Calculate>();
-        //tetrisSpinData = FindObjectOfType<TetrisSpinData>();
-        //gameStatus = FindObjectOfType<GameStatus>();
-        //spawner = FindObjectOfType<Spawner>();
-
-        Grid = new Transform[Width, Height];
+        Grid = new Transform[Width, Height]; // ゲームボードを作成
     }
 
     private void Start()
     {
-        CreateBoard(); //ボードを作成する関数
+        CreateBoard();
     }
 
+    // ボードを作成する関数 //
     void CreateBoard()
     {
-        if (emptySprite) //ボード作成
+        if (EmptySprite)
         {
             for (int y = 0; y < Height - Header; y++)
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    Transform clone = Instantiate(emptySprite,
-                        new Vector3(x, y, 0), Quaternion.identity);
+                    Transform clone = Instantiate(EmptySprite,
+                        new Vector3(x, y, 0), Quaternion.identity); // EmptySpriteを並べていく
 
                     clone.transform.parent = transform;
                 }
@@ -64,111 +60,57 @@ public class Board : MonoBehaviour
         }
     }
 
-    //ブロックが枠内にあるのか判定する関数を呼ぶ関数
+    // ActiveMinoが枠内にあるのか判定する関数 //
     public bool CheckPosition(Mino _ActiveMino)
     {
         foreach (Transform item in _ActiveMino.transform)
         {
-            Vector2 pos = Rounding.Round(item.position);
+            Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
 
-            if (!BoardOutCheck((int)pos.x, (int)pos.y))
+            if (!BoardOutCheck((int)pos.x, (int)pos.y)) // ブロックが枠外に出たとき
             {
-                return false; //ブロックが枠外に出たときfalse
+                return false;
             }
 
-            if (BlockCheck((int)pos.x, (int)pos.y, _ActiveMino))
+            if (BlockCheck((int)pos.x, (int)pos.y, _ActiveMino)) // 移動先に何かブロックがあるとき
             {
-                return false; //移動先に何かブロックがあるときfalse
+                return false;
             }
         }
 
         return true;
     }
 
-    // //ブロックが枠内にあるのか判定する関数を呼ぶ関数
-    // public bool CheckPosition_Ghost(Mino _GhostMino)
-    // {
-    //     foreach (Transform item in _GhostMino.transform)
-    //     {
-    //         Vector2 pos = Rounding.Round(item.position);
-
-    //         if (!BoardOutCheck((int)pos.x, (int)pos.y))
-    //         {
-    //             return false; //ブロックが枠外に出たときfalse
-    //         }
-
-    //         if (BlockCheck_Ghost((int)pos.x, (int)pos.y, _GhostMino))
-    //         {
-    //             return false; //移動先に何かブロックがあるときfalse
-    //         }
-    //     }
-
-    //     return true;
-    // }
-
-    //枠内にあるのか判定する関数
+    // ブロックが枠内にあるか判定する関数 //
     public bool BoardOutCheck(int x, int y)
     {
-        //x軸は0以上data.width満 y軸は0以上
+        // x軸は 0 以上 Width 未満、 y軸は 0 以上
         return (x >= 0 && x < Width && y >= 0);
     }
 
-    //移動先にブロックがないか判定する関数
+    // 移動先にブロックがないか判定する関数 //
     private bool BlockCheck(int x, int y, Mino _ActiveMino)
     {
-        //二次元配列が空ではない(他のブロックがある時)
-        //親が違う
+        // 二次元配列が空ではない(他のブロックがある時)
+        // 親が違う
         return (Grid[x, y] != null && Grid[x, y].parent != _ActiveMino.transform);
     }
 
-    // bool BlockCheck_Ghost(int x, int y, Mino _GhostMino)
-    // {
-    //     //二次元配列が空ではない(他のブロックがある時)
-    //     //親が違う
-    //     return (Grid[x, y] != null && Grid[x, y].parent != _GhostMino.transform);
-    // }
-
-    //ブロックが落ちたポジションを記録する関数
+    // ブロックが落ちたポジションを記録する関数 //
     public void SaveBlockInGrid(Mino _ActiveMino)
     {
         foreach (Transform item in _ActiveMino.transform)
         {
-            Vector2 pos = Rounding.Round(item.position);
-
-            //Debug.Log((int)pos.x);
-            //Debug.Log((int)pos.y);
+            Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
 
             Grid[(int)pos.x, (int)pos.y] = item;
         }
     }
 
-    //指定されたマスがミノで埋まっているか、壁ならtrueを返す関数(Tspin判定に必要)
-    public bool ActiveMinoCheckForTspin(int x, int y, Mino _ActiveMino)
-    {
-        //Gridの座標が負の場合(壁判定)true
-        if (x < 0 || y < 0)
-        {
-            return true;
-        }
-        else if (!BoardOutCheck(x, y))
-        {
-            return true;
-        }
-
-        if (BlockCheck(x, y, _ActiveMino))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    //全ての行をチェックして、埋まっていれば削除する関数
-    //帰値は列消去数
+    // 全ての行をチェックして、埋まっていれば削除する関数 //
     public int ClearAllRows()
     {
-        //合計列消去数をClearRowCount格納
-        int ClearRowCount = 0;
+        int ClearRowCount = 0; // 合計列消去数を ClearRowCount に格納
 
         for (int y = 0; y < Height; y++)
         {
@@ -184,24 +126,24 @@ public class Board : MonoBehaviour
             }
         }
 
-        return ClearRowCount;
+        return ClearRowCount; // 列消去数を返す
     }
 
-    //全ての行をチェックする関数
+    // 指定された行がブロックで埋まっているか確認する関数 //
     bool IsComplete(int y)
     {
         for (int x = 0; x < Width; x++)
         {
-            if (Grid[x, y] == null)
+            if (Grid[x, y] == null) // ブロックがない場合
             {
                 return false;
             }
         }
 
-        return true; //何かしら埋まっているとき
+        return true; // 行が埋まっている場合
     }
 
-    //削除する関数
+    // 指定された行のブロックを削除する関数 //
     private void ClearRow(int y)
     {
         for (int x = 0; x < Width; x++)
@@ -210,11 +152,12 @@ public class Board : MonoBehaviour
             {
                 Destroy(Grid[x, y].gameObject);
             }
+
             Grid[x, y] = null;
         }
     }
 
-    //上にあるブロックを1段下げる関数
+    // 上にあるブロックを1段下げる関数 //
     private void ShiftRowsDown(int startY)
     {
         for (int y = startY; y < Height; y++)
@@ -231,10 +174,30 @@ public class Board : MonoBehaviour
         }
     }
 
-    // ミノを構成するブロックについて、1番底に近いブロックのy座標データを返す関数 //
-    public int CheckActiveMinoBottomBlockPosition_y(Mino _activeMino, int _StartingBottomBlockPosition_y)
+    // 指定されたマスがブロック、もしくは壁かどうか確認する関数 //
+    public bool ActiveMinoCheckForTspin(int x, int y, Mino _ActiveMino)
     {
-        int bottomBlockPosition_y = _StartingBottomBlockPosition_y; // 1番下のブロックのY座標(初期値はゲームボードの高さの数値)
+        if (x < 0 || y < 0) // Gridの座標が負の場合(壁判定)
+        {
+            return true;
+        }
+        else if (!BoardOutCheck(x, y)) // ゲームボード外の場合
+        {
+            return true;
+        }
+
+        if (BlockCheck(x, y, _ActiveMino)) // ブロックで埋まっている場合
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    // ミノを構成するブロックについて、1番底に近いブロックのy座標データを返す関数 //
+    public int CheckActiveMinoBottomBlockPosition_y(Mino _activeMino)
+    {
+        int bottomBlockPosition_y = 21; // 1番下のブロックのY座標(初期値はゲームオーバーになる数値)
         int temp; // 一時的な変数
 
         foreach (Transform item in _activeMino.transform) // ミノの各ブロックを調べる
@@ -251,30 +214,14 @@ public class Board : MonoBehaviour
         return bottomBlockPosition_y;
     }
 
-    // //Blockを消す関数
-    // public void DestroyBlock(Mino Dblock)
-    // {
-    //     //Debug.Log("====this is DestroyBlock in Board====");
-
-    //     Destroy(Dblock.gameObject);
-    // }
-
-    // //GhostBlockを消す関数
-    // public void DestroyBlock_Ghost(Block_Ghost Dblock)
-    // {
-    //     //Debug.Log("====this is DestroyBlock_Ghost in Board====");
-
-    //     Destroy(Dblock.gameObject);
-    // }
-
-    public bool OverLimit(Mino _ActiveMino)
+    // ゲームオーバーか判定する関数 //
+    public bool CheckGameOver(Mino _activeMino)
     {
-        foreach (Transform item in _ActiveMino.transform)
+        int bottomBlockPosition_y = CheckActiveMinoBottomBlockPosition_y(_activeMino); // ActiveMino の1番下のブロックのy座標
+
+        if (bottomBlockPosition_y >= 21) // ミノの1番下のブロックのy座標が21を超えている場合
         {
-            if (item.transform.position.y > Height - Header - 1)
-            {
-                return true;
-            }
+            return true;
         }
 
         return false;
