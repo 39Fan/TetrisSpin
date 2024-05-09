@@ -472,6 +472,8 @@ public class GameManager : MonoBehaviour
     {
         if (board.CheckGameOver(spawner.activeMino)) // ミノの設置時にゲームオーバーの条件を満たした場合
         {
+            textEffect.StopAnimation();
+
             gameStatus.Set_GameOver();
 
             sceneTransition.GameOver();
@@ -505,6 +507,8 @@ public class GameManager : MonoBehaviour
 
         if (!board.CheckPosition(spawner.activeMino)) // ミノを生成した際に、ブロックと重なってしまった場合
         {
+            textEffect.StopAnimation();
+
             gameStatus.Set_GameOver();
 
             sceneTransition.GameOver();
