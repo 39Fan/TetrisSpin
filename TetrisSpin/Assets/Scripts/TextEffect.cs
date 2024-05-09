@@ -416,4 +416,10 @@ public class TextEffect : MonoBehaviour
         // sequence.AppendInterval(1f); // 1秒待機
         // sequence.Append(textTransform.DOFade(0, 0.5f)); // 0.5秒でフェードアウト
     }
+
+    // アニメーションを停止させる関数 //
+    public void StopAnimation()
+    {
+        DOTween.KillAll();
+    }
 }

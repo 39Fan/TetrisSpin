@@ -1,46 +1,50 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//シーン遷移を扱うスクリプト
+///// シーン遷移に関するスクリプト /////
+
+
+// ↓このスクリプトで可能なこと↓ //
+
+// シーン遷移
+
 public class SceneTransition : MonoBehaviour
 {
-    /*[SerializeField]
-    private GameObject gameOverPanel;
-    [SerializeField]
-    private GameObject Menu;
-    [SerializeField]
-    private GameObject Main;*/
+    // 扱うシーン //
+    [SerializeField] private Scene MenuScene;
+    [SerializeField] private Scene PlayScene;
+    [SerializeField] private Scene GameOverScene;
 
-    //MenuシーンのStartボタンが押された時
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject); // シーンが変わっても破壊されない
+    }
+
+    // MenuScene の Start ボタンが押された時の処理をする関数 //
     public void SelectStartBottun()
     {
-        //Mainシーンに遷移
-        //他のシーンはアンロード
-        SceneManager.LoadScene("Main", LoadSceneMode.Single);
+        // PlayScene に遷移
+        SceneManager.LoadScene("Play", LoadSceneMode.Single); // 他のシーンはアンロードする
     }
 
-    //GameOverシーンのRetryボタンが押された時
+    // GameOverScene の Retry ボタンが押された時の処理をする関数 //
     public void SelectRetry()
     {
-        //Mainシーンに遷移
-        //他のシーンはアンロード
-        SceneManager.LoadScene("Main", LoadSceneMode.Single);
+        // PlaySceneに遷移
+        SceneManager.LoadScene("Play", LoadSceneMode.Single); // 他のシーンはアンロードする
     }
 
-    //GameOverシーンのMenuボタン、MainシーンのMenuボタンが押された時(未実装)
+    // GameOverScene の Menu ボタン、MainScene の Menu ボタンが押された時の処理をする関数(未実装) //
     public void SelectMenu()
     {
-        //Menuシーンに遷移
-        //他のシーンはアンロード
-        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+        // MenuSceneに遷移
+        SceneManager.LoadScene("Menu", LoadSceneMode.Single); // 他のシーンはアンロードする
     }
 
-    //Mainシーンでゲームオーバーになった時
+    // PlayScene でゲームオーバーになった時の処理をする関数 //
     public void GameOver()
     {
-        //GameOverシーンに遷移
-        //他のシーンはアンロード
-        SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
+        // GameOverSceneに遷移
+        SceneManager.LoadScene("GameOver", LoadSceneMode.Single); // 他のシーンはアンロードする
     }
-
 }
