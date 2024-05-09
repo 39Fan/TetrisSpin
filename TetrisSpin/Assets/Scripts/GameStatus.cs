@@ -15,7 +15,9 @@ public class GameStatus : MonoBehaviour
 
     private bool BackToBack = false; // BackToBackの判定
 
-    private int Ren = 0; // Renの判定
+    private int Ren = -1; // Renの判定
+
+    [SerializeField] private int AttackLines = 0; // 攻撃ライン数
 
     private List<int> LineClearCountHistory = new List<int>(); // ライン消去の履歴を記録するリスト
 
@@ -98,13 +100,19 @@ public class GameStatus : MonoBehaviour
     // Renの値をリセットする関数 //
     public void Reset_Ren()
     {
-        Ren = 0;
+        Ren = -1;
     }
 
     // Renの値を1増加させる関数 //
     public void IncreaseRen()
     {
         Ren++;
+    }
+
+    // AttackLinesの値を足していく関数
+    public void IncreaseAttackLines(int _addAttackLines)
+    {
+        AttackLines += _addAttackLines;
     }
 
     // ライン消去数

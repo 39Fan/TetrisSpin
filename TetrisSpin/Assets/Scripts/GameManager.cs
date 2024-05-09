@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     private int MinoPutNumber = 0; // Holdを使用すると、MinoPopNumberより1少なくなる
 
     // ロックダウン //
-    // [SerializeField] private bool isBottom = false;
     [SerializeField] private int BottomMoveCount = 0;
     [SerializeField] private int BottomMoveCountLimit = 15;
     [SerializeField] private int BottomBlockPosition_y = 20;
@@ -49,7 +48,7 @@ public class GameManager : MonoBehaviour
     // 干渉するスクリプト //
     Board board;
     GameStatus gameStatus;
-    MainSceneText mainSceneText;
+    TextEffect textEffect;
     Mino mino;
     SceneTransition sceneTransition;
     Spawner spawner;
@@ -62,7 +61,7 @@ public class GameManager : MonoBehaviour
     {
         board = FindObjectOfType<Board>();
         gameStatus = FindObjectOfType<GameStatus>();
-        mainSceneText = FindObjectOfType<MainSceneText>();
+        textEffect = FindObjectOfType<TextEffect>();
         mino = FindObjectOfType<Mino>();
         sceneTransition = FindObjectOfType<SceneTransition>();
         spawner = FindObjectOfType<Spawner>();
@@ -489,7 +488,7 @@ public class GameManager : MonoBehaviour
 
         gameStatus.AddLineClearCountHistory(board.ClearAllRows(), MinoPutNumber); // 横列が埋まっていれば消去し、消去数を記録する
 
-        mainSceneText.TextDisplay(gameStatus.lineClearCountHistory[MinoPutNumber]); // 消去数、Spinに対応したテキストを表示し、それに対応したSEも鳴らす
+        textEffect.TextDisplay(gameStatus.lineClearCountHistory[MinoPutNumber]); // 消去数、Spinに対応したテキストを表示し、それに対応したSEも鳴らす
 
         // 各種変数のリセット
         gameStatus.Reset_LastSRS();

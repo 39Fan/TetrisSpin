@@ -60,7 +60,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    // ActiveMinoが枠内にあるのか判定する関数 //
+    // ActiveMinoが枠内にあるのか判定する関数を呼ぶ関数 //
     public bool CheckPosition(Mino _ActiveMino)
     {
         foreach (Transform item in _ActiveMino.transform)
