@@ -1,47 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-// タイマー
+///// タイマーに関するスクリプト /////
+
+
+// ↓このスクリプトで可能なこと↓ //
+
+// キー入力の受付時間の管理
+
 public class Timer : MonoBehaviour
 {
-    // 自動でミノが落ちるまでのインターバル時間
-    // 次にブロックが落ちるまでの時間
-    // 入力受付タイマー(4種類)
+    // 入力受付タイマー(3種類)
     public float NextKeyLeftRightTimer { get; private set; }
     public float NextKeyRotateTimer { get; private set; }
     public float NextKeyDownTimer { get; private set; }
-    public float AutoDropTimer { get; private set; }
-
-    // ミノが底に面していられる時間
-    //public float keyReceptionTimer { get; set; } // 修正予定
 
     // 入力インターバル(4種類)
     public float NextKeyLeftRightInterval_Normal { get; private set; } = 0.20f;
-    public float NextKeyLeftRightInterval_Short { get; private set; } = 0.05f;
+    public float NextKeyLeftRightInterval_Short { get; private set; } = 0.05f; // 連続左右入力用
     public float NextKeyRotateInterval { get; private set; } = 0.05f;
     public float NextKeyDownInterval { get; private set; } = 0.05f;
+
+    // 自動でミノが落ちるまでの時間とそのインターバル
+    public float AutoDropTimer { get; private set; }
     public float AutoDropInteaval { get; private set; } = 1f;
+
+    // 連続右入力、または連続左入力の判定
+    public bool ContinuousLRKey { get; set; } = false;
 
     // ロックダウン //
     public float BottomTimer { get; private set; }
     public float BottomTimerInterval { get; private set; } = 1f;
 
-    //public float keyReceptionInterval { get; set; } = 1f; //　修正予定
 
-    // 連続右入力、または連続左入力の判定
-    public bool ContinuousLRKey { get; set; } = false;
-
-    // // タイマーの設定
-    // public void SetTimer()
-    // {
-    //     NextKeyDownTimer = Time.time + NextKeyDownInterval;
-    //     NextKeyLeftRightTimer = Time.time + NextKeyLeftRightInterval;
-    //     NextKeyRotateTimer = Time.time + NextKeyRotateInterval;
-    //     keyReceptionTimer = Time.time + keyReceptionInterval;
-    // }
-
-    // ゲームスタート時と、ミノが設置された時のタイマー初期化
+    // ゲームスタート時と、ミノが設置された時のタイマーを初期化する関数 //
     public void ResetTimer()
     {
         NextKeyDownTimer = Time.time;
@@ -49,21 +40,12 @@ public class Timer : MonoBehaviour
         NextKeyRotateTimer = Time.time;
         AutoDropTimer = Time.time + AutoDropInteaval;
         BottomTimer = Time.time + BottomTimerInterval;
-        //keyReceptionTimer = Time.time;
-
-        //keyReceptionInterval = 1f;
     }
 
-    // public void ResetNextKeyInterval()
-    // {
-    //     NextKeyDownInterval =
-    // }
-
-    // 右入力、または左入力のタイマー更新
+    // 右入力、または左入力のタイマーを更新する関数 //
     public void UpdateLeftRightTimer()
     {
-        // 連続入力なら
-        if (ContinuousLRKey == true)
+        if (ContinuousLRKey == true) // 連続入力なら
         {
             NextKeyLeftRightTimer = Time.time + NextKeyLeftRightInterval_Short;
         }
@@ -75,7 +57,7 @@ public class Timer : MonoBehaviour
         BottomTimer = Time.time + BottomTimerInterval;
     }
 
-    // 回転入力のタイマー更新
+    // 回転入力のタイマーを更新する関数 //
     public void UpdateRotateTimer()
     {
         NextKeyRotateTimer = Time.time + NextKeyRotateInterval;
@@ -83,7 +65,7 @@ public class Timer : MonoBehaviour
         BottomTimer = Time.time + BottomTimerInterval;
     }
 
-    // 下入力、自動落下のタイマー更新
+    // 下入力、自動落下のタイマーの更新をする関数 //
     public void UpdateDownTimer()
     {
         NextKeyDownTimer = Time.time + NextKeyDownInterval;
