@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
 
 ///// ミノに関するスクリプト /////
@@ -66,8 +64,7 @@ public class Mino : MonoBehaviour
     // 通常右回転 //
     public void RotateRight()
     {
-        // 回転できるブロックかどうか
-        if (CanRotate == false)
+        if (CanRotate == false) // 回転できないブロックの場合
         {
             return; // Oミノは回転できないので弾かれる
         }
@@ -94,8 +91,7 @@ public class Mino : MonoBehaviour
     // 通常左回転 //
     public void Rotateleft()
     {
-        // 回転できるブロックかどうか
-        if (CanRotate == false)
+        if (CanRotate == false) // 回転できないブロックの場合
         {
             return; // Oミノは回転できないので弾かれる
         }
@@ -539,8 +535,6 @@ public class Mino : MonoBehaviour
     // Iミノの軸を計算し、Vectoe3で返す関数 //
     public Vector3 AxisCheck(int Imino_x, int Imino_y) // Imino_x と Imino_y はIミノのx, y座標
     {
-        //Debug.Log("AxisCheck");
-
         // xとyのオフセットを宣言
         float xOffset = 0.5f;
         float yOffset = 0.5f;
@@ -569,48 +563,4 @@ public class Mino : MonoBehaviour
             return new Vector3(Imino_x + xOffset, Imino_y + yOffset, 0);
         }
     }
-
-
-
-
-
-
-
-    // //SRS時に重複しないか判定する関数
-    // //Rx, Ry はそれぞれX, Y座標のオフセット 
-    // bool RotationCheck(int Rx, int Ry, Mino mino)
-    // {
-    //     //minoを構成する4つのブロックをそれぞれ調べる
-    //     foreach (Transform item in mino.transform)
-    //     {
-    //         //ブロックのX, Y座標をposに格納
-    //         Vector2 pos = Rounding.Round(item.position);
-
-    //         //オフセット分移動した時、Gridの座標が負ならfalse
-    //         if ((int)pos.x + Rx < 0 || (int)pos.y + Ry < 0)
-    //         {
-    //             Debug.Log("SRS移動先のGrid座標が負");
-    //             return false;
-    //         }
-
-    //         //オフセット分移動した時、ほかのミノと重なったらfalse
-    //         if (board.Grid[(int)pos.x + Rx, (int)pos.y + Ry] != null
-    //             && board.Grid[(int)pos.x + Rx, (int)pos.y + Ry].parent != mino.transform)
-    //         {
-    //             Debug.Log("SRS先が重複");
-    //             return false;
-    //         }
-
-    //         //オフセット分移動した時、ゲームフィールド外に移動していたならfalse
-    //         if (!board.BoardOutCheck((int)pos.x + Rx, (int)pos.y + Ry))
-    //         {
-    //             Debug.Log("SRS先がゲームフィールド外");
-    //             return false;
-    //         }
-    //     }
-
-    //     return true;
-    // }
-
-
 }
