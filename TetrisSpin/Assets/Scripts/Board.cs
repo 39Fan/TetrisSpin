@@ -1,3 +1,5 @@
+using System.Reflection.Emit;
+using JetBrains.Annotations;
 using UnityEngine;
 
 ///// ゲームボードに関するスクリプト /////
@@ -174,8 +176,24 @@ public class Board : MonoBehaviour
         }
     }
 
+    // ボード上にブロックがあるか確認する関数 //
+    public bool CheckBoardBlocks()
+    {
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                if (Grid[x, y] != null) // ブロックがある場合
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     // 指定されたマスがブロック、もしくは壁かどうか確認する関数 //
-    public bool ActiveMinoCheckForTspin(int x, int y, Mino _ActiveMino)
+    public bool CheckGrid(int x, int y, Mino _ActiveMino)
     {
         if (x < 0 || y < 0) // Gridの座標が負の場合(壁判定)
         {
