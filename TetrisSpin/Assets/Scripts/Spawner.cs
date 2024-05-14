@@ -27,7 +27,7 @@ public class Spawner : MonoBehaviour
     Dictionary<string, Mino> GhostMinoDictionary = new Dictionary<string, Mino>(); // GhostMinosとMinoNamesのDictionary
 
     // 生成されるミノの順番 //
-    private List<string> SpawnMinoOrders = new List<string>();
+    [SerializeField] private List<string> SpawnMinoOrders = new List<string>();
 
     // ゲームに可視化されるミノ //
     private Mino ActiveMino; // 操作中のミノ
@@ -237,19 +237,16 @@ public class Spawner : MonoBehaviour
             ActiveMinoName = HoldMinoName;
             HoldMinoName = temp;
 
-
             ActiveMino = SpawnActiveMino(HoldMino); // HoldミノをActiveMinoに戻す
-
-            AdjustGhostMinoPosition();  // ゴーストミノの位置調整
 
             GhostMino = SpawnGhostMino(GhostMinoDictionary[ActiveMinoName], ActiveMino, ActiveMinoToBaseDistance);
 
-            //以前のホールドミノを削除
+            // 以前のホールドミノを削除
             Destroy(HoldMino.gameObject);
 
             HoldMino = SpawnHoldMino(MinoDictionary[HoldMinoName]); // Holdされたミノを画面左上に表示
 
-            //変数の初期化
+            // 変数の初期化
             gameStatus.Reset_Angle();
             gameStatus.Reset_LastSRS();
         }
@@ -320,4 +317,3 @@ public class Spawner : MonoBehaviour
         }
     }
 }
-
