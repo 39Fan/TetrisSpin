@@ -37,42 +37,55 @@ public class Mino : MonoBehaviour
     // 移動用 //
     public void Move(Vector3 _MoveDirection)
     {
+        DebugHelper.Log("Start", DebugHelper.LogLevel.Debug, "Mino", "Move()");
+
         transform.position += _MoveDirection;
     }
 
     // 移動関数を呼ぶ関数(4種類) //
     public void MoveLeft()
     {
+        DebugHelper.Log("Start", DebugHelper.LogLevel.Debug, "Mino", "MoveLeft()");
+
         Move(new Vector3(-1, 0, 0));
     }
 
     public void MoveRight()
     {
+        DebugHelper.Log("Start", DebugHelper.LogLevel.Debug, "Mino", "MoveRight()");
+
         Move(new Vector3(1, 0, 0));
     }
 
     public void MoveUp()
     {
+        DebugHelper.Log("Start", DebugHelper.LogLevel.Debug, "Mino", "MoveUp()");
+
         Move(new Vector3(0, 1, 0));
     }
 
     public void MoveDown()
     {
+        DebugHelper.Log("Start", DebugHelper.LogLevel.Debug, "Mino", "MoveDown()");
+
         Move(new Vector3(0, -1, 0));
     }
 
     // 通常右回転 //
     public void RotateRight()
     {
+        DebugHelper.Log("Start", DebugHelper.LogLevel.Debug, "Mino", "RotateRight()");
+
         if (CanRotate == false) // 回転できないブロックの場合
         {
+            Debug.Log("[Mino] ");
+
             return; // Oミノは回転できないので弾かれる
         }
 
         if (spawner.activeMinoName != "I_Mino") // Iミノ以外の右回転
         {
             transform.Rotate(0, 0, RotateRightAroundZ);
-            Debug.Log("右回転");
         }
         else // Iミノは軸が他のミノと違うため別の処理
         {
@@ -91,13 +104,15 @@ public class Mino : MonoBehaviour
     // 通常左回転 //
     public void Rotateleft()
     {
+        DebugHelper.Log("Start", DebugHelper.LogLevel.Debug, "Mino", "Rotateleft()");
+
         if (CanRotate == false) // 回転できないブロックの場合
         {
             return; // Oミノは回転できないので弾かれる
         }
 
         // Iミノ以外の左回転
-        if (!spawner.activeMino.name.Contains("I"))
+        if (spawner.activeMinoName != "I_Mino")
         {
             transform.Rotate(0, 0, RotateLeftAroundZ);
         }
@@ -117,6 +132,40 @@ public class Mino : MonoBehaviour
         gameStatus.UpdateMinoAngleAfter(UseRotateLeft);
     }
 
+    // Iミノの軸を計算し、Vectoe3で返す関数 //
+    public Vector3 AxisCheck(int Imino_x, int Imino_y) // Imino_x と Imino_y はIミノのx, y座標
+    {
+        DebugHelper.Log("Start", DebugHelper.LogLevel.Debug, "Mino", "AxisCheckt()");
+
+        // x軸とy軸のオフセットを宣言
+        float xOffset = 0.5f;
+        float yOffset = 0.5f;
+
+        // 回転軸は現在位置から、x軸を xOffset 動かし、y軸を yOffset 動かした座標にある
+        // xOffset と yOffset の正負は回転前の向きによって変化する
+
+        // 回転前の向きがNorthの時
+        if (gameStatus.minoAngleBefore == gameStatus.North)
+        {
+            return new Vector3(Imino_x + xOffset, Imino_y - yOffset, 0);
+        }
+        //回転前の向きがEastの時
+        else if (gameStatus.minoAngleBefore == gameStatus.East)
+        {
+            return new Vector3(Imino_x - xOffset, Imino_y - yOffset, 0);
+        }
+        //回転前の向きがSouthの時
+        else if (gameStatus.minoAngleBefore == gameStatus.South)
+        {
+            return new Vector3(Imino_x - xOffset, Imino_y + yOffset, 0);
+        }
+        //回転前の向きがWestの時
+        else
+        {
+            return new Vector3(Imino_x + xOffset, Imino_y + yOffset, 0);
+        }
+    }
+
     // スーパーローテーションシステム(SRS) //
     // 通常回転ができなかった時に試す回転
     // 4つの軌跡を辿り、ブロックや壁に衝突しなかったらそこに移動する
@@ -126,6 +175,8 @@ public class Mino : MonoBehaviour
 
     public bool SuperRotationSystem()
     {
+        DebugHelper.Log("Start", DebugHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+
         //初期(未回転)状態をNorthとして、
         //右回転後の向きをEast
         //左回転後の向きをWest
@@ -530,37 +581,5 @@ public class Mino : MonoBehaviour
             }
         }
         return true; // SRSができた時、trueを返す
-    }
-
-    // Iミノの軸を計算し、Vectoe3で返す関数 //
-    public Vector3 AxisCheck(int Imino_x, int Imino_y) // Imino_x と Imino_y はIミノのx, y座標
-    {
-        // xとyのオフセットを宣言
-        float xOffset = 0.5f;
-        float yOffset = 0.5f;
-
-        // 回転軸は現在位置から、x軸を xOffset 動かし、y軸を yOffset 動かした座標にある
-        // xOffset と yOffset の正負は回転前の向きによって変化する
-
-        // 回転前の向きがNorthの時
-        if (gameStatus.minoAngleBefore == gameStatus.North)
-        {
-            return new Vector3(Imino_x + xOffset, Imino_y - yOffset, 0);
-        }
-        //回転前の向きがEastの時
-        else if (gameStatus.minoAngleBefore == gameStatus.East)
-        {
-            return new Vector3(Imino_x - xOffset, Imino_y - yOffset, 0);
-        }
-        //回転前の向きがSouthの時
-        else if (gameStatus.minoAngleBefore == gameStatus.South)
-        {
-            return new Vector3(Imino_x - xOffset, Imino_y + yOffset, 0);
-        }
-        //回転前の向きがWestの時
-        else
-        {
-            return new Vector3(Imino_x + xOffset, Imino_y + yOffset, 0);
-        }
     }
 }
