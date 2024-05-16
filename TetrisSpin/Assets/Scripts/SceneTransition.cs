@@ -11,9 +11,9 @@ using UnityEngine.SceneManagement;
 public class SceneTransition : MonoBehaviour
 {
     // 扱うシーン //
-    [SerializeField] private Scene MenuScene;
-    [SerializeField] private Scene PlayScene;
-    [SerializeField] private Scene GameOverScene;
+    // [SerializeField] private Scene MenuScene;
+    // [SerializeField] private Scene PlayScene;
+    // [SerializeField] private Scene GameOverScene;
 
     private void Start()
     {
