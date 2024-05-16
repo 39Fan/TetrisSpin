@@ -1,3 +1,5 @@
+臨時コード
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +8,7 @@ using UnityEngine;
 
 // ↓このスクリプトで可能なこと↓ //
 
-// ゲームの状態を管理(状態が変化する時は、他のスクリプトで計算される)
+// ゲームの状態を管理
 
 
 public class GameStatus : MonoBehaviour
@@ -14,6 +16,8 @@ public class GameStatus : MonoBehaviour
     private bool GameOver; // ゲームオーバの判定
 
     private bool BackToBack = false; // BackToBackの判定
+
+    private bool PerfectClear = false; // PerfectClearの判定
 
     private int Ren = -1; // Renの判定
 
@@ -28,8 +32,8 @@ public class GameStatus : MonoBehaviour
     public string West { get; } = "WEST"; // 2回右回転または左回転した時の向きをSOUTHとする
 
     // ミノの回転後と回転前の向き //
-    private string MinoAngleAfter = "NORTH"; // 初期値はNORTHの状態
-    private string MinoAngleBefore = "NORTH"; // 初期値はNORTHの状態 // SRSで必要
+    [SerializeField] private string MinoAngleAfter = "NORTH"; // 初期値はNORTHの状態
+    [SerializeField] private string MinoAngleBefore = "NORTH"; // 初期値はNORTHの状態 // SRSで必要
 
     // 最後に行ったスーパーローテーションシステム(SRS)の段階を表す変数 //
     private int LastSRS = 0; // SRSが使用されていないときは0, 1〜4の時は、SRSの段階を表す
@@ -42,6 +46,10 @@ public class GameStatus : MonoBehaviour
     public bool backToBack
     {
         get { return BackToBack; }
+    }
+    public bool perfectClear
+    {
+        get { return PerfectClear; }
     }
     public int ren
     {
@@ -65,12 +73,14 @@ public class GameStatus : MonoBehaviour
     }
 
     // 干渉するスクリプト //
+    Board board;
     Spawner spawner;
 
     // インスタンス化 //
     private void Awake()
     {
         spawner = FindObjectOfType<Spawner>();
+        board = FindObjectOfType<Board>();
     }
 
     // ゲームオーバー判定をオンにする関数 //
@@ -95,6 +105,17 @@ public class GameStatus : MonoBehaviour
     public void Reset_BackToBack()
     {
         BackToBack = false;
+    }
+
+    public void Reset_PerfectClear()
+    {
+        PerfectClear = false;
+    }
+
+    // PerfectClearの判定をする関数 //
+    public void CheckPerfectClear()
+    {
+        PerfectClear = board.CheckBoardBlocks();
     }
 
     // Renの値をリセットする関数 //
