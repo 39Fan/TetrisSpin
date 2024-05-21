@@ -1,5 +1,3 @@
-臨時コード
-
 using System.Collections.Generic;
 using UnityEngine;
 

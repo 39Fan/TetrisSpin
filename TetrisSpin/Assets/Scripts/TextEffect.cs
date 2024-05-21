@@ -257,7 +257,8 @@ public class TextEffect : MonoBehaviour
                 }
                 break;
         }
-        // Compleate判定
+
+
     }
 
     // Renの攻撃ラインを計算する関数 //
