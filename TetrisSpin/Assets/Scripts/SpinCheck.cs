@@ -89,7 +89,7 @@ public class SpinCheck : MonoBehaviour
         {
             for (int y = 1; y >= -1; y -= 2)
             {
-                if (board.ActiveMinoCheckForTspin((int)Mathf.Round(spawner.activeMino.transform.position.x) + x, (int)Mathf.Round(spawner.activeMino.transform.position.y) + y, spawner.activeMino))
+                if (board.CheckGrid((int)Mathf.Round(spawner.activeMino.transform.position.x) + x, (int)Mathf.Round(spawner.activeMino.transform.position.y) + y, spawner.activeMino))
                 {
                     checkBlocks_ForT.Add("Exist");
                 }

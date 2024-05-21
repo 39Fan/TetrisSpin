@@ -56,5 +56,9 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "TetrisSpin 2.sln"
+    "dotnet.defaultSolution": "TetrisSpin.sln",
+    "dotnet.preferCSharpExtension": true,
+    "workbench.preferredHighContrastColorTheme": "Default Dark Modern",
+    "workbench.preferredHighContrastLightColorTheme": "Default Dark Modern",
+    "workbench.preferredLightColorTheme": "Default Dark Modern"
 }
