@@ -70,6 +70,11 @@ public class TextEffect : MonoBehaviour
     int TwoLineClearAttack = 1;
     int ThreeLineClearAttack = 2;
     int TetrisAttack = 4;
+    int IspinSingleAttack = 2;
+    int IspinDoubleAttack = 4;
+    int IspinTripleAttack = 6;
+    int IspinQuattroAttack = 8;
+    int IspinMiniAttack = 1;
     int TspinSingleAttack = 2;
     int TspinDoubleAttack = 4;
     int TspinTripleAttack = 6;
@@ -147,16 +152,7 @@ public class TextEffect : MonoBehaviour
                         break;
 
                     case 4:
-                        if (gameStatus.backToBack == true) // BackToBack 条件を満たしている時
-                        {
-                            gameStatus.IncreaseAttackLines(BackToBackBonus);
-
-                            BackToBackAnimation();
-                        }
-                        else
-                        {
-                            gameStatus.Set_BackToBack(); // BackToBack 判定を付与
-                        }
+                        CheckBackToBack();
 
                         RenAttackLines();
 
@@ -170,17 +166,34 @@ public class TextEffect : MonoBehaviour
                 }
                 break;
 
-            case "T-Spin":
-                if (gameStatus.backToBack == true) // BackToBack 条件を満たしている時
-                {
-                    gameStatus.IncreaseAttackLines(BackToBackBonus);
+            case "I-Spin Mini":
+                CheckBackToBack();
 
-                    BackToBackAnimation();
-                }
-                else
+                switch (_LineClearCount)
                 {
-                    gameStatus.Set_BackToBack(); // BackToBack 判定を付与
+                    case 0:
+                        AudioManager.Instance.PlaySound("Normal_Drop");
+
+                        TextAnimation(IspinMini_Text);
+
+                        break;
+
+                    case 1:
+                        RenAttackLines();
+
+                        gameStatus.IncreaseAttackLines(IspinMiniAttack);
+
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
+
+                        TextAnimation(IspinMini_Text);
+
+                        break;
                 }
+                break;
+
+            case "T-Spin":
+                CheckBackToBack();
+
                 switch (_LineClearCount)
                 {
                     case 0:
@@ -226,21 +239,15 @@ public class TextEffect : MonoBehaviour
                 break;
 
             case "T-Spin Mini":
-                if (gameStatus.backToBack == true) // BackToBack 条件を満たしている時
-                {
-                    gameStatus.IncreaseAttackLines(BackToBackBonus);
+                CheckBackToBack();
 
-                    BackToBackAnimation();
-                }
-                else
-                {
-                    gameStatus.Set_BackToBack(); // BackToBack 判定を付与
-                }
                 switch (_LineClearCount)
                 {
                     case 0:
                         AudioManager.Instance.PlaySound("Normal_Drop");
+
                         TextAnimation(TspinMini_Text);
+
                         break;
 
                     case 1:
@@ -278,7 +285,22 @@ public class TextEffect : MonoBehaviour
             PerfectClearAnimation();
         }
     }
-    
+
+    // BackToBackの判定をチェックする関数
+    private void CheckBackToBack()
+    {
+        if (gameStatus.backToBack == true) // BackToBack 条件をすでに満たしている時
+        {
+            gameStatus.IncreaseAttackLines(BackToBackBonus);
+
+            BackToBackAnimation();
+        }
+        else
+        {
+            gameStatus.Set_BackToBack(); // BackToBack 判定を付与
+        }
+    }
+
     // Renの攻撃ラインを計算する関数 //
     private void RenAttackLines()
     {

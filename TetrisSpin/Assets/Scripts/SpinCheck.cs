@@ -41,10 +41,10 @@ public class SpinCheck : MonoBehaviour
     // 各ミノのスピン判定をチェックする //
     public void CheckSpinType() // この関数は、回転時に呼び出される
     {
-        /*if (mino == I_mino)
+        if (spawner.activeMinoName == "I_Mino")
         {
-            return IspinCheck(_ActiveMino);
-        }*/
+            IspinCheck();
+        }
         /*else if (mino == J_mino)
         {
             return JspinCheck(_ActiveMino);
@@ -75,15 +75,74 @@ public class SpinCheck : MonoBehaviour
         }
     }
 
+    // Ispinの判定をする関数(Mini判定も計算)
+    public void IspinCheck()
+    {
+        if (gameStatus.minoAngleAfter == gameStatus.North || gameStatus.minoAngleAfter == gameStatus.South) // Iミノが横向きの場合
+        {
+            List<string> checkBlocksAbove_ForI = new List<string>();
+            List<string> checkBlocksBelow_ForI = new List<string>(); // IspinMiniの判定に必要なリスト
+
+            int yOffset = 1; // IspinMiniの判定に必要なオフセット
+
+
+            // IspinMiniの判定をチェックする
+
+            // 条件
+            // ①Iミノを構成する各ブロックの1マス上に少なくともブロックが1つ以上存在すること
+            // ②Iミノを構成する各ブロックの1マス下にブロックが存在すること
+
+            // ①を調べる
+            foreach (Transform item in spawner.activeMino.transform) // Iミノを構成するブロックそれぞれを確認する
+            {
+                Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
+
+                // 1マス上部にブロックがあるか調べる
+                if (board.CheckGrid(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y + yOffset), spawner.activeMino))
+                {
+                    checkBlocksAbove_ForI.Add("Exist");
+                }
+                else
+                {
+                    checkBlocksAbove_ForI.Add("Not Exist");
+                }
+            }
+
+            // ②を調べる
+            foreach (Transform item in spawner.activeMino.transform) // Iミノを構成するブロックそれぞれを確認する
+            {
+                Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
+
+                // 1マス上部にブロックがあるか調べる
+                if (board.CheckGrid(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y - yOffset), spawner.activeMino))
+                {
+                    checkBlocksAbove_ForI.Add("Exist");
+                }
+                else
+                {
+                    checkBlocksAbove_ForI.Add("Not Exist");
+                }
+            }
+
+            if (checkBlocksAbove_ForI.FindAll(block => block == "Exist").Count >= 1 ||
+                checkBlocksBelow_ForI.FindAll(block => block == "Exist").Count == 4)
+            {
+                SpinTypeName = "I-Spin Mini";
+            }
+        }
+    }
 
     // Tspinの判定をする関数(Mini判定も計算)
-    public void TspinCheck()
+    private void TspinCheck()
     {
         List<string> checkBlocks_ForT = new List<string>(); // Tミノの中心から斜め四方のブロックの状態を確認するためのリスト
 
         // Tミノの中心から順番に[1, 1]、[1, -1]、[-1, 1]、[-1, -1]の分だけ移動した座標にブロックや壁がないか確認する
         // ブロックや壁があった時は Exist ない時は Not Exist で_ActiveMinoCountのリストに追加されていく
         // 例: checkBlocks_ForT["Exist", "Exist", "Not Exist", "Exist"]
+        // ▫️▪️▫️
+        // ▪️▪️▪️
+        // ▫️ ▫️  ←四隅を調べる
 
         for (int x = 1; x >= -1; x -= 2)
         {
@@ -99,6 +158,23 @@ public class SpinCheck : MonoBehaviour
                 }
             }
         }
+
+
+        // Tspinの判定をチェックする
+
+        // 条件
+        // checkBlocks_ForTにExistが3つ以上含まれる
+
+
+        // 同時にTspinMiniの判定もチェックする
+
+        // 条件
+        // Tspinの条件を満たす
+        // SRSの段階が4以外
+        // Tミノの突起側が Not Exist の場合
+        // ▫️▪️▫️ ←この隅のどちらかが Not Exist の場合
+        // ▪️▪️▪️
+        // ▫️ ▫️
 
         if (checkBlocks_ForT.FindAll(block => block == "Exist").Count >= 3) // 3マス以上ブロックや壁に埋まっている場合
         {
