@@ -11,11 +11,11 @@ using UnityEngine;
 
 public class GameStatus : MonoBehaviour
 {
-    private bool GameOver; // ゲームオーバの判定
+    private bool GameOver; // ゲームオーバーの判定
 
     private bool BackToBack = false; // BackToBackの判定
 
-    private bool PerfectClear = false; // PerfectClearの判定
+    // private bool PerfectClear = false; // PerfectClearの判定
 
     private int Ren = -1; // Renの判定
 
@@ -45,10 +45,10 @@ public class GameStatus : MonoBehaviour
     {
         get { return BackToBack; }
     }
-    public bool perfectClear
-    {
-        get { return PerfectClear; }
-    }
+    // public bool perfectClear
+    // {
+    //     get { return PerfectClear; }
+    // }
     public int ren
     {
         get { return Ren; }
@@ -105,16 +105,17 @@ public class GameStatus : MonoBehaviour
         BackToBack = false;
     }
 
-    public void Reset_PerfectClear()
-    {
-        PerfectClear = false;
-    }
-
-    // PerfectClearの判定をする関数 //
-    public void CheckPerfectClear()
-    {
-        PerfectClear = board.CheckBoardBlocks();
-    }
+    // // PerfectClear判定をオンにする関数 //
+    // public void Set_PerfectClear()
+    // {
+    //     PerfectClear = true;
+    // }
+    
+    // // PerfectClear判定をオフにする関数 //
+    // public void Reset_PerfectClear()
+    // {
+    //     PerfectClear = false;
+    // }
 
     // Renの値をリセットする関数 //
     public void Reset_Ren()

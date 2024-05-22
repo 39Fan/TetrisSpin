@@ -114,15 +114,15 @@ public class GameManager : MonoBehaviour
 
         AutoDown(); // 自動落下
 
-        if (!board.CheckPosition(spawner.activeMino))
-        {
-            Debug.LogError("[GameManager Update()] ゲームボードからミノがはみ出した。または、ブロックに重なった。");
-        }
+        // if (!board.CheckPosition(spawner.activeMino))
+        // {
+        //     Debug.LogError("[GameManager Update()] ゲームボードからミノがはみ出した。または、ブロックに重なった。");
+        // }
 
-        if (!board.CheckPosition(spawner.ghostMino))
-        {
-            Debug.LogError("[GameManager Update()] ゲームボードからゴーストミノがはみ出した。または、ブロックに重なった。");
-        }
+        // if (!board.CheckPosition(spawner.ghostMino))
+        // {
+        //     Debug.LogError("[GameManager Update()] ゲームボードからゴーストミノがはみ出した。または、ブロックに重なった。");
+        // }
     }
 
     // キーの入力を検知してブロックを動かす関数 //

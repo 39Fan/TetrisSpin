@@ -176,8 +176,8 @@ public class Board : MonoBehaviour
         }
     }
 
-    // ボード上にブロックがあるか確認する関数 //
-    public bool CheckBoardBlocks()
+    // PerfectClearか判別する関数 //
+    public bool CheckPerfectClear()
     {
         for (int y = 0; y < Height; y++)
         {
