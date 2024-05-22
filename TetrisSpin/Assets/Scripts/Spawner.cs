@@ -239,10 +239,11 @@ public class Spawner : MonoBehaviour
 
             ActiveMino = SpawnActiveMino(HoldMino); // HoldミノをActiveMinoに戻す
 
+            CheckActiveMinoToBaseDistance(); // ActiveMinoToBaseDistance の計算
+
             GhostMino = SpawnGhostMino(GhostMinoDictionary[ActiveMinoName], ActiveMino, ActiveMinoToBaseDistance);
 
-            // 以前のホールドミノを削除
-            Destroy(HoldMino.gameObject);
+            Destroy(HoldMino.gameObject); // 以前のホールドミノを削除
 
             HoldMino = SpawnHoldMino(MinoDictionary[HoldMinoName]); // Holdされたミノを画面左上に表示
 
