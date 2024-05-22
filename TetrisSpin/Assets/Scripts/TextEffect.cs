@@ -17,47 +17,50 @@ public class TextEffect : MonoBehaviour
     [SerializeField] private RectTransform Canvas;
 
     // 表示できるテキスト //
-    // 変数宣言の文法上、実際にゲーム画面に表示するテキストと変数名が合致しない場合がある
-    [SerializeField] private TextMeshProUGUI Ready;
-    [SerializeField] private TextMeshProUGUI Go;
+    [SerializeField] private TextMeshProUGUI Ready_Text;
+    [SerializeField] private TextMeshProUGUI Go_Text;
 
-    [SerializeField] private TextMeshProUGUI BackToBack;
+    [SerializeField] private TextMeshProUGUI BackToBack_Text;
+    [SerializeField] private TextMeshProUGUI PerfectClear_Text;
+    [SerializeField] private TextMeshProUGUI Rens_Text;
 
-    [SerializeField] private TextMeshProUGUI One_Line_Clear;
-    [SerializeField] private TextMeshProUGUI Two_Line_Clear;
-    [SerializeField] private TextMeshProUGUI Three_Line_Clear;
-    [SerializeField] private TextMeshProUGUI Tetris;
-    [SerializeField] private TextMeshProUGUI Ispin;
-    [SerializeField] private TextMeshProUGUI Ispin_Single;
-    [SerializeField] private TextMeshProUGUI Ispin_Double;
-    [SerializeField] private TextMeshProUGUI Ispin_Triple;
-    [SerializeField] private TextMeshProUGUI Ispin_Quattro;
-    [SerializeField] private TextMeshProUGUI Jspin;
-    [SerializeField] private TextMeshProUGUI Jspin_Single;
-    [SerializeField] private TextMeshProUGUI Jspin_Double;
-    [SerializeField] private TextMeshProUGUI Jspin_Triple;
-    [SerializeField] private TextMeshProUGUI Lspin;
-    [SerializeField] private TextMeshProUGUI Lspin_Single;
-    [SerializeField] private TextMeshProUGUI Lspin_Double;
-    [SerializeField] private TextMeshProUGUI Lspin_Triple;
-    [SerializeField] private TextMeshProUGUI Ospin;
-    [SerializeField] private TextMeshProUGUI Ospin_Single;
-    [SerializeField] private TextMeshProUGUI Ospin_Double;
-    [SerializeField] private TextMeshProUGUI Ospin_Triple;
-    [SerializeField] private TextMeshProUGUI Sspin;
-    [SerializeField] private TextMeshProUGUI Sspin_Single;
-    [SerializeField] private TextMeshProUGUI Sspin_Double;
-    [SerializeField] private TextMeshProUGUI Sspin_Triple;
-    [SerializeField] private TextMeshProUGUI Tspin;
-    [SerializeField] private TextMeshProUGUI Tspin_Single;
-    [SerializeField] private TextMeshProUGUI Tspin_Double;
-    [SerializeField] private TextMeshProUGUI Tspin_Triple;
-    [SerializeField] private TextMeshProUGUI Tspin_Mini;
-    [SerializeField] private TextMeshProUGUI Tspin_Double_Mini;
-    [SerializeField] private TextMeshProUGUI Zspin;
-    [SerializeField] private TextMeshProUGUI Zspin_Single;
-    [SerializeField] private TextMeshProUGUI Zspin_Double;
-    [SerializeField] private TextMeshProUGUI Zspin_Triple;
+    [SerializeField] private TextMeshProUGUI OneLineClear_Text;
+    [SerializeField] private TextMeshProUGUI TwoLineClear_Text;
+    [SerializeField] private TextMeshProUGUI ThreeLineClear_Text;
+    [SerializeField] private TextMeshProUGUI Tetris_Text;
+    [SerializeField] private TextMeshProUGUI Ispin_Text;
+    [SerializeField] private TextMeshProUGUI IspinSingle_Text;
+    [SerializeField] private TextMeshProUGUI IspinDouble_Text;
+    [SerializeField] private TextMeshProUGUI IspinTriple_Text;
+    [SerializeField] private TextMeshProUGUI IspinQuattro_Text;
+    [SerializeField] private TextMeshProUGUI IspinMini_Text;
+    [SerializeField] private TextMeshProUGUI Jspin_Text;
+    [SerializeField] private TextMeshProUGUI JspinSingle_Text;
+    [SerializeField] private TextMeshProUGUI JspinDouble_Text;
+    [SerializeField] private TextMeshProUGUI JspinTriple_Text;
+    [SerializeField] private TextMeshProUGUI Lspin_Text;
+    [SerializeField] private TextMeshProUGUI LspinSingle_Text;
+    [SerializeField] private TextMeshProUGUI LspinDouble_Text;
+    [SerializeField] private TextMeshProUGUI LspinTriple_Text;
+    [SerializeField] private TextMeshProUGUI Ospin_Text;
+    [SerializeField] private TextMeshProUGUI OspinSingle_Text;
+    [SerializeField] private TextMeshProUGUI OspinDouble_Text;
+    [SerializeField] private TextMeshProUGUI OspinTriple_Text;
+    [SerializeField] private TextMeshProUGUI Sspin_Text;
+    [SerializeField] private TextMeshProUGUI SspinSingle_Text;
+    [SerializeField] private TextMeshProUGUI SspinDouble_Text;
+    [SerializeField] private TextMeshProUGUI SspinTriple_Text;
+    [SerializeField] private TextMeshProUGUI Tspin_Text;
+    [SerializeField] private TextMeshProUGUI TspinSingle_Text;
+    [SerializeField] private TextMeshProUGUI TspinDouble_Text;
+    [SerializeField] private TextMeshProUGUI TspinTriple_Text;
+    [SerializeField] private TextMeshProUGUI TspinMini_Text;
+    [SerializeField] private TextMeshProUGUI TspinDoubleMini_Text;
+    [SerializeField] private TextMeshProUGUI Zspin_Text;
+    [SerializeField] private TextMeshProUGUI ZspinSingle_Text;
+    [SerializeField] private TextMeshProUGUI ZspinDouble_Text;
+    [SerializeField] private TextMeshProUGUI ZspinTriple_Text;
+
 
     // 透明度 //
     int Alpha_0 = 0; // 0の時は透明
@@ -73,6 +76,7 @@ public class TextEffect : MonoBehaviour
     int TspinMiniAttack = 0;
     int TspinDoubleMiniAttack = 1;
     int BackToBackBonus = 1;
+    int PerfectClearBonus = 10;
     int RenBonus_0or1 = 0;
     int RenBonus_2or3 = 1;
     int RenBonus_4or5 = 2;
@@ -81,12 +85,14 @@ public class TextEffect : MonoBehaviour
     int RenBonus_over11 = 5;
 
     // 干渉するスクリプト //
+    Board board;
     GameStatus gameStatus;
     SpinCheck spinCheck;
 
     // インスタンス化 //
     void Awake()
     {
+        board = FindObjectOfType<Board>();
         gameStatus = FindObjectOfType<GameStatus>();
         spinCheck = FindObjectOfType<SpinCheck>();
     }
@@ -110,29 +116,33 @@ public class TextEffect : MonoBehaviour
 
                         AudioManager.Instance.PlaySound("Normal_Destroy");
 
-                        TextAnimation(One_Line_Clear);
+                        TextAnimation(OneLineClear_Text);
 
                         break;
 
                     case 2:
                         gameStatus.Reset_BackToBack();
 
+                        gameStatus.IncreaseAttackLines(TwoLineClearAttack);
+
                         RenAttackLines();
 
                         AudioManager.Instance.PlaySound("Normal_Destroy");
 
-                        TextAnimation(Two_Line_Clear);
+                        TextAnimation(TwoLineClear_Text);
 
                         break;
 
                     case 3:
                         gameStatus.Reset_BackToBack();
 
+                        gameStatus.IncreaseAttackLines(ThreeLineClearAttack);
+
                         RenAttackLines();
 
                         AudioManager.Instance.PlaySound("Normal_Destroy");
 
-                        TextAnimation(Three_Line_Clear);
+                        TextAnimation(ThreeLineClear_Text);
 
                         break;
 
@@ -154,7 +164,7 @@ public class TextEffect : MonoBehaviour
 
                         AudioManager.Instance.PlaySound("Tetris");
 
-                        TextAnimation(Tetris);
+                        TextAnimation(Tetris_Text);
 
                         break;
                 }
@@ -176,7 +186,7 @@ public class TextEffect : MonoBehaviour
                     case 0:
                         AudioManager.Instance.PlaySound("Normal_Drop");
 
-                        TextAnimation(Tspin);
+                        TextAnimation(Tspin_Text);
 
                         break;
 
@@ -187,7 +197,7 @@ public class TextEffect : MonoBehaviour
 
                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-                        TextAnimation(Tspin_Single);
+                        TextAnimation(TspinSingle_Text);
 
                         break;
 
@@ -198,7 +208,7 @@ public class TextEffect : MonoBehaviour
 
                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-                        TextAnimation(Tspin_Double);
+                        TextAnimation(TspinDouble_Text);
 
                         break;
 
@@ -209,7 +219,7 @@ public class TextEffect : MonoBehaviour
 
                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-                        TextAnimation(Tspin_Triple);
+                        TextAnimation(TspinTriple_Text);
 
                         break;
                 }
@@ -230,7 +240,7 @@ public class TextEffect : MonoBehaviour
                 {
                     case 0:
                         AudioManager.Instance.PlaySound("Normal_Drop");
-                        TextAnimation(Tspin_Mini);
+                        TextAnimation(TspinMini_Text);
                         break;
 
                     case 1:
@@ -240,7 +250,7 @@ public class TextEffect : MonoBehaviour
 
                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-                        TextAnimation(Tspin_Mini);
+                        TextAnimation(TspinMini_Text);
 
                         break;
 
@@ -251,16 +261,24 @@ public class TextEffect : MonoBehaviour
 
                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-                        TextAnimation(Tspin_Double_Mini);
+                        TextAnimation(TspinDoubleMini_Text);
 
                         break;
                 }
                 break;
         }
 
+        // PerfectClearか判定する
+        if (board.CheckPerfectClear())
+        {
+            gameStatus.IncreaseAttackLines(PerfectClearBonus);
 
+            // AudioManager.Instance.PlaySound("");
+
+            PerfectClearAnimation();
+        }
     }
-
+    
     // Renの攻撃ラインを計算する関数 //
     private void RenAttackLines()
     {
@@ -370,15 +388,27 @@ public class TextEffect : MonoBehaviour
             });
     }
 
+    // BackToBackの表示をする関数を呼ぶ関数 //
     private void BackToBackAnimation()
     {
-        TextMeshProUGUI InstantiatedText = Instantiate(BackToBack, Canvas);
+        TextMeshProUGUI InstantiatedText = Instantiate(BackToBack_Text, Canvas);
 
         TextMeshProUGUI SelectText_Text = InstantiatedText.GetComponent<TextMeshProUGUI>();
 
         TextFadeInAndOut(SelectText_Text); // 選ばれたテキストのフェードインとフェードアウトを行う
     }
 
+    // PerfectClearの表示をする関数を呼ぶ関数 //
+    private void PerfectClearAnimation()
+    {
+        TextMeshProUGUI InstantiatedText = Instantiate(PerfectClear_Text, Canvas);
+
+        TextMeshProUGUI SelectText_Text = InstantiatedText.GetComponent<TextMeshProUGUI>();
+
+        TextFadeInAndOut(SelectText_Text); // 選ばれたテキストのフェードインとフェードアウトを行う
+    }
+
+    // Ready Go の表示をする関数 //
     public void ReadyGoAnimation()
     {
         // フェードインとフェードアウトする時間 //
@@ -389,8 +419,8 @@ public class TextEffect : MonoBehaviour
         float waitInterval_ready = 3f;
         float waitInterval_go = 2f;
 
-        TextMeshProUGUI ready = Instantiate(Ready, Canvas);
-        TextMeshProUGUI go = Instantiate(Go, Canvas);
+        TextMeshProUGUI ready = Instantiate(Ready_Text, Canvas);
+        TextMeshProUGUI go = Instantiate(Go_Text, Canvas);
 
         Sequence sequence_ready = DOTween.Sequence();
         Sequence sequence_go = DOTween.Sequence(); // Sequenceの作成

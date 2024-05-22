@@ -71,7 +71,7 @@ public class SpinCheck : MonoBehaviour
         }*/
         else
         {
-            Debug.LogError("[SpinCheck CheckSpinType()] activeMinoNameが特定できません。");
+            // Debug.LogError("[SpinCheck CheckSpinType()] activeMinoNameが特定できません。");
         }
     }
 
