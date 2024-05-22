@@ -212,10 +212,30 @@ public class Board : MonoBehaviour
         return false;
     }
 
-    // ミノを構成するブロックについて、1番底に近いブロックのy座標データを返す関数 //
+    // ミノを構成するブロックについて、最上部のブロックのy座標データを返す関数 //
+    public int CheckActiveMinoTopBlockPosition_y(Mino _activeMino)
+    {
+        int TopBlockPosition_y = 0; // 最上部のブロックのY座標(初期値は底の数値)
+        int temp; // 一時的な変数
+
+        foreach (Transform item in _activeMino.transform) // ミノの各ブロックを調べる
+        {
+            temp = Mathf.RoundToInt(item.transform.position.y); // ブロックのy座標の値
+
+            // 1番ブロックのy座標が高い値を探す
+            if (temp >= TopBlockPosition_y)
+            {
+                TopBlockPosition_y = temp;
+            }
+        }
+
+        return TopBlockPosition_y;
+    }
+
+    // ミノを構成するブロックについて、最下部ブロックのy座標データを返す関数 //
     public int CheckActiveMinoBottomBlockPosition_y(Mino _activeMino)
     {
-        int bottomBlockPosition_y = 21; // 1番下のブロックのY座標(初期値はゲームオーバーになる数値)
+        int bottomBlockPosition_y = 21; // 最下部のブロックのY座標(初期値はゲームオーバーになる数値)
         int temp; // 一時的な変数
 
         foreach (Transform item in _activeMino.transform) // ミノの各ブロックを調べる
