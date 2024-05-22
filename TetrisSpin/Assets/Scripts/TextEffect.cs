@@ -191,6 +191,63 @@ public class TextEffect : MonoBehaviour
                 }
                 break;
 
+            case "I-Spin":
+                CheckBackToBack();
+
+                switch (_LineClearCount)
+                {
+                    case 0:
+                        AudioManager.Instance.PlaySound("Normal_Drop");
+
+                        TextAnimation(Ispin_Text);
+
+                        break;
+
+                    case 1:
+                        RenAttackLines();
+
+                        gameStatus.IncreaseAttackLines(IspinSingleAttack);
+
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
+
+                        TextAnimation(IspinSingle_Text);
+
+                        break;
+
+                    case 2:
+                        RenAttackLines();
+
+                        gameStatus.IncreaseAttackLines(IspinDoubleAttack);
+
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
+
+                        TextAnimation(IspinDouble_Text);
+
+                        break;
+
+                    case 3:
+                        RenAttackLines();
+
+                        gameStatus.IncreaseAttackLines(IspinTripleAttack);
+
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
+
+                        TextAnimation(IspinTriple_Text);
+
+                        break;
+                    case 4:
+                        RenAttackLines();
+
+                        gameStatus.IncreaseAttackLines(IspinQuattroAttack);
+
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
+
+                        TextAnimation(IspinQuattro_Text);
+
+                        break;
+                }
+                break;
+
             case "T-Spin":
                 CheckBackToBack();
 

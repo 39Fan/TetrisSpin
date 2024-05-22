@@ -91,6 +91,9 @@ public class SpinCheck : MonoBehaviour
             // 条件
             // ①Iミノを構成する各ブロックの1マス上に少なくともブロックが1つ以上存在すること
             // ②Iミノを構成する各ブロックの1マス下にブロックが存在すること
+            // ▫️▫️▫️▫️ ←①
+            // ▪️▪️▪️▪️
+            // ▫️▫️▫️▫️ ←②
 
             // ①を調べる
             foreach (Transform item in spawner.activeMino.transform) // Iミノを構成するブロックそれぞれを確認する
@@ -124,10 +127,96 @@ public class SpinCheck : MonoBehaviour
                 }
             }
 
+            // 条件を満たすか確認
             if (checkBlocksAbove_ForI.FindAll(block => block == "Exist").Count >= 1 ||
                 checkBlocksBelow_ForI.FindAll(block => block == "Exist").Count == 4)
             {
                 SpinTypeName = "I-Spin Mini";
+            }
+        }
+        else // Iミノが縦向きの場合
+        {
+            List<string> checkBlocksRightSide_ForI = new List<string>();
+            List<string> checkBlocksLeftSide_ForI = new List<string>();
+            List<string> checkBlocksUpper_ForI = new List<string>(); // Ispinの判定に必要なリスト
+
+            // Iミノの上部にブロックがあるか調べるために必要な変数
+            int IminoTopPosition_y = board.CheckActiveMinoTopBlockPosition_y(spawner.activeMino); // Iミノの最上部のy座標
+
+            int xOffset = 1;
+            int yOffset = 1; // Ispinの判定に必要なオフセット
+
+
+            // Ispinの判定をチェックする
+
+            // 条件
+            // ①Iミノを構成する各ブロックの1マス横側にブロックが存在するか確認し、それぞれの側面で3つ以上ブロックが存在する
+            // ②Iミノの上部にブロックが存在する
+
+            //  ↓②
+            //  . 
+            //  .
+            //  .
+            //  ▫️ 
+            //  ▫️ 
+            // ▫️▪️▫️
+            // ▫️▪️▫️
+            // ▫️▪️▫️
+            // ▫️▪️▫️
+            // ↑ ↑①
+
+            // ①を調べる
+            foreach (Transform item in spawner.activeMino.transform) // Iミノを構成するブロックそれぞれを確認する
+            {
+                Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
+
+                // 1マス右側にブロックがあるか調べる
+                if (board.CheckGrid(Mathf.RoundToInt(pos.x + xOffset), Mathf.RoundToInt(pos.y), spawner.activeMino))
+                {
+                    checkBlocksRightSide_ForI.Add("Exist");
+                }
+                else
+                {
+                    checkBlocksRightSide_ForI.Add("Not Exist");
+                }
+            }
+            foreach (Transform item in spawner.activeMino.transform) // Iミノを構成するブロックそれぞれを確認する
+            {
+                Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
+
+                // 1マス左側にブロックがあるか調べる
+                if (board.CheckGrid(Mathf.RoundToInt(pos.x - xOffset), Mathf.RoundToInt(pos.y), spawner.activeMino))
+                {
+                    checkBlocksLeftSide_ForI.Add("Exist");
+                }
+                else
+                {
+                    checkBlocksLeftSide_ForI.Add("Not Exist");
+                }
+            }
+
+            // ②を調べる
+            while (IminoTopPosition_y + yOffset < 20) // ゲームボードの上部からはみ出すまで調べる
+            {
+                // Iミノの上部にブロックが存在するか1マスずつ調べていく
+                if (board.CheckGrid(Mathf.RoundToInt(spawner.activeMino.transform.position.x), IminoTopPosition_y + yOffset, spawner.activeMino))
+                {
+                    checkBlocksUpper_ForI.Add("Exist");
+                }
+                else
+                {
+                    checkBlocksUpper_ForI.Add("Not Exist");
+                }
+
+                yOffset++;
+            }
+
+            // 条件を満たすか確認
+            if (checkBlocksRightSide_ForI.FindAll(block => block == "Exist").Count >= 3 &&
+                checkBlocksLeftSide_ForI.FindAll(block => block == "Exist").Count >= 3 &&
+                checkBlocksUpper_ForI.FindAll(block => block == "Exist").Count >= 1)
+            {
+                SpinTypeName = "I-Spin";
             }
         }
     }
