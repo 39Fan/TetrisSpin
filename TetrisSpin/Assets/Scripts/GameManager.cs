@@ -147,7 +147,9 @@ public class GameManager : MonoBehaviour
 
                 spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
-                gameStatus.Reset_LastSRS(); // LastSRSの値を0に
+                spinCheck.Reset_SpinTypeName(); // 移動したため、スピン判定をリセット
+
+                gameStatus.Reset_LastSRS(); // 移動したため、LastSRSの値を0に
             }
 
             IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
@@ -172,6 +174,8 @@ public class GameManager : MonoBehaviour
 
                 spawner.AdjustGhostMinoPosition();
 
+                spinCheck.Reset_SpinTypeName(); // 移動したため、スピン判定をリセット
+
                 gameStatus.Reset_LastSRS();
             }
 
@@ -191,8 +195,6 @@ public class GameManager : MonoBehaviour
 
             timer.UpdateLeftRightTimer();
 
-            gameStatus.Reset_LastSRS();
-
             spawner.activeMino.MoveLeft();
 
             if (!board.CheckPosition(spawner.activeMino))
@@ -204,6 +206,8 @@ public class GameManager : MonoBehaviour
                 AudioManager.Instance.PlaySound("Move_Left_Right");
 
                 spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
+
+                spinCheck.Reset_SpinTypeName(); // 移動したため、スピン判定をリセット
 
                 gameStatus.Reset_LastSRS();
             }
@@ -218,8 +222,6 @@ public class GameManager : MonoBehaviour
 
             timer.UpdateLeftRightTimer();
 
-            gameStatus.Reset_LastSRS();
-
             spawner.activeMino.MoveLeft();
 
             if (!board.CheckPosition(spawner.activeMino))
@@ -231,6 +233,8 @@ public class GameManager : MonoBehaviour
                 AudioManager.Instance.PlaySound("Move_Left_Right");
 
                 spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
+
+                spinCheck.Reset_SpinTypeName(); // 移動したため、スピン判定をリセット
 
                 gameStatus.Reset_LastSRS();
             }
@@ -259,6 +263,11 @@ public class GameManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySound("Move_Down");
 
+                if (spinCheck.spinTypeName != "I-Spin") // I-Spinは下移動しても解除されないようにしている
+                {
+                    spinCheck.Reset_SpinTypeName(); // 移動したため、スピン判定をリセット
+                }
+
                 gameStatus.Reset_LastSRS();
             }
         }
@@ -276,16 +285,12 @@ public class GameManager : MonoBehaviour
             {
                 if (!mino.SuperRotationSystem()) // SRSもできなかった時
                 {
-                    Debug.Log("回転禁止");
-
                     gameStatus.Reset_MinoAngleAfter(); // MinoAngleAfterのリセット
 
                     AudioManager.Instance.PlaySound("Rotation");
                 }
                 else // SRSが成功した時
                 {
-                    Debug.Log("スーパーローテーション成功");
-
                     SuccessRotateAction(); // 回転が成功した時の処理を実行
                 }
             }
@@ -310,16 +315,12 @@ public class GameManager : MonoBehaviour
             {
                 if (!mino.SuperRotationSystem())
                 {
-                    Debug.Log("回転禁止");
-
                     gameStatus.Reset_MinoAngleAfter();
 
                     AudioManager.Instance.PlaySound("Rotation");
                 }
                 else
                 {
-                    Debug.Log("スーパーローテーション成功");
-
                     SuccessRotateAction();
                 }
             }
@@ -402,6 +403,11 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                if (spinCheck.spinTypeName != "I-Spin") // I-Spinは下移動しても解除されないようにしている
+                {
+                    spinCheck.Reset_SpinTypeName(); // 移動したため、スピン判定をリセット
+                }
+
                 gameStatus.Reset_LastSRS();
             }
         }

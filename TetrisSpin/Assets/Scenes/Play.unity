@@ -212,6 +212,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackLines: 0
+  MinoAngleAfter: NORTH
+  MinoAngleBefore: NORTH
 --- !u!1 &519060628
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,44 +697,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 2107780354}
-  Ready: {fileID: 9221938030515851941, guid: ba777e16d465e411eb29779eb7d62dbc, type: 3}
-  Go: {fileID: 3577881937356462567, guid: 395db873edb3443bb8d63a0ce5287ca5, type: 3}
-  BackToBack: {fileID: 138140958047380289, guid: 606b83e3cd79f40fea5d8afd44151be1, type: 3}
-  One_Line_Clear: {fileID: 685415778677099611, guid: 87fc86337995d4a27b637924744ac573, type: 3}
-  Two_Line_Clear: {fileID: 5712830375027673458, guid: 6fc986b153f6848e09a5dc2c98ea49d0, type: 3}
-  Three_Line_Clear: {fileID: 4037795811324003423, guid: cd1b7d9fa2946455bb9b8aab9d15694c, type: 3}
-  Tetris: {fileID: 3700903264843670351, guid: 0728881853df94d3b943b9c767ad24d4, type: 3}
-  Ispin: {fileID: 0}
-  Ispin_Single: {fileID: 0}
-  Ispin_Double: {fileID: 0}
-  Ispin_Triple: {fileID: 0}
-  Ispin_Quattro: {fileID: 0}
-  Jspin: {fileID: 0}
-  Jspin_Single: {fileID: 0}
-  Jspin_Double: {fileID: 0}
-  Jspin_Triple: {fileID: 0}
-  Lspin: {fileID: 0}
-  Lspin_Single: {fileID: 0}
-  Lspin_Double: {fileID: 0}
-  Lspin_Triple: {fileID: 0}
-  Ospin: {fileID: 0}
-  Ospin_Single: {fileID: 0}
-  Ospin_Double: {fileID: 0}
-  Ospin_Triple: {fileID: 0}
-  Sspin: {fileID: 0}
-  Sspin_Single: {fileID: 0}
-  Sspin_Double: {fileID: 0}
-  Sspin_Triple: {fileID: 0}
-  Tspin: {fileID: 1633818741928931802, guid: 5ef42f5abaac74b4e804d66327192c15, type: 3}
-  Tspin_Single: {fileID: 3191080098678034068, guid: ed0023454acc34073808e26c4b5d1bc5, type: 3}
-  Tspin_Double: {fileID: 835706068503385815, guid: 61190addfd5524551bfdb282933266c5, type: 3}
-  Tspin_Triple: {fileID: 2910127633995747759, guid: d350f8e514897454f94a332eab911e30, type: 3}
-  Tspin_Mini: {fileID: 9112384351425725138, guid: e215bbfd339f746b6aa508510d2f2363, type: 3}
-  Tspin_Double_Mini: {fileID: 1481246784689171504, guid: cd2c8d2acc8cc43eaac72b8fd66e1560, type: 3}
-  Zspin: {fileID: 0}
-  Zspin_Single: {fileID: 0}
-  Zspin_Double: {fileID: 0}
-  Zspin_Triple: {fileID: 0}
+  Ready_Text: {fileID: 9221938030515851941, guid: ba777e16d465e411eb29779eb7d62dbc, type: 3}
+  Go_Text: {fileID: 3577881937356462567, guid: 395db873edb3443bb8d63a0ce5287ca5, type: 3}
+  BackToBack_Text: {fileID: 138140958047380289, guid: 606b83e3cd79f40fea5d8afd44151be1, type: 3}
+  PerfectClear_Text: {fileID: 138140958047380289, guid: 0e078f4bc0d244d7688af4be35653f89, type: 3}
+  Rens_Text: {fileID: 0}
+  OneLineClear_Text: {fileID: 685415778677099611, guid: 87fc86337995d4a27b637924744ac573, type: 3}
+  TwoLineClear_Text: {fileID: 5712830375027673458, guid: 6fc986b153f6848e09a5dc2c98ea49d0, type: 3}
+  ThreeLineClear_Text: {fileID: 4037795811324003423, guid: cd1b7d9fa2946455bb9b8aab9d15694c, type: 3}
+  Tetris_Text: {fileID: 3700903264843670351, guid: 0728881853df94d3b943b9c767ad24d4, type: 3}
+  Ispin_Text: {fileID: 1633818741928931802, guid: ddb5ce2ec30a9411893204bee98ed0d1, type: 3}
+  IspinSingle_Text: {fileID: 1633818741928931802, guid: b97011915398c47bdb88149d17d01598, type: 3}
+  IspinDouble_Text: {fileID: 1633818741928931802, guid: 6ba44b035e0a0418f8ff3c289f6f67d8, type: 3}
+  IspinTriple_Text: {fileID: 1633818741928931802, guid: 3ff12905f9a3140969707e58893957bb, type: 3}
+  IspinQuattro_Text: {fileID: 1633818741928931802, guid: 927923c1eebec4c52874e6098f41c35a, type: 3}
+  IspinMini_Text: {fileID: 1633818741928931802, guid: 7782e64310467467fb97b7a8ca91e125, type: 3}
+  Jspin_Text: {fileID: 0}
+  JspinSingle_Text: {fileID: 0}
+  JspinDouble_Text: {fileID: 0}
+  JspinTriple_Text: {fileID: 0}
+  Lspin_Text: {fileID: 0}
+  LspinSingle_Text: {fileID: 0}
+  LspinDouble_Text: {fileID: 0}
+  LspinTriple_Text: {fileID: 0}
+  Ospin_Text: {fileID: 0}
+  OspinSingle_Text: {fileID: 0}
+  OspinDouble_Text: {fileID: 0}
+  OspinTriple_Text: {fileID: 0}
+  Sspin_Text: {fileID: 0}
+  SspinSingle_Text: {fileID: 0}
+  SspinDouble_Text: {fileID: 0}
+  SspinTriple_Text: {fileID: 0}
+  Tspin_Text: {fileID: 1633818741928931802, guid: 5ef42f5abaac74b4e804d66327192c15, type: 3}
+  TspinSingle_Text: {fileID: 3191080098678034068, guid: ed0023454acc34073808e26c4b5d1bc5, type: 3}
+  TspinDouble_Text: {fileID: 835706068503385815, guid: 61190addfd5524551bfdb282933266c5, type: 3}
+  TspinTriple_Text: {fileID: 2910127633995747759, guid: d350f8e514897454f94a332eab911e30, type: 3}
+  TspinMini_Text: {fileID: 9112384351425725138, guid: e215bbfd339f746b6aa508510d2f2363, type: 3}
+  TspinDoubleMini_Text: {fileID: 1481246784689171504, guid: cd2c8d2acc8cc43eaac72b8fd66e1560, type: 3}
+  Zspin_Text: {fileID: 0}
+  ZspinSingle_Text: {fileID: 0}
+  ZspinDouble_Text: {fileID: 0}
+  ZspinTriple_Text: {fileID: 0}
 --- !u!1 &2011930346
 GameObject:
   m_ObjectHideFlags: 0
@@ -793,6 +798,7 @@ MonoBehaviour:
   - {fileID: 6775937764980108241, guid: 7d086cc20e37044c7b179127ca7014ed, type: 3}
   - {fileID: 4840443941859215280, guid: 64cc928dc761244e3a5a3b36fd31366f, type: 3}
   - {fileID: 5768613498349055100, guid: 2b7ec840467124ea285c4aa007cbfbc3, type: 3}
+  SpawnMinoOrders: []
 --- !u!1 &2107780350
 GameObject:
   m_ObjectHideFlags: 0

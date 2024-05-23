@@ -71,14 +71,12 @@ public class GameStatus : MonoBehaviour
     }
 
     // 干渉するスクリプト //
-    Board board;
     Spawner spawner;
 
     // インスタンス化 //
     private void Awake()
     {
         spawner = FindObjectOfType<Spawner>();
-        board = FindObjectOfType<Board>();
     }
 
     // ゲームオーバー判定をオンにする関数 //
@@ -110,7 +108,7 @@ public class GameStatus : MonoBehaviour
     // {
     //     PerfectClear = true;
     // }
-    
+
     // // PerfectClear判定をオフにする関数 //
     // public void Reset_PerfectClear()
     // {
@@ -157,20 +155,17 @@ public class GameStatus : MonoBehaviour
     // 通常回転のリセットをする関数 //
     public void Reset_Rotate()
     {
-        //通常回転が右回転だった時
+        // 通常回転が右回転だった時
         if ((MinoAngleBefore == North && MinoAngleAfter == East) ||
         (MinoAngleBefore == East && MinoAngleAfter == South) ||
         (MinoAngleBefore == South && MinoAngleAfter == West) ||
         (MinoAngleBefore == West && MinoAngleAfter == North))
         {
-            //左回転で回転前の状態に戻す
-            spawner.activeMino.Rotateleft();
+            spawner.activeMino.Rotateleft(); // 左回転で回転前の状態に戻す
         }
-        //通常回転が左回転だった時
-        else
+        else // 通常回転が左回転だった時
         {
-            //右回転で回転前の状態に戻す
-            spawner.activeMino.RotateRight();
+            spawner.activeMino.RotateRight(); // 右回転で回転前の状態に戻す
         }
     }
 

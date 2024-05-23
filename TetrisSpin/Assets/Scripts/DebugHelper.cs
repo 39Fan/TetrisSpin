@@ -30,9 +30,9 @@ public static class DebugHelper
         switch (level)
         {
             case LogLevel.Debug:
-                return "green";
+                return "#98FB98"; // PaleGreen (優しい緑)
             case LogLevel.Info:
-                return "blue";
+                return "#ADD8E6"; // LightBlue (優しい青)
             case LogLevel.Warning:
                 return "yellow";
             case LogLevel.Error:
