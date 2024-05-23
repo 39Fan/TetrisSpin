@@ -90,7 +90,7 @@ public class SpinCheck : MonoBehaviour
 
             // 条件
             // ①Iミノを構成する各ブロックの1マス上に少なくともブロックが1つ以上存在すること
-            // ②Iミノを構成する各ブロックの1マス下にブロックが存在すること
+            // ②Iミノを構成する各ブロックの1マス下に少なくともブロックが3つ以上存在すること
             // ▫️▫️▫️▫️ ←①
             // ▪️▪️▪️▪️
             // ▫️▫️▫️▫️ ←②
@@ -119,17 +119,24 @@ public class SpinCheck : MonoBehaviour
                 // 1マス上部にブロックがあるか調べる
                 if (board.CheckGrid(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y - yOffset), spawner.activeMino))
                 {
-                    checkBlocksAbove_ForI.Add("Exist");
+                    checkBlocksBelow_ForI.Add("Exist");
                 }
                 else
                 {
-                    checkBlocksAbove_ForI.Add("Not Exist");
+                    checkBlocksBelow_ForI.Add("Not Exist");
                 }
             }
 
+            // ①と②の状態を文字列に変換
+            string checkBlocksAboveInfo = string.Join(", ", checkBlocksAbove_ForI);
+            string checkBlocksBelowInfo = string.Join(", ", checkBlocksBelow_ForI);
+
+            DebugHelper.Log(checkBlocksAboveInfo, DebugHelper.LogLevel.Info, "SpinCheck", "IspinCheck()");
+            DebugHelper.Log(checkBlocksBelowInfo, DebugHelper.LogLevel.Info, "SpinCheck", "IspinCheck()"); // Infoログ
+
             // 条件を満たすか確認
             if (checkBlocksAbove_ForI.FindAll(block => block == "Exist").Count >= 1 ||
-                checkBlocksBelow_ForI.FindAll(block => block == "Exist").Count == 4)
+                checkBlocksBelow_ForI.FindAll(block => block == "Exist").Count >= 3)
             {
                 SpinTypeName = "I-Spin Mini";
             }
@@ -210,6 +217,14 @@ public class SpinCheck : MonoBehaviour
 
                 yOffset++;
             }
+
+
+            // ①と②の状態を文字列に変換
+            string checkBlocksLeftSideInfo = string.Join(", ", checkBlocksLeftSide_ForI);
+            string checkBlocksUpperInfo = string.Join(", ", checkBlocksUpper_ForI);
+
+            DebugHelper.Log(checkBlocksLeftSideInfo, DebugHelper.LogLevel.Info, "SpinCheck", "IspinCheck()");
+            DebugHelper.Log(checkBlocksUpperInfo, DebugHelper.LogLevel.Info, "SpinCheck", "IspinCheck()"); // Infoログ
 
             // 条件を満たすか確認
             if (checkBlocksRightSide_ForI.FindAll(block => block == "Exist").Count >= 3 &&
