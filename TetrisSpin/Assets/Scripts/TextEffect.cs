@@ -70,6 +70,12 @@ public class TextEffect : MonoBehaviour
     int TwoLineClearAttack = 1;
     int ThreeLineClearAttack = 2;
     int TetrisAttack = 4;
+    int JspinSingleAttack = 1;
+    int JspinDoubleAttack = 3;
+    int JspinTripleAttack = 6;
+    int LspinSingleAttack = 1;
+    int LspinDoubleAttack = 3;
+    int LspinTripleAttack = 6;
     int IspinSingleAttack = 2;
     int IspinDoubleAttack = 4;
     int IspinTripleAttack = 6;
@@ -161,6 +167,98 @@ public class TextEffect : MonoBehaviour
                         AudioManager.Instance.PlaySound("Tetris");
 
                         TextAnimation(Tetris_Text);
+
+                        break;
+                }
+                break;
+            case "J-Spin":
+                CheckBackToBack();
+
+                switch (_LineClearCount)
+                {
+                    case 0:
+                        AudioManager.Instance.PlaySound("Normal_Drop");
+
+                        TextAnimation(Jspin_Text);
+
+                        break;
+
+                    case 1:
+                        RenAttackLines();
+
+                        gameStatus.IncreaseAttackLines(JspinSingleAttack);
+
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
+
+                        TextAnimation(JspinSingle_Text);
+
+                        break;
+
+                    case 2:
+                        RenAttackLines();
+
+                        gameStatus.IncreaseAttackLines(JspinDoubleAttack);
+
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
+
+                        TextAnimation(JspinDouble_Text);
+
+                        break;
+
+                    case 3:
+                        RenAttackLines();
+
+                        gameStatus.IncreaseAttackLines(JspinTripleAttack);
+
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
+
+                        TextAnimation(JspinTriple_Text);
+
+                        break;
+                }
+                break;
+            case "L-Spin":
+                CheckBackToBack();
+
+                switch (_LineClearCount)
+                {
+                    case 0:
+                        AudioManager.Instance.PlaySound("Normal_Drop");
+
+                        TextAnimation(Lspin_Text);
+
+                        break;
+
+                    case 1:
+                        RenAttackLines();
+
+                        gameStatus.IncreaseAttackLines(LspinSingleAttack);
+
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
+
+                        TextAnimation(LspinSingle_Text);
+
+                        break;
+
+                    case 2:
+                        RenAttackLines();
+
+                        gameStatus.IncreaseAttackLines(LspinDoubleAttack);
+
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
+
+                        TextAnimation(LspinDouble_Text);
+
+                        break;
+
+                    case 3:
+                        RenAttackLines();
+
+                        gameStatus.IncreaseAttackLines(LspinTripleAttack);
+
+                        AudioManager.Instance.PlaySound("Spin_Destroy");
+
+                        TextAnimation(LspinTriple_Text);
 
                         break;
                 }

@@ -249,7 +249,7 @@ public class Spawner : MonoBehaviour
 
             // 変数の初期化
             gameStatus.Reset_Angle();
-            gameStatus.Reset_LastSRS();
+            gameStatus.Reset_StepsSRS();
         }
     }
 
