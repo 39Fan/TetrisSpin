@@ -131,8 +131,8 @@ public class SpinCheck : MonoBehaviour
             string checkBlocksAboveInfo = string.Join(", ", checkBlocksAbove_ForI);
             string checkBlocksBelowInfo = string.Join(", ", checkBlocksBelow_ForI);
 
-            DebugHelper.Log(checkBlocksAboveInfo, DebugHelper.LogLevel.Info, "SpinCheck", "IspinCheck()");
-            DebugHelper.Log(checkBlocksBelowInfo, DebugHelper.LogLevel.Info, "SpinCheck", "IspinCheck()"); // Infoログ
+            LogHelper.Log(LogHelper.LogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksAboveInfo);
+            LogHelper.Log(LogHelper.LogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksBelowInfo); // Infoログ
 
             // 条件を満たすか確認
             if (checkBlocksAbove_ForI.FindAll(block => block == "Exist").Count >= 1 ||
@@ -220,11 +220,13 @@ public class SpinCheck : MonoBehaviour
 
 
             // ①と②の状態を文字列に変換
+            string checkBlocksRightSideInfo = string.Join(", ", checkBlocksRightSide_ForI);
             string checkBlocksLeftSideInfo = string.Join(", ", checkBlocksLeftSide_ForI);
             string checkBlocksUpperInfo = string.Join(", ", checkBlocksUpper_ForI);
 
-            DebugHelper.Log(checkBlocksLeftSideInfo, DebugHelper.LogLevel.Info, "SpinCheck", "IspinCheck()");
-            DebugHelper.Log(checkBlocksUpperInfo, DebugHelper.LogLevel.Info, "SpinCheck", "IspinCheck()"); // Infoログ
+            LogHelper.Log(LogHelper.LogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksRightSideInfo);
+            LogHelper.Log(LogHelper.LogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksLeftSideInfo);
+            LogHelper.Log(LogHelper.LogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksUpperInfo); // Infoログ
 
             // 条件を満たすか確認
             if (checkBlocksRightSide_ForI.FindAll(block => block == "Exist").Count >= 3 &&
