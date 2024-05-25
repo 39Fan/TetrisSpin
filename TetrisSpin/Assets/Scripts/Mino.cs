@@ -408,6 +408,8 @@ public class Mino : MonoBehaviour
         Vector3 originalPosition = spawner.activeMino.transform.position; // 現在の位置を保存
         for (int step = 0; step < rotationSteps.Count; step++)
         {
+            gameStatus.IncreaseStepsSRS();
+
             rotationSteps[step]();
 
             if (board.CheckPosition(spawner.activeMino))

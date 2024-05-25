@@ -34,7 +34,7 @@ public class GameStatus : MonoBehaviour
     [SerializeField] private string MinoAngleBefore = "NORTH"; // 初期値はNORTHの状態 // SRSで必要
 
     // 最後に行ったスーパーローテーションシステム(SRS)の段階を表す変数 //
-    private int LastSRS = 0; // SRSが使用されていないときは0, 1〜4の時は、SRSの段階を表す
+    [SerializeField] private int StepsSRS = 0; // SRSが使用されていないときは0, 1〜4の時は、SRSの段階を表す
 
     // ゲッタープロパティ //
     public bool gameOver
@@ -65,9 +65,9 @@ public class GameStatus : MonoBehaviour
     {
         get { return MinoAngleBefore; }
     }
-    public int lastSRS
+    public int stepsSRS
     {
-        get { return LastSRS; }
+        get { return StepsSRS; }
     }
 
     // 干渉するスクリプト //
@@ -216,15 +216,15 @@ public class GameStatus : MonoBehaviour
         MinoAngleBefore = MinoAngleAfter;
     }
 
-    // LastSRSの値をリセットする関数 //
-    public void Reset_LastSRS()
+    // StepsSRSの値をリセットする関数 //
+    public void Reset_StepsSRS()
     {
-        LastSRS = 0;
+        StepsSRS = 0;
     }
 
-    // LastSRSの値を1増加させる関数 //
-    public void IncreaseLastSRS()
+    // StepsSRSの値を1増加させる関数 //
+    public void IncreaseStepsSRS()
     {
-        LastSRS++;
+        StepsSRS++;
     }
 }
