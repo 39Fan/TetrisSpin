@@ -24,14 +24,14 @@ public class GameStatus : MonoBehaviour
     private List<int> LineClearCountHistory = new List<int>(); // ライン消去の履歴を記録するリスト
 
     // 向きの定義 //
-    public string North { get; } = "NORTH"; // 初期(未回転)状態をNORTHとして、
-    public string East { get; } = "EAST"; // 右回転後の向きをEAST
-    public string South { get; } = "SOUTH"; // 左回転後の向きをWEST
-    public string West { get; } = "WEST"; // 2回右回転または左回転した時の向きをSOUTHとする
+    private string North = "North"; // 初期(未回転)状態をNorthとして、
+    private string East = "East"; // 右回転後の向きをEast
+    private string South = "South"; // 左回転後の向きをWest
+    private string West = "West"; // 2回右回転または左回転した時の向きをSouthとする
 
     // ミノの回転後と回転前の向き //
-    [SerializeField] private string MinoAngleAfter = "NORTH"; // 初期値はNORTHの状態
-    [SerializeField] private string MinoAngleBefore = "NORTH"; // 初期値はNORTHの状態 // SRSで必要
+    [SerializeField] private string MinoAngleAfter = "North"; // 初期値はNorthの状態
+    [SerializeField] private string MinoAngleBefore = "North"; // 初期値はNorthの状態 // SRSで必要
 
     // 最後に行ったスーパーローテーションシステム(SRS)の段階を表す変数 //
     [SerializeField] private int StepsSRS = 0; // SRSが使用されていないときは0, 1〜4の時は、SRSの段階を表す
@@ -142,8 +142,8 @@ public class GameStatus : MonoBehaviour
     // ミノの向きを初期化する関数 //
     public void Reset_Angle()
     {
-        MinoAngleBefore = "NORTH";
-        MinoAngleAfter = "NORTH";
+        MinoAngleBefore = "North";
+        MinoAngleAfter = "North";
     }
 
     // MinoAngleAfterのリセットをする関数 //
@@ -176,16 +176,16 @@ public class GameStatus : MonoBehaviour
         {
             switch (MinoAngleAfter)
             {
-                case "NORTH":
+                case "North":
                     MinoAngleAfter = East;
                     break;
-                case "EAST":
+                case "East":
                     MinoAngleAfter = South;
                     break;
-                case "SOUTH":
+                case "South":
                     MinoAngleAfter = West;
                     break;
-                case "WEST":
+                case "West":
                     MinoAngleAfter = North;
                     break;
             }
@@ -194,16 +194,16 @@ public class GameStatus : MonoBehaviour
         {
             switch (MinoAngleAfter)
             {
-                case "NORTH":
+                case "North":
                     MinoAngleAfter = West;
                     break;
-                case "EAST":
+                case "East":
                     MinoAngleAfter = North;
                     break;
-                case "SOUTH":
+                case "South":
                     MinoAngleAfter = East;
                     break;
-                case "WEST":
+                case "West":
                     MinoAngleAfter = South;
                     break;
             }

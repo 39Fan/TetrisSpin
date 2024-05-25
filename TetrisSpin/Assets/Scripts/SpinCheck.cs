@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,17 +11,14 @@ using UnityEngine;
 
 public class SpinCheck : MonoBehaviour
 {
+    // ミノの向き //
+    private string North = "North";
+    private string East = "East";
+    private string South = "South";
+    private string West = "West";
+
     // Spinの種類 //
     [SerializeField] private string SpinTypeName;
-
-    // ミノの向き //
-    public enum MinoAngle
-    {
-        North,
-        East,
-        South,
-        West
-    }
 
     // ゲッタープロパティ //
     public string spinTypeName
@@ -50,39 +48,69 @@ public class SpinCheck : MonoBehaviour
     // 各ミノのスピン判定をチェックする //
     public void CheckSpinType() // この関数は、回転時に呼び出される
     {
-        if (spawner.activeMinoName == "I_Mino")
+        switch (spawner.activeMinoName)
         {
-            IspinCheck();
-        }
-        if (spawner.activeMinoName == "J_Mino")
-        {
-            JspinCheck();
-        }
-        if (spawner.activeMinoName == "L_Mino")
-        {
-            LspinCheck();
-        }
-        /*else if (mino == O_mino)
-        {
-            return OspinCheck(_ActiveMino);
-        }*/
-        /*else if (mino == S_mino)
-        {
-            return SspinCheck(_ActiveMino);
-        }*/
-        if (spawner.activeMinoName == "T_Mino")
-        {
-            TspinCheck();
-        }
-        /*else if (mino == Z_mino)
-        {
-            return ZspinCheck(_ActiveMino);
-        }*/
-        else
-        {
-            // Debug.LogError("[SpinCheck CheckSpinType()] activeMinoNameが特定できません。");
+            case "I_Mino":
+                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "IspinCheck()", "Start");
+                IspinCheck();
+                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "IspinCheck()", "End");
+                break;
+            case "J_Mino":
+                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "JspinCheck()", "Start");
+                JspinCheck();
+                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "JspinCheck()", "End");
+                break;
+            case "L_Mino":
+                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "LspinCheck()", "Start");
+                LspinCheck();
+                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "LspinCheck()", "End");
+                break;
+            case "T_Mino":
+                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "TspinCheck()", "Start");
+                TspinCheck();
+                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "TspinCheck()", "End");
+                break;
+            default:
+                // Debug.LogError("[SpinCheck CheckSpinType()] activeMinoNameが特定できません。");
+                break;
         }
     }
+
+    // public void CheckSpinType() // この関数は、回転時に呼び出される
+    // {
+    //     if (spawner.activeMinoName == "I_Mino")
+    //     {
+    //         IspinCheck();
+    //     }
+    //     if (spawner.activeMinoName == "J_Mino")
+    //     {
+    //         JspinCheck();
+    //     }
+    //     if (spawner.activeMinoName == "L_Mino")
+    //     {
+    //         LspinCheck();
+    //     }
+    //     /*else if (mino == O_mino)
+    //     {
+    //         return OspinCheck(_ActiveMino);
+    //     }*/
+    //     /*else if (mino == S_mino)
+    //     {
+    //         return SspinCheck(_ActiveMino);
+    //     }*/
+    //     if (spawner.activeMinoName == "T_Mino")
+    //     {
+    //         TspinCheck();
+    //     }
+    //     /*else if (mino == Z_mino)
+    //     {
+    //         return ZspinCheck(_ActiveMino);
+    //     }*/
+    //     else
+    //     {
+    //         // Debug.LogError("[SpinCheck CheckSpinType()] activeMinoNameが特定できません。");
+    //     }
+    // }
 
     // Jspinの判定をする関数 //
     private void JspinCheck()
@@ -129,19 +157,19 @@ public class SpinCheck : MonoBehaviour
 
         int[,] currentOffsets = null;
 
-        if (gameStatus.minoAngleAfter == gameStatus.North) // Jミノが北向きの場合
+        if (gameStatus.minoAngleAfter == North) // Jミノが北向きの場合
         {
             currentOffsets = northOffset_ForJ;
         }
-        else if (gameStatus.minoAngleAfter == gameStatus.East) // Jミノが東向きの場合
+        else if (gameStatus.minoAngleAfter == East) // Jミノが東向きの場合
         {
             currentOffsets = eastOffset_ForJ;
         }
-        else if (gameStatus.minoAngleAfter == gameStatus.South) // Jミノが南向きの場合
+        else if (gameStatus.minoAngleAfter == South) // Jミノが南向きの場合
         {
             currentOffsets = southOffset_ForJ;
         }
-        else if (gameStatus.minoAngleAfter == gameStatus.West) // Jミノが西向きの場合
+        else if (gameStatus.minoAngleAfter == West) // Jミノが西向きの場合
         {
             currentOffsets = westOffset_ForJ;
         }
@@ -212,19 +240,19 @@ public class SpinCheck : MonoBehaviour
         int[,] currentOffsets = null;
 
         // Lミノの向きで処理を分岐させる
-        if (gameStatus.minoAngleAfter == gameStatus.North)
+        if (gameStatus.minoAngleAfter == North)
         {
             currentOffsets = northOffset_ForJ;
         }
-        else if (gameStatus.minoAngleAfter == gameStatus.East)
+        else if (gameStatus.minoAngleAfter == East)
         {
             currentOffsets = eastOffset_ForJ;
         }
-        else if (gameStatus.minoAngleAfter == gameStatus.South)
+        else if (gameStatus.minoAngleAfter == South)
         {
             currentOffsets = southOffset_ForJ;
         }
-        else if (gameStatus.minoAngleAfter == gameStatus.West)
+        else if (gameStatus.minoAngleAfter == West)
         {
             currentOffsets = westOffset_ForJ;
         }
@@ -291,7 +319,7 @@ public class SpinCheck : MonoBehaviour
     //     int pos_x = Mathf.RoundToInt(spawner.activeMino.transform.position.x);
     //     int pos_y = Mathf.RoundToInt(spawner.activeMino.transform.position.y);
 
-    //     if (gameStatus.minoAngleAfter == gameStatus.North) // Jミノが北向きの場合
+    //     if (gameStatus.minoAngleAfter == North) // Jミノが北向きの場合
     //     {
     //         // 指定のマスにブロックまたは壁があるか調べる
     //         for (int grid = 0; grid < northOffset_ForJ.Length; grid++)
@@ -306,7 +334,7 @@ public class SpinCheck : MonoBehaviour
     //             }
     //         }
     //     }
-    //     if (gameStatus.minoAngleAfter == gameStatus.East) // Jミノが北向きの場合
+    //     if (gameStatus.minoAngleAfter == East) // Jミノが北向きの場合
     //     {
     //         // 指定のマスにブロックまたは壁があるか調べる
     //         for (int grid = 0; grid < eastOffset_ForJ.Length; grid++)
@@ -321,7 +349,7 @@ public class SpinCheck : MonoBehaviour
     //             }
     //         }
     //     }
-    //     if (gameStatus.minoAngleAfter == gameStatus.South) // Jミノが北向きの場合
+    //     if (gameStatus.minoAngleAfter == South) // Jミノが北向きの場合
     //     {
     //         // 指定のマスにブロックまたは壁があるか調べる
     //         for (int grid = 0; grid < southOffset_ForJ.Length; grid++)
@@ -336,7 +364,7 @@ public class SpinCheck : MonoBehaviour
     //             }
     //         }
     //     }
-    //     if (gameStatus.minoAngleAfter == gameStatus.West) // Jミノが北向きの場合
+    //     if (gameStatus.minoAngleAfter == West) // Jミノが北向きの場合
     //     {
     //         // 指定のマスにブロックまたは壁があるか調べる
     //         for (int grid = 0; grid < westOffset_ForJ.Length; grid++)
@@ -356,7 +384,7 @@ public class SpinCheck : MonoBehaviour
     // Ispinの判定をする関数(Mini判定も計算)
     private void IspinCheck()
     {
-        if (gameStatus.minoAngleAfter == gameStatus.North || gameStatus.minoAngleAfter == gameStatus.South) // Iミノが横向きの場合
+        if (gameStatus.minoAngleAfter == North || gameStatus.minoAngleAfter == South) // Iミノが横向きの場合
         {
             // IspinMiniの判定をチェックする
 
