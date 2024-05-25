@@ -405,6 +405,7 @@ public class Mino : MonoBehaviour
 
     private bool TrySuperRotation(List<Action> rotationSteps, string direction)
     {
+        Vector3 originalPosition = spawner.activeMino.transform.position; // 現在の位置を保存
         for (int step = 0; step < rotationSteps.Count; step++)
         {
             rotationSteps[step]();
@@ -412,17 +413,12 @@ public class Mino : MonoBehaviour
             if (board.CheckPosition(spawner.activeMino))
             {
                 LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "TrySuperRotation()", $"Success SRS = {step + 1}, {direction}");
-                LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "TrySuperRotation()", "End");
                 return true;
             }
         }
 
         // 全てのステップが失敗した場合、回転前の状態に戻す
-        rotationSteps.Reverse();
-        foreach (var step in rotationSteps)
-        {
-            step();
-        }
+        spawner.activeMino.transform.position = originalPosition;
         gameStatus.Reset_Rotate();
         LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "TrySuperRotation()", $"Failure SRS, {direction}");
         LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "TrySuperRotation()", "End");
