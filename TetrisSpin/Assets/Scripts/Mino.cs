@@ -14,6 +14,12 @@ using UnityEngine;
 
 public class Mino : MonoBehaviour
 {
+    // ミノの向き //
+    private string North = "North";
+    private string East = "East";
+    private string South = "South";
+    private string West = "West";
+
     // 回転していいミノかどうか //
     [SerializeField] private bool CanRotate = true; // Oミノは回転しないので、エディターでfalseに設定
 
@@ -145,7 +151,7 @@ public class Mino : MonoBehaviour
         // xOffset と yOffset の正負は回転前の向きによって変化する
 
         // 向きがNorthの時
-        if (gameStatus.minoAngleAfter == gameStatus.North)
+        if (gameStatus.minoAngleAfter == North)
         {
             AxisPosition = $"North: Axis = ({Imino_x + xOffset}, {Imino_y - yOffset})";
             LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "AxisCheck_ForI()", AxisPosition);
@@ -153,7 +159,7 @@ public class Mino : MonoBehaviour
             return new Vector3(Imino_x + xOffset, Imino_y - yOffset, 0);
         }
         // 向きがEastの時
-        else if (gameStatus.minoAngleAfter == gameStatus.East)
+        else if (gameStatus.minoAngleAfter == East)
         {
             AxisPosition = $"East: Axis = ({Imino_x - xOffset}, {Imino_y - yOffset})";
             LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "AxisCheck_ForI()", AxisPosition);
@@ -161,7 +167,7 @@ public class Mino : MonoBehaviour
             return new Vector3(Imino_x - xOffset, Imino_y - yOffset, 0);
         }
         // 向きがSouthの時
-        else if (gameStatus.minoAngleAfter == gameStatus.South)
+        else if (gameStatus.minoAngleAfter == South)
         {
             AxisPosition = $"South: Axis = ({Imino_x - xOffset}, {Imino_y + yOffset})";
             LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "AxisCheck_ForI()", AxisPosition);
@@ -195,8 +201,8 @@ public class Mino : MonoBehaviour
         // Iミノ以外のSRS
         if (spawner.activeMinoName != "I_Mino")
         {
-            if ((gameStatus.minoAngleBefore == gameStatus.North && gameStatus.minoAngleAfter == gameStatus.East) ||
-                (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.East))   // North から East , South から East に回転する時
+            if ((gameStatus.minoAngleBefore == North && gameStatus.minoAngleAfter == East) ||
+                (gameStatus.minoAngleBefore == South && gameStatus.minoAngleAfter == East))   // North から East , South から East に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -212,8 +218,8 @@ public class Mino : MonoBehaviour
                 () => spawner.activeMino.MoveLeft()  // 第四法則
             }, "NtoE, StoE");
             }
-            else if ((gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.North) ||
-                (gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.South))   // West から North , West から South に回転する時
+            else if ((gameStatus.minoAngleBefore == West && gameStatus.minoAngleAfter == North) ||
+                (gameStatus.minoAngleBefore == West && gameStatus.minoAngleAfter == South))   // West から North , West から South に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -229,8 +235,8 @@ public class Mino : MonoBehaviour
                 () => spawner.activeMino.MoveLeft()  // 第四法則
             }, "WtoN, WtoS");
             }
-            else if ((gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.North) ||
-                (gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.South))   // East から North , East から South に回転する時
+            else if ((gameStatus.minoAngleBefore == East && gameStatus.minoAngleAfter == North) ||
+                (gameStatus.minoAngleBefore == East && gameStatus.minoAngleAfter == South))   // East から North , East から South に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -246,8 +252,8 @@ public class Mino : MonoBehaviour
                 () => spawner.activeMino.MoveRight()  // 第四法則
             }, "EtoN, EtoS");
             }
-            else if ((gameStatus.minoAngleBefore == gameStatus.North && gameStatus.minoAngleAfter == gameStatus.West) ||
-                (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.West))   // North から West , South から West に回転する時
+            else if ((gameStatus.minoAngleBefore == North && gameStatus.minoAngleAfter == West) ||
+                (gameStatus.minoAngleBefore == South && gameStatus.minoAngleAfter == West))   // North から West , South から West に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -267,8 +273,8 @@ public class Mino : MonoBehaviour
         // IミノのSRS(かなり複雑)
         else
         {
-            if ((gameStatus.minoAngleBefore == gameStatus.North && gameStatus.minoAngleAfter == gameStatus.East) ||
-                (gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.South))  // North から East , West から South に回転する時
+            if ((gameStatus.minoAngleBefore == North && gameStatus.minoAngleAfter == East) ||
+                (gameStatus.minoAngleBefore == West && gameStatus.minoAngleAfter == South))  // North から East , West から South に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -301,8 +307,8 @@ public class Mino : MonoBehaviour
                 }
             }, "NtoE, WtoS, I");
             }
-            else if ((gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.North) ||
-                (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.East))   // West から North , South から East に回転する時
+            else if ((gameStatus.minoAngleBefore == West && gameStatus.minoAngleAfter == North) ||
+                (gameStatus.minoAngleBefore == South && gameStatus.minoAngleAfter == East))   // West から North , South から East に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -332,8 +338,8 @@ public class Mino : MonoBehaviour
                 }
             }, "WtoN, StoE, I");
             }
-            else if ((gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.North) ||
-                (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.West))   // East から North , South から West に回転する時
+            else if ((gameStatus.minoAngleBefore == East && gameStatus.minoAngleAfter == North) ||
+                (gameStatus.minoAngleBefore == South && gameStatus.minoAngleAfter == West))   // East から North , South から West に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -366,8 +372,8 @@ public class Mino : MonoBehaviour
                 }
             }, "EtoN, StoW, I");
             }
-            else if ((gameStatus.minoAngleBefore == gameStatus.North && gameStatus.minoAngleAfter == gameStatus.West) ||
-                (gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.South))   // North から West , East から South に回転する時
+            else if ((gameStatus.minoAngleBefore == North && gameStatus.minoAngleAfter == West) ||
+                (gameStatus.minoAngleBefore == East && gameStatus.minoAngleAfter == South))   // North から West , East から South に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -439,8 +445,8 @@ public class Mino : MonoBehaviour
     //     {
     //         //Debug.Log("Iミノ以外のSRS");
 
-    //         if ((gameStatus.minoAngleBefore == gameStatus.North && gameStatus.minoAngleAfter == gameStatus.East) ||
-    //             (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.East))   // North から East , South から East に回転する時
+    //         if ((gameStatus.minoAngleBefore == North && gameStatus.minoAngleAfter == East) ||
+    //             (gameStatus.minoAngleBefore == South && gameStatus.minoAngleAfter == East))   // North から East , South から East に回転する時
     //         {
     //             // 第一法則
     //             spawner.activeMino.MoveLeft(); // 左に1つ移動
@@ -493,8 +499,8 @@ public class Mino : MonoBehaviour
     //             }
     //             LogHelper.Log("Success SRS = 1, NtoE, StoE", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
     //         }
-    //         else if ((gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.North) ||
-    //             (gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.South))   // West から North , West から South に回転する時
+    //         else if ((gameStatus.minoAngleBefore == West && gameStatus.minoAngleAfter == North) ||
+    //             (gameStatus.minoAngleBefore == West && gameStatus.minoAngleAfter == South))   // West から North , West から South に回転する時
     //         {
     //             // 第一法則
     //             spawner.activeMino.MoveLeft(); // 左に1つ移動
@@ -547,8 +553,8 @@ public class Mino : MonoBehaviour
     //             }
     //             LogHelper.Log("Success SRS = 1, WtoN, WtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
     //         }
-    //         else if ((gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.North) ||
-    //             (gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.South))   // East から North , East から South に回転する時
+    //         else if ((gameStatus.minoAngleBefore == East && gameStatus.minoAngleAfter == North) ||
+    //             (gameStatus.minoAngleBefore == East && gameStatus.minoAngleAfter == South))   // East から North , East から South に回転する時
     //         {
     //             // 第一法則
     //             spawner.activeMino.MoveRight(); // 右に1つ移動
@@ -601,8 +607,8 @@ public class Mino : MonoBehaviour
     //             }
     //             LogHelper.Log("Success SRS = 1, EtoN, EtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
     //         }
-    //         else if ((gameStatus.minoAngleBefore == gameStatus.North && gameStatus.minoAngleAfter == gameStatus.West) ||
-    //             (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.West))   // North から West , South から West に回転する時
+    //         else if ((gameStatus.minoAngleBefore == North && gameStatus.minoAngleAfter == West) ||
+    //             (gameStatus.minoAngleBefore == South && gameStatus.minoAngleAfter == West))   // North から West , South から West に回転する時
     //         {
     //             // 第一法則
     //             spawner.activeMino.MoveRight(); // 右に1つ移動
@@ -661,8 +667,8 @@ public class Mino : MonoBehaviour
     //     {
     //         //Debug.Log("IミノのSRS");
 
-    //         if ((gameStatus.minoAngleBefore == gameStatus.North && gameStatus.minoAngleAfter == gameStatus.East) ||
-    //             (gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.South))  // North から East , West から South に回転する時
+    //         if ((gameStatus.minoAngleBefore == North && gameStatus.minoAngleAfter == East) ||
+    //             (gameStatus.minoAngleBefore == West && gameStatus.minoAngleAfter == South))  // North から East , West から South に回転する時
     //         {
     //             // 第一法則
     //             spawner.activeMino.MoveLeft();
@@ -714,8 +720,8 @@ public class Mino : MonoBehaviour
     //             }
     //             LogHelper.Log("Success SRS = 1, NtoE, WtoS, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
     //         }
-    //         else if ((gameStatus.minoAngleBefore == gameStatus.West && gameStatus.minoAngleAfter == gameStatus.North) ||
-    //             (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.East))   // West から North , South から East に回転する時
+    //         else if ((gameStatus.minoAngleBefore == West && gameStatus.minoAngleAfter == North) ||
+    //             (gameStatus.minoAngleBefore == South && gameStatus.minoAngleAfter == East))   // West から North , South から East に回転する時
     //         {
     //             // 第一法則
     //             spawner.activeMino.MoveRight(); // 右に1つ移動
@@ -767,8 +773,8 @@ public class Mino : MonoBehaviour
     //             }
     //             LogHelper.Log("Success SRS = 1, WtoN, StoE, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
     //         }
-    //         else if ((gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.North) ||
-    //             (gameStatus.minoAngleBefore == gameStatus.South && gameStatus.minoAngleAfter == gameStatus.West))   // East から North , South から West に回転する時
+    //         else if ((gameStatus.minoAngleBefore == East && gameStatus.minoAngleAfter == North) ||
+    //             (gameStatus.minoAngleBefore == South && gameStatus.minoAngleAfter == West))   // East から North , South から West に回転する時
     //         {
     //             // 第一法則
     //             spawner.activeMino.MoveRight();
@@ -820,8 +826,8 @@ public class Mino : MonoBehaviour
     //             }
     //             LogHelper.Log("Success SRS = 1, EtoN, StoW, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
     //         }
-    //         else if ((gameStatus.minoAngleBefore == gameStatus.North && gameStatus.minoAngleAfter == gameStatus.West) ||
-    //             (gameStatus.minoAngleBefore == gameStatus.East && gameStatus.minoAngleAfter == gameStatus.South))   // North から West , East から South に回転する時
+    //         else if ((gameStatus.minoAngleBefore == North && gameStatus.minoAngleAfter == West) ||
+    //             (gameStatus.minoAngleBefore == East && gameStatus.minoAngleAfter == South))   // North から West , East から South に回転する時
     //         {
     //             // 第一法則
     //             spawner.activeMino.MoveLeft(); // 左に1つ移動
