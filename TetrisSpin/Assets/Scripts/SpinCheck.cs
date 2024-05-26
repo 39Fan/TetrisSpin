@@ -573,6 +573,10 @@ public class SpinCheck : MonoBehaviour
             }
         }
 
+        string checkBlocksInfo = string.Join(", ", checkBlocks_ForT);
+
+        LogHelper.Log(LogHelper.LogLevel.Info, "SpinCheck", "TspinCheck()", checkBlocksInfo); // Infoログ
+
 
         // Tspinの判定をチェックする
 
@@ -606,7 +610,7 @@ public class SpinCheck : MonoBehaviour
                 // Tミノの突起の左右が空白の時、T-Spin Mini 判定になる
                 switch (gameStatus.minoAngleAfter)
                 {
-                    case "NORTH": // Tミノが北向きの時、右上と左上を確認する
+                    case "North": // Tミノが北向きの時、右上と左上を確認する
                         if (checkBlocks_ForT[right_up] == "Not Exist" || checkBlocks_ForT[left_up] == "Not Exist")
                         {
                             SpinTypeName = "T-Spin Mini";
@@ -618,7 +622,7 @@ public class SpinCheck : MonoBehaviour
 
                         break;
 
-                    case "EAST": // 右上と右下
+                    case "East": // 右上と右下
                         if (checkBlocks_ForT[right_up] == "Not Exist" || checkBlocks_ForT[right_down] == "Not Exist")
                         {
                             SpinTypeName = "T-Spin Mini";
@@ -630,7 +634,7 @@ public class SpinCheck : MonoBehaviour
 
                         break;
 
-                    case "SOUTH": // 右下と左下
+                    case "South": // 右下と左下
                         if (checkBlocks_ForT[right_down] == "Not Exist" || checkBlocks_ForT[left_down] == "Not Exist")
                         {
                             SpinTypeName = "T-Spin Mini";
@@ -642,7 +646,7 @@ public class SpinCheck : MonoBehaviour
 
                         break;
 
-                    case "WEST": // 左上と左下
+                    case "West": // 左上と左下
                         if (checkBlocks_ForT[left_up] == "Not Exist" || checkBlocks_ForT[left_down] == "Not Exist")
                         {
                             SpinTypeName = "T-Spin Mini";

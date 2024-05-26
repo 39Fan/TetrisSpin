@@ -420,7 +420,8 @@ public class Mino : MonoBehaviour
 
             if (board.CheckPosition(spawner.activeMino))
             {
-                LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "TrySuperRotation()", $"Success SRS = {step + 1}, {direction}");
+                LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "TrySuperRotation()", $"Success SRS = {gameStatus.stepsSRS}, {direction}");
+                LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "TrySuperRotation()", "End");
                 return true;
             }
         }
