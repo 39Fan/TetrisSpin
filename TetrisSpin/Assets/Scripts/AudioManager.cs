@@ -18,25 +18,25 @@ public class AudioManager : MonoBehaviour
     // オーディオ //
     [SerializeField] private AudioClip[] Audios;
 
-    // オーディオの名前 //
-    public string[] AudioNames =    // アルファベット順
-    {
-        "GameOver",
-        "Hard_Drop",
-        "Hold",
-        "Move_Down",
-        "Move_Left_Right",
-        "Normal_Destroy",
-        "Normal_Drop",
-        "Rotation",
-        "Spin",
-        "Spin_Destroy",
-        "Start_or_Retry",
-        "Tetris"
-    };
+    // // オーディオの名前 //
+    // public string[] AudioNames =
+    // {
+    //     "GameOver",
+    //     "Hard_Drop",
+    //     "Hold",
+    //     "Move_Down",
+    //     "Move_Left_Right",
+    //     "Normal_Destroy",
+    //     "Normal_Drop",
+    //     "Rotation",
+    //     "Spin",
+    //     "Spin_Destroy",
+    //     "Start_or_Retry",
+    //     "Tetris"
+    // };
 
     // 辞書 //
-    private Dictionary<string, AudioClip> AudioClipDictionary = new Dictionary<string, AudioClip>();
+    private Dictionary<AudioNames, AudioClip> AudioClipDictionary;
 
     // SEのボリュームの値 //
     float LowVolume = 0.2f;
@@ -56,39 +56,64 @@ public class AudioManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject); // シーンが変わっても破壊されない
             audioSource = gameObject.AddComponent<AudioSource>();
+            BuildAudioClipDictionary(); // 辞書の作成
         }
         else
         {
             Destroy(gameObject);
         }
-
-        BuildAudioClipDictionary(); // 辞書の作成
     }
 
-    // Audios と AudioNames の辞書を作成する関数 //
+    // Audios と AudioNames の辞書を作成する関数
     private void BuildAudioClipDictionary()
     {
-        if (Audios.Length != AudioNames.Length)
+        AudioClipDictionary = new Dictionary<AudioNames, AudioClip>();
+
+        if (Audios.Length != System.Enum.GetValues(typeof(AudioNames)).Length)
         {
-            Debug.LogError("[AudioManager BuildAudioClipDictionary()] AudiosとAudioNamesの数が一致しません。");
+            // Debug.LogError("[AudioManager BuildAudioClipDictionary()] Audiosの数とAudioNameの数が一致しません。");
             return;
         }
 
         for (int i = 0; i < Audios.Length; i++)
         {
-            if (AudioClipDictionary.ContainsKey(AudioNames[i]))
+            AudioNames audioName = (AudioNames)i;
+
+            if (!AudioClipDictionary.ContainsKey(audioName))
             {
-                Debug.LogWarning($"[AudioManager BuildAudioClipDictionary()] {AudioNames[i]} はすでに登録されています。");
+                AudioClipDictionary.Add(audioName, Audios[i]);
             }
             else
             {
-                AudioClipDictionary.Add(AudioNames[i], Audios[i]);
+                // Debug.LogWarning($"[AudioManager BuildAudioClipDictionary()] {audioName} はすでに登録されています。");
             }
         }
     }
 
+    // // Audios と AudioNames の辞書を作成する関数 //
+    // private void BuildAudioClipDictionary()
+    // {
+    //     if (Audios.Length != AudioNames.Length)
+    //     {
+    //         Debug.LogError("[AudioManager BuildAudioClipDictionary()] AudiosとAudioNamesの数が一致しません。");
+    //         return;
+    //     }
+
+    //     for (int i = 0; i < Audios.Length; i++)
+    //     {
+    //         if (AudioClipDictionary.ContainsKey(AudioNames[i]))
+    //         {
+    //             Debug.LogWarning($"[AudioManager BuildAudioClipDictionary()] {AudioNames[i]} はすでに登録されています。");
+    //         }
+    //         else
+    //         {
+    //             AudioClipDictionary.Add(AudioNames[i], Audios[i]);
+    //         }
+    //     }
+    // }
+
     // 名前に基づいてサウンドを再生する関数 //
-    public void PlaySound(string _AudioName)
+    public void PlaySound(AudioNames _AudioName)
     {
         if (AudioClipDictionary.TryGetValue(_AudioName, out AudioClip clip))
         {
@@ -103,13 +128,13 @@ public class AudioManager : MonoBehaviour
     }
 
     // 音量を設定する関数 //
-    private void SetVolume(string _AudioName)
+    private void SetVolume(AudioNames _AudioName)
     {
         switch (_AudioName)
         {
-            case "Start_or_Retry":
-            case "Move_Down":
-            case "Move_Left_Right": // これらのオーディオは音量を下げるように調整
+            case AudioNames.StartOrRetry:
+            case AudioNames.MoveDown:
+            case AudioNames.MoveLeftRight: // これらのオーディオは音量を下げるように調整
                 audioSource.volume = LowVolume;
                 break;
 

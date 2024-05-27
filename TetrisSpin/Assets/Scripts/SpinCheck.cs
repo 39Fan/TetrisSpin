@@ -11,17 +11,17 @@ using UnityEngine;
 
 public class SpinCheck : MonoBehaviour
 {
-    // ミノの向き //
-    private string North = "North";
-    private string East = "East";
-    private string South = "South";
-    private string West = "West";
+    // // ミノの向き //
+    // private string North = "North";
+    // private string East = "East";
+    // private string South = "South";
+    // private string West = "West";
 
     // Spinの種類 //
-    [SerializeField] private string SpinTypeName;
+    [SerializeField] private SpinTypeNames SpinTypeName;
 
     // ゲッタープロパティ //
-    public string spinTypeName
+    public SpinTypeNames spinTypeName
     {
         get { return SpinTypeName; }
     }
@@ -42,7 +42,7 @@ public class SpinCheck : MonoBehaviour
     // SpinTypeNameをリセットする関数 //
     public void Reset_SpinTypeName()
     {
-        SpinTypeName = "None";
+        SpinTypeName = SpinTypeNames.None;
     }
 
     // 各ミノのスピン判定をチェックする //
@@ -157,19 +157,19 @@ public class SpinCheck : MonoBehaviour
 
         int[,] currentOffsets = null;
 
-        if (gameStatus.minoAngleAfter == North) // Jミノが北向きの場合
+        if (gameStatus.minoAngleAfter == MinoDirections.North) // Jミノが北向きの場合
         {
             currentOffsets = northOffset_ForJ;
         }
-        else if (gameStatus.minoAngleAfter == East) // Jミノが東向きの場合
+        else if (gameStatus.minoAngleAfter == MinoDirections.East) // Jミノが東向きの場合
         {
             currentOffsets = eastOffset_ForJ;
         }
-        else if (gameStatus.minoAngleAfter == South) // Jミノが南向きの場合
+        else if (gameStatus.minoAngleAfter == MinoDirections.South) // Jミノが南向きの場合
         {
             currentOffsets = southOffset_ForJ;
         }
-        else if (gameStatus.minoAngleAfter == West) // Jミノが西向きの場合
+        else if (gameStatus.minoAngleAfter == MinoDirections.West) // Jミノが西向きの場合
         {
             currentOffsets = westOffset_ForJ;
         }
@@ -190,7 +190,7 @@ public class SpinCheck : MonoBehaviour
         // 条件を満たすか確認(②の確認込み)
         if (checkBlocks_ForJ.FindAll(block => block == "Exist").Count >= 3 && gameStatus.stepsSRS >= 1)
         {
-            SpinTypeName = "J-Spin";
+            SpinTypeName = SpinTypeNames.J_Spin;
         }
     }
 
@@ -240,19 +240,19 @@ public class SpinCheck : MonoBehaviour
         int[,] currentOffsets = null;
 
         // Lミノの向きで処理を分岐させる
-        if (gameStatus.minoAngleAfter == North)
+        if (gameStatus.minoAngleAfter == MinoDirections.North)
         {
             currentOffsets = northOffset_ForJ;
         }
-        else if (gameStatus.minoAngleAfter == East)
+        else if (gameStatus.minoAngleAfter == MinoDirections.East)
         {
             currentOffsets = eastOffset_ForJ;
         }
-        else if (gameStatus.minoAngleAfter == South)
+        else if (gameStatus.minoAngleAfter == MinoDirections.South)
         {
             currentOffsets = southOffset_ForJ;
         }
-        else if (gameStatus.minoAngleAfter == West)
+        else if (gameStatus.minoAngleAfter == MinoDirections.West)
         {
             currentOffsets = westOffset_ForJ;
         }
@@ -273,7 +273,7 @@ public class SpinCheck : MonoBehaviour
         // 条件を満たすか確認(②の確認込み)
         if (checkBlocks_ForJ.FindAll(block => block == "Exist").Count >= 3 && gameStatus.stepsSRS >= 1)
         {
-            SpinTypeName = "L-Spin";
+            SpinTypeName = SpinTypeNames.L_Spin;
         }
     }
 
@@ -384,7 +384,7 @@ public class SpinCheck : MonoBehaviour
     // Ispinの判定をする関数(Mini判定も計算)
     private void IspinCheck()
     {
-        if (gameStatus.minoAngleAfter == North || gameStatus.minoAngleAfter == South) // Iミノが横向きの場合
+        if (gameStatus.minoAngleAfter == MinoDirections.North || gameStatus.minoAngleAfter == MinoDirections.South) // Iミノが横向きの場合
         {
             // IspinMiniの判定をチェックする
 
@@ -444,7 +444,7 @@ public class SpinCheck : MonoBehaviour
             if (checkBlocksAbove_ForI.FindAll(block => block == "Exist").Count >= 1 ||
                 checkBlocksBelow_ForI.FindAll(block => block == "Exist").Count >= 3)
             {
-                SpinTypeName = "I-Spin Mini";
+                SpinTypeName = SpinTypeNames.I_SpinMini;
             }
         }
         else // Iミノが縦向きの場合
@@ -540,7 +540,7 @@ public class SpinCheck : MonoBehaviour
                 checkBlocksLeftSide_ForI.FindAll(block => block == "Exist").Count >= 3 &&
                 checkBlocksUpper_ForI.FindAll(block => block == "Exist").Count >= 1)
             {
-                SpinTypeName = "I-Spin";
+                SpinTypeName = SpinTypeNames.I_Spin;
             }
         }
     }
@@ -598,7 +598,7 @@ public class SpinCheck : MonoBehaviour
         {
             if (gameStatus.stepsSRS == 4) // SRSが4段階の時は T-Spin 判定になる
             {
-                SpinTypeName = "T-Spin";
+                SpinTypeName = SpinTypeNames.T_Spin;
             }
             else // SRSが4段階でない時
             {
@@ -610,50 +610,50 @@ public class SpinCheck : MonoBehaviour
                 // Tミノの突起の左右が空白の時、T-Spin Mini 判定になる
                 switch (gameStatus.minoAngleAfter)
                 {
-                    case "North": // Tミノが北向きの時、右上と左上を確認する
+                    case MinoDirections.North: // Tミノが北向きの時、右上と左上を確認する
                         if (checkBlocks_ForT[right_up] == "Not Exist" || checkBlocks_ForT[left_up] == "Not Exist")
                         {
-                            SpinTypeName = "T-Spin Mini";
+                            SpinTypeName = SpinTypeNames.T_SpinMini;
                         }
                         else
                         {
-                            SpinTypeName = "T-Spin"; // Tミノの底側のブロックが空白の時は T-Spin 判定になる
+                            SpinTypeName = SpinTypeNames.T_Spin; // Tミノの底側のブロックが空白の時は T-Spin 判定になる
                         }
 
                         break;
 
-                    case "East": // 右上と右下
+                    case MinoDirections.East: // 右上と右下
                         if (checkBlocks_ForT[right_up] == "Not Exist" || checkBlocks_ForT[right_down] == "Not Exist")
                         {
-                            SpinTypeName = "T-Spin Mini";
+                            SpinTypeName = SpinTypeNames.T_SpinMini;
                         }
                         else
                         {
-                            SpinTypeName = "T-Spin";
+                            SpinTypeName = SpinTypeNames.T_Spin;
                         }
 
                         break;
 
-                    case "South": // 右下と左下
+                    case MinoDirections.South: // 右下と左下
                         if (checkBlocks_ForT[right_down] == "Not Exist" || checkBlocks_ForT[left_down] == "Not Exist")
                         {
-                            SpinTypeName = "T-Spin Mini";
+                            SpinTypeName = SpinTypeNames.T_SpinMini;
                         }
                         else
                         {
-                            SpinTypeName = "T-Spin";
+                            SpinTypeName = SpinTypeNames.T_Spin;
                         }
 
                         break;
 
-                    case "West": // 左上と左下
+                    case MinoDirections.West: // 左上と左下
                         if (checkBlocks_ForT[left_up] == "Not Exist" || checkBlocks_ForT[left_down] == "Not Exist")
                         {
-                            SpinTypeName = "T-Spin Mini";
+                            SpinTypeName = SpinTypeNames.T_SpinMini;
                         }
                         else
                         {
-                            SpinTypeName = "T-Spin";
+                            SpinTypeName = SpinTypeNames.T_Spin;
                         }
 
                         break;

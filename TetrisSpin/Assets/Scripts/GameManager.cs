@@ -231,7 +231,7 @@ public class GameManager : MonoBehaviour
         {
             // DebugHelper.Log("Move right succeeded: Mino successfully moved to the right", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-            AudioManager.Instance.PlaySound("Move_Left_Right");  // オーディオの再生
+            AudioManager.Instance.PlaySound(AudioNames.MoveLeftRight);  // オーディオの再生
 
             spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
@@ -262,7 +262,7 @@ public class GameManager : MonoBehaviour
         {
             // DebugHelper.Log("Continuous move right succeeded: Mino successfully moved to the right", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-            AudioManager.Instance.PlaySound("Move_Left_Right");  // オーディオの再生
+            AudioManager.Instance.PlaySound(AudioNames.MoveLeftRight);  // オーディオの再生
 
             spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
@@ -299,7 +299,7 @@ public class GameManager : MonoBehaviour
         {
             // DebugHelper.Log("Move left succeeded: Mino successfully moved to the left", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-            AudioManager.Instance.PlaySound("Move_Left_Right");  // オーディオの再生
+            AudioManager.Instance.PlaySound(AudioNames.MoveLeftRight);  // オーディオの再生
 
             spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
@@ -330,7 +330,7 @@ public class GameManager : MonoBehaviour
         {
             // DebugHelper.Log("Continuous move left succeeded: Mino successfully moved to the left", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-            AudioManager.Instance.PlaySound("Move_Left_Right");  // オーディオの再生
+            AudioManager.Instance.PlaySound(AudioNames.MoveLeftRight);  // オーディオの再生
 
             spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
@@ -365,9 +365,9 @@ public class GameManager : MonoBehaviour
         {
             // DebugHelper.Log("Move down succeeded: Mino successfully moved down", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-            AudioManager.Instance.PlaySound("Move_Down");  // オーディオの再生
+            AudioManager.Instance.PlaySound(AudioNames.MoveDown);  // オーディオの再生
 
-            if (spinCheck.spinTypeName != "I-Spin") // I-Spinは下移動しても解除されないようにしている
+            if (spinCheck.spinTypeName != SpinTypeNames.I_Spin) // I-Spinは下移動しても解除されないようにしている
             {
                 spinCheck.Reset_SpinTypeName(); // 移動したため、スピン判定をリセット
             }
@@ -395,7 +395,7 @@ public class GameManager : MonoBehaviour
 
                 gameStatus.Reset_MinoAngleAfter(); // MinoAngleAfterのリセット
 
-                AudioManager.Instance.PlaySound("Rotation");
+                AudioManager.Instance.PlaySound(AudioNames.Rotation);
             }
             else // SRSが成功した時
             {
@@ -433,7 +433,7 @@ public class GameManager : MonoBehaviour
 
                 gameStatus.Reset_MinoAngleAfter(); // MinoAngleAfterのリセット
 
-                AudioManager.Instance.PlaySound("Rotation");
+                AudioManager.Instance.PlaySound(AudioNames.Rotation);
             }
             else // SRSが成功した時
             {
@@ -463,13 +463,13 @@ public class GameManager : MonoBehaviour
 
         spinCheck.CheckSpinType(); // スピン判定のチェック
 
-        if (spinCheck.spinTypeName != "None") // スピン判定がない場合
+        if (spinCheck.spinTypeName != SpinTypeNames.None) // スピン判定がない場合
         {
-            AudioManager.Instance.PlaySound("Spin");
+            AudioManager.Instance.PlaySound(AudioNames.Spin);
         }
         else // スピン判定がある場合
         {
-            AudioManager.Instance.PlaySound("Rotation");
+            AudioManager.Instance.PlaySound(AudioNames.Rotation);
         }
 
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "SuccessRotateAction()", "End");
@@ -491,7 +491,7 @@ public class GameManager : MonoBehaviour
     // ハードドロップ入力時の処理を行う関数 //
     private void HardDropInput()
     {
-        AudioManager.Instance.PlaySound("Hard_Drop"); // ハードドロップの音を再生
+        AudioManager.Instance.PlaySound(AudioNames.HardDrop); // ハードドロップの音を再生
 
         int height = 20; // ゲームボードの高さの値
 
@@ -529,7 +529,7 @@ public class GameManager : MonoBehaviour
 
             UseHold = true; // ホールドの使用
 
-            AudioManager.Instance.PlaySound("Hold");
+            AudioManager.Instance.PlaySound(AudioNames.Hold);
 
             Reset_RockDown(); // RockDownに関する変数のリセット
 
@@ -570,7 +570,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if (spinCheck.spinTypeName != "I-Spin") // I-Spinは下移動しても解除されないようにしている
+            if (spinCheck.spinTypeName != SpinTypeNames.I_Spin) // I-Spinは下移動しても解除されないようにしている
             {
                 spinCheck.Reset_SpinTypeName(); // 移動したため、スピン判定をリセット
             }
@@ -596,7 +596,7 @@ public class GameManager : MonoBehaviour
             {
                 spawner.activeMino.MoveUp(); // 元の位置に戻す
 
-                AudioManager.Instance.PlaySound("Normal_Drop");
+                // AudioManager.Instance.PlaySound(AudioNames.NormalDrop_Audio);
 
                 SetMinoFixed(); // ミノの設置判定
             }
