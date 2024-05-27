@@ -1,21 +1,22 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-///// ゲームのオーディオに関するスクリプト /////
-
-
-// ↓このスクリプトで可能なこと↓ //
-
-// オーディオの再生
-// ボリュームやピッチの調節
-
-
+/// <summary>
+/// オーディオクリップの再生を管理するクラス。
+/// ボリュームやピッチの調節も可能
+/// </summary>
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance; // シングルトンインスタンス
-    private AudioSource audioSource; // 主オーディオソース
+    /// <summary>シングルトンインスタンス</summary>
+    public static AudioManager Instance;
+    /// <summary>オーディオソース</summary>
+    private AudioSource audioSource;
 
-    // オーディオ //
+    /// <summary>
+    /// 各種オーディオクリップの配列。
+    /// AudioNamesと対応します。
+    /// </summary>
     [SerializeField] private AudioClip[] Audios;
 
     // // オーディオの名前 //
@@ -35,20 +36,26 @@ public class AudioManager : MonoBehaviour
     //     "Tetris"
     // };
 
-    // 辞書 //
+    /// <summary>AudioNames と AudioClip の辞書</summary>
     private Dictionary<AudioNames, AudioClip> AudioClipDictionary;
 
-    // SEのボリュームの値 //
-    float LowVolume = 0.2f;
-    float MediumVolume = 0.5f;
-    float HighVolume = 0.9f;
-    int MaxVolume = 1;
+    /// <summary>低ボリュームの値(0.2f)</summary>
+    private float LowVolume = 0.2f;
+    /// <summary>中ボリュームの値(0.5f)</summary>
+    private float MediumVolume = 0.5f;
+    /// <summary>高ボリュームの値(0.7f)</summary>
+    private float HighVolume = 0.7f;
+    /// <summary>最大ボリュームの値(1)/// </summary>
+    private int MaxVolume = 1;
 
-    // SEのピッチの値 //
-    float LowPitch = 0.6f;
-    int NormalPitch = 1;
+    // // SEのピッチの値 //
+    // float LowPitch = 0.6f;
+    // int NormalPitch = 1;
 
-    // インスタンス化 //
+    /// <summary>
+    /// 初期化処理を行う。
+    /// シングルトンインスタンスを設定し、オーディオクリップの辞書を構築します。
+    /// </summary>
     private void Awake()
     {
         if (Instance == null)
@@ -64,7 +71,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // Audios と AudioNames の辞書を作成する関数
+    /// <summary>
+    /// AudioName と AudioClip の辞書を作成する関数
+    /// </summary>
     private void BuildAudioClipDictionary()
     {
         AudioClipDictionary = new Dictionary<AudioNames, AudioClip>();
@@ -112,25 +121,32 @@ public class AudioManager : MonoBehaviour
     //     }
     // }
 
-    // 名前に基づいてサウンドを再生する関数 //
-    public void PlaySound(AudioNames _AudioName)
+
+    /// <summary>
+    /// 指定されたオーディオクリップを再生する関数
+    /// </summary>
+    /// <param name="audioName">再生するオーディオクリップの名前</param>
+    public void PlaySound(AudioNames audioName)
     {
-        if (AudioClipDictionary.TryGetValue(_AudioName, out AudioClip clip))
+        if (AudioClipDictionary.TryGetValue(audioName, out AudioClip clip))
         {
-            SetVolume(_AudioName); // 音量の調整
+            SetVolume(audioName); // 音量の調整
 
             audioSource.PlayOneShot(clip); // 出力
         }
         else
         {
-            Debug.LogError($"[AudioManager PlaySound()] オーディオ {_AudioName} は見つかりませんでした。");
+            // Debug.LogError($"[AudioManager PlaySound()] オーディオ {_AudioName} は見つかりませんでした。");
         }
     }
 
-    // 音量を設定する関数 //
-    private void SetVolume(AudioNames _AudioName)
+    /// <summary>
+    /// 音量を設定する関数
+    /// </summary>
+    /// <param name="audioName">再生するオーディオクリップの名前</param>
+    private void SetVolume(AudioNames audioName)
     {
-        switch (_AudioName)
+        switch (audioName)
         {
             case AudioNames.StartOrRetry:
             case AudioNames.MoveDown:

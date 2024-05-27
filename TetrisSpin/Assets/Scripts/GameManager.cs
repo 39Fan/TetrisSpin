@@ -9,6 +9,9 @@ using UnityEngine.Analytics;
 // ゲームの進行
 
 
+/// <summary>
+/// ゲームマネージャー
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     // ミノの生成数、または設置数 //
@@ -16,9 +19,9 @@ public class GameManager : MonoBehaviour
     private int MinoPutNumber = 0; // Holdを使用すると、MinoPopNumberより1少なくなる
 
     // ロックダウン //
-    [SerializeField] private int BottomMoveCount = 0;
-    [SerializeField] private int BottomMoveCountLimit = 15;
-    [SerializeField] private int BottomBlockPosition_y = 20;
+    private int BottomMoveCount = 0;
+    private int BottomMoveCountLimit = 15;
+    private int BottomBlockPosition_y = 20;
     private int StartingBottomBlockPosition_y = 20;
 
     // Hold //
@@ -28,7 +31,7 @@ public class GameManager : MonoBehaviour
     // オーディオ //
 
     // "GameOver"
-    // "Hard_Drop
+    // "Hard_Drop"
     // "Hold"
     // "Move_Down"
     // "Move_Left_Right"
