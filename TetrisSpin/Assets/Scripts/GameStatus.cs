@@ -23,15 +23,15 @@ public class GameStatus : MonoBehaviour
 
     private List<int> LineClearCountHistory = new List<int>(); // ライン消去の履歴を記録するリスト
 
-    // 向きの定義 //
-    private string North = "North"; // 初期(未回転)状態をNorthとして、
-    private string East = "East"; // 右回転後の向きをEast
-    private string South = "South"; // 左回転後の向きをWest
-    private string West = "West"; // 2回右回転または左回転した時の向きをSouthとする
+    // // 向きの定義 //
+    // private string North = "North"; // 初期(未回転)状態をNorthとして、
+    // private string East = "East"; // 右回転後の向きをEast
+    // private string South = "South"; // 左回転後の向きをWest
+    // private string West = "West"; // 2回右回転または左回転した時の向きをSouthとする
 
     // ミノの回転後と回転前の向き //
-    [SerializeField] private string MinoAngleAfter = "North"; // 初期値はNorthの状態
-    [SerializeField] private string MinoAngleBefore = "North"; // 初期値はNorthの状態 // SRSで必要
+    [SerializeField] private MinoDirections MinoAngleAfter = MinoDirections.North; // 初期値はNorthの状態
+    [SerializeField] private MinoDirections MinoAngleBefore = MinoDirections.North; // 初期値はNorthの状態 // SRSで必要
 
     // 最後に行ったスーパーローテーションシステム(SRS)の段階を表す変数 //
     [SerializeField] private int StepsSRS = 0; // SRSが使用されていないときは0, 1〜4の時は、SRSの段階を表す
@@ -57,11 +57,11 @@ public class GameStatus : MonoBehaviour
     {
         get { return LineClearCountHistory; }
     }
-    public string minoAngleAfter
+    public MinoDirections minoAngleAfter
     {
         get { return MinoAngleAfter; }
     }
-    public string minoAngleBefore
+    public MinoDirections minoAngleBefore
     {
         get { return MinoAngleBefore; }
     }
@@ -142,8 +142,8 @@ public class GameStatus : MonoBehaviour
     // ミノの向きを初期化する関数 //
     public void Reset_Angle()
     {
-        MinoAngleBefore = "North";
-        MinoAngleAfter = "North";
+        MinoAngleBefore = MinoDirections.North;
+        MinoAngleAfter = MinoDirections.North;
     }
 
     // MinoAngleAfterのリセットをする関数 //
@@ -156,10 +156,10 @@ public class GameStatus : MonoBehaviour
     public void Reset_Rotate()
     {
         // 通常回転が右回転だった時
-        if ((MinoAngleBefore == North && MinoAngleAfter == East) ||
-        (MinoAngleBefore == East && MinoAngleAfter == South) ||
-        (MinoAngleBefore == South && MinoAngleAfter == West) ||
-        (MinoAngleBefore == West && MinoAngleAfter == North))
+        if ((MinoAngleBefore == MinoDirections.North && MinoAngleAfter == MinoDirections.East) ||
+        (MinoAngleBefore == MinoDirections.East && MinoAngleAfter == MinoDirections.South) ||
+        (MinoAngleBefore == MinoDirections.South && MinoAngleAfter == MinoDirections.West) ||
+        (MinoAngleBefore == MinoDirections.West && MinoAngleAfter == MinoDirections.North))
         {
             spawner.activeMino.RotateLeft(); // 左回転で回転前の状態に戻す
         }
@@ -170,41 +170,41 @@ public class GameStatus : MonoBehaviour
     }
 
     // MinoAngleAfterの更新をする関数 //
-    public void UpdateMinoAngleAfter(string _RotateDirection)
+    public void UpdateMinoAngleAfter(MinoRotationDirections _RotateDirection)
     {
-        if (_RotateDirection == "RotateRight") // 右回転の時
+        if (_RotateDirection == MinoRotationDirections.RotateRight) // 右回転の時
         {
             switch (MinoAngleAfter)
             {
-                case "North":
-                    MinoAngleAfter = East;
+                case MinoDirections.North:
+                    MinoAngleAfter = MinoDirections.East;
                     break;
-                case "East":
-                    MinoAngleAfter = South;
+                case MinoDirections.East:
+                    MinoAngleAfter = MinoDirections.South;
                     break;
-                case "South":
-                    MinoAngleAfter = West;
+                case MinoDirections.South:
+                    MinoAngleAfter = MinoDirections.West;
                     break;
-                case "West":
-                    MinoAngleAfter = North;
+                case MinoDirections.West:
+                    MinoAngleAfter = MinoDirections.North;
                     break;
             }
         }
-        else if (_RotateDirection == "RotateLeft") // 左回転の時
+        else if (_RotateDirection == MinoRotationDirections.RotateLeft) // 左回転の時
         {
             switch (MinoAngleAfter)
             {
-                case "North":
-                    MinoAngleAfter = West;
+                case MinoDirections.North:
+                    MinoAngleAfter = MinoDirections.West;
                     break;
-                case "East":
-                    MinoAngleAfter = North;
+                case MinoDirections.East:
+                    MinoAngleAfter = MinoDirections.North;
                     break;
-                case "South":
-                    MinoAngleAfter = East;
+                case MinoDirections.South:
+                    MinoAngleAfter = MinoDirections.East;
                     break;
-                case "West":
-                    MinoAngleAfter = South;
+                case MinoDirections.West:
+                    MinoAngleAfter = MinoDirections.South;
                     break;
             }
         }

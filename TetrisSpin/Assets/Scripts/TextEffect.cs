@@ -100,26 +100,26 @@ public class TextEffect : MonoBehaviour
         TextAnimation(DetermineTextToDisplay(spinCheck.spinTypeName, lineClearCount));
 
         // 鳴らすサウンドの決定も行う
-        if (spinCheck.spinTypeName != "None")
+        if (spinCheck.spinTypeName != SpinTypeNames.None)
         {
             if (lineClearCount >= 1)
             {
-                AudioManager.Instance.PlaySound("Spin_Destroy");
+                AudioManager.Instance.PlaySound(AudioNames.SpinDestroy);
             }
             else
             {
-                AudioManager.Instance.PlaySound("Normal_Drop");
+                AudioManager.Instance.PlaySound(AudioNames.NormalDestroy);
             }
         }
         else
         {
             if (lineClearCount >= 1)
             {
-                AudioManager.Instance.PlaySound("Normal_Destroy");
+                AudioManager.Instance.PlaySound(AudioNames.NormalDestroy);
             }
             else
             {
-                AudioManager.Instance.PlaySound("Normal_Drop");
+                AudioManager.Instance.PlaySound(AudioNames.NormalDrop);
             }
         }
 
@@ -168,34 +168,18 @@ public class TextEffect : MonoBehaviour
     // }
 
     // 表示するテキストを特定する関数 //
-    private TextMeshProUGUI DetermineTextToDisplay(string spinType, int lineClearCount)
+    private TextMeshProUGUI DetermineTextToDisplay(SpinTypeNames spinType, int lineClearCount)
     {
         // スピンタイプと消去ライン数に対応するテキストをマッピングするディクショナリ
-        Dictionary<string, Dictionary<int, TextMeshProUGUI>> spinTypeTextMapping = new Dictionary<string, Dictionary<int, TextMeshProUGUI>>
+        Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>> spinTypeTextMapping = new Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>>
     {
-        { "J-Spin", new Dictionary<int, TextMeshProUGUI>
-            {
-                { 0, Jspin_Text },
-                { 1, JspinSingle_Text },
-                { 2, JspinDouble_Text },
-                { 3, JspinTriple_Text }
-            }
-        },
-        { "L-Spin", new Dictionary<int, TextMeshProUGUI>
-            {
-                { 0, Lspin_Text },
-                { 1, LspinSingle_Text },
-                { 2, LspinDouble_Text },
-                { 3, LspinTriple_Text }
-            }
-        },
-        { "I-Spin Mini", new Dictionary<int, TextMeshProUGUI>
+        { SpinTypeNames.I_SpinMini, new Dictionary<int, TextMeshProUGUI>
             {
                 { 0, IspinMini_Text },
                 { 1, IspinMini_Text }
             }
         },
-        { "I-Spin", new Dictionary<int, TextMeshProUGUI>
+        { SpinTypeNames.I_Spin, new Dictionary<int, TextMeshProUGUI>
             {
                 { 0, Ispin_Text },
                 { 1, IspinSingle_Text },
@@ -204,7 +188,23 @@ public class TextEffect : MonoBehaviour
                 { 4, IspinQuattro_Text }
             }
         },
-        { "T-Spin", new Dictionary<int, TextMeshProUGUI>
+        { SpinTypeNames.J_Spin, new Dictionary<int, TextMeshProUGUI>
+            {
+                { 0, Jspin_Text },
+                { 1, JspinSingle_Text },
+                { 2, JspinDouble_Text },
+                { 3, JspinTriple_Text }
+            }
+        },
+        { SpinTypeNames.L_Spin, new Dictionary<int, TextMeshProUGUI>
+            {
+                { 0, Lspin_Text },
+                { 1, LspinSingle_Text },
+                { 2, LspinDouble_Text },
+                { 3, LspinTriple_Text }
+            }
+        },
+        { SpinTypeNames.T_Spin, new Dictionary<int, TextMeshProUGUI>
             {
                 { 0, Tspin_Text },
                 { 1, TspinSingle_Text },
@@ -212,14 +212,14 @@ public class TextEffect : MonoBehaviour
                 { 3, TspinTriple_Text }
             }
         },
-        { "T-Spin Mini", new Dictionary<int, TextMeshProUGUI>
+        { SpinTypeNames.T_SpinMini, new Dictionary<int, TextMeshProUGUI>
             {
                 { 0, TspinMini_Text },
                 { 1, TspinMini_Text },
                 { 2, TspinDoubleMini_Text }
             }
         },
-        { "None", new Dictionary<int, TextMeshProUGUI>
+        { SpinTypeNames.None, new Dictionary<int, TextMeshProUGUI>
             {
                 { 1, OneLineClear_Text },
                 { 2, TwoLineClear_Text },
@@ -230,28 +230,28 @@ public class TextEffect : MonoBehaviour
 
     };
         // スピンタイプと消去ライン数に対応する攻撃力をマッピングするディクショナリ
-        Dictionary<string, Dictionary<int, int>> spinTypeAttackMapping = new Dictionary<string, Dictionary<int, int>>
+        Dictionary<SpinTypeNames, Dictionary<int, int>> spinTypeAttackMapping = new Dictionary<SpinTypeNames, Dictionary<int, int>>
     {
-        { "J-Spin", new Dictionary<int, int>
+        { SpinTypeNames.J_Spin, new Dictionary<int, int>
             {
                 { 1, 1 }, // JspinSingleAttack
                 { 2, 3 }, // JspinDoubleAttack
                 { 3, 6 }  // JspinTripleAttack
             }
         },
-        { "L-Spin", new Dictionary<int, int>
+        { SpinTypeNames.L_Spin, new Dictionary<int, int>
             {
                 { 1, 1 }, // LspinSingleAttack
                 { 2, 3 }, // LspinDoubleAttack
                 { 3, 6 }  // LspinTripleAttack
             }
         },
-        { "I-Spin Mini", new Dictionary<int, int>
+        { SpinTypeNames.I_SpinMini, new Dictionary<int, int>
             {
                 { 1, 1 } // IspinMiniAttack
             }
         },
-        { "I-Spin", new Dictionary<int, int>
+        { SpinTypeNames.I_Spin, new Dictionary<int, int>
             {
                 { 1, 2 }, // IspinSingleAttack
                 { 2, 4 }, // IspinDoubleAttack
@@ -259,20 +259,20 @@ public class TextEffect : MonoBehaviour
                 { 4, 8 }  // IspinQuattroAttack
             }
         },
-        { "T-Spin", new Dictionary<int, int>
+        { SpinTypeNames.T_Spin, new Dictionary<int, int>
             {
                 { 1, 2 }, // TspinSingleAttack
                 { 2, 4 }, // TspinDoubleAttack
                 { 3, 6 }  // TspinTripleAttack
             }
         },
-        { "T-Spin Mini", new Dictionary<int, int>
+        { SpinTypeNames.T_SpinMini, new Dictionary<int, int>
             {
                 { 1, 0 }, // TspinMiniAttack
                 { 2, 1 }  // TspinDoubleMiniAttack
             }
         },
-        { "None", new Dictionary<int, int>
+        { SpinTypeNames.None, new Dictionary<int, int>
             {
                 { 1, 0 }, // OneLineClearAttack
                 { 2, 1 }, // TwoLineClearAttack
@@ -546,10 +546,10 @@ public class TextEffect : MonoBehaviour
     // }
 
     // BackToBackの判定を確認し、ダメージの計算を行う関数 //
-    private void CheckBackToBack(string spinType, TextMeshProUGUI displayText)
+    private void CheckBackToBack(SpinTypeNames spinType, TextMeshProUGUI displayText)
     {
         // Spin判定がない、かつテトリスでない場合
-        if (spinType == "None" && displayText != Tetris_Text)
+        if (spinType == SpinTypeNames.None && displayText != Tetris_Text)
         {
             // BackToBack判定をリセット
             gameStatus.Reset_BackToBack();
