@@ -87,7 +87,7 @@ public class Mino : MonoBehaviour
             return; // Oミノは回転できないので弾かれる
         }
 
-        if (spawner.activeMinoName != "I_Mino") // Iミノ以外の右回転
+        if (spawner.ActiveMinoName != MinoType.I_Mino) // Iミノ以外の右回転
         {
             transform.Rotate(0, 0, RotateRightAroundZ);
         }
@@ -95,7 +95,7 @@ public class Mino : MonoBehaviour
         {
             // Iミノの軸を取得する
             Vector3 IminoAxis = AxisCheck_ForI
-                (Mathf.RoundToInt(spawner.activeMino.transform.position.x), Mathf.RoundToInt(spawner.activeMino.transform.position.y));
+                (Mathf.RoundToInt(spawner.ActiveMino.transform.position.x), Mathf.RoundToInt(spawner.ActiveMino.transform.position.y));
 
             // IminoAxis を中心に右回転する
             transform.RotateAround(IminoAxis, Vector3.forward, RotateRightAroundZ);
@@ -116,7 +116,7 @@ public class Mino : MonoBehaviour
         }
 
         // Iミノ以外の左回転
-        if (spawner.activeMinoName != "I_Mino")
+        if (spawner.ActiveMinoName != MinoType.I_Mino)
         {
             transform.Rotate(0, 0, RotateLeftAroundZ);
         }
@@ -126,7 +126,7 @@ public class Mino : MonoBehaviour
         {
             // Iミノの軸を取得する
             Vector3 IminoAxis = AxisCheck_ForI
-                (Mathf.RoundToInt(spawner.activeMino.transform.position.x), Mathf.RoundToInt(spawner.activeMino.transform.position.y));
+                (Mathf.RoundToInt(spawner.ActiveMino.transform.position.x), Mathf.RoundToInt(spawner.ActiveMino.transform.position.y));
 
             // IminoAxisを中心に左回転する
             transform.RotateAround(IminoAxis, Vector3.forward, RotateLeftAroundZ);
@@ -199,23 +199,23 @@ public class Mino : MonoBehaviour
 
         // SRSはIミノとそれ以外のミノとで処理が違うため分けて処理する
         // Iミノ以外のSRS
-        if (spawner.activeMinoName != "I_Mino")
+        if (spawner.ActiveMinoName != MinoType.I_Mino)
         {
             if ((gameStatus.minoAngleBefore == MinoDirections.North && gameStatus.minoAngleAfter == MinoDirections.East) ||
                 (gameStatus.minoAngleBefore == MinoDirections.South && gameStatus.minoAngleAfter == MinoDirections.East))   // North から East , South から East に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
-                () => spawner.activeMino.MoveLeft(), // 第一法則
-                () => spawner.activeMino.MoveUp(),   // 第二法則
+                () => spawner.ActiveMino.MoveLeft(), // 第一法則
+                () => spawner.ActiveMino.MoveUp(),   // 第二法則
                 () =>
                 {
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveDown();
-                    spawner.activeMino.MoveDown();
-                    spawner.activeMino.MoveDown(); // 第三法則
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveDown();
+                    spawner.ActiveMino.MoveDown();
+                    spawner.ActiveMino.MoveDown(); // 第三法則
                 },
-                () => spawner.activeMino.MoveLeft()  // 第四法則
+                () => spawner.ActiveMino.MoveLeft()  // 第四法則
             }, "NtoE, StoE");
             }
             else if ((gameStatus.minoAngleBefore == MinoDirections.West && gameStatus.minoAngleAfter == MinoDirections.North) ||
@@ -223,16 +223,16 @@ public class Mino : MonoBehaviour
             {
                 success = TrySuperRotation(new List<Action>
             {
-                () => spawner.activeMino.MoveLeft(), // 第一法則
-                () => spawner.activeMino.MoveDown(), // 第二法則
+                () => spawner.ActiveMino.MoveLeft(), // 第一法則
+                () => spawner.ActiveMino.MoveDown(), // 第二法則
                 () =>
                 {
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveUp();
-                    spawner.activeMino.MoveUp();
-                    spawner.activeMino.MoveUp(); // 第三法則
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveUp();
+                    spawner.ActiveMino.MoveUp();
+                    spawner.ActiveMino.MoveUp(); // 第三法則
                 },
-                () => spawner.activeMino.MoveLeft()  // 第四法則
+                () => spawner.ActiveMino.MoveLeft()  // 第四法則
             }, "WtoN, WtoS");
             }
             else if ((gameStatus.minoAngleBefore == MinoDirections.East && gameStatus.minoAngleAfter == MinoDirections.North) ||
@@ -240,16 +240,16 @@ public class Mino : MonoBehaviour
             {
                 success = TrySuperRotation(new List<Action>
             {
-                () => spawner.activeMino.MoveRight(), // 第一法則
-                () => spawner.activeMino.MoveDown(),  // 第二法則
+                () => spawner.ActiveMino.MoveRight(), // 第一法則
+                () => spawner.ActiveMino.MoveDown(),  // 第二法則
                 () =>
                 {
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveUp();
-                    spawner.activeMino.MoveUp();
-                    spawner.activeMino.MoveUp(); // 第三法則
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveUp();
+                    spawner.ActiveMino.MoveUp();
+                    spawner.ActiveMino.MoveUp(); // 第三法則
                 },
-                () => spawner.activeMino.MoveRight()  // 第四法則
+                () => spawner.ActiveMino.MoveRight()  // 第四法則
             }, "EtoN, EtoS");
             }
             else if ((gameStatus.minoAngleBefore == MinoDirections.North && gameStatus.minoAngleAfter == MinoDirections.West) ||
@@ -257,16 +257,16 @@ public class Mino : MonoBehaviour
             {
                 success = TrySuperRotation(new List<Action>
             {
-                () => spawner.activeMino.MoveRight(), // 第一法則
-                () => spawner.activeMino.MoveUp(),    // 第二法則
+                () => spawner.ActiveMino.MoveRight(), // 第一法則
+                () => spawner.ActiveMino.MoveUp(),    // 第二法則
                 () =>
                 {
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveDown();
-                    spawner.activeMino.MoveDown();
-                    spawner.activeMino.MoveDown(); // 第三法則
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveDown();
+                    spawner.ActiveMino.MoveDown();
+                    spawner.ActiveMino.MoveDown(); // 第三法則
                 },
-                () => spawner.activeMino.MoveRight()  // 第四法則
+                () => spawner.ActiveMino.MoveRight()  // 第四法則
             }, "NtoW, StoW");
             }
         }
@@ -280,30 +280,30 @@ public class Mino : MonoBehaviour
             {
                 () =>
                 {
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft(); // 第一法則
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveLeft(); // 第一法則
                 },
                 () =>
                 {
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight(); // 第二法則
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveRight(); // 第二法則
                 },
                 () =>
                 {
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveDown(); // 第三法則
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveDown(); // 第三法則
                 },
                 () =>
                 {
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveUp();
-                    spawner.activeMino.MoveUp();
-                    spawner.activeMino.MoveUp(); // 第四法則
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveUp();
+                    spawner.ActiveMino.MoveUp();
+                    spawner.ActiveMino.MoveUp(); // 第四法則
                 }
             }, "NtoE, WtoS, I");
             }
@@ -312,29 +312,29 @@ public class Mino : MonoBehaviour
             {
                 success = TrySuperRotation(new List<Action>
             {
-                () => spawner.activeMino.MoveRight(), // 第一法則
+                () => spawner.ActiveMino.MoveRight(), // 第一法則
                 () =>
                 {
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft(); // 第二法則
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveLeft(); // 第二法則
                 },
                 () =>
                 {
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveDown();
-                    spawner.activeMino.MoveDown(); // 第三法則
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveDown();
+                    spawner.ActiveMino.MoveDown(); // 第三法則
                 },
                 () =>
                 {
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveUp();
-                    spawner.activeMino.MoveUp();
-                    spawner.activeMino.MoveUp(); // 第四法則
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveUp();
+                    spawner.ActiveMino.MoveUp();
+                    spawner.ActiveMino.MoveUp(); // 第四法則
                 }
             }, "WtoN, StoE, I");
             }
@@ -345,30 +345,30 @@ public class Mino : MonoBehaviour
             {
                 () =>
                 {
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight(); // 第一法則
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveRight(); // 第一法則
                 },
                 () =>
                 {
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft(); // 第二法則
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveLeft(); // 第二法則
                 },
                 () =>
                 {
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveUp(); // 第三法則
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveUp(); // 第三法則
                 },
                 () =>
                 {
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveDown();
-                    spawner.activeMino.MoveDown();
-                    spawner.activeMino.MoveDown(); // 第四法則
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveDown();
+                    spawner.ActiveMino.MoveDown();
+                    spawner.ActiveMino.MoveDown(); // 第四法則
                 }
             }, "EtoN, StoW, I");
             }
@@ -377,29 +377,29 @@ public class Mino : MonoBehaviour
             {
                 success = TrySuperRotation(new List<Action>
             {
-                () => spawner.activeMino.MoveLeft(), // 第一法則
+                () => spawner.ActiveMino.MoveLeft(), // 第一法則
                 () =>
                 {
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight(); // 第二法則
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveRight(); // 第二法則
                 },
                 () =>
                 {
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveLeft();
-                    spawner.activeMino.MoveUp();
-                    spawner.activeMino.MoveUp(); // 第三法則
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveLeft();
+                    spawner.ActiveMino.MoveUp();
+                    spawner.ActiveMino.MoveUp(); // 第三法則
                 },
                 () =>
                 {
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveRight();
-                    spawner.activeMino.MoveDown();
-                    spawner.activeMino.MoveDown();
-                    spawner.activeMino.MoveDown(); // 第四法則
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveRight();
+                    spawner.ActiveMino.MoveDown();
+                    spawner.ActiveMino.MoveDown();
+                    spawner.ActiveMino.MoveDown(); // 第四法則
                 }
             }, "NtoW, EtoS, I");
             }
@@ -411,14 +411,14 @@ public class Mino : MonoBehaviour
 
     private bool TrySuperRotation(List<Action> rotationSteps, string direction)
     {
-        Vector3 originalPosition = spawner.activeMino.transform.position; // 現在の位置を保存
+        Vector3 originalPosition = spawner.ActiveMino.transform.position; // 現在の位置を保存
         for (int step = 0; step < rotationSteps.Count; step++)
         {
             gameStatus.IncreaseStepsSRS();
 
             rotationSteps[step]();
 
-            if (board.CheckPosition(spawner.activeMino))
+            if (board.CheckPosition(spawner.ActiveMino))
             {
                 LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "TrySuperRotation()", $"Success SRS = {gameStatus.stepsSRS}, {direction}");
                 LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "TrySuperRotation()", "End");
@@ -427,7 +427,7 @@ public class Mino : MonoBehaviour
         }
 
         // 全てのステップが失敗した場合、回転前の状態に戻す
-        spawner.activeMino.transform.position = originalPosition;
+        spawner.ActiveMino.transform.position = originalPosition;
         gameStatus.Reset_Rotate();
         LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "TrySuperRotation()", $"Failure SRS, {direction}");
         LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "TrySuperRotation()", "End");
@@ -442,7 +442,7 @@ public class Mino : MonoBehaviour
 
     //     // SRSはIミノとそれ以外のミノとで処理が違うため分けて処理する
     //     // Iミノ以外のSRS
-    //     if (spawner.activeMinoName != "I_Mino")
+    //     if (spawner.ActiveMinoName != "I_Mino")
     //     {
     //         //Debug.Log("Iミノ以外のSRS");
 
@@ -450,41 +450,41 @@ public class Mino : MonoBehaviour
     //             (gameStatus.minoAngleBefore == South && gameStatus.minoAngleAfter == East))   // North から East , South から East に回転する時
     //         {
     //             // 第一法則
-    //             spawner.activeMino.MoveLeft(); // 左に1つ移動
+    //             spawner.ActiveMino.MoveLeft(); // 左に1つ移動
 
     //             // SRSの段階数を格納(TspinMiniの判定に必要)
     //             gameStatus.IncreaseLastSRS(); // 1
 
-    //             if (!board.CheckPosition(spawner.activeMino))
+    //             if (!board.CheckPosition(spawner.ActiveMino))
     //             {
     //                 // 第二法則
-    //                 spawner.activeMino.MoveUp(); // 上に1つ移動
+    //                 spawner.ActiveMino.MoveUp(); // 上に1つ移動
 
     //                 gameStatus.IncreaseLastSRS(); // 2
 
-    //                 if (!board.CheckPosition(spawner.activeMino))
+    //                 if (!board.CheckPosition(spawner.ActiveMino))
     //                 {
     //                     // 第三法則
-    //                     spawner.activeMino.MoveRight(); // 右に1つ移動
-    //                     spawner.activeMino.MoveDown();
-    //                     spawner.activeMino.MoveDown();
-    //                     spawner.activeMino.MoveDown(); // 下に3つ移動
+    //                     spawner.ActiveMino.MoveRight(); // 右に1つ移動
+    //                     spawner.ActiveMino.MoveDown();
+    //                     spawner.ActiveMino.MoveDown();
+    //                     spawner.ActiveMino.MoveDown(); // 下に3つ移動
 
     //                     gameStatus.IncreaseLastSRS(); // 3
 
-    //                     if (!board.CheckPosition(spawner.activeMino))
+    //                     if (!board.CheckPosition(spawner.ActiveMino))
     //                     {
     //                         // 第四法則
-    //                         spawner.activeMino.MoveLeft(); // 左に1つ移動
+    //                         spawner.ActiveMino.MoveLeft(); // 左に1つ移動
 
     //                         gameStatus.IncreaseLastSRS(); // 4
 
-    //                         if (!board.CheckPosition(spawner.activeMino))
+    //                         if (!board.CheckPosition(spawner.ActiveMino))
     //                         {
     //                             // SRSができなかった時、回転前の状態に戻る
-    //                             spawner.activeMino.MoveRight();
-    //                             spawner.activeMino.MoveUp();
-    //                             spawner.activeMino.MoveUp();
+    //                             spawner.ActiveMino.MoveRight();
+    //                             spawner.ActiveMino.MoveUp();
+    //                             spawner.ActiveMino.MoveUp();
 
     //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
@@ -504,41 +504,41 @@ public class Mino : MonoBehaviour
     //             (gameStatus.minoAngleBefore == West && gameStatus.minoAngleAfter == South))   // West から North , West から South に回転する時
     //         {
     //             // 第一法則
-    //             spawner.activeMino.MoveLeft(); // 左に1つ移動
+    //             spawner.ActiveMino.MoveLeft(); // 左に1つ移動
 
     //             // SRSの段階数を格納(TspinMiniの判定に必要)
     //             gameStatus.IncreaseLastSRS(); // 1
 
-    //             if (!board.CheckPosition(spawner.activeMino))
+    //             if (!board.CheckPosition(spawner.ActiveMino))
     //             {
     //                 // 第二法則
-    //                 spawner.activeMino.MoveDown(); // 下に1つ移動
+    //                 spawner.ActiveMino.MoveDown(); // 下に1つ移動
 
     //                 gameStatus.IncreaseLastSRS(); // 2
 
-    //                 if (!board.CheckPosition(spawner.activeMino))
+    //                 if (!board.CheckPosition(spawner.ActiveMino))
     //                 {
     //                     // 第三法則
-    //                     spawner.activeMino.MoveRight(); // 右に1つ移動
-    //                     spawner.activeMino.MoveUp();
-    //                     spawner.activeMino.MoveUp();
-    //                     spawner.activeMino.MoveUp(); // 上に3つ移動
+    //                     spawner.ActiveMino.MoveRight(); // 右に1つ移動
+    //                     spawner.ActiveMino.MoveUp();
+    //                     spawner.ActiveMino.MoveUp();
+    //                     spawner.ActiveMino.MoveUp(); // 上に3つ移動
 
     //                     gameStatus.IncreaseLastSRS(); // 3
 
-    //                     if (!board.CheckPosition(spawner.activeMino))
+    //                     if (!board.CheckPosition(spawner.ActiveMino))
     //                     {
     //                         // 第四法則
-    //                         spawner.activeMino.MoveLeft(); // 左に1つ移動
+    //                         spawner.ActiveMino.MoveLeft(); // 左に1つ移動
 
     //                         gameStatus.IncreaseLastSRS(); // 4
 
-    //                         if (!board.CheckPosition(spawner.activeMino))
+    //                         if (!board.CheckPosition(spawner.ActiveMino))
     //                         {
     //                             //SRSができなかった際に回転前の状態に戻る
-    //                             spawner.activeMino.MoveRight();
-    //                             spawner.activeMino.MoveDown();
-    //                             spawner.activeMino.MoveDown();
+    //                             spawner.ActiveMino.MoveRight();
+    //                             spawner.ActiveMino.MoveDown();
+    //                             spawner.ActiveMino.MoveDown();
 
     //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
@@ -558,41 +558,41 @@ public class Mino : MonoBehaviour
     //             (gameStatus.minoAngleBefore == East && gameStatus.minoAngleAfter == South))   // East から North , East から South に回転する時
     //         {
     //             // 第一法則
-    //             spawner.activeMino.MoveRight(); // 右に1つ移動
+    //             spawner.ActiveMino.MoveRight(); // 右に1つ移動
 
     //             // SRSの段階数を格納(TspinMiniの判定に必要)
     //             gameStatus.IncreaseLastSRS(); // 1
 
-    //             if (!board.CheckPosition(spawner.activeMino))
+    //             if (!board.CheckPosition(spawner.ActiveMino))
     //             {
     //                 // 第二法則
-    //                 spawner.activeMino.MoveDown(); // 下に1つ移動
+    //                 spawner.ActiveMino.MoveDown(); // 下に1つ移動
 
     //                 gameStatus.IncreaseLastSRS(); // 2
 
-    //                 if (!board.CheckPosition(spawner.activeMino))
+    //                 if (!board.CheckPosition(spawner.ActiveMino))
     //                 {
     //                     // 第三法則
-    //                     spawner.activeMino.MoveLeft(); // 左に1つ移動
-    //                     spawner.activeMino.MoveUp();
-    //                     spawner.activeMino.MoveUp();
-    //                     spawner.activeMino.MoveUp(); // 上に3つ移動
+    //                     spawner.ActiveMino.MoveLeft(); // 左に1つ移動
+    //                     spawner.ActiveMino.MoveUp();
+    //                     spawner.ActiveMino.MoveUp();
+    //                     spawner.ActiveMino.MoveUp(); // 上に3つ移動
 
     //                     gameStatus.IncreaseLastSRS(); // 3
 
-    //                     if (!board.CheckPosition(spawner.activeMino))
+    //                     if (!board.CheckPosition(spawner.ActiveMino))
     //                     {
     //                         // 第四法則
-    //                         spawner.activeMino.MoveRight(); // 右に1つ移動
+    //                         spawner.ActiveMino.MoveRight(); // 右に1つ移動
 
     //                         gameStatus.IncreaseLastSRS(); // 4
 
-    //                         if (!board.CheckPosition(spawner.activeMino))
+    //                         if (!board.CheckPosition(spawner.ActiveMino))
     //                         {
     //                             // SRSができなかった際に回転前の状態に戻る
-    //                             spawner.activeMino.MoveLeft();
-    //                             spawner.activeMino.MoveDown();
-    //                             spawner.activeMino.MoveDown();
+    //                             spawner.ActiveMino.MoveLeft();
+    //                             spawner.ActiveMino.MoveDown();
+    //                             spawner.ActiveMino.MoveDown();
 
     //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
@@ -612,41 +612,41 @@ public class Mino : MonoBehaviour
     //             (gameStatus.minoAngleBefore == South && gameStatus.minoAngleAfter == West))   // North から West , South から West に回転する時
     //         {
     //             // 第一法則
-    //             spawner.activeMino.MoveRight(); // 右に1つ移動
+    //             spawner.ActiveMino.MoveRight(); // 右に1つ移動
 
     //             // SRSの段階数を格納(TspinMiniの判定に必要)
     //             gameStatus.IncreaseLastSRS(); // 1
 
-    //             if (!board.CheckPosition(spawner.activeMino))
+    //             if (!board.CheckPosition(spawner.ActiveMino))
     //             {
     //                 // 第二法則
-    //                 spawner.activeMino.MoveUp(); // 上に1つ移動
+    //                 spawner.ActiveMino.MoveUp(); // 上に1つ移動
 
     //                 gameStatus.IncreaseLastSRS(); // 2
 
-    //                 if (!board.CheckPosition(spawner.activeMino))
+    //                 if (!board.CheckPosition(spawner.ActiveMino))
     //                 {
     //                     // 第三法則
-    //                     spawner.activeMino.MoveLeft(); // 左に1つ移動
-    //                     spawner.activeMino.MoveDown();
-    //                     spawner.activeMino.MoveDown();
-    //                     spawner.activeMino.MoveDown(); // 下に3つ移動
+    //                     spawner.ActiveMino.MoveLeft(); // 左に1つ移動
+    //                     spawner.ActiveMino.MoveDown();
+    //                     spawner.ActiveMino.MoveDown();
+    //                     spawner.ActiveMino.MoveDown(); // 下に3つ移動
 
     //                     gameStatus.IncreaseLastSRS(); // 3
 
-    //                     if (!board.CheckPosition(spawner.activeMino))
+    //                     if (!board.CheckPosition(spawner.ActiveMino))
     //                     {
     //                         // 第四法則
-    //                         spawner.activeMino.MoveRight(); // 右に1つ移動
+    //                         spawner.ActiveMino.MoveRight(); // 右に1つ移動
 
     //                         gameStatus.IncreaseLastSRS(); // 4
 
-    //                         if (!board.CheckPosition(spawner.activeMino))
+    //                         if (!board.CheckPosition(spawner.ActiveMino))
     //                         {
     //                             // SRSができなかった時、通常回転前の状態に戻る
-    //                             spawner.activeMino.MoveLeft();
-    //                             spawner.activeMino.MoveUp();
-    //                             spawner.activeMino.MoveUp();
+    //                             spawner.ActiveMino.MoveLeft();
+    //                             spawner.ActiveMino.MoveUp();
+    //                             spawner.ActiveMino.MoveUp();
 
     //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
@@ -672,40 +672,40 @@ public class Mino : MonoBehaviour
     //             (gameStatus.minoAngleBefore == West && gameStatus.minoAngleAfter == South))  // North から East , West から South に回転する時
     //         {
     //             // 第一法則
-    //             spawner.activeMino.MoveLeft();
-    //             spawner.activeMino.MoveLeft(); // 左に2つ移動
+    //             spawner.ActiveMino.MoveLeft();
+    //             spawner.ActiveMino.MoveLeft(); // 左に2つ移動
 
-    //             if (!board.CheckPosition(spawner.activeMino))
+    //             if (!board.CheckPosition(spawner.ActiveMino))
     //             {
     //                 // 第二法則
-    //                 spawner.activeMino.MoveRight();
-    //                 spawner.activeMino.MoveRight();
-    //                 spawner.activeMino.MoveRight(); // 右に3つ移動
+    //                 spawner.ActiveMino.MoveRight();
+    //                 spawner.ActiveMino.MoveRight();
+    //                 spawner.ActiveMino.MoveRight(); // 右に3つ移動
 
-    //                 if (!board.CheckPosition(spawner.activeMino))
+    //                 if (!board.CheckPosition(spawner.ActiveMino))
     //                 {
     //                     // 第三法則
-    //                     spawner.activeMino.MoveLeft();
-    //                     spawner.activeMino.MoveLeft();
-    //                     spawner.activeMino.MoveLeft(); // 左に3つ移動
-    //                     spawner.activeMino.MoveDown(); // 下に1つ移動
+    //                     spawner.ActiveMino.MoveLeft();
+    //                     spawner.ActiveMino.MoveLeft();
+    //                     spawner.ActiveMino.MoveLeft(); // 左に3つ移動
+    //                     spawner.ActiveMino.MoveDown(); // 下に1つ移動
 
-    //                     if (!board.CheckPosition(spawner.activeMino))
+    //                     if (!board.CheckPosition(spawner.ActiveMino))
     //                     {
     //                         // 第四法則
-    //                         spawner.activeMino.MoveRight();
-    //                         spawner.activeMino.MoveRight();
-    //                         spawner.activeMino.MoveRight(); // 右に3つ移動
-    //                         spawner.activeMino.MoveUp();
-    //                         spawner.activeMino.MoveUp();
-    //                         spawner.activeMino.MoveUp(); // 上に3つ移動
+    //                         spawner.ActiveMino.MoveRight();
+    //                         spawner.ActiveMino.MoveRight();
+    //                         spawner.ActiveMino.MoveRight(); // 右に3つ移動
+    //                         spawner.ActiveMino.MoveUp();
+    //                         spawner.ActiveMino.MoveUp();
+    //                         spawner.ActiveMino.MoveUp(); // 上に3つ移動
 
-    //                         if (!board.CheckPosition(spawner.activeMino))
+    //                         if (!board.CheckPosition(spawner.ActiveMino))
     //                         {
     //                             // SRSができなかった際に回転前の状態に戻る
-    //                             spawner.activeMino.MoveLeft();
-    //                             spawner.activeMino.MoveDown();
-    //                             spawner.activeMino.MoveDown();
+    //                             spawner.ActiveMino.MoveLeft();
+    //                             spawner.ActiveMino.MoveDown();
+    //                             spawner.ActiveMino.MoveDown();
 
     //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
@@ -725,40 +725,40 @@ public class Mino : MonoBehaviour
     //             (gameStatus.minoAngleBefore == South && gameStatus.minoAngleAfter == East))   // West から North , South から East に回転する時
     //         {
     //             // 第一法則
-    //             spawner.activeMino.MoveRight(); // 右に1つ移動
+    //             spawner.ActiveMino.MoveRight(); // 右に1つ移動
 
-    //             if (!board.CheckPosition(spawner.activeMino))
+    //             if (!board.CheckPosition(spawner.ActiveMino))
     //             {
     //                 // 第二法則
-    //                 spawner.activeMino.MoveLeft();
-    //                 spawner.activeMino.MoveLeft();
-    //                 spawner.activeMino.MoveLeft(); // 左に3つ移動
+    //                 spawner.ActiveMino.MoveLeft();
+    //                 spawner.ActiveMino.MoveLeft();
+    //                 spawner.ActiveMino.MoveLeft(); // 左に3つ移動
 
-    //                 if (!board.CheckPosition(spawner.activeMino))
+    //                 if (!board.CheckPosition(spawner.ActiveMino))
     //                 {
     //                     // 第三法則
-    //                     spawner.activeMino.MoveRight();
-    //                     spawner.activeMino.MoveRight();
-    //                     spawner.activeMino.MoveRight(); // 右に3つ移動
-    //                     spawner.activeMino.MoveDown();
-    //                     spawner.activeMino.MoveDown(); // 下に2つ移動
+    //                     spawner.ActiveMino.MoveRight();
+    //                     spawner.ActiveMino.MoveRight();
+    //                     spawner.ActiveMino.MoveRight(); // 右に3つ移動
+    //                     spawner.ActiveMino.MoveDown();
+    //                     spawner.ActiveMino.MoveDown(); // 下に2つ移動
 
-    //                     if (!board.CheckPosition(spawner.activeMino))
+    //                     if (!board.CheckPosition(spawner.ActiveMino))
     //                     {
     //                         // 第四法則
-    //                         spawner.activeMino.MoveLeft();
-    //                         spawner.activeMino.MoveLeft();
-    //                         spawner.activeMino.MoveLeft(); // 左に3つ移動
-    //                         spawner.activeMino.MoveUp();
-    //                         spawner.activeMino.MoveUp();
-    //                         spawner.activeMino.MoveUp(); // 上に3つ移動
+    //                         spawner.ActiveMino.MoveLeft();
+    //                         spawner.ActiveMino.MoveLeft();
+    //                         spawner.ActiveMino.MoveLeft(); // 左に3つ移動
+    //                         spawner.ActiveMino.MoveUp();
+    //                         spawner.ActiveMino.MoveUp();
+    //                         spawner.ActiveMino.MoveUp(); // 上に3つ移動
 
-    //                         if (!board.CheckPosition(spawner.activeMino))
+    //                         if (!board.CheckPosition(spawner.ActiveMino))
     //                         {
     //                             // SRSができなかった際に回転前の状態に戻る
-    //                             spawner.activeMino.MoveRight();
-    //                             spawner.activeMino.MoveRight();
-    //                             spawner.activeMino.MoveDown();
+    //                             spawner.ActiveMino.MoveRight();
+    //                             spawner.ActiveMino.MoveRight();
+    //                             spawner.ActiveMino.MoveDown();
 
     //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
@@ -778,40 +778,40 @@ public class Mino : MonoBehaviour
     //             (gameStatus.minoAngleBefore == South && gameStatus.minoAngleAfter == West))   // East から North , South から West に回転する時
     //         {
     //             // 第一法則
-    //             spawner.activeMino.MoveRight();
-    //             spawner.activeMino.MoveRight(); // 右に2つ移動
+    //             spawner.ActiveMino.MoveRight();
+    //             spawner.ActiveMino.MoveRight(); // 右に2つ移動
 
-    //             if (!board.CheckPosition(spawner.activeMino))
+    //             if (!board.CheckPosition(spawner.ActiveMino))
     //             {
     //                 // 第二法則
-    //                 spawner.activeMino.MoveLeft();
-    //                 spawner.activeMino.MoveLeft();
-    //                 spawner.activeMino.MoveLeft(); // 左に3つ移動
+    //                 spawner.ActiveMino.MoveLeft();
+    //                 spawner.ActiveMino.MoveLeft();
+    //                 spawner.ActiveMino.MoveLeft(); // 左に3つ移動
 
-    //                 if (!board.CheckPosition(spawner.activeMino))
+    //                 if (!board.CheckPosition(spawner.ActiveMino))
     //                 {
     //                     // 第三法則
-    //                     spawner.activeMino.MoveRight();
-    //                     spawner.activeMino.MoveRight();
-    //                     spawner.activeMino.MoveRight(); // 右に3つ移動
-    //                     spawner.activeMino.MoveUp(); // 上に1つ移動
+    //                     spawner.ActiveMino.MoveRight();
+    //                     spawner.ActiveMino.MoveRight();
+    //                     spawner.ActiveMino.MoveRight(); // 右に3つ移動
+    //                     spawner.ActiveMino.MoveUp(); // 上に1つ移動
 
-    //                     if (!board.CheckPosition(spawner.activeMino))
+    //                     if (!board.CheckPosition(spawner.ActiveMino))
     //                     {
     //                         // 第四法則
-    //                         spawner.activeMino.MoveLeft();
-    //                         spawner.activeMino.MoveLeft();
-    //                         spawner.activeMino.MoveLeft(); // 左に3つ移動
-    //                         spawner.activeMino.MoveDown();
-    //                         spawner.activeMino.MoveDown();
-    //                         spawner.activeMino.MoveDown(); // 下に3つ移動
+    //                         spawner.ActiveMino.MoveLeft();
+    //                         spawner.ActiveMino.MoveLeft();
+    //                         spawner.ActiveMino.MoveLeft(); // 左に3つ移動
+    //                         spawner.ActiveMino.MoveDown();
+    //                         spawner.ActiveMino.MoveDown();
+    //                         spawner.ActiveMino.MoveDown(); // 下に3つ移動
 
-    //                         if (!board.CheckPosition(spawner.activeMino))
+    //                         if (!board.CheckPosition(spawner.ActiveMino))
     //                         {
     //                             // SRSができなかった際に回転前の状態に戻る
-    //                             spawner.activeMino.MoveRight();
-    //                             spawner.activeMino.MoveUp();
-    //                             spawner.activeMino.MoveUp();
+    //                             spawner.ActiveMino.MoveRight();
+    //                             spawner.ActiveMino.MoveUp();
+    //                             spawner.ActiveMino.MoveUp();
 
     //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
@@ -831,40 +831,40 @@ public class Mino : MonoBehaviour
     //             (gameStatus.minoAngleBefore == East && gameStatus.minoAngleAfter == South))   // North から West , East から South に回転する時
     //         {
     //             // 第一法則
-    //             spawner.activeMino.MoveLeft(); // 左に1つ移動
+    //             spawner.ActiveMino.MoveLeft(); // 左に1つ移動
 
-    //             if (!board.CheckPosition(spawner.activeMino))
+    //             if (!board.CheckPosition(spawner.ActiveMino))
     //             {
     //                 // 第二法則
-    //                 spawner.activeMino.MoveRight();
-    //                 spawner.activeMino.MoveRight();
-    //                 spawner.activeMino.MoveRight(); // 右に3つ移動
+    //                 spawner.ActiveMino.MoveRight();
+    //                 spawner.ActiveMino.MoveRight();
+    //                 spawner.ActiveMino.MoveRight(); // 右に3つ移動
 
-    //                 if (!board.CheckPosition(spawner.activeMino))
+    //                 if (!board.CheckPosition(spawner.ActiveMino))
     //                 {
     //                     // 第三法則
-    //                     spawner.activeMino.MoveLeft();
-    //                     spawner.activeMino.MoveLeft();
-    //                     spawner.activeMino.MoveLeft(); // 左に3つ移動
-    //                     spawner.activeMino.MoveUp();
-    //                     spawner.activeMino.MoveUp(); // 上に2つ移動
+    //                     spawner.ActiveMino.MoveLeft();
+    //                     spawner.ActiveMino.MoveLeft();
+    //                     spawner.ActiveMino.MoveLeft(); // 左に3つ移動
+    //                     spawner.ActiveMino.MoveUp();
+    //                     spawner.ActiveMino.MoveUp(); // 上に2つ移動
 
-    //                     if (!board.CheckPosition(spawner.activeMino))
+    //                     if (!board.CheckPosition(spawner.ActiveMino))
     //                     {
     //                         // 第四法則
-    //                         spawner.activeMino.MoveRight();
-    //                         spawner.activeMino.MoveRight();
-    //                         spawner.activeMino.MoveRight(); // 右に3つ移動
-    //                         spawner.activeMino.MoveDown();
-    //                         spawner.activeMino.MoveDown();
-    //                         spawner.activeMino.MoveDown(); // 下に3つ移動
+    //                         spawner.ActiveMino.MoveRight();
+    //                         spawner.ActiveMino.MoveRight();
+    //                         spawner.ActiveMino.MoveRight(); // 右に3つ移動
+    //                         spawner.ActiveMino.MoveDown();
+    //                         spawner.ActiveMino.MoveDown();
+    //                         spawner.ActiveMino.MoveDown(); // 下に3つ移動
 
-    //                         if (!board.CheckPosition(spawner.activeMino))
+    //                         if (!board.CheckPosition(spawner.ActiveMino))
     //                         {
     //                             // SRSができなかった時、回転前の状態に戻る
-    //                             spawner.activeMino.MoveLeft();
-    //                             spawner.activeMino.MoveLeft();
-    //                             spawner.activeMino.MoveUp();
+    //                             spawner.ActiveMino.MoveLeft();
+    //                             spawner.ActiveMino.MoveLeft();
+    //                             spawner.ActiveMino.MoveUp();
 
     //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 

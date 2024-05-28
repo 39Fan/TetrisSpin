@@ -36,7 +36,7 @@ public class AudioManager : MonoBehaviour
     //     "Tetris"
     // };
 
-    /// <summary>AudioNames と AudioClip の辞書</summary>
+    /// <summary>オーディオの名前と対応するオーディオの辞書</summary>
     private Dictionary<AudioNames, AudioClip> AudioClipDictionary;
 
     /// <summary>低ボリュームの値(0.2f)</summary>
@@ -53,8 +53,8 @@ public class AudioManager : MonoBehaviour
     // int NormalPitch = 1;
 
     /// <summary>
-    /// 初期化処理を行う。
-    /// シングルトンインスタンスを設定し、オーディオクリップの辞書を構築します。
+    /// 初期化
+    /// シングルトンインスタンスを設定し、オーディオクリップの辞書を作成
     /// </summary>
     private void Awake()
     {
@@ -63,6 +63,7 @@ public class AudioManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject); // シーンが変わっても破壊されない
             audioSource = gameObject.AddComponent<AudioSource>();
+
             BuildAudioClipDictionary(); // 辞書の作成
         }
         else

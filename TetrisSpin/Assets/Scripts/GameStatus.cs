@@ -161,11 +161,11 @@ public class GameStatus : MonoBehaviour
         (MinoAngleBefore == MinoDirections.South && MinoAngleAfter == MinoDirections.West) ||
         (MinoAngleBefore == MinoDirections.West && MinoAngleAfter == MinoDirections.North))
         {
-            spawner.activeMino.RotateLeft(); // 左回転で回転前の状態に戻す
+            spawner.ActiveMino.RotateLeft(); // 左回転で回転前の状態に戻す
         }
         else // 通常回転が左回転だった時
         {
-            spawner.activeMino.RotateRight(); // 右回転で回転前の状態に戻す
+            spawner.ActiveMino.RotateRight(); // 右回転で回転前の状態に戻す
         }
     }
 

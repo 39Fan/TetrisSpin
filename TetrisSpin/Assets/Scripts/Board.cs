@@ -5,7 +5,6 @@ using UnityEngine;
 /// ・ミノの位置判定
 /// ・ブロックの配置
 /// ・ライン消去
-/// などを処理する
 /// </summary>
 public class Board : MonoBehaviour
 {
@@ -39,18 +38,25 @@ public class Board : MonoBehaviour
     /// <summary>ゲームボード基盤の四角形</summary>
     [SerializeField] private Transform emptySprite;
 
+    /// <summary>
+    /// 初期化
+    /// </summary>
     private void Awake()
     {
-        grid = new Transform[width, height]; // ゲームボードを作成
+        grid = new Transform[width, height];
     }
 
-    /// <summary>初期化</summary>
+    /// <summary>
+    /// 初期化
+    /// </summary>
     private void Start()
     {
         CreateBoard();
     }
 
-    /// <summary>ゲームボードの作成</summary>
+    /// <summary>
+    /// ゲームボードの作成
+    /// </summary>
     void CreateBoard()
     {
         if (emptySprite)
@@ -282,7 +288,6 @@ public class Board : MonoBehaviour
         return topBlockPosition_y;
     }
 
-    // ミノを構成するブロックについて、最下部ブロックのy座標データを返す関数 //
     /// <summary>
     /// ミノを構成するブロックについて、最下部ブロックのy座標データを返す関数
     /// </summary>

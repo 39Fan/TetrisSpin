@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13fd6ddfa99bc4183af351d9db533291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpinTypeName: 
+  SpinTypeName: 9
 --- !u!4 &68356027
 Transform:
   m_ObjectHideFlags: 0
@@ -213,8 +213,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackLines: 0
-  MinoAngleAfter: NORTH
-  MinoAngleBefore: NORTH
+  MinoAngleAfter: 0
+  MinoAngleBefore: 0
   StepsSRS: 0
 --- !u!1 &519060628
 GameObject:
@@ -502,9 +502,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad6eb129cb5c54e9b8feb2249e988884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BottomMoveCount: 0
-  BottomMoveCountLimit: 15
-  BottomBlockPosition_y: 20
 --- !u!4 &590872038
 Transform:
   m_ObjectHideFlags: 0
@@ -638,7 +635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e5f125b58244e9582797f7808a6530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EmptySprite: {fileID: 5895574292747320548, guid: 02663292883e94347b43e0df9045ab1d, type: 3}
+  emptySprite: {fileID: 5895574292747320548, guid: 02663292883e94347b43e0df9045ab1d, type: 3}
 --- !u!4 &1832803216
 Transform:
   m_ObjectHideFlags: 0
@@ -722,24 +719,12 @@ MonoBehaviour:
   LspinSingle_Text: {fileID: 1633818741928931802, guid: fc57b03800c7b428ca031b36db05a67b, type: 3}
   LspinDouble_Text: {fileID: 1633818741928931802, guid: f6bad036c74524d26b17ce66ce2aa3b2, type: 3}
   LspinTriple_Text: {fileID: 1633818741928931802, guid: dce5bc7eccbb24e378a4f690da162eb2, type: 3}
-  Ospin_Text: {fileID: 0}
-  OspinSingle_Text: {fileID: 0}
-  OspinDouble_Text: {fileID: 0}
-  OspinTriple_Text: {fileID: 0}
-  Sspin_Text: {fileID: 1633818741928931802, guid: 1d379767a24694dd3841582bb64b56ba, type: 3}
-  SspinSingle_Text: {fileID: 1633818741928931802, guid: b5c4f061f176d4ec19df0ae20edfe2de, type: 3}
-  SspinDouble_Text: {fileID: 1633818741928931802, guid: c340b95820b3d48e49dca8d022d04b56, type: 3}
-  SspinTriple_Text: {fileID: 1633818741928931802, guid: bd8c63e1c858b49d98ae558be5adfe0d, type: 3}
   Tspin_Text: {fileID: 1633818741928931802, guid: 5ef42f5abaac74b4e804d66327192c15, type: 3}
   TspinSingle_Text: {fileID: 3191080098678034068, guid: ed0023454acc34073808e26c4b5d1bc5, type: 3}
   TspinDouble_Text: {fileID: 835706068503385815, guid: 61190addfd5524551bfdb282933266c5, type: 3}
   TspinTriple_Text: {fileID: 2910127633995747759, guid: d350f8e514897454f94a332eab911e30, type: 3}
   TspinMini_Text: {fileID: 9112384351425725138, guid: e215bbfd339f746b6aa508510d2f2363, type: 3}
   TspinDoubleMini_Text: {fileID: 1481246784689171504, guid: cd2c8d2acc8cc43eaac72b8fd66e1560, type: 3}
-  Zspin_Text: {fileID: 1633818741928931802, guid: f46770d0d3d3a4b9f9f62fa1833a684a, type: 3}
-  ZspinSingle_Text: {fileID: 1633818741928931802, guid: 3bfe59f2b188544228df4295c877f85e, type: 3}
-  ZspinDouble_Text: {fileID: 1633818741928931802, guid: 1aff8ae31e3f845b0b3cbfd2ce7ba16c, type: 3}
-  ZspinTriple_Text: {fileID: 1633818741928931802, guid: 4486c90851b3445508867dc1ff38146a, type: 3}
 --- !u!1 &2011930346
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,7 +769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318efbfd3445240e293384397c19f498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Minos:
+  minos:
   - {fileID: 8307858071370145673, guid: 65ec4392ea54e4033a5b0b26a3c63d7f, type: 3}
   - {fileID: 1286937462468131724, guid: 0a52b5d5e205845afb556f4b9d8f1fce, type: 3}
   - {fileID: 2767185202797019321, guid: a37caca2c64bc4daeb22b539fa3a1ac9, type: 3}
@@ -792,7 +777,7 @@ MonoBehaviour:
   - {fileID: 2265180450332935280, guid: c24a52912d8084d5490a7c22295f2e91, type: 3}
   - {fileID: 8461343593755532016, guid: e810605fe054048518305da1a0e1c328, type: 3}
   - {fileID: 1901306778081839982, guid: 8c7c9b9e5b6da429aaf05c990ddb1031, type: 3}
-  GhostMinos:
+  ghostMinos:
   - {fileID: 6605609976678115068, guid: 2b9ab381468c741c4a6da2842bc72e85, type: 3}
   - {fileID: 4538311749326303345, guid: b9352b69d2fb54d8093f965c077d3e75, type: 3}
   - {fileID: 3633045727325025070, guid: 96acb0b62936042749af4427ed26b6bf, type: 3}
@@ -800,7 +785,6 @@ MonoBehaviour:
   - {fileID: 6775937764980108241, guid: 7d086cc20e37044c7b179127ca7014ed, type: 3}
   - {fileID: 4840443941859215280, guid: 64cc928dc761244e3a5a3b36fd31366f, type: 3}
   - {fileID: 5768613498349055100, guid: 2b7ec840467124ea285c4aa007cbfbc3, type: 3}
-  SpawnMinoOrders: []
 --- !u!1 &2107780350
 GameObject:
   m_ObjectHideFlags: 0

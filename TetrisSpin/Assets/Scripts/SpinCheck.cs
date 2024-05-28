@@ -48,45 +48,45 @@ public class SpinCheck : MonoBehaviour
     // 各ミノのスピン判定をチェックする //
     public void CheckSpinType() // この関数は、回転時に呼び出される
     {
-        switch (spawner.activeMinoName)
+        switch (spawner.ActiveMinoName)
         {
-            case "I_Mino":
+            case MinoType.I_Mino:
                 LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "IspinCheck()", "Start");
                 IspinCheck();
                 LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "IspinCheck()", "End");
                 break;
-            case "J_Mino":
+            case MinoType.J_Mino:
                 LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "JspinCheck()", "Start");
                 JspinCheck();
                 LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "JspinCheck()", "End");
                 break;
-            case "L_Mino":
+            case MinoType.L_Mino:
                 LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "LspinCheck()", "Start");
                 LspinCheck();
                 LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "LspinCheck()", "End");
                 break;
-            case "T_Mino":
+            case MinoType.T_Mino:
                 LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "TspinCheck()", "Start");
                 TspinCheck();
                 LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "TspinCheck()", "End");
                 break;
             default:
-                // Debug.LogError("[SpinCheck CheckSpinType()] activeMinoNameが特定できません。");
+                // Debug.LogError("[SpinCheck CheckSpinType()] ActiveMinoNameが特定できません。");
                 break;
         }
     }
 
     // public void CheckSpinType() // この関数は、回転時に呼び出される
     // {
-    //     if (spawner.activeMinoName == "I_Mino")
+    //     if (spawner.ActiveMinoName == "I_Mino")
     //     {
     //         IspinCheck();
     //     }
-    //     if (spawner.activeMinoName == "J_Mino")
+    //     if (spawner.ActiveMinoName == "J_Mino")
     //     {
     //         JspinCheck();
     //     }
-    //     if (spawner.activeMinoName == "L_Mino")
+    //     if (spawner.ActiveMinoName == "L_Mino")
     //     {
     //         LspinCheck();
     //     }
@@ -98,7 +98,7 @@ public class SpinCheck : MonoBehaviour
     //     {
     //         return SspinCheck(_ActiveMino);
     //     }*/
-    //     if (spawner.activeMinoName == "T_Mino")
+    //     if (spawner.ActiveMinoName == "T_Mino")
     //     {
     //         TspinCheck();
     //     }
@@ -108,7 +108,7 @@ public class SpinCheck : MonoBehaviour
     //     }*/
     //     else
     //     {
-    //         // Debug.LogError("[SpinCheck CheckSpinType()] activeMinoNameが特定できません。");
+    //         // Debug.LogError("[SpinCheck CheckSpinType()] ActiveMinoNameが特定できません。");
     //     }
     // }
 
@@ -152,8 +152,8 @@ public class SpinCheck : MonoBehaviour
         };
 
         // activeMinoのx,y座標
-        int pos_x = Mathf.RoundToInt(spawner.activeMino.transform.position.x);
-        int pos_y = Mathf.RoundToInt(spawner.activeMino.transform.position.y);
+        int pos_x = Mathf.RoundToInt(spawner.ActiveMino.transform.position.x);
+        int pos_y = Mathf.RoundToInt(spawner.ActiveMino.transform.position.y);
 
         int[,] currentOffsets = null;
 
@@ -177,7 +177,7 @@ public class SpinCheck : MonoBehaviour
         // ①を調べる
         for (int grid = 0; grid < currentOffsets.GetLength(0); grid++)
         {
-            if (board.CheckGrid(pos_x + currentOffsets[grid, 0], pos_y + currentOffsets[grid, 1], spawner.activeMino))
+            if (board.CheckGrid(pos_x + currentOffsets[grid, 0], pos_y + currentOffsets[grid, 1], spawner.ActiveMino))
             {
                 checkBlocks_ForJ.Add(Existence.Exist);
             }
@@ -233,9 +233,9 @@ public class SpinCheck : MonoBehaviour
         { 1, 1 },{ 0, -2 },{ -2, 1 },{ 0, 2 }
         };
 
-        // activeMinoのx,y座標
-        int pos_x = Mathf.RoundToInt(spawner.activeMino.transform.position.x);
-        int pos_y = Mathf.RoundToInt(spawner.activeMino.transform.position.y);
+        // ActiveMinoのx,y座標
+        int pos_x = Mathf.RoundToInt(spawner.ActiveMino.transform.position.x);
+        int pos_y = Mathf.RoundToInt(spawner.ActiveMino.transform.position.y);
 
         int[,] currentOffsets = null;
 
@@ -260,7 +260,7 @@ public class SpinCheck : MonoBehaviour
         // ①を調べる
         for (int grid = 0; grid < currentOffsets.GetLength(0); grid++)
         {
-            if (board.CheckGrid(pos_x + currentOffsets[grid, 0], pos_y + currentOffsets[grid, 1], spawner.activeMino))
+            if (board.CheckGrid(pos_x + currentOffsets[grid, 0], pos_y + currentOffsets[grid, 1], spawner.ActiveMino))
             {
                 checkBlocks_ForJ.Add(Existence.Exist);
             }
@@ -402,12 +402,12 @@ public class SpinCheck : MonoBehaviour
             int yOffset = 1; // IspinMiniの判定に必要なオフセット
 
             // ①を調べる
-            foreach (Transform item in spawner.activeMino.transform) // Iミノを構成するブロックそれぞれを確認する
+            foreach (Transform item in spawner.ActiveMino.transform) // Iミノを構成するブロックそれぞれを確認する
             {
                 Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
 
                 // 1マス上部にブロックがあるか調べる
-                if (board.CheckGrid(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y + yOffset), spawner.activeMino))
+                if (board.CheckGrid(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y + yOffset), spawner.ActiveMino))
                 {
                     checkBlocksAbove_ForI.Add(Existence.Exist);
                 }
@@ -418,12 +418,12 @@ public class SpinCheck : MonoBehaviour
             }
 
             // ②を調べる
-            foreach (Transform item in spawner.activeMino.transform) // Iミノを構成するブロックそれぞれを確認する
+            foreach (Transform item in spawner.ActiveMino.transform) // Iミノを構成するブロックそれぞれを確認する
             {
                 Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
 
                 // 1マス上部にブロックがあるか調べる
-                if (board.CheckGrid(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y - yOffset), spawner.activeMino))
+                if (board.CheckGrid(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y - yOffset), spawner.ActiveMino))
                 {
                     checkBlocksBelow_ForI.Add(Existence.Exist);
                 }
@@ -474,18 +474,18 @@ public class SpinCheck : MonoBehaviour
             List<Existence> checkBlocksUpper_ForI = new List<Existence>();
 
             // Iミノの上部にブロックがあるか調べるために必要な変数
-            int IminoTopPosition_y = board.CheckActiveMinoTopBlockPosition_y(spawner.activeMino); // Iミノの最上部のy座標
+            int IminoTopPosition_y = board.CheckActiveMinoTopBlockPosition_y(spawner.ActiveMino); // Iミノの最上部のy座標
 
             int xOffset = 1;
             int yOffset = 1; // Ispinの判定に必要なオフセット
 
             // ①を調べる
-            foreach (Transform item in spawner.activeMino.transform) // Iミノを構成するブロックそれぞれを確認する
+            foreach (Transform item in spawner.ActiveMino.transform) // Iミノを構成するブロックそれぞれを確認する
             {
                 Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
 
                 // 1マス右側にブロックがあるか調べる
-                if (board.CheckGrid(Mathf.RoundToInt(pos.x + xOffset), Mathf.RoundToInt(pos.y), spawner.activeMino))
+                if (board.CheckGrid(Mathf.RoundToInt(pos.x + xOffset), Mathf.RoundToInt(pos.y), spawner.ActiveMino))
                 {
                     checkBlocksRightSide_ForI.Add(Existence.Exist);
                 }
@@ -494,12 +494,12 @@ public class SpinCheck : MonoBehaviour
                     checkBlocksRightSide_ForI.Add(Existence.NotExist);
                 }
             }
-            foreach (Transform item in spawner.activeMino.transform) // Iミノを構成するブロックそれぞれを確認する
+            foreach (Transform item in spawner.ActiveMino.transform) // Iミノを構成するブロックそれぞれを確認する
             {
                 Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
 
                 // 1マス左側にブロックがあるか調べる
-                if (board.CheckGrid(Mathf.RoundToInt(pos.x - xOffset), Mathf.RoundToInt(pos.y), spawner.activeMino))
+                if (board.CheckGrid(Mathf.RoundToInt(pos.x - xOffset), Mathf.RoundToInt(pos.y), spawner.ActiveMino))
                 {
                     checkBlocksLeftSide_ForI.Add(Existence.Exist);
                 }
@@ -513,7 +513,7 @@ public class SpinCheck : MonoBehaviour
             while (IminoTopPosition_y + yOffset < 20) // ゲームボードの上部からはみ出すまで調べる
             {
                 // Iミノの上部にブロックが存在するか1マスずつ調べていく
-                if (board.CheckGrid(Mathf.RoundToInt(spawner.activeMino.transform.position.x), IminoTopPosition_y + yOffset, spawner.activeMino))
+                if (board.CheckGrid(Mathf.RoundToInt(spawner.ActiveMino.transform.position.x), IminoTopPosition_y + yOffset, spawner.ActiveMino))
                 {
                     checkBlocksUpper_ForI.Add(Existence.Exist);
                 }
@@ -562,7 +562,7 @@ public class SpinCheck : MonoBehaviour
         {
             for (int y = 1; y >= -1; y -= 2)
             {
-                if (board.CheckGrid((int)Mathf.Round(spawner.activeMino.transform.position.x) + x, (int)Mathf.Round(spawner.activeMino.transform.position.y) + y, spawner.activeMino))
+                if (board.CheckGrid((int)Mathf.Round(spawner.ActiveMino.transform.position.x) + x, (int)Mathf.Round(spawner.ActiveMino.transform.position.y) + y, spawner.ActiveMino))
                 {
                     checkBlocks_ForT.Add(Existence.Exist);
                 }
