@@ -1,64 +1,45 @@
 using UnityEngine;
-using UnityEngine.Analytics;
 
 /// <summary>
 /// ゲームの進行を管理するクラス
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    // // ミノの生成数、または設置数 //
-    // private int MinoPopNumber = 0;
-    // private int MinoPutNumber = 0; // Holdを使用すると、MinoPopNumberより1少なくなる
-
-    // // ロックダウン //
-    // private int BottomMoveCount = 0;
-    // private int BottomMoveCountLimit = 15;
-    // private int BottomBlockPosition_y = 20;
-    // private int StartingBottomBlockPosition_y = 20;
-
-    // // Hold //
-    // private bool UseHold = false; // Holdが使用されたか判別する変数
-    // private bool FirstHold = true; // ゲーム中で最初のHoldかどうかを判別する変数
-
-    /// <summary>ミノの生成数</summary>
+    /// <summary>ミノの生成数
+    /// 新しいミノが生成されるたびに1ずつ増加する
+    /// </summary>
     private int minoPopNumber = 0;
-    /// <summary>ミノの設置数。ホールドを使用すると、その時点からミノの生成数より1小さくなる</summary>
+
+    /// <summary>ミノの設置数
+    /// ミノが設置されると1ずつ増加する
+    /// ホールドを使用すると、その時点からミノの生成数より1小さくなる
+    /// </summary>
     private int minoPutNumber = 0;
 
-    /// <summary>ロックダウンの移動回数</summary>
+    /// <summary>ロックダウンの移動回数
+    /// </summary>
+    /// <remarks>ミノがボトムに到達してからの移動回数を表す</remarks>
+    /// <value>0~15</value>
     private int bottomMoveCount = 0;
+
     /// <summary>ロックダウンの移動回数制限</summary>
     private int bottomMoveCountLimit = 15;
-    /// <summary>ロックダウンの底の y 座標</summary>
-    private int bottomBlockPositionY = 20;
-    /// <summary>ロックダウンの初期 y 座標</summary>
-    private int startingBottomBlockPositionY = 20;
 
-    /// <summary>ホールドが使用されたか判別するフラグ</summary>
+    /// <summary>操作中のミノを構成するブロックのうち、最も低い y 座標を保持するプロパティ
+    /// </summary>
+    /// <remarks>
+    /// ロックダウンの処理に必要 <br/>
+    /// この値が更新されるたびにロックダウンの移動回数制限がリセットされる <br/>
+    /// 初期値はゲームボードの最高高さである 20 に設定
+    /// </remarks>
+    /// <value>0~20</value>
+    private int lowestBlockPositionY = 20;
+
+    /// <summary>ホールドが使用されたか判別するプロパティ</summary>
     private bool useHold = false;
-    /// <summary>ゲーム中で最初のホールドかどうかを判別するフラグ</summary>
+
+    /// <summary>ゲーム中で最初のホールドかどうかを判別するプロパティ</summary>
     private bool firstHold = true;
-
-    // オーディオ //
-
-    // "GameOver"
-    // "Hard_Drop"
-    // "Hold"
-    // "Move_Down"
-    // "Move_Left_Right"
-    // "Normal_Destroy"
-    // "Normal_Drop"
-    // "Rotation"
-    // "Spin"
-    // "Spin_Destroy"
-    // "Start_or_Retry"
-    // "Tetris"
-
-    // 以上のオーディオが登録されている。
-
-    // 以下の関数で呼び出す
-    // AudioManager.Instance.PlaySound("オーディオ名")
-
 
     // 干渉するスクリプト //
     Board board;
@@ -72,7 +53,7 @@ public class GameManager : MonoBehaviour
 
 
     /// <summary>
-    /// インスタンス化時の処理
+    /// インスタンス化
     /// </summary>
     private void Awake()
     {
@@ -91,33 +72,13 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        // タイマーの初期設定
         timer.ResetTimer();
 
         // ゲーム開始時余分にミノの順番を決める
         spawner.DetermineSpawnMinoOrder();
 
-        // // mino.activeMinoのゴーストミノの生成
-        // gameStatus.GhostMino = spawner.SpawnMino_Ghost();
-
-        //spawner.CreateNewNextMinos(MinoPopNumber - 1); // Nextの表示
-
-        //mainSceneText.ReadtGoAnimation(); // "Ready Go!" の表示
-
-        // yield return new WaitForSeconds(5.6f);
-
-        // 操作するミノの生成
         spawner.CreateNewActiveMino(minoPopNumber);
-
-        // 新しいネクストミノの生成
         spawner.CreateNewNextMinos(minoPopNumber);
-
-        // // Updateの開始
-        // while (true)
-        // {
-        //     Update();
-        //     yield return null; // 次のフレームまで待機
-        // }
     }
 
     /// <summary>
@@ -141,20 +102,9 @@ public class GameManager : MonoBehaviour
             AutoDown();
             LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "AutoDown()", "End");
         }
-        // if (!board.CheckPosition(spawner.activeMino))
-        // {
-        //     Debug.LogError("[GameManager Update()] ゲームボードからミノがはみ出した。または、ブロックに重なった。");
-        // }
-
-        // if (!board.CheckPosition(spawner.ghostMino))
-        // {
-        //     Debug.LogError("[GameManager Update()] ゲームボードからゴーストミノがはみ出した。または、ブロックに重なった。");
-        // }
     }
 
-    /// <summary>
-    /// キーの入力を検知してブロックを動かす関数
-    /// </summary>
+    /// <summary>キーの入力を検知してブロックを動かす関数</summary>
     void PlayerInput()
     {
         // 右移動入力
@@ -236,9 +186,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 右移動入力時の処理を行う関数
-    /// </summary>
+    /// <summary>右移動入力時の処理を行う関数</summary>
     private void MoveRightInput()
     {
         timer.ContinuousLRKey = false; // キーの連続入力でない判定を付与
@@ -259,19 +207,16 @@ public class GameManager : MonoBehaviour
 
             AudioManager.Instance.PlaySound(AudioNames.MoveLeftRight);
 
-            spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
-
-            spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
-
-            gameStatus.ResetStepsSRS(); // 移動したため、StepsSRSの値を0に
+            // 移動したため、以下の処理を実行
+            spawner.AdjustGhostMinoPosition();
+            spinCheck.ResetSpinTypeName();
+            gameStatus.ResetStepsSRS();
         }
 
         IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
     }
 
-    /// <summary>
-    /// 連続右移動入力時の処理を行う関数
-    /// </summary>
+    /// <summary>連続右移動入力時の処理を行う関数</summary>
     private void ContinuousMoveRightInput()
     {
         timer.ContinuousLRKey = true; // キーの連続入力判定を付与
@@ -292,27 +237,16 @@ public class GameManager : MonoBehaviour
 
             AudioManager.Instance.PlaySound(AudioNames.MoveLeftRight);
 
-            spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
-
-            spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
-
-            gameStatus.ResetStepsSRS(); // 移動したため、StepsSRSの値を0に
+            // 移動したため、以下の処理を実行
+            spawner.AdjustGhostMinoPosition();
+            spinCheck.ResetSpinTypeName();
+            gameStatus.ResetStepsSRS();
         }
 
         IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
     }
 
-    /// <summary>
-    /// 連続右、または左移動入力の解除処理を行う関数
-    /// </summary>
-    private void ReleaseContinuousMoveRightLeftInput()
-    {
-        timer.ContinuousLRKey = false;
-    }
-
-    /// <summary>
-    /// 左移動入力時の処理を行う関数
-    /// </summary>
+    /// <summary>左移動入力時の処理を行う関数</summary>
     private void MoveLeftInput()
     {
         timer.ContinuousLRKey = false; // キーの連続入力でない
@@ -333,19 +267,16 @@ public class GameManager : MonoBehaviour
 
             AudioManager.Instance.PlaySound(AudioNames.MoveLeftRight);
 
-            spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
-
-            spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
-
-            gameStatus.ResetStepsSRS(); // 移動したため、StepsSRSの値を0に
+            // 移動したため、以下の処理を実行
+            spawner.AdjustGhostMinoPosition();
+            spinCheck.ResetSpinTypeName();
+            gameStatus.ResetStepsSRS();
         }
 
         IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
     }
 
-    /// <summary>
-    /// 連続左移動入力時の処理を行う関数
-    /// </summary>
+    /// <summary>連続左移動入力時の処理を行う関数</summary>
     private void ContinuousMoveLeftInput()
     {
         timer.ContinuousLRKey = true; // キーの連続入力がされた
@@ -366,25 +297,22 @@ public class GameManager : MonoBehaviour
 
             AudioManager.Instance.PlaySound(AudioNames.MoveLeftRight);
 
-            spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
-
-            spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
-
-            gameStatus.ResetStepsSRS(); // 移動したため、StepsSRSの値を0に
+            // 移動したため、以下の処理を実行
+            spawner.AdjustGhostMinoPosition();
+            spinCheck.ResetSpinTypeName();
+            gameStatus.ResetStepsSRS();
         }
 
         IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
     }
 
-    // // 連続左移動入力の解除処理を行う関数 //
-    // private void ReleaseContinuousMoveLeftInput()
-    // {
-    //     timer.ContinuousLRKey = false; // キーの連続入力でない
-    // }
+    /// <summary>連続右、または左移動入力の解除処理を行う関数</summary>
+    private void ReleaseContinuousMoveRightLeftInput()
+    {
+        timer.ContinuousLRKey = false;
+    }
 
-    /// <summary>
-    /// 下移動入力時の処理を行う関数
-    /// </summary>
+    /// <summary>下移動入力時の処理を行う関数</summary>
     private void MoveDownInput()
     {
         timer.UpdateDownTimer();
@@ -412,9 +340,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 右回転入力時の処理を行う関数
-    /// </summary>
+    /// <summary>右回転入力時の処理を行う関数</summary>
     private void RotateRightInput()
     {
         timer.UpdateRotateTimer();
@@ -446,15 +372,13 @@ public class GameManager : MonoBehaviour
         {
             // DebugHelper.Log("Normal rotation succeeded", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-            SuccessRotateAction(); // 回転が成功した時の処理を実行
+            SuccessRotateAction();
         }
 
-        IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
+        IncreaseBottomMoveCount();
     }
 
-    /// <summary>
-    /// 左回転入力時の処理を行う関数
-    /// </summary>
+    /// <summary>左回転入力時の処理を行う関数</summary>
     private void RotateLeftInput()
     {
         timer.UpdateRotateTimer();
@@ -492,9 +416,7 @@ public class GameManager : MonoBehaviour
         IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
     }
 
-    /// <summary>
-    /// 回転が成功した時の処理をする関数
-    /// </summary>
+    /// <summary>回転が成功した時の処理をする関数</summary>
     private void SuccessRotateAction()
     {
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "SuccessRotateAction()", "Start");
@@ -517,9 +439,7 @@ public class GameManager : MonoBehaviour
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "SuccessRotateAction()", "End");
     }
 
-    /// <summary>
-    /// BottomMoveCountを進める関数
-    /// </summary>
+    /// <summary>BottomMoveCountを進める関数</summary>
     private void IncreaseBottomMoveCount()
     {
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "IncreaseBottomMoveCount()", "Start");
@@ -532,18 +452,15 @@ public class GameManager : MonoBehaviour
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "IncreaseBottomMoveCount()", "End");
     }
 
-    /// <summary>
-    /// ハードドロップ入力時の処理を行う関数
-    /// </summary>
+    /// <summary>ハードドロップ入力時の処理を行う関数</summary>
     private void HardDropInput()
     {
-        AudioManager.Instance.PlaySound(AudioNames.HardDrop); // ハードドロップの音を再生
+        AudioManager.Instance.PlaySound(AudioNames.HardDrop);
 
-        int height = 20; // ゲームボードの高さの値
-
-        for (int i = 0; i < height; i++) // heightの値分繰り返す
+        // Heightの値分繰り返す(20)
+        for (int i = 0; i < board.Height; i++)
         {
-            spawner.activeMino.MoveDown(); // ミノを下に動かす
+            spawner.activeMino.MoveDown();
 
             if (!board.CheckPosition(spawner.activeMino)) // 底にぶつかった時
             {
@@ -551,26 +468,28 @@ public class GameManager : MonoBehaviour
 
                 spawner.activeMino.MoveUp(); // ミノを正常な位置に戻す
 
-                break; // For文を抜ける
+                break;
             }
 
-            gameStatus.ResetStepsSRS(); // 1マスでも下に移動した時、StepsSRSの値を0にする
+            // 以下一マスでも下に移動した時の処理
+            if (spinCheck.spinTypeName != SpinTypeNames.I_Spin) // I-Spinは下移動しても解除されないようにしている
+            {
+                spinCheck.ResetSpinTypeName();
+            }
+            gameStatus.ResetStepsSRS();
         }
 
         // DebugHelper.Log("Hard drop: Mino reached the bottom", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-        ResetRockDown(); // RockDownに関する変数のリセット
+        ResetRockDown();
 
-        SetMinoFixed(); // 底に着いたときの処理
+        SetMinoFixed();
     }
 
-    /// <summary>
-    /// ホールド入力時の処理を行う関数
-    /// </summary>
+    /// <summary>ホールド入力時の処理を行う関数</summary>
     private void HoldInput()
     {
         // Holdは1度使うと、ミノを設置するまで使えない
-        // ミノを設置すると、useHold = false になる
         if (useHold == false)
         {
             // DebugHelper.Log("Hold action initiated", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
@@ -579,7 +498,7 @@ public class GameManager : MonoBehaviour
 
             AudioManager.Instance.PlaySound(AudioNames.Hold);
 
-            ResetRockDown(); // RockDownに関する変数のリセット
+            ResetRockDown();
 
             if (firstHold == true) // ゲーム中で最初のHoldだった時
             {
@@ -587,10 +506,9 @@ public class GameManager : MonoBehaviour
 
                 minoPopNumber++;
 
-                // ホールドの処理
-                spawner.CreateNewHoldMino(firstHold, minoPopNumber); // ActiveMinoをホールドに移動して、新しいミノを生成する
+                spawner.CreateNewHoldMino(firstHold, minoPopNumber);
 
-                firstHold = false; // ゲームオーバーまでfalse
+                firstHold = false;
             }
             else
             {
@@ -605,9 +523,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 時間経過で落ちる時の処理をする関数
-    /// </summary>
+    /// <summary>時間経過で落ちる時の処理をする関数</summary>
     void AutoDown()
     {
         timer.UpdateDownTimer();
@@ -629,16 +545,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// ロックダウンの処理をする関数
-    /// </summary>
+    /// <summary>ロックダウンの処理をする関数</summary>
     private void RockDown()
     {
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "RockDown()", "Start");
 
-        int newBottomBlockPosition_y = board.CheckActiveMinoBottomBlockPosition_y(spawner.activeMino); // ActiveMino の1番下のブロックのy座標を取得
+        int newBottomBlockPosition_y = board.CheckActiveMinoBottomBlockPosition_y(spawner.activeMino); // 操作中のミノの1番下のブロックのy座標を取得
 
-        if (bottomBlockPositionY <= newBottomBlockPosition_y) // ActivaMinoが、前回のy座標以上の位置にある時
+        if (lowestBlockPositionY <= newBottomBlockPosition_y) // lowestBlockPositionYが更新されていない場合
         {
             spawner.activeMino.MoveDown();
 
@@ -657,32 +571,28 @@ public class GameManager : MonoBehaviour
                 spawner.activeMino.MoveUp(); // 元の位置に戻す
             }
         }
-        else // ActivaMinoが、前回のy座標より下の位置にある時
+        else // lowestBlockPositionYが更新された場合
         {
-            bottomMoveCount = 0; // リセットする
+            bottomMoveCount = 0;
 
-            bottomBlockPositionY = newBottomBlockPosition_y; // BottomPositionの更新
+            lowestBlockPositionY = newBottomBlockPosition_y; // BottomPositionの更新
         }
 
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "RockDown()", "End");
     }
 
-    /// <summary>
-    /// RockDownに関する変数のリセット
-    /// </summary>
+    /// <summary>RockDownに関する変数のリセット</summary>
     public void ResetRockDown()
     {
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "ResetRockDown()", "Start");
 
-        bottomBlockPositionY = startingBottomBlockPositionY;
+        lowestBlockPositionY = 20; // 初期値はゲームボードの最高高さである 20 に設定
         bottomMoveCount = 0;
 
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "ResetRockDown()", "End");
     }
 
-    /// <summary>
-    /// ミノの設置場所が確定した時の処理をする関数
-    /// </summary>
+    /// <summary>ミノの設置場所が確定した時の処理をする関数</summary>
     void SetMinoFixed()
     {
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "SetMinoFixed()", "Start");
@@ -703,11 +613,9 @@ public class GameManager : MonoBehaviour
         useHold = false;
         timer.ResetTimer();
 
-        board.SaveBlockInGrid(spawner.activeMino); //mino.activeMinoをセーブ
-
-        gameStatus.AddLineClearCountHistory(board.ClearAllRows()); // 横列が埋まっていれば消去し、消去数を記録する
-
-        textEffect.TextDisplay(gameStatus.LineClearCountHistory[minoPutNumber]); // 消去数、Spinに対応したテキストを表示し、それに対応したSEも鳴らす
+        board.SaveBlockInGrid(spawner.activeMino);
+        gameStatus.AddLineClearCountHistory(board.ClearAllRows());
+        textEffect.TextDisplay(gameStatus.LineClearCountHistory[minoPutNumber]);
 
         // 各種変数のリセット
         gameStatus.ResetStepsSRS();
@@ -735,46 +643,119 @@ public class GameManager : MonoBehaviour
 
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "SetMinoFixed()", "End");
     }
+}
+
+/////////////////// 旧コード ///////////////////
+
+// // ミノの生成数、または設置数 //
+// private int MinoPopNumber = 0;
+// private int MinoPutNumber = 0; // Holdを使用すると、MinoPopNumberより1少なくなる
+
+// // ロックダウン //
+// private int BottomMoveCount = 0;
+// private int BottomMoveCountLimit = 15;
+// private int BottomBlockPosition_y = 20;
+// private int StartingBottomBlockPosition_y = 20;
+
+// // Hold //
+// private bool UseHold = false; // Holdが使用されたか判別する変数
+// private bool FirstHold = true; // ゲーム中で最初のHoldかどうかを判別する変数
+
+// /// <summary>ロックダウンの初期 y 座標</summary>
+// private int startinglowestBlockYPositionY = 20;
+
+// オーディオ //
+
+// "GameOver"
+// "Hard_Drop"
+// "Hold"
+// "Move_Down"
+// "Move_Left_Right"
+// "Normal_Destroy"
+// "Normal_Drop"
+// "Rotation"
+// "Spin"
+// "Spin_Destroy"
+// "Start_or_Retry"
+// "Tetris"
+
+// 以上のオーディオが登録されている。
+
+// 以下の関数で呼び出す
+// AudioManager.Instance.PlaySound("オーディオ名")
 
 
-    /*void SpinEffect(int i)
+// // mino.activeMinoのゴーストミノの生成
+// gameStatus.GhostMino = spawner.SpawnMino_Ghost();
+
+// spawner.CreateNewNextMinos(MinoPopNumber - 1); // Nextの表示
+
+// mainSceneText.ReadtGoAnimation(); // "Ready Go!" の表示
+
+// yield return new WaitForSeconds(5.6f);
+
+// // Updateの開始
+// while (true)
+// {
+//     Update();
+//     yield return null; // 次のフレームまで待機
+// }
+
+// if (!board.CheckPosition(spawner.activeMino))
+// {
+//     Debug.LogError("[GameManager Update()] ゲームボードからミノがはみ出した。または、ブロックに重なった。");
+// }
+
+// if (!board.CheckPosition(spawner.ghostMino))
+// {
+//     Debug.LogError("[GameManager Update()] ゲームボードからゴーストミノがはみ出した。または、ブロックに重なった。");
+// }
+
+// // 連続左移動入力の解除処理を行う関数 //
+// private void ReleaseContinuousMoveLeftInput()
+// {
+//     timer.ContinuousLRKey = false; // キーの連続入力でない
+// }
+
+/*void SpinEffect(int i)
     {
 
     }*/
 
-    //     internal static class AssemblyState
-    //     {
-    //         public const bool IsDebug =
-    // #if DEBUG
-    //                 true;
-    // #else
-    //             false;
-    // #endif
-    //     }
+//     internal static class AssemblyState
+//     {
+//         public const bool IsDebug =
+// #if DEBUG
+//                 true;
+// #else
+//             false;
+// #endif
+//     }
 
-    // public void Foo()
-    // {
-    //     if(AssemblyState.IsDebug)
-    //     {
-    //         Console.WriteLine("デバッグ時に実行");
-    //     }
-    //     else
-    //     {
-    //         Console.WriteLine("デバッグ以外で実行");
-    //     }
-    // }
+// public void Foo()
+// {
+//     if(AssemblyState.IsDebug)
+//     {
+//         Console.WriteLine("デバッグ時に実行");
+//     }
+//     else
+//     {
+//         Console.WriteLine("デバッグ以外で実行");
+//     }
+// }
 
-    // private IEnumerator GameStart()
-    // {
-    //     mainSceneText.ReadtGoAnimation(); // "Ready Go!" の表示
-    //     yield return new WaitForSeconds(2f); // "Ready Go"の表示時間（例えば2秒）
-    //     readyGoText.SetActive(false);
+// private IEnumerator GameStart()
+// {
+//     mainSceneText.ReadtGoAnimation(); // "Ready Go!" の表示
+//     yield return new WaitForSeconds(2f); // "Ready Go"の表示時間（例えば2秒）
+//     readyGoText.SetActive(false);
 
-    //     // Updateの開始
-    //     while (true)
-    //     {
-    //         Update();
-    //         yield return null; // 次のフレームまで待機
-    //     }
-    // }
-}
+//     // Updateの開始
+//     while (true)
+//     {
+//         Update();
+//         yield return null; // 次のフレームまで待機
+//     }
+// }
+
+/////////////////////////////////////////////////////////
