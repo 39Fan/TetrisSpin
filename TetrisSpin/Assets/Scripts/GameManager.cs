@@ -331,7 +331,7 @@ public class GameManager : MonoBehaviour
 
             AudioManager.Instance.PlaySound(AudioNames.MoveDown);
 
-            if (spinCheck.spinTypeName != SpinTypeNames.I_Spin) // I-Spinは下移動しても解除されないようにしている
+            if (spinCheck.SpinTypeName != SpinTypeNames.I_Spin) // I-Spinは下移動しても解除されないようにしている
             {
                 spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
             }
@@ -427,7 +427,7 @@ public class GameManager : MonoBehaviour
 
         spinCheck.CheckSpinType(); // スピン判定のチェック
 
-        if (spinCheck.spinTypeName != SpinTypeNames.None) // スピン判定がない場合
+        if (spinCheck.SpinTypeName != SpinTypeNames.None) // スピン判定がない場合
         {
             AudioManager.Instance.PlaySound(AudioNames.Spin);
         }
@@ -472,7 +472,7 @@ public class GameManager : MonoBehaviour
             }
 
             // 以下一マスでも下に移動した時の処理
-            if (spinCheck.spinTypeName != SpinTypeNames.I_Spin) // I-Spinは下移動しても解除されないようにしている
+            if (spinCheck.SpinTypeName != SpinTypeNames.I_Spin) // I-Spinは下移動しても解除されないようにしている
             {
                 spinCheck.ResetSpinTypeName();
             }
@@ -536,7 +536,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if (spinCheck.spinTypeName != SpinTypeNames.I_Spin) // I-Spinは下移動しても解除されないようにしている
+            if (spinCheck.SpinTypeName != SpinTypeNames.I_Spin) // I-Spinは下移動しても解除されないようにしている
             {
                 spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
             }
