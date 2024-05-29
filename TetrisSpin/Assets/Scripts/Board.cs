@@ -2,79 +2,97 @@ using System.Reflection.Emit;
 using JetBrains.Annotations;
 using UnityEngine;
 
-///// ゲームボードに関するスクリプト /////
-
-
-// ↓このスクリプトで可能なこと↓ //
-
-// ゲームボードの作成
-// ミノの位置判定
-// ミノの設置場所を管理
-
+/// <summary>
+/// テトリスのボードを管理するクラス
+/// ・ミノの位置判定
+/// ・ブロックの配置
+/// ・ライン消去
+/// などを処理する
+/// </summary>
 public class Board : MonoBehaviour
 {
-    // ゲームボード //
-    private int Header = 20; // ヘッダー20マス
-    private int Height = 40; // 高さ40マス     //Height - Header がゲームボードの縦幅
-    private int Width = 10; // 横幅10マス
+    /// <summary>ゲームボードのヘッダー(20)</summary>
+    private int header = 20;
+    /// <summary>
+    /// ゲームボードの高さ(40)
+    /// Height - Header がゲームボードの縦幅(20)
+    /// </summary>
+    private int height = 40;
+    /// <summary>ゲームボードの横幅(10)</summary>
+    private int width = 10; // 横幅10マス
 
-    // ゲッタープロパティ //
-    public int header
+    /// <summary>headerのゲッタープロパティ</summary>
+    public int Header
     {
-        get { return Header; }
+        get { return header; }
     }
-    public int height
+    /// <summary>heightのゲッタープロパティ</summary>
+    public int Height
     {
-        get { return Height; }
+        get { return height; }
     }
 
-    // ゲーム画面内のグリッド //
-    public Transform[,] Grid;
+    /// <summary>
+    /// ゲーム画面内のグリッド
+    /// 2次元配列型[width(10),height(40)]
+    /// </summary>
+    public Transform[,] grid;
 
-    // ボード基盤の四角形 //
-    [SerializeField] private Transform EmptySprite;
+    /// <summary>ゲームボード基盤の四角形</summary>
+    [SerializeField] private Transform emptySprite;
 
+    /// <summary>
+    /// ゲームボードグリッドの定義
+    /// </summary>
     private void Awake()
     {
-        Grid = new Transform[Width, Height]; // ゲームボードを作成
+        grid = new Transform[width, height]; // ゲームボードを作成
     }
 
+    /// <summary>
+    /// ゲームボードを作成する関数の呼び出し
+    /// </summary>
     private void Start()
     {
         CreateBoard();
     }
 
-    // ボードを作成する関数 //
+    /// <summary>
+    /// ゲームボードの作成
+    /// </summary>
     void CreateBoard()
     {
-        if (EmptySprite)
+        for (int y = 0; y < height - header; y++)
         {
-            for (int y = 0; y < Height - Header; y++)
+            for (int x = 0; x < width; x++)
             {
-                for (int x = 0; x < Width; x++)
-                {
-                    Transform clone = Instantiate(EmptySprite,
-                        new Vector3(x, y, 0), Quaternion.identity); // EmptySpriteを並べていく
+                Transform clone = Instantiate(emptySprite,
+                    new Vector3(x, y, 0), Quaternion.identity); // EmptySpriteを並べていく
 
-                    clone.transform.parent = transform;
-                }
+                clone.transform.parent = transform;
             }
         }
+
     }
 
-    // ActiveMinoが枠内にあるのか判定する関数を呼ぶ関数 //
-    public bool CheckPosition(Mino _ActiveMino)
+    /// <summary>
+    /// activeMinoが存在できる位置か判定する関数を呼ぶ関数
+    /// </summary>
+    /// <param name="_activeMino">activeMino</param>
+    /// <returns>ブロックが存在できる場合 true、それ以外の場合は false</returns>
+    public bool CheckPosition(Mino _activeMino)
     {
-        foreach (Transform item in _ActiveMino.transform)
+        // 操作中のミノを構成するブロック個々に調べる
+        foreach (Transform item in _activeMino.transform)
         {
-            Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
+            Vector2 pos = Rounding.Round(item.position);
 
-            if (!BoardOutCheck((int)pos.x, (int)pos.y)) // ブロックが枠外に出たとき
+            if (!IsWithinBoard((int)pos.x, (int)pos.y)) // ブロックが枠外に出たとき
             {
                 return false;
             }
 
-            if (BlockCheck((int)pos.x, (int)pos.y, _ActiveMino)) // 移動先に何かブロックがあるとき
+            if (CheckMinoCollision((int)pos.x, (int)pos.y, _activeMino)) // 移動先に何かブロックがあるとき
             {
                 return false;
             }
@@ -83,33 +101,50 @@ public class Board : MonoBehaviour
         return true;
     }
 
-    // ブロックが枠内にあるか判定する関数 //
-    public bool BoardOutCheck(int x, int y)
+    /// <summary>
+    /// ブロックが枠内にあるか判定する関数
+    /// </summary>
+    /// <param name="_x">activeMinoを構成するブロックの x 座標</param>
+    /// <param name="_y">activeMinoを構成するブロックの y 座標</param>
+    /// <returns>ブロックが枠内にある場合 true、それ以外の場合は false</returns>
+    public bool IsWithinBoard(int _x, int _y)
     {
-        // x軸は 0 以上 Width 未満、 y軸は 0 以上
-        return (x >= 0 && x < Width && y >= 0);
+        // x軸は 0 以上 width 未満、 y軸は 0 以上
+        return (_x >= 0 && _x < width && _y >= 0);
     }
 
-    // 移動先にブロックがないか判定する関数 //
-    private bool BlockCheck(int x, int y, Mino _ActiveMino)
+    /// <summary>
+    /// activeMinoとブロックが重なっているか判定する関数
+    /// </summary>
+    /// <param name="_x">activeMinoを構成するブロックの x 座標</param>
+    /// <param name="_y">activeMinoを構成するブロックの y 座標</param>
+    /// <param name="_activeMino">activeMino</param>
+    /// <returns>ブロックが重なっていない場合 true、それ以外の場合は false</returns>
+    private bool CheckMinoCollision(int _x, int _y, Mino _activeMino)
     {
         // 二次元配列が空ではない(他のブロックがある時)
         // 親が違う
-        return (Grid[x, y] != null && Grid[x, y].parent != _ActiveMino.transform);
+        return (grid[_x, _y] != null && grid[_x, _y].parent != _activeMino.transform);
     }
 
-    // ブロックが落ちたポジションを記録する関数 //
-    public void SaveBlockInGrid(Mino _ActiveMino)
+    /// <summary>
+    /// ブロックが落ちたポジションを記録する関数
+    /// </summary>
+    /// <param name="_activeMino">activeMino</param>
+    public void SaveBlockInGrid(Mino _activeMino)
     {
-        foreach (Transform item in _ActiveMino.transform)
+        foreach (Transform item in _activeMino.transform)
         {
             Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
 
-            Grid[(int)pos.x, (int)pos.y] = item;
+            grid[(int)pos.x, (int)pos.y] = item;
         }
     }
 
-    // 全ての行をチェックして、埋まっていれば削除する関数 //
+    /// <summary>
+    /// 全ての行をチェックして、埋まっていれば削除する関数を呼ぶ関数
+    /// </summary>
+    /// <returns>列消去数(ClearRowCount)</returns>
     public int ClearAllRows()
     {
         int ClearRowCount = 0; // 合計列消去数を ClearRowCount に格納
@@ -131,12 +166,16 @@ public class Board : MonoBehaviour
         return ClearRowCount; // 列消去数を返す
     }
 
-    // 指定された行がブロックで埋まっているか確認する関数 //
-    bool IsComplete(int y)
+    /// <summary>
+    /// 指定された行がブロックで埋まっているか確認する関数
+    /// </summary>
+    /// <param name="_y">調べる y 座標</param>
+    /// <returns>指定された行がブロックで埋まっている場合 true、それ以外の場合は false</returns>
+    bool IsComplete(int _y)
     {
-        for (int x = 0; x < Width; x++)
+        for (int x = 0; x < width; x++)
         {
-            if (Grid[x, y] == null) // ブロックがない場合
+            if (grid[x, _y] == null) // ブロックがない場合
             {
                 return false;
             }
@@ -145,45 +184,54 @@ public class Board : MonoBehaviour
         return true; // 行が埋まっている場合
     }
 
-    // 指定された行のブロックを削除する関数 //
-    private void ClearRow(int y)
+    /// <summary>
+    /// 指定された行のブロックを削除する関数
+    /// </summary>
+    /// <param name="_y">調べる y 座標</param>
+    private void ClearRow(int _y)
     {
-        for (int x = 0; x < Width; x++)
+        for (int x = 0; x < width; x++)
         {
-            if (Grid[x, y] != null)
+            if (grid[x, _y] != null)
             {
-                Destroy(Grid[x, y].gameObject);
+                Destroy(grid[x, _y].gameObject);
             }
 
-            Grid[x, y] = null;
+            grid[x, _y] = null;
         }
     }
 
-    // 上にあるブロックを1段下げる関数 //
-    private void ShiftRowsDown(int startY)
+    /// <summary>
+    /// 上にある全てのブロックを1段下げる関数
+    /// </summary>
+    /// <param name="_y">下げる y 座標(この y 以上のブロックが1段下がる)</param>
+    private void ShiftRowsDown(int _y)
     {
-        for (int y = startY; y < Height; y++)
+        for (int y = _y; y < Height; y++)
         {
-            for (int x = 0; x < Width; x++)
+            for (int x = 0; x < width; x++)
             {
-                if (Grid[x, y] != null)
+                if (grid[x, y] != null)
                 {
-                    Grid[x, y - 1] = Grid[x, y];
-                    Grid[x, y] = null;
-                    Grid[x, y - 1].position += new Vector3(0, -1, 0);
+                    grid[x, y - 1] = grid[x, y];
+                    grid[x, y] = null;
+                    grid[x, y - 1].position += new Vector3(0, -1, 0);
                 }
             }
         }
     }
 
-    // PerfectClearか判別する関数 //
+    /// <summary>
+    /// PerfectClearか判別する関数
+    /// </summary>
+    /// <returns>PerfectClear 判定の場合 true、それ以外の場合は false</returns>
     public bool CheckPerfectClear()
     {
         for (int y = 0; y < Height; y++)
         {
-            for (int x = 0; x < Width; x++)
+            for (int x = 0; x < width; x++)
             {
-                if (Grid[x, y] != null) // ブロックがある場合
+                if (grid[x, y] != null) // ブロックがある場合
                 {
                     return false;
                 }
@@ -192,19 +240,25 @@ public class Board : MonoBehaviour
         return true;
     }
 
-    // 指定されたマスがブロック、もしくは壁かどうか確認する関数 //
-    public bool CheckGrid(int x, int y, Mino _ActiveMino)
+    /// <summary>
+    /// 指定されたマスがブロック、もしくは壁かどうか確認する関数
+    /// </summary>
+    /// <param name="_x">調べる x 座標</param>
+    /// <param name="_y">調べる y 座標</param>
+    /// <param name="_activeMino">activeMino</param>
+    /// <returns>指定されたマスがブロック、もしくは壁の場合 true、それ以外の場合は false</returns>
+    public bool CheckGrid(int _x, int _y, Mino _activeMino)
     {
-        if (x < 0 || y < 0) // Gridの座標が負の場合(壁判定)
+        if (_x < 0 || _y < 0) // gridの座標が負の場合(壁判定)
         {
             return true;
         }
-        else if (!BoardOutCheck(x, y)) // ゲームボード外の場合
+        else if (!IsWithinBoard(_x, _y)) // ゲームボード外の場合
         {
             return true;
         }
 
-        if (BlockCheck(x, y, _ActiveMino)) // ブロックで埋まっている場合
+        if (CheckMinoCollision(_x, _y, _activeMino)) // ブロックで埋まっている場合
         {
             return true;
         }
@@ -212,10 +266,14 @@ public class Board : MonoBehaviour
         return false;
     }
 
-    // ミノを構成するブロックについて、最上部のブロックのy座標データを返す関数 //
+    /// <summary>
+    /// ミノを構成するブロックについて、最上部のブロックのy座標を返す関数
+    /// </summary>
+    /// <param name="_activeMino">activeMino</param>
+    /// <returns>最上部のブロックのy座標 topBlockPosition_y</returns>
     public int CheckActiveMinoTopBlockPosition_y(Mino _activeMino)
     {
-        int TopBlockPosition_y = 0; // 最上部のブロックのY座標(初期値は底の数値)
+        int topBlockPosition_y = 0; // 最上部のブロックのY座標(初期値は底の数値)
         int temp; // 一時的な変数
 
         foreach (Transform item in _activeMino.transform) // ミノの各ブロックを調べる
@@ -223,16 +281,20 @@ public class Board : MonoBehaviour
             temp = Mathf.RoundToInt(item.transform.position.y); // ブロックのy座標の値
 
             // 1番ブロックのy座標が高い値を探す
-            if (temp >= TopBlockPosition_y)
+            if (temp >= topBlockPosition_y)
             {
-                TopBlockPosition_y = temp;
+                topBlockPosition_y = temp;
             }
         }
 
-        return TopBlockPosition_y;
+        return topBlockPosition_y;
     }
 
-    // ミノを構成するブロックについて、最下部ブロックのy座標データを返す関数 //
+    /// <summary>
+    /// ミノを構成するブロックについて、最下部ブロックのy座標データを返す関数
+    /// </summary>
+    /// <param name="_activeMino">activeMino</param>
+    /// <returns>最下部のブロックのy座標 bottomBlockPosition_y</returns>
     public int CheckActiveMinoBottomBlockPosition_y(Mino _activeMino)
     {
         int bottomBlockPosition_y = 21; // 最下部のブロックのY座標(初期値はゲームオーバーになる数値)
@@ -252,7 +314,11 @@ public class Board : MonoBehaviour
         return bottomBlockPosition_y;
     }
 
-    // ゲームオーバーか判定する関数 //
+    /// <summary>
+    /// ゲームオーバーか判定する関数
+    /// </summary>
+    /// <param name="_activeMino">activeMino</param>
+    /// <returns>ゲームオーバー判定の場合 true、それ以外の場合は false</returns>
     public bool CheckGameOver(Mino _activeMino)
     {
         int bottomBlockPosition_y = CheckActiveMinoBottomBlockPosition_y(_activeMino); // ActiveMino の1番下のブロックのy座標
