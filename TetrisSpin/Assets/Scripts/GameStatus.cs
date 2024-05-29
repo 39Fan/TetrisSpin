@@ -13,13 +13,15 @@ public class GameStatus : MonoBehaviour
     private bool backToBack = false;
 
     /// <summary>Renの判定
-    /// 3回連続で列消去すると「2REN」なので、初期値は-1に設定
     /// </summary>
+    /// <remarks>3回連続で列消去すると「2REN」なので、初期値は-1に設定 </remarks>
+    /// <value>-1~</value>
     private int ren = -1;
 
     /// <summary>攻撃ライン数
-    /// ゲームスタート時に攻撃ラインは存在しないので、初期値は0
     /// </summary>
+    /// <remarks>ゲームスタート時に攻撃ラインは存在しないので、初期値は0</remarks>
+    /// <value>0~</value>
     [SerializeField] private int attackLines = 0;
 
     /// <summary>ライン消去の履歴を記録するリスト</summary>
@@ -27,19 +29,20 @@ public class GameStatus : MonoBehaviour
 
     /// <summary>ミノの回転後の向き
     /// 初期値はNorthの状態
-    /// Spin判定を確認する際、回転後の向きと回転前の向きの情報が必要なため
     /// </summary>
+    /// <remarks>Spin判定を確認する際、回転後の向きと回転前の向きの情報が必要なため</remarks>
     [SerializeField] private MinoDirections minoAngleAfter = MinoDirections.North;
 
     /// <summary>ミノの回転前の向き
     /// 初期値はNorthの状態
-    /// Spin判定を確認する際、回転後の向きと回転前の向きの情報が必要なため
     /// </summary>
+    /// <remarks>Spin判定を確認する際、回転後の向きと回転前の向きの情報が必要なため</remarks>
     [SerializeField] private MinoDirections minoAngleBefore = MinoDirections.North;
 
     /// <summary>スーパーローテーションシステム(SRS)の段階
-    /// SRSが使用されていないときは0, 1〜4の時は、SRSの段階を表す
     /// </summary>
+    /// <remarks>SRSが使用されていないときは0, 1〜4の時は、SRSの段階を表す</remarks>
+    /// <value>0~4</value>
     [SerializeField] private int stepsSRS = 0;
 
     // ゲッタープロパティ //
