@@ -126,7 +126,7 @@ public class Spawner : MonoBehaviour
         int activeMino_z = Mathf.RoundToInt(ActiveMino.transform.position.z);
 
         // ゲームボードの高さのマスの数 + 2　回繰り返す
-        for (ActiveMinoToBaseDistance = 0; ActiveMinoToBaseDistance < board.height - board.header + 2; ActiveMinoToBaseDistance++)
+        for (ActiveMinoToBaseDistance = 0; ActiveMinoToBaseDistance < board.Height - board.Header + 2; ActiveMinoToBaseDistance++)
         {
             // ActiveMino のY座標を ActiveMinoToBaseDistance の値だけ下に移動する
             ActiveMino.transform.position = new Vector3
