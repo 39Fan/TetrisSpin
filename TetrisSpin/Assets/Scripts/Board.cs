@@ -3,18 +3,18 @@ using JetBrains.Annotations;
 using UnityEngine;
 
 /// <summary>
-/// テトリスのボードを管理するクラス
-/// ・ミノの位置判定
-/// ・ブロックの配置
-/// ・ライン消去
-/// などを処理する
+/// テトリスのボードを管理するクラス<br/>
+/// ・ミノの位置判定<br/>
+/// ・ブロックの配置<br/>
+/// ・ライン消去<br/>
+/// などを処理する<br/>
 /// </summary>
 public class Board : MonoBehaviour
 {
     /// <summary>ゲームボードのヘッダー(20)</summary>
     private int header = 20;
     /// <summary>
-    /// ゲームボードの高さ(40)
+    /// ゲームボードの高さ(40)<br/>
     /// Height - Header がゲームボードの縦幅(20)
     /// </summary>
     private int height = 40;
@@ -33,7 +33,7 @@ public class Board : MonoBehaviour
     }
 
     /// <summary>
-    /// ゲーム画面内のグリッド
+    /// ゲーム画面内のグリッド<br/>
     /// 2次元配列型[width(10),height(40)]
     /// </summary>
     public Transform[,] grid;

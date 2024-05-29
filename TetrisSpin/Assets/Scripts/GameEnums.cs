@@ -68,6 +68,9 @@ public enum SpinTypeNames
     None
 }
 
+/// <summary>
+/// ブロックの存在判定一覧
+/// </summary>
 public enum Existence
 {
     Exist,
