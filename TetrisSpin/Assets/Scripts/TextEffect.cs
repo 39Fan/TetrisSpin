@@ -97,10 +97,10 @@ public class TextEffect : MonoBehaviour
     // 表示するテキストを判別して、実際に表示する関数 //
     public void TextDisplay(int lineClearCount)
     {
-        TextAnimation(DetermineTextToDisplay(spinCheck.spinTypeName, lineClearCount));
+        TextAnimation(DetermineTextToDisplay(spinCheck.SpinTypeName, lineClearCount));
 
         // 鳴らすサウンドの決定も行う
-        if (spinCheck.spinTypeName != SpinTypeNames.None)
+        if (spinCheck.SpinTypeName != SpinTypeNames.None)
         {
             if (lineClearCount >= 1)
             {
