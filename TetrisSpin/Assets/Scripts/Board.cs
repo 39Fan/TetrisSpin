@@ -78,7 +78,7 @@ public class Board : MonoBehaviour
     /// <summary>
     /// activeMinoが存在できる位置か判定する関数を呼ぶ関数
     /// </summary>
-    /// <param name="_activeMino">activeMino</param>
+    /// <param name="_activeMino">操作中のミノ</param>
     /// <returns>ブロックが存在できる場合 true、それ以外の場合は false</returns>
     public bool CheckPosition(Mino _activeMino)
     {
@@ -118,7 +118,7 @@ public class Board : MonoBehaviour
     /// </summary>
     /// <param name="_x">activeMinoを構成するブロックの x 座標</param>
     /// <param name="_y">activeMinoを構成するブロックの y 座標</param>
-    /// <param name="_activeMino">activeMino</param>
+    /// <param name="_activeMino">操作中のミノ</param>
     /// <returns>ブロックが重なっていない場合 true、それ以外の場合は false</returns>
     private bool CheckMinoCollision(int _x, int _y, Mino _activeMino)
     {
@@ -130,7 +130,7 @@ public class Board : MonoBehaviour
     /// <summary>
     /// ブロックが落ちたポジションを記録する関数
     /// </summary>
-    /// <param name="_activeMino">activeMino</param>
+    /// <param name="_activeMino">操作中のミノ</param>
     public void SaveBlockInGrid(Mino _activeMino)
     {
         foreach (Transform item in _activeMino.transform)
@@ -245,7 +245,7 @@ public class Board : MonoBehaviour
     /// </summary>
     /// <param name="_x">調べる x 座標</param>
     /// <param name="_y">調べる y 座標</param>
-    /// <param name="_activeMino">activeMino</param>
+    /// <param name="_activeMino">操作中のミノ</param>
     /// <returns>指定されたマスがブロック、もしくは壁の場合 true、それ以外の場合は false</returns>
     public bool CheckGrid(int _x, int _y, Mino _activeMino)
     {
@@ -269,7 +269,7 @@ public class Board : MonoBehaviour
     /// <summary>
     /// ミノを構成するブロックについて、最上部のブロックのy座標を返す関数
     /// </summary>
-    /// <param name="_activeMino">activeMino</param>
+    /// <param name="_activeMino">操作中のミノ</param>
     /// <returns>最上部のブロックのy座標 topBlockPosition_y</returns>
     public int CheckActiveMinoTopBlockPosition_y(Mino _activeMino)
     {
@@ -293,7 +293,7 @@ public class Board : MonoBehaviour
     /// <summary>
     /// ミノを構成するブロックについて、最下部ブロックのy座標データを返す関数
     /// </summary>
-    /// <param name="_activeMino">activeMino</param>
+    /// <param name="_activeMino">操作中のミノ</param>
     /// <returns>最下部のブロックのy座標 bottomBlockPosition_y</returns>
     public int CheckActiveMinoBottomBlockPosition_y(Mino _activeMino)
     {
@@ -317,7 +317,7 @@ public class Board : MonoBehaviour
     /// <summary>
     /// ゲームオーバーか判定する関数
     /// </summary>
-    /// <param name="_activeMino">activeMino</param>
+    /// <param name="_activeMino">操作中のミノ</param>
     /// <returns>ゲームオーバー判定の場合 true、それ以外の場合は false</returns>
     public bool CheckGameOver(Mino _activeMino)
     {

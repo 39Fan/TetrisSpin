@@ -1,27 +1,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-///// ゲームステータスに関するスクリプト /////
-
-
-// ↓このスクリプトで可能なこと↓ //
-
-// ゲームの状態を管理
-
-
+/// <summary>
+/// ゲームの状態を管理するクラス
+/// </summary>
 public class GameStatus : MonoBehaviour
 {
-    private bool GameOver; // ゲームオーバーの判定
+    /// <summary>ゲームオーバーの判定</summary>
+    private bool gameOver;
 
-    private bool BackToBack = false; // BackToBackの判定
+    /// <summary>BackToBackの判定</summary>
+    private bool backToBack = false;
 
-    // private bool PerfectClear = false; // PerfectClearの判定
+    // /// <summary>
+    // /// PerfectClearの判定
+    // /// </summary>
+    // private bool perfectClear = false;
 
-    private int Ren = -1; // Renの判定
+    /// <summary>
+    /// Renの判定
+    /// 3回連続で列消去すると「2REN」なので、初期値は-1に設定
+    /// </summary>
+    private int ren = -1;
 
-    [SerializeField] private int AttackLines = 0; // 攻撃ライン数
+    /// <summary>攻撃ライン数</summary>
+    [SerializeField] private int attackLines = 0;
 
-    private List<int> LineClearCountHistory = new List<int>(); // ライン消去の履歴を記録するリスト
+    /// <summary>ライン消去の履歴を記録するリスト</summary>
+    private List<int> lineClearCountHistory = new List<int>();
+
+    /// <summary>
+    /// ミノの回転後の向き<br/>
+    /// 初期値はNorthの状態<br/>
+    /// Spin判定を確認する際、回転後の向きと回転前の向きの情報が必要なため
+    /// </summary>
+    [SerializeField] private MinoDirections minoAngleAfter = MinoDirections.North;
+    /// <summary>
+    /// ミノの回転前の向き<br/>
+    /// 初期値はNorthの状態<br/>
+    /// Spin判定を確認する際、回転後の向きと回転前の向きの情報が必要なため
+    /// </summary>
+    [SerializeField] private MinoDirections minoAngleBefore = MinoDirections.North;
+
+    /// <summary>
+    /// SRSが使用されていないときは0, 1〜4の時は、SRSの段階を表す
+    /// </summary>
+    [SerializeField] private int stepsSRS = 0;
 
     // // 向きの定義 //
     // private string North = "North"; // 初期(未回転)状態をNorthとして、
@@ -29,131 +53,160 @@ public class GameStatus : MonoBehaviour
     // private string South = "South"; // 左回転後の向きをWest
     // private string West = "West"; // 2回右回転または左回転した時の向きをSouthとする
 
-    // ミノの回転後と回転前の向き //
-    [SerializeField] private MinoDirections MinoAngleAfter = MinoDirections.North; // 初期値はNorthの状態
-    [SerializeField] private MinoDirections MinoAngleBefore = MinoDirections.North; // 初期値はNorthの状態 // SRSで必要
-
-    // 最後に行ったスーパーローテーションシステム(SRS)の段階を表す変数 //
-    [SerializeField] private int StepsSRS = 0; // SRSが使用されていないときは0, 1〜4の時は、SRSの段階を表す
-
-    // ゲッタープロパティ //
-    public bool gameOver
+    /// <summary>gameOverのゲッタープロパティ</summary>
+    public bool GameOver
     {
-        get { return GameOver; }
+        get { return gameOver; }
     }
-    public bool backToBack
+    /// <summary>backToBackのゲッタープロパティ</summary>
+    public bool BackToBack
     {
-        get { return BackToBack; }
+        get { return backToBack; }
     }
     // public bool perfectClear
     // {
     //     get { return PerfectClear; }
     // }
-    public int ren
+    /// <summary>renのゲッタープロパティ</summary>
+    public int Ren
     {
-        get { return Ren; }
+        get { return ren; }
     }
-    public List<int> lineClearCountHistory
+    /// <summary>lineClearCountHistoryのゲッタープロパティ</summary>
+    public List<int> LineClearCountHistory
     {
-        get { return LineClearCountHistory; }
+        get { return lineClearCountHistory; }
     }
-    public MinoDirections minoAngleAfter
+    /// <summary>minoAngleAfterのゲッタープロパティ</summary>
+    public MinoDirections MinoAngleAfter
     {
-        get { return MinoAngleAfter; }
+        get { return minoAngleAfter; }
     }
-    public MinoDirections minoAngleBefore
+    /// <summary>minoAngleBeforeのゲッタープロパティ</summary>
+    public MinoDirections MinoAngleBefore
     {
-        get { return MinoAngleBefore; }
+        get { return minoAngleBefore; }
     }
-    public int stepsSRS
+    /// <summary>stepsSRSのゲッタープロパティ</summary>
+    public int StepsSRS
     {
-        get { return StepsSRS; }
+        get { return stepsSRS; }
     }
 
     // 干渉するスクリプト //
     Spawner spawner;
 
-    // インスタンス化 //
+    /// <summary>
+    /// インスタンス化
+    /// </summary>
     private void Awake()
     {
         spawner = FindObjectOfType<Spawner>();
     }
 
-    // ゲームオーバー判定をオンにする関数 //
-    public void Set_GameOver()
+    /// <summary>
+    /// ゲームオーバー判定をオンにする関数
+    /// </summary>
+    public void SetGameOver()
     {
-        GameOver = true;
+        gameOver = true;
     }
 
-    // ゲームオーバー判定をオフにする関数 //
-    public void Reset_GameOver()
+    /// <summary>
+    /// ゲームオーバー判定をオフにする関数
+    /// </summary>
+    public void ResetGameOver()
     {
-        GameOver = false;
+        gameOver = false;
     }
 
-    // BackToBack判定をオンにする関数 //
-    public void Set_BackToBack()
+    /// <summary>
+    /// BackToBack判定をオンにする関数
+    /// </summary>
+    public void SetBackToBack()
     {
-        BackToBack = true;
+        backToBack = true;
     }
 
-    // BackToBack判定をオフにする関数 //
-    public void Reset_BackToBack()
+    /// <summary>
+    /// BackToBack判定をオフにする関数
+    /// </summary>
+    public void ResetBackToBack()
     {
-        BackToBack = false;
+        backToBack = false;
     }
 
-    // // PerfectClear判定をオンにする関数 //
-    // public void Set_PerfectClear()
+    // /// <summary>
+    // /// PerfectClear判定をオンにする関数
+    // /// </summary>
+    // public void SetPerfectClear()
     // {
-    //     PerfectClear = true;
+    //     perfectClear = true;
     // }
 
-    // // PerfectClear判定をオフにする関数 //
-    // public void Reset_PerfectClear()
+    // /// <summary>
+    // /// PerfectClear判定をオフにする関数
+    // /// </summary>
+    // public void ResetPerfectClear()
     // {
-    //     PerfectClear = false;
+    //     perfectClear = false;
     // }
 
-    // Renの値をリセットする関数 //
-    public void Reset_Ren()
+    /// <summary>
+    /// Renの値をリセットする関数
+    /// </summary>
+    public void ResetRen()
     {
-        Ren = -1;
+        ren = -1;
     }
 
-    // Renの値を1増加させる関数 //
+    /// <summary>
+    /// Renの値を1増加させる関数
+    /// </summary>
     public void IncreaseRen()
     {
-        Ren++;
+        ren++;
     }
 
-    // AttackLinesの値を足していく関数
+    /// <summary>
+    /// AttackLinesの値を足していく関数
+    /// </summary>
+    /// <param name="_addAttackLines">追加する攻撃ライン数</param>
     public void IncreaseAttackLines(int _addAttackLines)
     {
-        AttackLines += _addAttackLines;
+        attackLines += _addAttackLines;
     }
 
-    // ライン消去数
-    public void AddLineClearCountHistory(int _LineClearCount, int _MinoPutNumber)
+    /// <summary>
+    /// ライン消去数の履歴を追加する関数
+    /// </summary>
+    /// <param name="_lineClearCount">消去したライン数</param>
+    public void AddLineClearCountHistory(int _lineClearCount)
     {
-        LineClearCountHistory.Add(_LineClearCount);
+        LineClearCountHistory.Add(_lineClearCount);
     }
 
-    // ミノの向きを初期化する関数 //
-    public void Reset_Angle()
+    /// <summary>
+    /// ミノの向きを初期化する関数
+    /// </summary>
+    public void ResetAngle()
     {
-        MinoAngleBefore = MinoDirections.North;
-        MinoAngleAfter = MinoDirections.North;
+        minoAngleBefore = MinoDirections.North;
+        minoAngleAfter = MinoDirections.North;
     }
 
-    // MinoAngleAfterのリセットをする関数 //
-    public void Reset_MinoAngleAfter()
+    /// <summary>
+    /// MinoAngleAfterのリセットをする関数
+    /// </summary>
+    public void ResetMinoAngleAfter()
     {
-        MinoAngleAfter = MinoAngleBefore;
+        minoAngleAfter = minoAngleBefore;
     }
 
-    // 通常回転のリセットをする関数 //
-    public void Reset_Rotate()
+    /// <summary>
+    /// 通常回転のリセットをする関数
+    /// </summary>
+    public void ResetRotate()
     {
         // 通常回転が右回転だった時
         if ((MinoAngleBefore == MinoDirections.North && MinoAngleAfter == MinoDirections.East) ||
@@ -169,62 +222,71 @@ public class GameStatus : MonoBehaviour
         }
     }
 
-    // MinoAngleAfterの更新をする関数 //
-    public void UpdateMinoAngleAfter(MinoRotationDirections _RotateDirection)
+    /// <summary>
+    /// MinoAngleAfterの更新をする関数
+    /// </summary>
+    /// <param name="_rotateDirection">回転方向</param>
+    public void UpdateMinoAngleAfter(MinoRotationDirections _rotateDirection)
     {
-        if (_RotateDirection == MinoRotationDirections.RotateRight) // 右回転の時
+        if (_rotateDirection == MinoRotationDirections.RotateRight)
         {
             switch (MinoAngleAfter)
             {
                 case MinoDirections.North:
-                    MinoAngleAfter = MinoDirections.East;
+                    minoAngleAfter = MinoDirections.East;
                     break;
                 case MinoDirections.East:
-                    MinoAngleAfter = MinoDirections.South;
+                    minoAngleAfter = MinoDirections.South;
                     break;
                 case MinoDirections.South:
-                    MinoAngleAfter = MinoDirections.West;
+                    minoAngleAfter = MinoDirections.West;
                     break;
                 case MinoDirections.West:
-                    MinoAngleAfter = MinoDirections.North;
+                    minoAngleAfter = MinoDirections.North;
                     break;
             }
         }
-        else if (_RotateDirection == MinoRotationDirections.RotateLeft) // 左回転の時
+        else if (_rotateDirection == MinoRotationDirections.RotateLeft)
         {
             switch (MinoAngleAfter)
             {
                 case MinoDirections.North:
-                    MinoAngleAfter = MinoDirections.West;
+                    minoAngleAfter = MinoDirections.West;
                     break;
                 case MinoDirections.East:
-                    MinoAngleAfter = MinoDirections.North;
+                    minoAngleAfter = MinoDirections.North;
                     break;
                 case MinoDirections.South:
-                    MinoAngleAfter = MinoDirections.East;
+                    minoAngleAfter = MinoDirections.East;
                     break;
                 case MinoDirections.West:
-                    MinoAngleAfter = MinoDirections.South;
+                    minoAngleAfter = MinoDirections.South;
                     break;
             }
         }
     }
 
-    // MinoAngleBeforeの更新をする関数 //
+    /// <summary>
+    /// MinoAngleBeforeの更新をする関数
+    /// </summary>
     public void UpdateMinoAngleBefore()
     {
-        MinoAngleBefore = MinoAngleAfter;
+        minoAngleBefore = minoAngleAfter;
     }
 
-    // StepsSRSの値をリセットする関数 //
-    public void Reset_StepsSRS()
+    /// <summary>
+    /// StepsSRSの値をリセットする関数
+    /// </summary>
+    public void ResetStepsSRS()
     {
-        StepsSRS = 0;
+        stepsSRS = 0;
     }
 
-    // StepsSRSの値を1増加させる関数 //
+    /// <summary>
+    /// StepsSRSの値を1増加させる関数
+    /// </summary>
     public void IncreaseStepsSRS()
     {
-        StepsSRS++;
+        stepsSRS++;
     }
 }

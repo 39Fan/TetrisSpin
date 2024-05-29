@@ -248,8 +248,8 @@ public class Spawner : MonoBehaviour
             HoldMino = SpawnHoldMino(MinoDictionary[HoldMinoName]); // Holdされたミノを画面左上に表示
 
             // 変数の初期化
-            gameStatus.Reset_Angle();
-            gameStatus.Reset_StepsSRS();
+            gameStatus.ResetAngle();
+            gameStatus.ResetStepsSRS();
         }
     }
 
