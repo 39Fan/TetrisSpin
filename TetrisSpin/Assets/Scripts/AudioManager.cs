@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// オーディオクリップの再生を管理するクラス。
+/// オーディオクリップの再生を管理するクラス<br/>
 /// ボリュームやピッチの調節も可能
 /// </summary>
 public class AudioManager : MonoBehaviour
@@ -14,8 +14,8 @@ public class AudioManager : MonoBehaviour
     private AudioSource audioSource;
 
     /// <summary>
-    /// 各種オーディオクリップの配列。
-    /// AudioNamesと対応します。
+    /// 各種オーディオクリップの配列<br/>
+    /// AudioNamesと対応
     /// </summary>
     [SerializeField] private AudioClip[] Audios;
 
@@ -53,8 +53,8 @@ public class AudioManager : MonoBehaviour
     // int NormalPitch = 1;
 
     /// <summary>
-    /// 初期化処理を行う。
-    /// シングルトンインスタンスを設定し、オーディオクリップの辞書を構築します。
+    /// 初期化処理<br/>
+    /// また、シングルトンインスタンスを設定し、オーディオクリップの辞書を構築
     /// </summary>
     private void Awake()
     {

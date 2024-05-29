@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (gameStatus.gameOver)
+        if (gameStatus.GameOver)
         {
             return;
         }
@@ -261,9 +261,9 @@ public class GameManager : MonoBehaviour
 
             spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
-            spinCheck.Reset_SpinTypeName(); // 移動したため、スピン判定をリセット
+            spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
 
-            gameStatus.Reset_StepsSRS(); // 移動したため、StepsSRSの値を0に
+            gameStatus.ResetStepsSRS(); // 移動したため、StepsSRSの値を0に
         }
 
         IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
@@ -294,9 +294,9 @@ public class GameManager : MonoBehaviour
 
             spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
-            spinCheck.Reset_SpinTypeName(); // 移動したため、スピン判定をリセット
+            spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
 
-            gameStatus.Reset_StepsSRS(); // 移動したため、StepsSRSの値を0に
+            gameStatus.ResetStepsSRS(); // 移動したため、StepsSRSの値を0に
         }
 
         IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
@@ -335,9 +335,9 @@ public class GameManager : MonoBehaviour
 
             spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
-            spinCheck.Reset_SpinTypeName(); // 移動したため、スピン判定をリセット
+            spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
 
-            gameStatus.Reset_StepsSRS(); // 移動したため、StepsSRSの値を0に
+            gameStatus.ResetStepsSRS(); // 移動したため、StepsSRSの値を0に
         }
 
         IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
@@ -368,9 +368,9 @@ public class GameManager : MonoBehaviour
 
             spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
-            spinCheck.Reset_SpinTypeName(); // 移動したため、スピン判定をリセット
+            spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
 
-            gameStatus.Reset_StepsSRS(); // 移動したため、StepsSRSの値を0に
+            gameStatus.ResetStepsSRS(); // 移動したため、StepsSRSの値を0に
         }
 
         IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
@@ -405,10 +405,10 @@ public class GameManager : MonoBehaviour
 
             if (spinCheck.spinTypeName != SpinTypeNames.I_Spin) // I-Spinは下移動しても解除されないようにしている
             {
-                spinCheck.Reset_SpinTypeName(); // 移動したため、スピン判定をリセット
+                spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
             }
 
-            gameStatus.Reset_StepsSRS(); // 移動したため、StepsSRSの値を0に
+            gameStatus.ResetStepsSRS(); // 移動したため、StepsSRSの値を0に
         }
     }
 
@@ -419,7 +419,7 @@ public class GameManager : MonoBehaviour
     {
         timer.UpdateRotateTimer();
 
-        gameStatus.Reset_StepsSRS(); // StepsSRSのリセット
+        gameStatus.ResetStepsSRS(); // StepsSRSのリセット
 
         spawner.activeMino.RotateRight();
 
@@ -431,7 +431,7 @@ public class GameManager : MonoBehaviour
             {
                 // DebugHelper.Log("Super Rotation System (SRS) failed: Reverting rotation", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-                gameStatus.Reset_MinoAngleAfter(); // MinoAngleAfterのリセット
+                gameStatus.ResetMinoAngleAfter(); // MinoAngleAfterのリセット
 
                 AudioManager.Instance.PlaySound(AudioNames.Rotation);
             }
@@ -459,7 +459,7 @@ public class GameManager : MonoBehaviour
     {
         timer.UpdateRotateTimer();
 
-        gameStatus.Reset_StepsSRS(); // StepsSRSのリセット
+        gameStatus.ResetStepsSRS(); // StepsSRSのリセット
 
         spawner.activeMino.RotateLeft();
 
@@ -471,7 +471,7 @@ public class GameManager : MonoBehaviour
             {
                 // DebugHelper.Log("Super Rotation System (SRS) failed: Reverting rotation", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-                gameStatus.Reset_MinoAngleAfter(); // MinoAngleAfterのリセット
+                gameStatus.ResetMinoAngleAfter(); // MinoAngleAfterのリセット
 
                 AudioManager.Instance.PlaySound(AudioNames.Rotation);
             }
@@ -554,12 +554,12 @@ public class GameManager : MonoBehaviour
                 break; // For文を抜ける
             }
 
-            gameStatus.Reset_StepsSRS(); // 1マスでも下に移動した時、StepsSRSの値を0にする
+            gameStatus.ResetStepsSRS(); // 1マスでも下に移動した時、StepsSRSの値を0にする
         }
 
         // DebugHelper.Log("Hard drop: Mino reached the bottom", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-        Reset_RockDown(); // RockDownに関する変数のリセット
+        ResetRockDown(); // RockDownに関する変数のリセット
 
         SetMinoFixed(); // 底に着いたときの処理
     }
@@ -579,7 +579,7 @@ public class GameManager : MonoBehaviour
 
             AudioManager.Instance.PlaySound(AudioNames.Hold);
 
-            Reset_RockDown(); // RockDownに関する変数のリセット
+            ResetRockDown(); // RockDownに関する変数のリセット
 
             if (firstHold == true) // ゲーム中で最初のHoldだった時
             {
@@ -622,10 +622,10 @@ public class GameManager : MonoBehaviour
         {
             if (spinCheck.spinTypeName != SpinTypeNames.I_Spin) // I-Spinは下移動しても解除されないようにしている
             {
-                spinCheck.Reset_SpinTypeName(); // 移動したため、スピン判定をリセット
+                spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
             }
 
-            gameStatus.Reset_StepsSRS();
+            gameStatus.ResetStepsSRS();
         }
     }
 
@@ -670,14 +670,14 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// RockDownに関する変数のリセット
     /// </summary>
-    public void Reset_RockDown()
+    public void ResetRockDown()
     {
-        LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "Reset_RockDown()", "Start");
+        LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "ResetRockDown()", "Start");
 
         bottomBlockPositionY = startingBottomBlockPositionY;
         bottomMoveCount = 0;
 
-        LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "Reset_RockDown()", "End");
+        LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "ResetRockDown()", "End");
     }
 
     /// <summary>
@@ -691,7 +691,7 @@ public class GameManager : MonoBehaviour
         {
             textEffect.StopAnimation();
 
-            gameStatus.Set_GameOver();
+            gameStatus.SetGameOver();
 
             sceneTransition.GameOver();
 
@@ -699,20 +699,20 @@ public class GameManager : MonoBehaviour
         }
 
         // 各種変数のリセット
-        Reset_RockDown();
+        ResetRockDown();
         useHold = false;
         timer.ResetTimer();
 
         board.SaveBlockInGrid(spawner.activeMino); //mino.activeMinoをセーブ
 
-        gameStatus.AddLineClearCountHistory(board.ClearAllRows(), minoPutNumber); // 横列が埋まっていれば消去し、消去数を記録する
+        gameStatus.AddLineClearCountHistory(board.ClearAllRows()); // 横列が埋まっていれば消去し、消去数を記録する
 
-        textEffect.TextDisplay(gameStatus.lineClearCountHistory[minoPutNumber]); // 消去数、Spinに対応したテキストを表示し、それに対応したSEも鳴らす
+        textEffect.TextDisplay(gameStatus.LineClearCountHistory[minoPutNumber]); // 消去数、Spinに対応したテキストを表示し、それに対応したSEも鳴らす
 
         // 各種変数のリセット
-        gameStatus.Reset_StepsSRS();
-        spinCheck.Reset_SpinTypeName();
-        gameStatus.Reset_Angle();
+        gameStatus.ResetStepsSRS();
+        spinCheck.ResetSpinTypeName();
+        gameStatus.ResetAngle();
 
         // Numberを1進める
         minoPutNumber++;
@@ -726,7 +726,7 @@ public class GameManager : MonoBehaviour
         {
             textEffect.StopAnimation();
 
-            gameStatus.Set_GameOver();
+            gameStatus.SetGameOver();
 
             sceneTransition.GameOver();
 

@@ -139,21 +139,21 @@ public class TextEffect : MonoBehaviour
     //     switch (lineClearCount)
     //     {
     //         case 0:
-    //             gameStatus.Reset_Ren();
+    //             gameStatus.ResetRen();
     //             break;
     //         case 1:
-    //             gameStatus.Reset_BackToBack();
+    //             gameStatus.ResetBackToBack();
     //             RenAttackLines();
     //             PlaySoundAndAnimateText("Normal_Destroy", OneLineClear_Text);
     //             break;
     //         case 2:
-    //             gameStatus.Reset_BackToBack();
+    //             gameStatus.ResetBackToBack();
     //             gameStatus.IncreaseAttackLines(TwoLineClearAttack);
     //             RenAttackLines();
     //             PlaySoundAndAnimateText("Normal_Destroy", TwoLineClear_Text);
     //             break;
     //         case 3:
-    //             gameStatus.Reset_BackToBack();
+    //             gameStatus.ResetBackToBack();
     //             gameStatus.IncreaseAttackLines(ThreeLineClearAttack);
     //             RenAttackLines();
     //             PlaySoundAndAnimateText("Normal_Destroy", ThreeLineClear_Text);
@@ -552,14 +552,14 @@ public class TextEffect : MonoBehaviour
         if (spinType == SpinTypeNames.None && displayText != Tetris_Text)
         {
             // BackToBack判定をリセット
-            gameStatus.Reset_BackToBack();
+            gameStatus.ResetBackToBack();
         }
         else
         {
-            if (!gameStatus.backToBack)
+            if (!gameStatus.BackToBack)
             {
                 // BackToBack判定を付与
-                gameStatus.Set_BackToBack();
+                gameStatus.SetBackToBack();
             }
             else
             {
@@ -578,12 +578,12 @@ public class TextEffect : MonoBehaviour
             // 1列以上消去していれば
             gameStatus.IncreaseRen();
             // int ren = Mathf.Min(gameStatus.ren, RenBonus.Length - 1);
-            gameStatus.IncreaseAttackLines(RenBonus[gameStatus.ren]);
+            gameStatus.IncreaseAttackLines(RenBonus[gameStatus.Ren]);
         }
         else
         {
             // 列消去ができていない場合、リセットする
-            gameStatus.Reset_Ren();
+            gameStatus.ResetRen();
         }
     }
 
@@ -796,11 +796,11 @@ public class TextEffect : MonoBehaviour
 //                 switch (_LineClearCount) // 消去数で表示するテキストが変わる
 //                 {
 //                     case 0:
-//                         gameStatus.Reset_Ren();
+//                         gameStatus.ResetRen();
 //                         break;
 
 //                     case 1:
-//                         gameStatus.Reset_BackToBack();
+//                         gameStatus.ResetBackToBack();
 
 //                         RenAttackLines();
 
@@ -811,7 +811,7 @@ public class TextEffect : MonoBehaviour
 //                         break;
 
 //                     case 2:
-//                         gameStatus.Reset_BackToBack();
+//                         gameStatus.ResetBackToBack();
 
 //                         gameStatus.IncreaseAttackLines(TwoLineClearAttack);
 
@@ -824,7 +824,7 @@ public class TextEffect : MonoBehaviour
 //                         break;
 
 //                     case 3:
-//                         gameStatus.Reset_BackToBack();
+//                         gameStatus.ResetBackToBack();
 
 //                         gameStatus.IncreaseAttackLines(ThreeLineClearAttack);
 
