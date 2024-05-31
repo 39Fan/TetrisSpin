@@ -2,40 +2,35 @@ using System.Reflection.Emit;
 using JetBrains.Annotations;
 using UnityEngine;
 
-/// <summary>
-/// テトリスのボードを管理するクラス<br/>
-/// ・ミノの位置判定<br/>
-/// ・ブロックの配置<br/>
-/// ・ライン消去<br/>
-/// などを処理する<br/>
+/// <summary> テトリスのボードを管理するクラス
 /// </summary>
+/// <remarks>
+/// ミノの位置判定、ブロックのセーブ、ライン消去などを処理する
+/// </remarks>
 public class Board : MonoBehaviour
 {
-    /// <summary>ゲームボードのヘッダー(20)</summary>
+    /// <summary> ゲームボードのヘッダー(20) </summary>
     private int header = 20;
-    /// <summary>
-    /// ゲームボードの高さ(40)<br/>
-    /// Height - Header がゲームボードの縦幅(20)
+    /// <summary> ゲームボードの高さ(40)
     /// </summary>
+    /// <remarks>
+    /// Height - Header (20)がゲームボードの縦幅となる
+    /// </remarks>
     private int height = 40;
-    /// <summary>ゲームボードの横幅(10)</summary>
+    /// <summary> ゲームボードの横幅(10) </summary>
     private int width = 10; // 横幅10マス
 
-    /// <summary>headerのゲッタープロパティ</summary>
-    public int Header
-    {
-        get { return header; }
-    }
-    /// <summary>heightのゲッタープロパティ</summary>
-    public int Height
-    {
-        get { return height; }
-    }
+    /// <summary> headerのゲッタープロパティ </summary>
+    public int Header => header;
+    /// <summary> heightのゲッタープロパティ </summary>
+    public int Height => height;
 
-    /// <summary>
-    /// ゲーム画面内のグリッド<br/>
-    /// 2次元配列型[width(10),height(40)]
+    /// <summary> ゲーム画面内のグリッド
     /// </summary>
+    /// <remarks>
+    /// 2次元配列型[width(10),height(40)]
+    /// </remarks>
+    /// <value> [0~ ,0~] </value>
     public Transform[,] grid;
 
     /// <summary>ゲームボード基盤の四角形</summary>
@@ -57,9 +52,7 @@ public class Board : MonoBehaviour
         CreateBoard();
     }
 
-    /// <summary>
-    /// ゲームボードの作成
-    /// </summary>
+    /// <summary> ゲームボードの作成 </summary>
     void CreateBoard()
     {
         for (int y = 0; y < height - header; y++)
@@ -75,8 +68,7 @@ public class Board : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// activeMinoが存在できる位置か判定する関数を呼ぶ関数
+    /// <summary> activeMinoが存在できる位置か判定する関数を呼ぶ関数
     /// </summary>
     /// <param name="_activeMino">操作中のミノ</param>
     /// <returns>ブロックが存在できる場合 true、それ以外の場合は false</returns>
@@ -101,20 +93,17 @@ public class Board : MonoBehaviour
         return true;
     }
 
-    /// <summary>
-    /// ブロックが枠内にあるか判定する関数
+    /// <summary> ブロックが枠内にあるか判定する関数
     /// </summary>
     /// <param name="_x">activeMinoを構成するブロックの x 座標</param>
     /// <param name="_y">activeMinoを構成するブロックの y 座標</param>
     /// <returns>ブロックが枠内にある場合 true、それ以外の場合は false</returns>
     public bool IsWithinBoard(int _x, int _y)
     {
-        // x軸は 0 以上 width 未満、 y軸は 0 以上
         return (_x >= 0 && _x < width && _y >= 0);
     }
 
-    /// <summary>
-    /// activeMinoとブロックが重なっているか判定する関数
+    /// <summary> activeMinoとブロックが重なっているか判定する関数
     /// </summary>
     /// <param name="_x">activeMinoを構成するブロックの x 座標</param>
     /// <param name="_y">activeMinoを構成するブロックの y 座標</param>
@@ -127,8 +116,7 @@ public class Board : MonoBehaviour
         return (grid[_x, _y] != null && grid[_x, _y].parent != _activeMino.transform);
     }
 
-    /// <summary>
-    /// ブロックが落ちたポジションを記録する関数
+    /// <summary> ブロックが落ちたポジションを記録する関数
     /// </summary>
     /// <param name="_activeMino">操作中のミノ</param>
     public void SaveBlockInGrid(Mino _activeMino)
@@ -141,8 +129,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 全ての行をチェックして、埋まっていれば削除する関数を呼ぶ関数
+    /// <summary> 全ての行をチェックして、埋まっていれば削除する関数を呼ぶ関数
     /// </summary>
     /// <returns>列消去数(ClearRowCount)</returns>
     public int ClearAllRows()
@@ -166,8 +153,7 @@ public class Board : MonoBehaviour
         return ClearRowCount; // 列消去数を返す
     }
 
-    /// <summary>
-    /// 指定された行がブロックで埋まっているか確認する関数
+    /// <summary> 指定された行がブロックで埋まっているか確認する関数
     /// </summary>
     /// <param name="_y">調べる y 座標</param>
     /// <returns>指定された行がブロックで埋まっている場合 true、それ以外の場合は false</returns>
@@ -184,8 +170,7 @@ public class Board : MonoBehaviour
         return true; // 行が埋まっている場合
     }
 
-    /// <summary>
-    /// 指定された行のブロックを削除する関数
+    /// <summary> 指定された行のブロックを削除する関数
     /// </summary>
     /// <param name="_y">調べる y 座標</param>
     private void ClearRow(int _y)
@@ -201,8 +186,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 上にある全てのブロックを1段下げる関数
+    /// <summary> 指定されたy座標より高い位置にある全てのブロックを1段下げる関数
     /// </summary>
     /// <param name="_y">下げる y 座標(この y 以上のブロックが1段下がる)</param>
     private void ShiftRowsDown(int _y)
@@ -221,8 +205,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// PerfectClearか判別する関数
+    /// <summary> PerfectClearか判別する関数
     /// </summary>
     /// <returns>PerfectClear 判定の場合 true、それ以外の場合は false</returns>
     public bool CheckPerfectClear()
@@ -240,8 +223,7 @@ public class Board : MonoBehaviour
         return true;
     }
 
-    /// <summary>
-    /// 指定されたマスがブロック、もしくは壁かどうか確認する関数
+    /// <summary> 指定されたマスがブロック、もしくは壁かどうか確認する関数
     /// </summary>
     /// <param name="_x">調べる x 座標</param>
     /// <param name="_y">調べる y 座標</param>
@@ -266,8 +248,7 @@ public class Board : MonoBehaviour
         return false;
     }
 
-    /// <summary>
-    /// ミノを構成するブロックについて、最上部のブロックのy座標を返す関数
+    /// <summary> ミノを構成するブロックについて、最上部のブロックのy座標を返す関数
     /// </summary>
     /// <param name="_activeMino">操作中のミノ</param>
     /// <returns>最上部のブロックのy座標 topBlockPosition_y</returns>
@@ -290,8 +271,7 @@ public class Board : MonoBehaviour
         return topBlockPosition_y;
     }
 
-    /// <summary>
-    /// ミノを構成するブロックについて、最下部ブロックのy座標データを返す関数
+    /// <summary> ミノを構成するブロックについて、最下部ブロックのy座標データを返す関数
     /// </summary>
     /// <param name="_activeMino">操作中のミノ</param>
     /// <returns>最下部のブロックのy座標 bottomBlockPosition_y</returns>
@@ -314,8 +294,7 @@ public class Board : MonoBehaviour
         return bottomBlockPosition_y;
     }
 
-    /// <summary>
-    /// ゲームオーバーか判定する関数
+    /// <summary> ゲームオーバーか判定する関数
     /// </summary>
     /// <param name="_activeMino">操作中のミノ</param>
     /// <returns>ゲームオーバー判定の場合 true、それ以外の場合は false</returns>
