@@ -2,6 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary> オーディオ名 列挙型 </summary>
+public enum AudioNames
+{
+    GameOver,
+    HardDrop,
+    Hold,
+    MoveDown,
+    MoveLeftRight,
+    NormalDestroy,
+    NormalDrop,
+    Rotation,
+    Spin,
+    SpinDestroy,
+    StartOrRetry,
+    Tetris
+}
+
 /// <summary>
 /// オーディオクリップの再生を管理するクラス<br/>
 /// ボリュームやピッチの調節も可能
