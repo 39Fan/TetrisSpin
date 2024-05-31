@@ -3,15 +3,9 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 
-///// ゲーム画面のテキストに関するスクリプト /////
-
-
-// ↓このスクリプトで可能なこと↓ //
-
-// テキストの表示
-// テキストのアニメーション
-// 攻撃ラインの値を計算
-
+/// <summary>
+/// ゲーム画面のテキストを管理するクラス
+/// </summary>
 public class TextEffect : MonoBehaviour
 {
     // Canvas //
@@ -54,28 +48,6 @@ public class TextEffect : MonoBehaviour
     private int Alpha_0 = 0; // 0の時は透明
     private int Alpha_1 = 1; // 1の時は不透明
 
-    // // 攻撃ラインの値 //
-    // private int OneLineClearAttack = 0;
-    // private int TwoLineClearAttack = 1;
-    // private int ThreeLineClearAttack = 2;
-    // private int TetrisAttack = 4;
-    // private int JspinSingleAttack = 1;
-    // private int JspinDoubleAttack = 3;
-    // private int JspinTripleAttack = 6;
-    // private int LspinSingleAttack = 1;
-    // private int LspinDoubleAttack = 3;
-    // private int LspinTripleAttack = 6;
-    // private int IspinSingleAttack = 2;
-    // private int IspinDoubleAttack = 4;
-    // private int IspinTripleAttack = 6;
-    // private int IspinQuattroAttack = 8;
-    // private int IspinMiniAttack = 1;
-    // private int TspinSingleAttack = 2;
-    // private int TspinDoubleAttack = 4;
-    // private int TspinTripleAttack = 6;
-    // private int TspinMiniAttack = 0;
-    // private int TspinDoubleMiniAttack = 1;
-
     // 攻撃ラインの値 //
     private int BackToBackBonus = 1;
     private int PerfectClearBonus = 10;
@@ -86,23 +58,27 @@ public class TextEffect : MonoBehaviour
     private GameStatus gameStatus;
     private SpinCheck spinCheck;
 
-    // インスタンス化 //
-    void Awake()
+    /// <summary>
+    /// インスタンス化 
+    /// </summary>
+    private void Awake()
     {
         board = FindObjectOfType<Board>();
         gameStatus = FindObjectOfType<GameStatus>();
         spinCheck = FindObjectOfType<SpinCheck>();
     }
 
-    // 表示するテキストを判別して、実際に表示する関数 //
-    public void TextDisplay(int lineClearCount)
+    /// <summary>表示するテキストを判別する関数
+    /// </summary>
+    /// <param name="_lineClearCount">消去したラインの数</param>
+    public void TextDisplay(int _lineClearCount)
     {
-        TextAnimation(DetermineTextToDisplay(spinCheck.SpinTypeName, lineClearCount));
+        TextAnimation(DetermineTextToDisplay(spinCheck.SpinTypeName, _lineClearCount));
 
         // 鳴らすサウンドの決定も行う
         if (spinCheck.SpinTypeName != SpinTypeNames.None)
         {
-            if (lineClearCount >= 1)
+            if (_lineClearCount >= 1)
             {
                 AudioManager.Instance.PlaySound(AudioNames.SpinDestroy);
             }
@@ -113,7 +89,7 @@ public class TextEffect : MonoBehaviour
         }
         else
         {
-            if (lineClearCount >= 1)
+            if (_lineClearCount >= 1)
             {
                 AudioManager.Instance.PlaySound(AudioNames.NormalDestroy);
             }
@@ -122,53 +98,14 @@ public class TextEffect : MonoBehaviour
                 AudioManager.Instance.PlaySound(AudioNames.NormalDrop);
             }
         }
-
-        // if (spinCheck.spinTypeName == "None") // Spin判定がない場合
-        // {
-        //     DisplayNonSpinText(lineClearCount);
-        // }
-        // else // Spin判定がある場合
-        // {
-        //     DisplaySpinText(lineClearCount);
-        // }
     }
 
-    // // Spin判定がない場合のテキスト表示を処理する関数 //
-    // private void DisplayNonSpinText(int lineClearCount)
-    // {
-    //     switch (lineClearCount)
-    //     {
-    //         case 0:
-    //             gameStatus.ResetRen();
-    //             break;
-    //         case 1:
-    //             gameStatus.ResetBackToBack();
-    //             RenAttackLines();
-    //             PlaySoundAndAnimateText("Normal_Destroy", OneLineClear_Text);
-    //             break;
-    //         case 2:
-    //             gameStatus.ResetBackToBack();
-    //             gameStatus.IncreaseAttackLines(TwoLineClearAttack);
-    //             RenAttackLines();
-    //             PlaySoundAndAnimateText("Normal_Destroy", TwoLineClear_Text);
-    //             break;
-    //         case 3:
-    //             gameStatus.ResetBackToBack();
-    //             gameStatus.IncreaseAttackLines(ThreeLineClearAttack);
-    //             RenAttackLines();
-    //             PlaySoundAndAnimateText("Normal_Destroy", ThreeLineClear_Text);
-    //             break;
-    //         case 4:
-    //             CheckBackToBack();
-    //             RenAttackLines();
-    //             gameStatus.IncreaseAttackLines(TetrisAttack);
-    //             PlaySoundAndAnimateText("Tetris", Tetris_Text);
-    //             break;
-    //     }
-    // }
-
-    // 表示するテキストを特定する関数 //
-    private TextMeshProUGUI DetermineTextToDisplay(SpinTypeNames spinType, int lineClearCount)
+    /// <summary>表示するテキストを特定する関数
+    /// </summary>
+    /// <param name="_spinType">スピンタイプ</param>
+    /// <param name="_lineClearCount">消去したラインの数</param>
+    /// <returns>表示するテキスト</returns>
+    private TextMeshProUGUI DetermineTextToDisplay(SpinTypeNames _spinType, int _lineClearCount)
     {
         // スピンタイプと消去ライン数に対応するテキストをマッピングするディクショナリ
         Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>> spinTypeTextMapping = new Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>>
@@ -286,42 +223,23 @@ public class TextEffect : MonoBehaviour
         TextMeshProUGUI displayText = null;
 
         // スピンタイプと行消去数に基づいてテキストを選択
-        if (spinTypeTextMapping.ContainsKey(spinType) && spinTypeTextMapping[spinType].ContainsKey(lineClearCount))
+        if (spinTypeTextMapping.ContainsKey(_spinType) && spinTypeTextMapping[_spinType].ContainsKey(_lineClearCount))
         {
-            displayText = spinTypeTextMapping[spinType][lineClearCount]; // 対応したテキストを実際に表示させる
+            displayText = spinTypeTextMapping[_spinType][_lineClearCount]; // 対応したテキストを実際に表示させる
         }
         else
         {
             // エラー
         }
-        // else
-        // {
-        //     // スピンタイプがない場合は、行消去テキストを選択
-        //     switch (lineClearCount)
-        //     {
-        //         case 1:
-        //             displayText = OneLineClear_Text;
-        //             break;
-        //         case 2:
-        //             displayText = TwoLineClear_Text;
-        //             break;
-        //         case 3:
-        //             displayText = ThreeLineClear_Text;
-        //             break;
-        //         case 4:
-        //             displayText = Tetris_Text;
-        //             break;
-        //     }
-        // }
 
         // スピンタイプと行消去数に基づいて攻撃力を選択
-        if (spinTypeAttackMapping.ContainsKey(spinType) && spinTypeAttackMapping[spinType].ContainsKey(lineClearCount))
+        if (spinTypeAttackMapping.ContainsKey(_spinType) && spinTypeAttackMapping[_spinType].ContainsKey(_lineClearCount))
         {
-            gameStatus.IncreaseAttackLines(spinTypeAttackMapping[spinType][lineClearCount]); // 対応した攻撃力を反映
+            gameStatus.IncreaseAttackLines(spinTypeAttackMapping[_spinType][_lineClearCount]); // 対応した攻撃力を反映
         }
 
-        CheckBackToBack(spinType, displayText); // BackToBack判定をチェック
-        CheckRen(lineClearCount); // Ren判定をチェック
+        CheckBackToBack(_spinType, displayText); // BackToBack判定をチェック
+        CheckRen(_lineClearCount); // Ren判定をチェック
         if (board.CheckPerfectClear()) // PerfectClear判定をチェック
         {
             gameStatus.IncreaseAttackLines(PerfectClearBonus);
@@ -331,225 +249,14 @@ public class TextEffect : MonoBehaviour
         return displayText;
     }
 
-    // private TextMeshProUGUI DetermineTextToDisplay(string spinType, int lineClearCount)
-    // {
-    //     TextMeshProUGUI displayText = null;
-
-    //     switch (spinType)
-    //     {
-    //         case "J-Spin":
-    //             switch (lineClearCount)
-    //             {
-    //                 case 0:
-    //                     displayText = Jspin_Text;
-    //                     break;
-    //                 case 1:
-    //                     displayText = JspinSingle_Text;
-    //                     break;
-    //                 case 2:
-    //                     displayText = JspinDouble_Text;
-    //                     break;
-    //                 case 3:
-    //                     displayText = JspinTriple_Text;
-    //                     break;
-    //             }
-    //             break;
-    //         case "L-Spin":
-    //             switch (lineClearCount)
-    //             {
-    //                 case 0:
-    //                     displayText = Lspin_Text;
-    //                     break;
-    //                 case 1:
-    //                     displayText = LspinSingle_Text;
-    //                     break;
-    //                 case 2:
-    //                     displayText = LspinDouble_Text;
-    //                     break;
-    //                 case 3:
-    //                     displayText = LspinTriple_Text;
-    //                     break;
-    //             }
-    //             break;
-    //         case "I-Spin Mini":
-    //             switch (lineClearCount)
-    //             {
-    //                 case 0:
-    //                 case 1:
-    //                     displayText = IspinMini_Text;
-    //                     break;
-    //             }
-    //             break;
-    //         case "I-Spin":
-    //             switch (lineClearCount)
-    //             {
-    //                 case 0:
-    //                     displayText = Ispin_Text;
-    //                     break;
-    //                 case 1:
-    //                     displayText = IspinSingle_Text;
-    //                     break;
-    //                 case 2:
-    //                     displayText = IspinDouble_Text;
-    //                     break;
-    //                 case 3:
-    //                     displayText = IspinTriple_Text;
-    //                     break;
-    //                 case 4:
-    //                     displayText = IspinQuattro_Text;
-    //                     break;
-    //             }
-    //             break;
-    //         case "T-Spin":
-    //             switch (lineClearCount)
-    //             {
-    //                 case 0:
-    //                     displayText = Tspin_Text;
-    //                     break;
-    //                 case 1:
-    //                     displayText = TspinSingle_Text;
-    //                     break;
-    //                 case 2:
-    //                     displayText = TspinDouble_Text;
-    //                     break;
-    //                 case 3:
-    //                     displayText = TspinTriple_Text;
-    //                     break;
-    //             }
-    //             break;
-    //         case "T-Spin Mini":
-    //             switch (lineClearCount)
-    //             {
-    //                 case 0:
-    //                     displayText = TspinMini_Text;
-    //                     break;
-    //                 case 1:
-    //                     displayText = TspinMini_Text;
-    //                     break;
-    //                 case 2:
-    //                     displayText = TspinDoubleMini_Text;
-    //                     break;
-    //             }
-    //             break;
-    //         default:
-    //             switch (lineClearCount)
-    //             {
-    //                 case 1:
-    //                     displayText = OneLineClear_Text;
-    //                     break;
-    //                 case 2:
-    //                     displayText = TwoLineClear_Text;
-    //                     break;
-    //                 case 3:
-    //                     displayText = ThreeLineClear_Text;
-    //                     break;
-    //                 case 4:
-    //                     displayText = Tetris_Text;
-    //                     break;
-    //             }
-    //             break;
-    //     }
-
-    //     CheckBackToBack(spinType, displayText);
-    //     return displayText;
-    // }
-
-
-    // // Spin判定がある場合のテキスト表示を処理する関数 //
-    // private void DisplaySpinText(int lineClearCount)
-    // {
-    //     CheckBackToBack();
-    //     string spinType = spinCheck.spinTypeName;
-    //     switch (spinType)
-    //     {
-    //         case "J-Spin":
-    //             HandleSpinText(lineClearCount, Jspin_Text, JspinSingleAttack, JspinSingle_Text, JspinDoubleAttack, JspinDouble_Text, JspinTripleAttack, JspinTriple_Text);
-    //             break;
-    //         case "L-Spin":
-    //             HandleSpinText(lineClearCount, Lspin_Text, LspinSingleAttack, LspinSingle_Text, LspinDoubleAttack, LspinDouble_Text, LspinTripleAttack, LspinTriple_Text);
-    //             break;
-    //         case "I-Spin Mini":
-    //             HandleMiniSpinText(lineClearCount, IspinMini_Text, IspinMiniAttack, IspinMini_Text);
-    //             break;
-    //         case "I-Spin":
-    //             HandleSpinText(lineClearCount, Ispin_Text, IspinSingleAttack, IspinSingle_Text, IspinDoubleAttack, IspinDouble_Text, IspinTripleAttack, IspinTriple_Text, IspinQuattroAttack, IspinQuattro_Text);
-    //             break;
-    //         case "T-Spin":
-    //             HandleSpinText(lineClearCount, Tspin_Text, TspinSingleAttack, TspinSingle_Text, TspinDoubleAttack, TspinDouble_Text, TspinTripleAttack, TspinTriple_Text);
-    //             break;
-    //         case "T-Spin Mini":
-    //             HandleMiniSpinText(lineClearCount, TspinMini_Text, TspinMiniAttack, TspinMini_Text, TspinDoubleMiniAttack, TspinDoubleMini_Text);
-    //             break;
-    //     }
-    // }
-
-    // private void HandleSpinText(int lineClearCount, TextMeshProUGUI baseText, int singleAttack, TextMeshProUGUI singleText, int doubleAttack, TextMeshProUGUI doubleText, int tripleAttack, TextMeshProUGUI tripleText, int quattroAttack = 0, TextMeshProUGUI quattroText = null)
-    // {
-    //     switch (lineClearCount)
-    //     {
-    //         case 0:
-    //             PlaySoundAndAnimateText("Normal_Drop", baseText);
-    //             break;
-    //         case 1:
-    //             RenAttackLines();
-    //             gameStatus.IncreaseAttackLines(singleAttack);
-    //             PlaySoundAndAnimateText("Spin_Destroy", singleText);
-    //             break;
-    //         case 2:
-    //             RenAttackLines();
-    //             gameStatus.IncreaseAttackLines(doubleAttack);
-    //             PlaySoundAndAnimateText("Spin_Destroy", doubleText);
-    //             break;
-    //         case 3:
-    //             RenAttackLines();
-    //             gameStatus.IncreaseAttackLines(tripleAttack);
-    //             PlaySoundAndAnimateText("Spin_Destroy", tripleText);
-    //             break;
-    //         case 4:
-    //             if (quattroAttack > 0 && quattroText != null)
-    //             {
-    //                 RenAttackLines();
-    //                 gameStatus.IncreaseAttackLines(quattroAttack);
-    //                 PlaySoundAndAnimateText("Spin_Destroy", quattroText);
-    //             }
-    //             break;
-    //     }
-    // }
-
-    // private void HandleMiniSpinText(int lineClearCount, TextMeshProUGUI baseText, int miniAttack, TextMeshProUGUI miniText, int doubleMiniAttack = 0, TextMeshProUGUI doubleMiniText = null)
-    // {
-    //     switch (lineClearCount)
-    //     {
-    //         case 0:
-    //             PlaySoundAndAnimateText("Normal_Drop", baseText);
-    //             break;
-    //         case 1:
-    //             RenAttackLines();
-    //             gameStatus.IncreaseAttackLines(miniAttack);
-    //             PlaySoundAndAnimateText("Spin_Destroy", miniText);
-    //             break;
-    //         case 2:
-    //             if (doubleMiniAttack > 0 && doubleMiniText != null)
-    //             {
-    //                 RenAttackLines();
-    //                 gameStatus.IncreaseAttackLines(doubleMiniAttack);
-    //                 PlaySoundAndAnimateText("Spin_Destroy", doubleMiniText);
-    //             }
-    //             break;
-    //     }
-    // }
-
-    // private void PlaySoundAndAnimateText(string sound, TextMeshProUGUI text)
-    // {
-    //     AudioManager.Instance.PlaySound(sound);
-    //     TextAnimation(text);
-    // }
-
-    // BackToBackの判定を確認し、ダメージの計算を行う関数 //
-    private void CheckBackToBack(SpinTypeNames spinType, TextMeshProUGUI displayText)
+    /// <summary> BackToBackの判定を確認し、ダメージの計算を行う関数
+    /// </summary>
+    /// <param name="_spinType">スピンタイプ</param>
+    /// <param name="_displayText">表示するテキスト</param>
+    private void CheckBackToBack(SpinTypeNames _spinType, TextMeshProUGUI _displayText)
     {
         // Spin判定がない、かつテトリスでない場合
-        if (spinType == SpinTypeNames.None && displayText != Tetris_Text)
+        if (_spinType == SpinTypeNames.None && _displayText != Tetris_Text)
         {
             // BackToBack判定をリセット
             gameStatus.ResetBackToBack();
@@ -570,10 +277,12 @@ public class TextEffect : MonoBehaviour
         }
     }
 
-    // Renの判定を確認し、ダメージの計算を行う関数 //
-    private void CheckRen(int lineClearCount)
+    /// <summary> Renの判定を確認し、ダメージの計算を行う関数
+    /// </summary>
+    /// <param name="_lineClearCount">消去したラインの数</param>
+    private void CheckRen(int _lineClearCount)
     {
-        if (lineClearCount >= 1)
+        if (_lineClearCount >= 1)
         {
             // 1列以上消去していれば
             gameStatus.IncreaseRen();
@@ -587,18 +296,24 @@ public class TextEffect : MonoBehaviour
         }
     }
 
-    private void TextAnimation(TextMeshProUGUI displayText)
+    /// <summary> テキストのアニメーションを行う関数
+    /// </summary>
+    /// <param name="_displayText">表示するテキスト</param>
+    private void TextAnimation(TextMeshProUGUI _displayText)
     {
         // 表示するテキストが存在しない場合、処理をスキップする
-        if (displayText != null)
+        if (_displayText != null)
         {
-            TextMeshProUGUI instantiatedText = Instantiate(displayText, Canvas);
+            TextMeshProUGUI instantiatedText = Instantiate(_displayText, Canvas);
             TextFadeInAndOut(instantiatedText);
             TextMove(instantiatedText.transform);
         }
     }
 
-    private void TextFadeInAndOut(TextMeshProUGUI displayText)
+    /// <summary> テキストのフェードインとフェードアウトを行う関数
+    /// </summary>
+    /// <param name="_displayText">表示するテキスト</param>
+    private void TextFadeInAndOut(TextMeshProUGUI _displayText)
     {
         float fadeInInterval = 0.3f;
         float fadeOutInterval = 1f;
@@ -606,43 +321,49 @@ public class TextEffect : MonoBehaviour
 
         var sequence = DOTween.Sequence();
         sequence
-            .Append(displayText.DOFade(Alpha_1, fadeInInterval))
+            .Append(_displayText.DOFade(Alpha_1, fadeInInterval))
             .AppendInterval(waitInterval)
-            .Append(displayText.DOFade(Alpha_0, fadeOutInterval));
+            .Append(_displayText.DOFade(Alpha_0, fadeOutInterval));
     }
 
-    private void TextMove(Transform displayText)
+    /// <summary> テキストの移動を行う関数
+    /// </summary>
+    /// <param name="_displayText">表示するテキストのトランスフォーム</param>
+    private void TextMove(Transform _displayText)
     {
         float moveInterval_x = 2f;
         float moveInterval_y = 1.2f;
         float moveDistance = 600f;
 
-        float displayText_x = Mathf.RoundToInt(displayText.transform.position.x);
-        float displayText_y = Mathf.RoundToInt(displayText.transform.position.y);
-        float displayText_z = Mathf.RoundToInt(displayText.transform.position.z);
+        float displayText_x = Mathf.RoundToInt(_displayText.transform.position.x);
+        float displayText_y = Mathf.RoundToInt(_displayText.transform.position.y);
+        float displayText_z = Mathf.RoundToInt(_displayText.transform.position.z);
 
         var sequence = DOTween.Sequence();
         sequence
-            .Append(displayText.DOMoveY(displayText_y + moveDistance, moveInterval_x).SetEase(Ease.OutSine))
-            .Append(displayText.DOMoveX(displayText_x - moveDistance, moveInterval_y).SetEase(Ease.InQuint))
+            .Append(_displayText.DOMoveY(displayText_y + moveDistance, moveInterval_x).SetEase(Ease.OutSine))
+            .Append(_displayText.DOMoveX(displayText_x - moveDistance, moveInterval_y).SetEase(Ease.InQuint))
             .OnComplete(() =>
             {
-                displayText.position = new Vector3(displayText_x, displayText_y, displayText_z);
+                _displayText.position = new Vector3(displayText_x, displayText_y, displayText_z);
             });
     }
 
+    /// <summary> BackToBackアニメーションを行う関数 </summary>
     private void BackToBackAnimation()
     {
         TextMeshProUGUI instantiatedText = Instantiate(BackToBack_Text, Canvas);
         TextFadeInAndOut(instantiatedText);
     }
 
+    /// <summary> PerfectClearアニメーションを行う関数 </summary>
     private void PerfectClearAnimation()
     {
         TextMeshProUGUI instantiatedText = Instantiate(PerfectClear_Text, Canvas);
         TextFadeInAndOut(instantiatedText);
     }
 
+    /// <summary> ReadyGoアニメーションを行う関数 </summary>
     public void ReadyGoAnimation()
     {
         float fadeInInterval = 0.3f;
@@ -669,13 +390,11 @@ public class TextEffect : MonoBehaviour
             });
     }
 
-    // アニメーションを停止させる関数 //
-    public void StopAnimation()
-    {
-        DOTween.KillAll();
-    }
+    /// <summary> すべてのアニメーションを停止させる関数 </summary>
+    public void StopAnimation() => DOTween.KillAll();
 }
 
+/////////////////// 旧コード ///////////////////
 
 // using UnityEngine;
 // using TMPro;
@@ -788,12 +507,12 @@ public class TextEffect : MonoBehaviour
 //     }
 
 //     // 表示するテキストを判別して、実際に表示する関数 //
-//     public void TextDisplay(int _LineClearCount)
+//     public void TextDisplay(int __LineClearCount)
 //     {
 //         switch (spinCheck.spinTypeName)
 //         {
 //             case "None": // Spin判定がない時
-//                 switch (_LineClearCount) // 消去数で表示するテキストが変わる
+//                 switch (__LineClearCount) // 消去数で表示するテキストが変わる
 //                 {
 //                     case 0:
 //                         gameStatus.ResetRen();
@@ -853,7 +572,7 @@ public class TextEffect : MonoBehaviour
 //             case "J-Spin":
 //                 CheckBackToBack();
 
-//                 switch (_LineClearCount)
+//                 switch (__LineClearCount)
 //                 {
 //                     case 0:
 //                         AudioManager.Instance.PlaySound("Normal_Drop");
@@ -899,7 +618,7 @@ public class TextEffect : MonoBehaviour
 //             case "L-Spin":
 //                 CheckBackToBack();
 
-//                 switch (_LineClearCount)
+//                 switch (__LineClearCount)
 //                 {
 //                     case 0:
 //                         AudioManager.Instance.PlaySound("Normal_Drop");
@@ -946,7 +665,7 @@ public class TextEffect : MonoBehaviour
 //             case "I-Spin Mini":
 //                 CheckBackToBack();
 
-//                 switch (_LineClearCount)
+//                 switch (__LineClearCount)
 //                 {
 //                     case 0:
 //                         AudioManager.Instance.PlaySound("Normal_Drop");
@@ -971,7 +690,7 @@ public class TextEffect : MonoBehaviour
 //             case "I-Spin":
 //                 CheckBackToBack();
 
-//                 switch (_LineClearCount)
+//                 switch (__LineClearCount)
 //                 {
 //                     case 0:
 //                         AudioManager.Instance.PlaySound("Normal_Drop");
@@ -1028,7 +747,7 @@ public class TextEffect : MonoBehaviour
 //             case "T-Spin":
 //                 CheckBackToBack();
 
-//                 switch (_LineClearCount)
+//                 switch (__LineClearCount)
 //                 {
 //                     case 0:
 //                         AudioManager.Instance.PlaySound("Normal_Drop");
@@ -1075,7 +794,7 @@ public class TextEffect : MonoBehaviour
 //             case "T-Spin Mini":
 //                 CheckBackToBack();
 
-//                 switch (_LineClearCount)
+//                 switch (__LineClearCount)
 //                 {
 //                     case 0:
 //                         AudioManager.Instance.PlaySound("Normal_Drop");
@@ -1310,3 +1029,285 @@ public class TextEffect : MonoBehaviour
 //         DOTween.KillAll();
 //     }
 // }
+
+
+// // 攻撃ラインの値 //
+// private int OneLineClearAttack = 0;
+// private int TwoLineClearAttack = 1;
+// private int ThreeLineClearAttack = 2;
+// private int TetrisAttack = 4;
+// private int JspinSingleAttack = 1;
+// private int JspinDoubleAttack = 3;
+// private int JspinTripleAttack = 6;
+// private int LspinSingleAttack = 1;
+// private int LspinDoubleAttack = 3;
+// private int LspinTripleAttack = 6;
+// private int IspinSingleAttack = 2;
+// private int IspinDoubleAttack = 4;
+// private int IspinTripleAttack = 6;
+// private int IspinQuattroAttack = 8;
+// private int IspinMiniAttack = 1;
+// private int TspinSingleAttack = 2;
+// private int TspinDoubleAttack = 4;
+// private int TspinTripleAttack = 6;
+// private int TspinMiniAttack = 0;
+// private int TspinDoubleMiniAttack = 1;
+
+// if (spinCheck.spinTypeName == "None") // Spin判定がない場合
+// {
+//     DisplayNonSpinText(_lineClearCount);
+// }
+// else // Spin判定がある場合
+// {
+//     DisplaySpinText(_lineClearCount);
+// }
+
+// // Spin判定がない場合のテキスト表示を処理する関数 //
+// private void DisplayNonSpinText(int _lineClearCount)
+// {
+//     switch (_lineClearCount)
+//     {
+//         case 0:
+//             gameStatus.ResetRen();
+//             break;
+//         case 1:
+//             gameStatus.ResetBackToBack();
+//             RenAttackLines();
+//             PlaySoundAndAnimateText("Normal_Destroy", OneLineClear_Text);
+//             break;
+//         case 2:
+//             gameStatus.ResetBackToBack();
+//             gameStatus.IncreaseAttackLines(TwoLineClearAttack);
+//             RenAttackLines();
+//             PlaySoundAndAnimateText("Normal_Destroy", TwoLineClear_Text);
+//             break;
+//         case 3:
+//             gameStatus.ResetBackToBack();
+//             gameStatus.IncreaseAttackLines(ThreeLineClearAttack);
+//             RenAttackLines();
+//             PlaySoundAndAnimateText("Normal_Destroy", ThreeLineClear_Text);
+//             break;
+//         case 4:
+//             CheckBackToBack();
+//             RenAttackLines();
+//             gameStatus.IncreaseAttackLines(TetrisAttack);
+//             PlaySoundAndAnimateText("Tetris", Tetris_Text);
+//             break;
+//     }
+// }
+
+// private TextMeshProUGUI DetermineTextToDisplay(string spinType, int _lineClearCount)
+// {
+//     TextMeshProUGUI displayText = null;
+
+//     switch (spinType)
+//     {
+//         case "J-Spin":
+//             switch (_lineClearCount)
+//             {
+//                 case 0:
+//                     displayText = Jspin_Text;
+//                     break;
+//                 case 1:
+//                     displayText = JspinSingle_Text;
+//                     break;
+//                 case 2:
+//                     displayText = JspinDouble_Text;
+//                     break;
+//                 case 3:
+//                     displayText = JspinTriple_Text;
+//                     break;
+//             }
+//             break;
+//         case "L-Spin":
+//             switch (_lineClearCount)
+//             {
+//                 case 0:
+//                     displayText = Lspin_Text;
+//                     break;
+//                 case 1:
+//                     displayText = LspinSingle_Text;
+//                     break;
+//                 case 2:
+//                     displayText = LspinDouble_Text;
+//                     break;
+//                 case 3:
+//                     displayText = LspinTriple_Text;
+//                     break;
+//             }
+//             break;
+//         case "I-Spin Mini":
+//             switch (_lineClearCount)
+//             {
+//                 case 0:
+//                 case 1:
+//                     displayText = IspinMini_Text;
+//                     break;
+//             }
+//             break;
+//         case "I-Spin":
+//             switch (_lineClearCount)
+//             {
+//                 case 0:
+//                     displayText = Ispin_Text;
+//                     break;
+//                 case 1:
+//                     displayText = IspinSingle_Text;
+//                     break;
+//                 case 2:
+//                     displayText = IspinDouble_Text;
+//                     break;
+//                 case 3:
+//                     displayText = IspinTriple_Text;
+//                     break;
+//                 case 4:
+//                     displayText = IspinQuattro_Text;
+//                     break;
+//             }
+//             break;
+//         case "T-Spin":
+//             switch (_lineClearCount)
+//             {
+//                 case 0:
+//                     displayText = Tspin_Text;
+//                     break;
+//                 case 1:
+//                     displayText = TspinSingle_Text;
+//                     break;
+//                 case 2:
+//                     displayText = TspinDouble_Text;
+//                     break;
+//                 case 3:
+//                     displayText = TspinTriple_Text;
+//                     break;
+//             }
+//             break;
+//         case "T-Spin Mini":
+//             switch (_lineClearCount)
+//             {
+//                 case 0:
+//                     displayText = TspinMini_Text;
+//                     break;
+//                 case 1:
+//                     displayText = TspinMini_Text;
+//                     break;
+//                 case 2:
+//                     displayText = TspinDoubleMini_Text;
+//                     break;
+//             }
+//             break;
+//         default:
+//             switch (_lineClearCount)
+//             {
+//                 case 1:
+//                     displayText = OneLineClear_Text;
+//                     break;
+//                 case 2:
+//                     displayText = TwoLineClear_Text;
+//                     break;
+//                 case 3:
+//                     displayText = ThreeLineClear_Text;
+//                     break;
+//                 case 4:
+//                     displayText = Tetris_Text;
+//                     break;
+//             }
+//             break;
+//     }
+
+//     CheckBackToBack(spinType, displayText);
+//     return displayText;
+// }
+
+
+// // Spin判定がある場合のテキスト表示を処理する関数 //
+// private void DisplaySpinText(int _lineClearCount)
+// {
+//     CheckBackToBack();
+//     string spinType = spinCheck.spinTypeName;
+//     switch (spinType)
+//     {
+//         case "J-Spin":
+//             HandleSpinText(_lineClearCount, Jspin_Text, JspinSingleAttack, JspinSingle_Text, JspinDoubleAttack, JspinDouble_Text, JspinTripleAttack, JspinTriple_Text);
+//             break;
+//         case "L-Spin":
+//             HandleSpinText(_lineClearCount, Lspin_Text, LspinSingleAttack, LspinSingle_Text, LspinDoubleAttack, LspinDouble_Text, LspinTripleAttack, LspinTriple_Text);
+//             break;
+//         case "I-Spin Mini":
+//             HandleMiniSpinText(_lineClearCount, IspinMini_Text, IspinMiniAttack, IspinMini_Text);
+//             break;
+//         case "I-Spin":
+//             HandleSpinText(_lineClearCount, Ispin_Text, IspinSingleAttack, IspinSingle_Text, IspinDoubleAttack, IspinDouble_Text, IspinTripleAttack, IspinTriple_Text, IspinQuattroAttack, IspinQuattro_Text);
+//             break;
+//         case "T-Spin":
+//             HandleSpinText(_lineClearCount, Tspin_Text, TspinSingleAttack, TspinSingle_Text, TspinDoubleAttack, TspinDouble_Text, TspinTripleAttack, TspinTriple_Text);
+//             break;
+//         case "T-Spin Mini":
+//             HandleMiniSpinText(_lineClearCount, TspinMini_Text, TspinMiniAttack, TspinMini_Text, TspinDoubleMiniAttack, TspinDoubleMini_Text);
+//             break;
+//     }
+// }
+
+// private void HandleSpinText(int _lineClearCount, TextMeshProUGUI baseText, int singleAttack, TextMeshProUGUI singleText, int doubleAttack, TextMeshProUGUI doubleText, int tripleAttack, TextMeshProUGUI tripleText, int quattroAttack = 0, TextMeshProUGUI quattroText = null)
+// {
+//     switch (_lineClearCount)
+//     {
+//         case 0:
+//             PlaySoundAndAnimateText("Normal_Drop", baseText);
+//             break;
+//         case 1:
+//             RenAttackLines();
+//             gameStatus.IncreaseAttackLines(singleAttack);
+//             PlaySoundAndAnimateText("Spin_Destroy", singleText);
+//             break;
+//         case 2:
+//             RenAttackLines();
+//             gameStatus.IncreaseAttackLines(doubleAttack);
+//             PlaySoundAndAnimateText("Spin_Destroy", doubleText);
+//             break;
+//         case 3:
+//             RenAttackLines();
+//             gameStatus.IncreaseAttackLines(tripleAttack);
+//             PlaySoundAndAnimateText("Spin_Destroy", tripleText);
+//             break;
+//         case 4:
+//             if (quattroAttack > 0 && quattroText != null)
+//             {
+//                 RenAttackLines();
+//                 gameStatus.IncreaseAttackLines(quattroAttack);
+//                 PlaySoundAndAnimateText("Spin_Destroy", quattroText);
+//             }
+//             break;
+//     }
+// }
+
+// private void HandleMiniSpinText(int _lineClearCount, TextMeshProUGUI baseText, int miniAttack, TextMeshProUGUI miniText, int doubleMiniAttack = 0, TextMeshProUGUI doubleMiniText = null)
+// {
+//     switch (_lineClearCount)
+//     {
+//         case 0:
+//             PlaySoundAndAnimateText("Normal_Drop", baseText);
+//             break;
+//         case 1:
+//             RenAttackLines();
+//             gameStatus.IncreaseAttackLines(miniAttack);
+//             PlaySoundAndAnimateText("Spin_Destroy", miniText);
+//             break;
+//         case 2:
+//             if (doubleMiniAttack > 0 && doubleMiniText != null)
+//             {
+//                 RenAttackLines();
+//                 gameStatus.IncreaseAttackLines(doubleMiniAttack);
+//                 PlaySoundAndAnimateText("Spin_Destroy", doubleMiniText);
+//             }
+//             break;
+//     }
+// }
+
+// private void PlaySoundAndAnimateText(string sound, TextMeshProUGUI text)
+// {
+//     AudioManager.Instance.PlaySound(sound);
+//     TextAnimation(text);
+// }
+
+/////////////////////////////////////////////////////////
