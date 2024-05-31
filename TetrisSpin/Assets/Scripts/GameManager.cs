@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// ゲームマネージャーの統計情報を保持する構造体
+/// </summary>
 public struct GameManagerStats
 {
     /// <summary> ミノの生成数</summary>
@@ -860,7 +863,7 @@ public class GameManager : MonoBehaviour
 
 // private IEnumerator GameStart()
 // {
-//     mainSceneText.ReadtGoAnimation(); // "Ready Go!" の表示
+//     mainSceneText.ReadyGoAnimation(); // "Ready Go!" の表示
 //     yield return new WaitForSeconds(2f); // "Ready Go"の表示時間（例えば2秒）
 //     readyGoText.SetActive(false);
 
