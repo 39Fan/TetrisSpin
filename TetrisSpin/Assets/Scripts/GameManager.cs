@@ -1,46 +1,111 @@
 using UnityEngine;
 
-/// <summary>
-/// ゲームの進行を管理するクラス
-/// </summary>
-public class GameManager : MonoBehaviour
+public struct GameManagerStats
 {
-    /// <summary>ミノの生成数
+    /// <summary> ミノの生成数</summary>
+    /// <remarks>
     /// 新しいミノが生成されるたびに1ずつ増加する
-    /// </summary>
-    private int minoPopNumber = 0;
-
-    /// <summary>ミノの設置数
-    /// ミノが設置されると1ずつ増加する
+    /// </remarks>
+    private int minoPopNumber;
+    /// <summary> ミノの設置数 </summary>
+    /// <remarks>
+    /// ミノが設置されると1ずつ増加する <br/>
     /// ホールドを使用すると、その時点からミノの生成数より1小さくなる
-    /// </summary>
-    private int minoPutNumber = 0;
-
-    /// <summary>ロックダウンの移動回数
-    /// </summary>
-    /// <remarks>ミノがボトムに到達してからの移動回数を表す</remarks>
-    /// <value>0~15</value>
-    private int bottomMoveCount = 0;
-
-    /// <summary>ロックダウンの移動回数制限</summary>
-    private int bottomMoveCountLimit = 15;
-
-    /// <summary>操作中のミノを構成するブロックのうち、最も低い y 座標を保持するプロパティ
-    /// </summary>
+    /// </remarks>
+    private int minoPutNumber;
+    /// <summary> ロックダウンの移動回数 </summary>
+    /// <remarks>
+    /// ミノがボトムに到達してからの移動回数を表す
+    /// </remarks>
+    /// <value> 0~15 </value>
+    private int bottomMoveCount;
+    /// <summary> ロックダウンの移動回数制限 </summary>
+    private int bottomMoveCountLimit;
+    /// <summary> 操作中のミノを構成するブロックのうち、最も低い y 座標を保持するプロパティ </summary>
     /// <remarks>
     /// ロックダウンの処理に必要 <br/>
     /// この値が更新されるたびにロックダウンの移動回数制限がリセットされる <br/>
     /// 初期値はゲームボードの最高高さである 20 に設定
     /// </remarks>
-    /// <value>0~20</value>
-    private int lowestBlockPositionY = 20;
+    /// <value> 0~20 </value>
+    private int lowestBlockPositionY;
+    /// <summary> ホールドが使用されたか判別するプロパティ </summary>
+    private bool useHold;
+    /// <summary> ゲーム中で最初のホールドかどうかを判別するプロパティ </summary>
+    private bool firstHold;
 
-    /// <summary>ホールドが使用されたか判別するプロパティ</summary>
-    private bool useHold = false;
+    // ゲッタープロパティ //
+    public int MinoPopNumber => minoPopNumber;
+    public int MinoPutNumber => minoPutNumber;
+    public int BottomMoveCount => bottomMoveCount;
+    public int BottomMoveCountLimit => bottomMoveCountLimit;
+    public int LowestBlockPositionY => lowestBlockPositionY;
+    public bool UseHold => useHold;
+    public bool FirstHold => firstHold;
 
-    /// <summary>ゲーム中で最初のホールドかどうかを判別するプロパティ</summary>
-    private bool firstHold = true;
+    /// <summary> デフォルトコンストラクタ </summary>
+    public GameManagerStats(int _minoPopNumber, int _minoPutNumber, int _bottomMoveCount,
+        int _bottomMoveCountLimit, int _lowestBlockPositionY, bool _useHold, bool _firstHold)
+    {
+        minoPopNumber = _minoPopNumber;
+        minoPutNumber = _minoPutNumber;
+        bottomMoveCount = _bottomMoveCount;
+        bottomMoveCountLimit = _bottomMoveCountLimit;
+        lowestBlockPositionY = _lowestBlockPositionY;
+        useHold = _useHold;
+        firstHold = _firstHold;
+    }
 
+    /// <summary> デフォルトの <see cref="GameManagerStats"/> を作成する関数 </summary>
+    /// <returns> デフォルト値で初期化された <see cref="GameManagerStats"/> のインスタンス </returns>
+    public static GameManagerStats CreateDefault()
+    {
+        return new GameManagerStats
+        {
+            minoPopNumber = 0,
+            minoPutNumber = 0,
+            bottomMoveCount = 0,
+            bottomMoveCountLimit = 15,
+            lowestBlockPositionY = 20,
+            useHold = false,
+            firstHold = true
+        };
+    }
+
+    /// <summary> 指定されたフィールドの値を更新する関数 </summary>
+    /// <param name="_minoPopNumber">新しいミノ生成数</param>
+    /// <param name="_minoPutNumber">新しいミノ設置数</param>
+    /// <param name="_bottomMoveCount">新しいロックダウンの移動回数</param>
+    /// <param name="_bottomMoveCountLimit">新しいロックダウンの移動回数制限</param>
+    /// <param name="_lowestBlockPositionY">新しい最も低いブロックのy座標</param>
+    /// <param name="_useHold">ホールドの使用状態</param>
+    /// <param name="_firstHold">最初のホールドかどうかの状態</param>
+    /// <returns> 更新された<see cref="GameManagerStats"/>の新しいインスタンス </returns>
+    /// <remarks>
+    /// 指定されていない引数は現在の値を維持
+    /// </remarks>
+    public GameManagerStats Update(int? _minoPopNumber = null, int? _minoPutNumber = null, int? _bottomMoveCount = null,
+        int? _bottomMoveCountLimit = null, int? _lowestBlockPositionY = null, bool? _useHold = null, bool? _firstHold = null)
+    {
+        var updatedStats = new GameManagerStats(
+            _minoPopNumber ?? minoPopNumber,
+            _minoPutNumber ?? minoPutNumber,
+            _bottomMoveCount ?? bottomMoveCount,
+            _bottomMoveCountLimit ?? bottomMoveCountLimit,
+            _lowestBlockPositionY ?? lowestBlockPositionY,
+            _useHold ?? useHold,
+            _firstHold ?? firstHold
+        );
+        // TODO: ログの記入
+        return updatedStats;
+    }
+}
+
+/// <summary>
+/// ゲームの進行を管理するクラス
+/// </summary>
+public class GameManager : MonoBehaviour
+{
     // 干渉するスクリプト //
     Board board;
     GameStatus gameStatus;
@@ -51,10 +116,14 @@ public class GameManager : MonoBehaviour
     SpinCheck spinCheck;
     Timer timer;
 
+    GameManagerStats gameManagerStats;
 
     /// <summary>
     /// インスタンス化
     /// </summary>
+    /// <remarks>
+    /// GameManagerStatsの初期化も行う
+    /// </remarks>
     private void Awake()
     {
         board = FindObjectOfType<Board>();
@@ -65,6 +134,8 @@ public class GameManager : MonoBehaviour
         spawner = FindObjectOfType<Spawner>();
         spinCheck = FindObjectOfType<SpinCheck>();
         timer = FindObjectOfType<Timer>();
+
+        gameManagerStats = GameManagerStats.CreateDefault();
     }
 
     /// <summary>
@@ -77,8 +148,8 @@ public class GameManager : MonoBehaviour
         // ゲーム開始時余分にミノの順番を決める
         spawner.DetermineSpawnMinoOrder();
 
-        spawner.CreateNewActiveMino(minoPopNumber);
-        spawner.CreateNewNextMinos(minoPopNumber);
+        spawner.CreateNewActiveMino(gameManagerStats.MinoPopNumber);
+        spawner.CreateNewNextMinos(gameManagerStats.MinoPopNumber);
     }
 
     /// <summary>
@@ -444,9 +515,9 @@ public class GameManager : MonoBehaviour
     {
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "IncreaseBottomMoveCount()", "Start");
 
-        if (bottomMoveCount < bottomMoveCountLimit) // BottomMoveCount が15未満の時
+        if (gameManagerStats.BottomMoveCount < gameManagerStats.BottomMoveCountLimit) // BottomMoveCount が15未満の時
         {
-            bottomMoveCount++;
+            gameManagerStats = gameManagerStats.Update(_bottomMoveCount: gameManagerStats.BottomMoveCount + 1);
         }
 
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "IncreaseBottomMoveCount()", "End");
@@ -490,31 +561,31 @@ public class GameManager : MonoBehaviour
     private void HoldInput()
     {
         // Holdは1度使うと、ミノを設置するまで使えない
-        if (useHold == false)
+        if (gameManagerStats.UseHold == false)
         {
             // DebugHelper.Log("Hold action initiated", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-            useHold = true; // ホールドの使用
+            gameManagerStats = gameManagerStats.Update(_useHold: true);
 
             AudioManager.Instance.PlaySound(AudioNames.Hold);
 
             ResetRockDown();
 
-            if (firstHold == true) // ゲーム中で最初のHoldだった時
+            if (gameManagerStats.FirstHold == true) // ゲーム中で最初のHoldだった時
             {
                 // DebugHelper.Log("First hold action", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-                minoPopNumber++;
+                gameManagerStats = gameManagerStats.Update(_minoPopNumber: gameManagerStats.MinoPopNumber + 1);
 
-                spawner.CreateNewHoldMino(firstHold, minoPopNumber);
+                spawner.CreateNewHoldMino(gameManagerStats.FirstHold, gameManagerStats.MinoPopNumber);
 
-                firstHold = false;
+                gameManagerStats = gameManagerStats.Update(_firstHold: false);
             }
             else
             {
                 // DebugHelper.Log("Subsequent hold action", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-                spawner.CreateNewHoldMino(firstHold, minoPopNumber);
+                spawner.CreateNewHoldMino(gameManagerStats.FirstHold, gameManagerStats.MinoPopNumber);
             }
         }
         else
@@ -552,13 +623,14 @@ public class GameManager : MonoBehaviour
 
         int newBottomBlockPosition_y = board.CheckActiveMinoBottomBlockPosition_y(spawner.activeMino); // 操作中のミノの1番下のブロックのy座標を取得
 
-        if (lowestBlockPositionY <= newBottomBlockPosition_y) // lowestBlockPositionYが更新されていない場合
+        if (gameManagerStats.LowestBlockPositionY <= newBottomBlockPosition_y) // lowestBlockPositionYが更新されていない場合
         {
             spawner.activeMino.MoveDown();
 
             // 1マス下が底の時((底に面している時)
             // かつインターバル時間を超過している、または15回以上移動や回転を行った時
-            if (!board.CheckPosition(spawner.activeMino) && (Time.time >= timer.BottomTimer || bottomMoveCount >= bottomMoveCountLimit))
+            if (!board.CheckPosition(spawner.activeMino) && (Time.time >= timer.BottomTimer ||
+                gameManagerStats.BottomMoveCount >= gameManagerStats.BottomMoveCountLimit))
             {
                 spawner.activeMino.MoveUp(); // 元の位置に戻す
 
@@ -573,9 +645,9 @@ public class GameManager : MonoBehaviour
         }
         else // lowestBlockPositionYが更新された場合
         {
-            bottomMoveCount = 0;
+            gameManagerStats = gameManagerStats.Update(_bottomMoveCount: 0);
 
-            lowestBlockPositionY = newBottomBlockPosition_y; // BottomPositionの更新
+            gameManagerStats = gameManagerStats.Update(_lowestBlockPositionY: newBottomBlockPosition_y); // BottomPositionの更新
         }
 
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "RockDown()", "End");
@@ -585,10 +657,7 @@ public class GameManager : MonoBehaviour
     public void ResetRockDown()
     {
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "ResetRockDown()", "Start");
-
-        lowestBlockPositionY = 20; // 初期値はゲームボードの最高高さである 20 に設定
-        bottomMoveCount = 0;
-
+        gameManagerStats = gameManagerStats.Update(_bottomMoveCount: 0, _lowestBlockPositionY: 20);
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "ResetRockDown()", "End");
     }
 
@@ -610,25 +679,23 @@ public class GameManager : MonoBehaviour
 
         // 各種変数のリセット
         ResetRockDown();
-        useHold = false;
         timer.ResetTimer();
 
         board.SaveBlockInGrid(spawner.activeMino);
         gameStatus.AddLineClearCountHistory(board.ClearAllRows());
-        textEffect.TextDisplay(gameStatus.LineClearCountHistory[minoPutNumber]);
+        textEffect.TextDisplay(gameStatus.LineClearCountHistory[gameManagerStats.MinoPutNumber]);
 
         // 各種変数のリセット
         gameStatus.ResetStepsSRS();
         spinCheck.ResetSpinTypeName();
         gameStatus.ResetAngle();
 
-        // Numberを1進める
-        minoPutNumber++;
-        minoPopNumber++;
+        gameManagerStats = gameManagerStats.Update(_minoPutNumber: gameManagerStats.MinoPutNumber + 1,
+            _minoPopNumber: gameManagerStats.MinoPopNumber + 1, _useHold: false);
 
-        spawner.CreateNewActiveMino(minoPopNumber);
+        spawner.CreateNewActiveMino(gameManagerStats.MinoPopNumber);
 
-        spawner.CreateNewNextMinos(minoPopNumber);
+        spawner.CreateNewNextMinos(gameManagerStats.MinoPopNumber);
 
         if (!board.CheckPosition(spawner.activeMino)) // ミノを生成した際に、ブロックと重なってしまった場合
         {
@@ -646,6 +713,53 @@ public class GameManager : MonoBehaviour
 }
 
 /////////////////// 旧コード ///////////////////
+
+// // 初期化例
+// private GameManagerStats minoStats = new GameManagerStats();
+
+// // MinoPopNumberを1増やす
+// minoStats = minoStats.Update(minoPopNumber: minoStats.MinoPopNumber + 1);
+
+// // UseHoldをtrueに変更
+// minoStats = minoStats.Update(useHold: true);
+
+// /// <summary> ミノの生成数
+// /// </summary>
+// /// <remarks>
+// /// 新しいミノが生成されるたびに1ずつ増加する
+// /// </remarks>
+// private int minoPopNumber = 0;
+
+// /// <summary>ミノの設置数
+// /// ミノが設置されると1ずつ増加する
+// /// ホールドを使用すると、その時点からミノの生成数より1小さくなる
+// /// </summary>
+// private int minoPutNumber = 0;
+
+// /// <summary>ロックダウンの移動回数
+// /// </summary>
+// /// <remarks>ミノがボトムに到達してからの移動回数を表す</remarks>
+// /// <value>0~15</value>
+// private int bottomMoveCount = 0;
+
+// /// <summary>ロックダウンの移動回数制限</summary>
+// private int bottomMoveCountLimit = 15;
+
+// /// <summary>操作中のミノを構成するブロックのうち、最も低い y 座標を保持するプロパティ
+// /// </summary>
+// /// <remarks>
+// /// ロックダウンの処理に必要 <br/>
+// /// この値が更新されるたびにロックダウンの移動回数制限がリセットされる <br/>
+// /// 初期値はゲームボードの最高高さである 20 に設定
+// /// </remarks>
+// /// <value>0~20</value>
+// private int lowestBlockPositionY = 20;
+
+// /// <summary>ホールドが使用されたか判別するプロパティ</summary>
+// private bool useHold = false;
+
+// /// <summary>ゲーム中で最初のホールドかどうかを判別するプロパティ</summary>
+// private bool firstHold = true;
 
 // // ミノの生成数、または設置数 //
 // private int MinoPopNumber = 0;
