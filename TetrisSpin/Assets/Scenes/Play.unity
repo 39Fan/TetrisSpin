@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13fd6ddfa99bc4183af351d9db533291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpinTypeName: 
+  spinTypeName: 9
 --- !u!4 &68356027
 Transform:
   m_ObjectHideFlags: 0
@@ -212,10 +212,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdd83829edaa7455ea2c869ac0472708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackLines: 0
-  MinoAngleAfter: NORTH
-  MinoAngleBefore: NORTH
-  StepsSRS: 0
+  attackLines: 0
+  minoAngleAfter: 0
+  minoAngleBefore: 0
+  stepsSRS: 0
 --- !u!1 &519060628
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,9 +502,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad6eb129cb5c54e9b8feb2249e988884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BottomMoveCount: 0
-  BottomMoveCountLimit: 15
-  BottomBlockPosition_y: 20
 --- !u!4 &590872038
 Transform:
   m_ObjectHideFlags: 0
@@ -638,7 +635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52e5f125b58244e9582797f7808a6530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EmptySprite: {fileID: 5895574292747320548, guid: 02663292883e94347b43e0df9045ab1d, type: 3}
+  emptySprite: {fileID: 5895574292747320548, guid: 02663292883e94347b43e0df9045ab1d, type: 3}
 --- !u!4 &1832803216
 Transform:
   m_ObjectHideFlags: 0
@@ -722,24 +719,12 @@ MonoBehaviour:
   LspinSingle_Text: {fileID: 1633818741928931802, guid: fc57b03800c7b428ca031b36db05a67b, type: 3}
   LspinDouble_Text: {fileID: 1633818741928931802, guid: f6bad036c74524d26b17ce66ce2aa3b2, type: 3}
   LspinTriple_Text: {fileID: 1633818741928931802, guid: dce5bc7eccbb24e378a4f690da162eb2, type: 3}
-  Ospin_Text: {fileID: 0}
-  OspinSingle_Text: {fileID: 0}
-  OspinDouble_Text: {fileID: 0}
-  OspinTriple_Text: {fileID: 0}
-  Sspin_Text: {fileID: 1633818741928931802, guid: 1d379767a24694dd3841582bb64b56ba, type: 3}
-  SspinSingle_Text: {fileID: 1633818741928931802, guid: b5c4f061f176d4ec19df0ae20edfe2de, type: 3}
-  SspinDouble_Text: {fileID: 1633818741928931802, guid: c340b95820b3d48e49dca8d022d04b56, type: 3}
-  SspinTriple_Text: {fileID: 1633818741928931802, guid: bd8c63e1c858b49d98ae558be5adfe0d, type: 3}
   Tspin_Text: {fileID: 1633818741928931802, guid: 5ef42f5abaac74b4e804d66327192c15, type: 3}
   TspinSingle_Text: {fileID: 3191080098678034068, guid: ed0023454acc34073808e26c4b5d1bc5, type: 3}
   TspinDouble_Text: {fileID: 835706068503385815, guid: 61190addfd5524551bfdb282933266c5, type: 3}
   TspinTriple_Text: {fileID: 2910127633995747759, guid: d350f8e514897454f94a332eab911e30, type: 3}
   TspinMini_Text: {fileID: 9112384351425725138, guid: e215bbfd339f746b6aa508510d2f2363, type: 3}
   TspinDoubleMini_Text: {fileID: 1481246784689171504, guid: cd2c8d2acc8cc43eaac72b8fd66e1560, type: 3}
-  Zspin_Text: {fileID: 1633818741928931802, guid: f46770d0d3d3a4b9f9f62fa1833a684a, type: 3}
-  ZspinSingle_Text: {fileID: 1633818741928931802, guid: 3bfe59f2b188544228df4295c877f85e, type: 3}
-  ZspinDouble_Text: {fileID: 1633818741928931802, guid: 1aff8ae31e3f845b0b3cbfd2ce7ba16c, type: 3}
-  ZspinTriple_Text: {fileID: 1633818741928931802, guid: 4486c90851b3445508867dc1ff38146a, type: 3}
 --- !u!1 &2011930346
 GameObject:
   m_ObjectHideFlags: 0
