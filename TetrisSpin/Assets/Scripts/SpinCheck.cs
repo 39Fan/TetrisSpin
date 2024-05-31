@@ -2,6 +2,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
+/// スピン判定一覧
+/// </summary>
+public enum SpinTypeNames
+{
+    I_Spin,
+    I_SpinMini,
+    J_Spin,
+    L_Spin,
+    O_Spin,
+    S_Spin,
+    T_Spin,
+    T_SpinMini,
+    Z_Spin,
+    None
+}
+
+/// <summary>
+/// ブロックの存在判定一覧
+/// </summary>
+public enum Existence
+{
+    Exist,
+    NotExist
+}
+
+/// <summary>
 /// Spinの判定を確認するクラス
 /// </summary>
 public class SpinCheck : MonoBehaviour
