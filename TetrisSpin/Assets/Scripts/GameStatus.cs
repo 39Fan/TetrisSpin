@@ -6,24 +6,6 @@ using UnityEngine;
 /// </summary>
 public class GameStatus : MonoBehaviour
 {
-    /// <summary>ゲームオーバーの判定</summary>
-    private bool gameOver;
-
-    /// <summary>BackToBackの判定</summary>
-    private bool backToBack = false;
-
-    /// <summary>Renの判定
-    /// </summary>
-    /// <remarks>3回連続で列消去すると「2REN」なので、初期値は-1に設定 </remarks>
-    /// <value>-1~</value>
-    private int ren = -1;
-
-    /// <summary>攻撃ライン数
-    /// </summary>
-    /// <remarks>ゲームスタート時に攻撃ラインは存在しないので、初期値は0</remarks>
-    /// <value>0~</value>
-    [SerializeField] private int attackLines = 0;
-
     /// <summary>ライン消去の履歴を記録するリスト</summary>
     private List<int> lineClearCountHistory = new List<int>();
 
@@ -46,9 +28,8 @@ public class GameStatus : MonoBehaviour
     [SerializeField] private int stepsSRS = 0;
 
     // ゲッタープロパティ //
-    public bool GameOver => gameOver;
-    public bool BackToBack => backToBack;
-    public int Ren => ren;
+    // public bool BackToBack => backToBack;
+    // public int Ren => ren;
     public List<int> LineClearCountHistory => lineClearCountHistory;
     public MinoDirections MinoAngleAfter => minoAngleAfter;
     public MinoDirections MinoAngleBefore => minoAngleBefore;
@@ -65,28 +46,28 @@ public class GameStatus : MonoBehaviour
         spawner = FindObjectOfType<Spawner>();
     }
 
-    /// <summary>ゲームオーバー判定をオンにする</summary>
-    public void SetGameOver() => gameOver = true;
+    // /// <summary>ゲームオーバー判定をオンにする</summary>
+    // public void SetGameOver() => gameOver = true;
 
-    /// <summary>ゲームオーバー判定をオフにする</summary>
-    public void ResetGameOver() => gameOver = false;
+    // /// <summary>ゲームオーバー判定をオフにする</summary>
+    // public void ResetGameOver() => gameOver = false;
 
-    /// <summary>BackToBack判定をオンにする</summary>
-    public void SetBackToBack() => backToBack = true;
+    // /// <summary>BackToBack判定をオンにする</summary>
+    // public void SetBackToBack() => backToBack = true;
 
-    /// <summary>BackToBack判定をオフにする</summary>
-    public void ResetBackToBack() => backToBack = false;
+    // /// <summary>BackToBack判定をオフにする</summary>
+    // public void ResetBackToBack() => backToBack = false;
 
-    /// <summary>Renの値をリセットする</summary>
-    public void ResetRen() => ren = -1;
+    // /// <summary>Renの値をリセットする</summary>
+    // public void ResetRen() => ren = -1;
 
-    /// <summary>Renの値を1増加させる</summary>
-    public void IncreaseRen() => ren++;
+    // /// <summary>Renの値を1増加させる</summary>
+    // public void IncreaseRen() => ren++;
 
-    /// <summary>AttackLinesの値を増加させる
-    /// </summary>
-    /// <param name="_addAttackLines">追加する攻撃ライン数</param>
-    public void IncreaseAttackLines(int _addAttackLines) => attackLines += _addAttackLines;
+    // /// <summary>AttackLinesの値を増加させる
+    // /// </summary>
+    // /// <param name="_addAttackLines">追加する攻撃ライン数</param>
+    // public void IncreaseAttackLines(int _addAttackLines) => attackLines += _addAttackLines;
 
     /// <summary>ライン消去数の履歴を追加する
     /// </summary>
