@@ -48,18 +48,13 @@ public class TextEffect : MonoBehaviour
     private int Alpha_0 = 0; // 0の時は透明
     private int Alpha_1 = 1; // 1の時は不透明
 
-    // 攻撃ラインの値 //
-    private int BackToBackBonus = 1;
-    private int PerfectClearBonus = 10;
-    private int[] RenBonus = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 5 };
-
     // 干渉するスクリプト //
     private Board board;
     private GameStatus gameStatus;
     private SpinCheck spinCheck;
 
     /// <summary>
-    /// インスタンス化 
+    /// インスタンス化
     /// </summary>
     private void Awake()
     {
@@ -68,15 +63,14 @@ public class TextEffect : MonoBehaviour
         spinCheck = FindObjectOfType<SpinCheck>();
     }
 
-    /// <summary>表示するテキストを判別する関数
-    /// </summary>
-    /// <param name="_lineClearCount">消去したラインの数</param>
-    public void TextDisplay(int _lineClearCount)
+    /// <summary> 表示するテキストを判別する関数 </summary>
+    /// <param name="_lineClearCount"> 消去ライン数 </param>
+    public void TextDisplay(SpinTypeNames _spinType, int _lineClearCount)
     {
-        TextAnimation(DetermineTextToDisplay(spinCheck.SpinTypeName, _lineClearCount));
+        TextAnimation(DetermineTextToDisplay(_spinType, _lineClearCount));
 
         // 鳴らすサウンドの決定も行う
-        if (spinCheck.SpinTypeName != SpinTypeNames.None)
+        if (_spinType != SpinTypeNames.None)
         {
             if (_lineClearCount >= 1)
             {
@@ -100,11 +94,10 @@ public class TextEffect : MonoBehaviour
         }
     }
 
-    /// <summary>表示するテキストを特定する関数
-    /// </summary>
-    /// <param name="_spinType">スピンタイプ</param>
-    /// <param name="_lineClearCount">消去したラインの数</param>
-    /// <returns>表示するテキスト</returns>
+    /// <summary> 表示するテキストを特定する関数 </summary>
+    /// <param name="_spinType"> スピンタイプ </param>
+    /// <param name="_lineClearCount"> 消去ライン数 </param>
+    /// <returns> 表示するテキスト </returns>
     private TextMeshProUGUI DetermineTextToDisplay(SpinTypeNames _spinType, int _lineClearCount)
     {
         // スピンタイプと消去ライン数に対応するテキストをマッピングするディクショナリ
@@ -166,138 +159,82 @@ public class TextEffect : MonoBehaviour
         }
 
     };
-        // スピンタイプと消去ライン数に対応する攻撃力をマッピングするディクショナリ
-        Dictionary<SpinTypeNames, Dictionary<int, int>> spinTypeAttackMapping = new Dictionary<SpinTypeNames, Dictionary<int, int>>
-    {
-        { SpinTypeNames.J_Spin, new Dictionary<int, int>
-            {
-                { 1, 1 }, // JspinSingleAttack
-                { 2, 3 }, // JspinDoubleAttack
-                { 3, 6 }  // JspinTripleAttack
-            }
-        },
-        { SpinTypeNames.L_Spin, new Dictionary<int, int>
-            {
-                { 1, 1 }, // LspinSingleAttack
-                { 2, 3 }, // LspinDoubleAttack
-                { 3, 6 }  // LspinTripleAttack
-            }
-        },
-        { SpinTypeNames.I_SpinMini, new Dictionary<int, int>
-            {
-                { 1, 1 } // IspinMiniAttack
-            }
-        },
-        { SpinTypeNames.I_Spin, new Dictionary<int, int>
-            {
-                { 1, 2 }, // IspinSingleAttack
-                { 2, 4 }, // IspinDoubleAttack
-                { 3, 6 }, // IspinTripleAttack
-                { 4, 8 }  // IspinQuattroAttack
-            }
-        },
-        { SpinTypeNames.T_Spin, new Dictionary<int, int>
-            {
-                { 1, 2 }, // TspinSingleAttack
-                { 2, 4 }, // TspinDoubleAttack
-                { 3, 6 }  // TspinTripleAttack
-            }
-        },
-        { SpinTypeNames.T_SpinMini, new Dictionary<int, int>
-            {
-                { 1, 0 }, // TspinMiniAttack
-                { 2, 1 }  // TspinDoubleMiniAttack
-            }
-        },
-        { SpinTypeNames.None, new Dictionary<int, int>
-            {
-                { 1, 0 }, // OneLineClearAttack
-                { 2, 1 }, // TwoLineClearAttack
-                { 3, 2 }, // ThreeLineClearAttack
-                { 4, 4 }  // TetrisAttack
-            }
-        }
-    };
-
         // 初期化
         TextMeshProUGUI displayText = null;
 
-        // スピンタイプと行消去数に基づいてテキストを選択
+        // スピンタイプと消去ライン数に対応したテキストを選択
         if (spinTypeTextMapping.ContainsKey(_spinType) && spinTypeTextMapping[_spinType].ContainsKey(_lineClearCount))
         {
             displayText = spinTypeTextMapping[_spinType][_lineClearCount]; // 対応したテキストを実際に表示させる
         }
         else
         {
-            // エラー
+            // TODO: エラー
         }
 
-        // スピンタイプと行消去数に基づいて攻撃力を選択
-        if (spinTypeAttackMapping.ContainsKey(_spinType) && spinTypeAttackMapping[_spinType].ContainsKey(_lineClearCount))
-        {
-            gameStatus.IncreaseAttackLines(spinTypeAttackMapping[_spinType][_lineClearCount]); // 対応した攻撃力を反映
-        }
+        // // スピンタイプと行消去数に基づいて攻撃力を選択
+        // if (spinTypeAttackMapping.ContainsKey(_spinType) && spinTypeAttackMapping[_spinType].ContainsKey(_lineClearCount))
+        // {
+        //     gameStatus.IncreaseAttackLines(spinTypeAttackMapping[_spinType][_lineClearCount]); // 対応した攻撃力を反映
+        // }
 
-        CheckBackToBack(_spinType, displayText); // BackToBack判定をチェック
-        CheckRen(_lineClearCount); // Ren判定をチェック
-        if (board.CheckPerfectClear()) // PerfectClear判定をチェック
-        {
-            gameStatus.IncreaseAttackLines(PerfectClearBonus);
-            PerfectClearAnimation();
-        }
+        // CheckBackToBack(_spinType, displayText); // BackToBack判定をチェック
+        // CheckRen(_lineClearCount); // Ren判定をチェック
+        // if (board.CheckPerfectClear()) // PerfectClear判定をチェック
+        // {
+        //     gameStatus.IncreaseAttackLines(PerfectClearBonus);
+        //     PerfectClearAnimation();
+        // }
 
         return displayText;
     }
 
-    /// <summary> BackToBackの判定を確認し、ダメージの計算を行う関数
-    /// </summary>
-    /// <param name="_spinType">スピンタイプ</param>
-    /// <param name="_displayText">表示するテキスト</param>
-    private void CheckBackToBack(SpinTypeNames _spinType, TextMeshProUGUI _displayText)
-    {
-        // Spin判定がない、かつテトリスでない場合
-        if (_spinType == SpinTypeNames.None && _displayText != Tetris_Text)
-        {
-            // BackToBack判定をリセット
-            gameStatus.ResetBackToBack();
-        }
-        else
-        {
-            if (!gameStatus.BackToBack)
-            {
-                // BackToBack判定を付与
-                gameStatus.SetBackToBack();
-            }
-            else
-            {
-                // すでにBackToBack判定が付与されている場合(前回付与した判定をキープしていた場合)
-                gameStatus.IncreaseAttackLines(BackToBackBonus);
-                BackToBackAnimation();
-            }
-        }
-    }
+    // /// <summary> BackToBackの判定を確認し、ダメージの計算を行う関数 </summary>
+    // /// <param name="_spinType">スピンタイプ</param>
+    // /// <param name="_displayText">表示するテキスト</param>
+    // private void CheckBackToBack(SpinTypeNames _spinType, TextMeshProUGUI _displayText)
+    // {
+    //     // Spin判定がない、かつテトリスでない場合
+    //     if (_spinType == SpinTypeNames.None && _displayText != Tetris_Text)
+    //     {
+    //         // BackToBack判定をリセット
+    //         gameStatus.ResetBackToBack();
+    //     }
+    //     else
+    //     {
+    //         if (!gameStatus.BackToBack)
+    //         {
+    //             // BackToBack判定を付与
+    //             gameStatus.SetBackToBack();
+    //         }
+    //         else
+    //         {
+    //             // すでにBackToBack判定が付与されている場合(前回付与した判定をキープしていた場合)
+    //             gameStatus.IncreaseAttackLines(BackToBackBonus);
+    //             BackToBackAnimation();
+    //         }
+    //     }
+    // }
 
-    /// <summary> Renの判定を確認し、ダメージの計算を行う関数
-    /// </summary>
-    /// <param name="_lineClearCount">消去したラインの数</param>
-    private void CheckRen(int _lineClearCount)
-    {
-        if (_lineClearCount >= 1)
-        {
-            // 1列以上消去していれば
-            gameStatus.IncreaseRen();
-            // int ren = Mathf.Min(gameStatus.ren, RenBonus.Length - 1);
-            gameStatus.IncreaseAttackLines(RenBonus[gameStatus.Ren]);
-        }
-        else
-        {
-            // 列消去ができていない場合、リセットする
-            gameStatus.ResetRen();
-        }
-    }
+    // /// <summary> Renの判定を確認し、ダメージの計算を行う関数 </summary>
+    // /// <param name="_lineClearCount">消去したラインの数</param>
+    // private void CheckRen(int _lineClearCount)
+    // {
+    //     if (_lineClearCount >= 1)
+    //     {
+    //         // 1列以上消去していれば
+    //         gameStatus.IncreaseRen();
+    //         // int ren = Mathf.Min(gameStatus.ren, RenBonus.Length - 1);
+    //         gameStatus.IncreaseAttackLines(RenBonus[gameStatus.Ren]);
+    //     }
+    //     else
+    //     {
+    //         // 列消去ができていない場合、リセットする
+    //         gameStatus.ResetRen();
+    //     }
+    // }
 
-    /// <summary> テキストのアニメーションを行う関数
-    /// </summary>
+    /// <summary> テキストのアニメーションを行う関数 </summary>
     /// <param name="_displayText">表示するテキスト</param>
     private void TextAnimation(TextMeshProUGUI _displayText)
     {
@@ -310,8 +247,7 @@ public class TextEffect : MonoBehaviour
         }
     }
 
-    /// <summary> テキストのフェードインとフェードアウトを行う関数
-    /// </summary>
+    /// <summary> テキストのフェードインとフェードアウトを行う関数 </summary>
     /// <param name="_displayText">表示するテキスト</param>
     private void TextFadeInAndOut(TextMeshProUGUI _displayText)
     {
@@ -326,8 +262,7 @@ public class TextEffect : MonoBehaviour
             .Append(_displayText.DOFade(Alpha_0, fadeOutInterval));
     }
 
-    /// <summary> テキストの移動を行う関数
-    /// </summary>
+    /// <summary> テキストの移動を行う関数 </summary>
     /// <param name="_displayText">表示するテキストのトランスフォーム</param>
     private void TextMove(Transform _displayText)
     {
@@ -1309,5 +1244,63 @@ public class TextEffect : MonoBehaviour
 //     AudioManager.Instance.PlaySound(sound);
 //     TextAnimation(text);
 // }
+
+// // 攻撃ラインの値 //
+// private int BackToBackBonus = 1;
+// private int PerfectClearBonus = 10;
+// private int[] RenBonus = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 5 };
+
+//     // スピンタイプと消去ライン数に対応する攻撃力をマッピングするディクショナリ
+//     Dictionary<SpinTypeNames, Dictionary<int, int>> spinTypeAttackMapping = new Dictionary<SpinTypeNames, Dictionary<int, int>>
+// {
+//     { SpinTypeNames.J_Spin, new Dictionary<int, int>
+//         {
+//             { 1, 1 }, // JspinSingleAttack
+//             { 2, 3 }, // JspinDoubleAttack
+//             { 3, 6 }  // JspinTripleAttack
+//         }
+//     },
+//     { SpinTypeNames.L_Spin, new Dictionary<int, int>
+//         {
+//             { 1, 1 }, // LspinSingleAttack
+//             { 2, 3 }, // LspinDoubleAttack
+//             { 3, 6 }  // LspinTripleAttack
+//         }
+//     },
+//     { SpinTypeNames.I_SpinMini, new Dictionary<int, int>
+//         {
+//             { 1, 1 } // IspinMiniAttack
+//         }
+//     },
+//     { SpinTypeNames.I_Spin, new Dictionary<int, int>
+//         {
+//             { 1, 2 }, // IspinSingleAttack
+//             { 2, 4 }, // IspinDoubleAttack
+//             { 3, 6 }, // IspinTripleAttack
+//             { 4, 8 }  // IspinQuattroAttack
+//         }
+//     },
+//     { SpinTypeNames.T_Spin, new Dictionary<int, int>
+//         {
+//             { 1, 2 }, // TspinSingleAttack
+//             { 2, 4 }, // TspinDoubleAttack
+//             { 3, 6 }  // TspinTripleAttack
+//         }
+//     },
+//     { SpinTypeNames.T_SpinMini, new Dictionary<int, int>
+//         {
+//             { 1, 0 }, // TspinMiniAttack
+//             { 2, 1 }  // TspinDoubleMiniAttack
+//         }
+//     },
+//     { SpinTypeNames.None, new Dictionary<int, int>
+//         {
+//             { 1, 0 }, // OneLineClearAttack
+//             { 2, 1 }, // TwoLineClearAttack
+//             { 3, 2 }, // ThreeLineClearAttack
+//             { 4, 4 }  // TetrisAttack
+//         }
+//     }
+// };
 
 /////////////////////////////////////////////////////////
