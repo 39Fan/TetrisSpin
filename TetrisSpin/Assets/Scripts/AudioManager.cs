@@ -129,6 +129,8 @@ public class AudioManager : MonoBehaviour
     }
 }
 
+/////////////////// 旧コード ///////////////////
+
 // // オーディオの名前 //
 // public string[] AudioNames =
 // {
@@ -170,3 +172,5 @@ public class AudioManager : MonoBehaviour
 //         }
 //     }
 // }
+
+/////////////////////////////////////////////////////////
