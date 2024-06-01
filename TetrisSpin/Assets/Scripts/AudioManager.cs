@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,37 +20,22 @@ public enum AudioNames
 
 /// <summary>
 /// オーディオクリップの再生を管理するクラス<br/>
-/// ボリュームやピッチの調節も可能
 /// </summary>
+/// <remarks>
+/// ボリュームやピッチの調節も可能
+/// </remarks>
 public class AudioManager : MonoBehaviour
 {
-    /// <summary>シングルトンインスタンス</summary>
+    /// <summary> シングルトンインスタンス </summary>
     public static AudioManager Instance;
-    /// <summary>オーディオソース</summary>
+    /// <summary> オーディオソース </summary>
     private AudioSource audioSource;
 
-    /// <summary>
-    /// 各種オーディオクリップの配列<br/>
+    /// <summary> 各種オーディオクリップの配列 </summary>
+    /// <remarks>
     /// AudioNamesと対応
-    /// </summary>
+    /// </remarks>
     [SerializeField] private AudioClip[] Audios;
-
-    // // オーディオの名前 //
-    // public string[] AudioNames =
-    // {
-    //     "GameOver",
-    //     "Hard_Drop",
-    //     "Hold",
-    //     "Move_Down",
-    //     "Move_Left_Right",
-    //     "Normal_Destroy",
-    //     "Normal_Drop",
-    //     "Rotation",
-    //     "Spin",
-    //     "Spin_Destroy",
-    //     "Start_or_Retry",
-    //     "Tetris"
-    // };
 
     /// <summary>AudioNames と AudioClip の辞書</summary>
     private Dictionary<AudioNames, AudioClip> AudioClipDictionary;
@@ -65,14 +49,10 @@ public class AudioManager : MonoBehaviour
     /// <summary>最大ボリュームの値(1)/// </summary>
     private int MaxVolume = 1;
 
-    // // SEのピッチの値 //
-    // float LowPitch = 0.6f;
-    // int NormalPitch = 1;
-
-    /// <summary>
-    /// 初期化処理<br/>
-    /// また、シングルトンインスタンスを設定し、オーディオクリップの辞書を構築
-    /// </summary>
+    /// <summary> 初期化処理 </summary>
+    /// <remarks>
+    /// シングルトンインスタンスの設定と、オーディオクリップの辞書の生成も行う
+    /// </remarks>
     private void Awake()
     {
         if (Instance == null)
@@ -88,9 +68,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// AudioName と AudioClip の辞書を作成する関数
-    /// </summary>
+    /// <summary> AudioName と AudioClip の辞書を作成する関数 </summary>
     private void BuildAudioClipDictionary()
     {
         AudioClipDictionary = new Dictionary<AudioNames, AudioClip>();
@@ -116,32 +94,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // // Audios と AudioNames の辞書を作成する関数 //
-    // private void BuildAudioClipDictionary()
-    // {
-    //     if (Audios.Length != AudioNames.Length)
-    //     {
-    //         Debug.LogError("[AudioManager BuildAudioClipDictionary()] AudiosとAudioNamesの数が一致しません。");
-    //         return;
-    //     }
-
-    //     for (int i = 0; i < Audios.Length; i++)
-    //     {
-    //         if (AudioClipDictionary.ContainsKey(AudioNames[i]))
-    //         {
-    //             Debug.LogWarning($"[AudioManager BuildAudioClipDictionary()] {AudioNames[i]} はすでに登録されています。");
-    //         }
-    //         else
-    //         {
-    //             AudioClipDictionary.Add(AudioNames[i], Audios[i]);
-    //         }
-    //     }
-    // }
-
-
-    /// <summary>
-    /// 指定されたオーディオクリップを再生する関数
-    /// </summary>
+    /// <summary> 指定されたオーディオクリップを再生する関数 </summary>
     /// <param name="audioName">再生するオーディオクリップの名前</param>
     public void PlaySound(AudioNames audioName)
     {
@@ -157,9 +110,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 音量を設定する関数
-    /// </summary>
+    /// <summary> 音量を設定する関数 </summary>
     /// <param name="audioName">再生するオーディオクリップの名前</param>
     private void SetVolume(AudioNames audioName)
     {
@@ -177,3 +128,45 @@ public class AudioManager : MonoBehaviour
         }
     }
 }
+
+// // オーディオの名前 //
+// public string[] AudioNames =
+// {
+//     "GameOver",
+//     "Hard_Drop",
+//     "Hold",
+//     "Move_Down",
+//     "Move_Left_Right",
+//     "Normal_Destroy",
+//     "Normal_Drop",
+//     "Rotation",
+//     "Spin",
+//     "Spin_Destroy",
+//     "Start_or_Retry",
+//     "Tetris"
+// };
+
+// // SEのピッチの値 //
+// float LowPitch = 0.6f;
+// int NormalPitch = 1;
+// // Audios と AudioNames の辞書を作成する関数 //
+// private void BuildAudioClipDictionary()
+// {
+//     if (Audios.Length != AudioNames.Length)
+//     {
+//         Debug.LogError("[AudioManager BuildAudioClipDictionary()] AudiosとAudioNamesの数が一致しません。");
+//         return;
+//     }
+
+//     for (int i = 0; i < Audios.Length; i++)
+//     {
+//         if (AudioClipDictionary.ContainsKey(AudioNames[i]))
+//         {
+//             Debug.LogWarning($"[AudioManager BuildAudioClipDictionary()] {AudioNames[i]} はすでに登録されています。");
+//         }
+//         else
+//         {
+//             AudioClipDictionary.Add(AudioNames[i], Audios[i]);
+//         }
+//     }
+// }
