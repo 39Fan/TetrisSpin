@@ -1,86 +1,171 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-///// ミノに関するスクリプト /////
+/// <summary>
+/// ミノの種類一覧
+/// </summary>
+public enum MinoType
+{
+    I_Mino,
+    J_Mino,
+    L_Mino,
+    O_Mino,
+    S_Mino,
+    T_Mino,
+    Z_Mino
+}
 
+/// <summary>
+/// ミノの向き一覧
+/// </summary>
+public enum MinoDirections
+{
+    North, // 初期(未回転)状態
+    East,  // 右回転後の向き
+    South, // 2回右回転または左回転した時の向き
+    West   // 左回転後の向き
+}
 
-// ↓このスクリプトで可能なこと↓ //
+/// <summary>
+/// ミノの回転方向一覧
+/// </summary>
+public enum MinoRotationDirections
+{
+    RotateRight,
+    RotateLeft
+}
 
-// ミノの生成
-// 左右移動、下移動、通常回転
-// スーパーローテーションシステム(以後SRSと呼ぶ)
-// ゴーストミノの位置調整
+// TODO :プールを作る
+/// <summary>
+/// ミノの統計情報を保持する静的クラス
+/// </summary>
+public static class MinoStats
+{
+    /// <summary> ミノの回転後の向き </summary>
+    /// <remarks>
+    /// 初期値はNorthの状態 <br/>
+    /// Spin判定を確認する際、回転後の向きと回転前の向きの情報が必要なため
+    /// </remarks>
+    private static MinoDirections minoAngleAfter = MinoDirections.North;
 
+    /// <summary> ミノの回転前の向き </summary>
+    /// <remarks>
+    /// 初期値はNorthの状態 <br/>
+    /// Spin判定を確認する際、回転後の向きと回転前の向きの情報が必要なため
+    /// </remarks>
+    private static MinoDirections minoAngleBefore = MinoDirections.North;
+
+    /// <summary> スーパーローテーションシステム(SRS)の段階 </summary>
+    /// <remarks>
+    /// SRSが使用されていないときは0, 1〜4の時は、SRSの段階を表す
+    /// </remarks>
+    /// <value> 0~4 </value>
+    [SerializeField] private static int stepsSRS = 0;
+
+    // ゲッタープロパティ //
+    public static MinoDirections MinoAngleAfter => minoAngleAfter;
+    public static MinoDirections MinoAngleBefore => minoAngleBefore;
+    public static int StepsSRS => stepsSRS;
+
+    /// <summary> フィールドの値を更新する関数 </summary>
+    /// <param name="_minoAngleAfter"> ミノの回転後の向き </param>
+    /// <param name="_minoAngleBefore"> ミノの回転前の向き </param>
+    /// <param name="_stepsSRS"> SRSの段階 </param>
+    /// <remarks>
+    /// 指定されていない引数は現在の値を維持
+    /// </remarks>
+    public static void Update(MinoDirections? _minoAngleAfter = null, MinoDirections? _minoAngleBefore = null, int? _stepsSRS = null)
+    {
+        minoAngleAfter = _minoAngleAfter ?? minoAngleAfter;
+        minoAngleBefore = _minoAngleBefore ?? minoAngleBefore;
+        stepsSRS = _stepsSRS ?? stepsSRS;
+        // TODO: ログの記入
+    }
+
+    /// <summary> デフォルトの <see cref="MinoStats"/> にリセットする関数 </summary>
+    public static void Reset()
+    {
+        minoAngleAfter = MinoDirections.North;
+        minoAngleBefore = MinoDirections.North;
+        stepsSRS = 0;
+    }
+}
+
+/// <summary>
+/// ミノに関するスクリプト
+/// </summary>
+/// <remarks>
+/// - ミノの生成 <br/>
+/// - 左右移動、下移動、通常回転 <br/>
+/// - スーパーローテーションシステム(以後SRSと呼ぶ) <br/>
+/// - ゴーストミノの位置調整
+/// </remarks>
 public class Mino : MonoBehaviour
 {
-    // // ミノの向き //
-    // private string North = "North";
-    // private string East = "East";
-    // private string South = "South";
-    // private string West = "West";
-
-    // 回転していいミノかどうか //
+    /// <summary> 回転の可能判定 </summary>
     [SerializeField] private bool CanRotate = true; // Oミノは回転しないので、エディターでfalseに設定
 
-    // Z軸の回転量 //
-    private int RotateRightAroundZ = -90; // 右回転
-    private int RotateLeftAroundZ = 90; // 左回転
-
-    // // 回転方向 //
-    // private string UseRotateRight = "RotateRight";
-    // private string UseRotateLeft = "RotateLeft";
-
+    // 干渉するスクリプト //
     Board board;
-    GameStatus gameStatus;
     Spawner spawner;
 
+    /// <summary>
+    /// インスタンス化
+    /// </summary>
     private void Awake()
     {
         board = FindObjectOfType<Board>();
-        gameStatus = FindObjectOfType<GameStatus>();
         spawner = FindObjectOfType<Spawner>();
     }
 
-    // 移動用 //
+    /// <summary> ミノを指定した方向に移動する関数 </summary>
     public void Move(Vector3 _MoveDirection)
     {
         transform.position += _MoveDirection;
     }
 
-    // 移動関数を呼ぶ関数(4種類) //
+    /// <summary> ミノを左に移動する関数 </summary>
     public void MoveLeft()
     {
         // LogHelper.Log("Start", LogHelper.LogLevel.Debug, "Mino", "MoveLeft()");
 
         Move(new Vector3(-1, 0, 0));
     }
-
+    /// <summary> ミノを右に移動する関数 </summary>
     public void MoveRight()
     {
         // LogHelper.Log("Start", LogHelper.LogLevel.Debug, "Mino", "MoveRight()");
 
         Move(new Vector3(1, 0, 0));
     }
-
+    /// <summary> ミノを上に移動する関数 </summary>
     public void MoveUp()
     {
         // LogHelper.Log("Start", LogHelper.LogLevel.Debug, "Mino", "MoveUp()");
 
         Move(new Vector3(0, 1, 0));
     }
-
+    /// <summary> ミノを下に移動する関数 </summary>
     public void MoveDown()
     {
         // LogHelper.Log("Start", LogHelper.LogLevel.Debug, "Mino", "MoveDown()");
+        Debug.Log(MinoStats.StepsSRS);
+        Debug.Log(MinoStats.MinoAngleAfter);
+        Debug.Log(MinoStats.MinoAngleBefore);
 
         Move(new Vector3(0, -1, 0));
     }
 
-    // 通常右回転 //
+    /// <summary> ミノを右回転する関数 </summary>
     public void RotateRight()
     {
         // LogHelper.Log("Start", LogHelper.LogLevel.Debug, "Mino", "RotateRight()");
+
+        /// <summary> 右回転のZ軸の回転量 </summary>
+        int RotateRightAroundZ = -90;
 
         if (CanRotate == false) // 回転できないブロックの場合
         {
@@ -102,13 +187,16 @@ public class Mino : MonoBehaviour
         }
 
         // ミノの角度の調整(右回転)
-        gameStatus.UpdateMinoAngleAfter(MinoRotationDirections.RotateRight);
+        UpdateMinoAngleAfter(MinoRotationDirections.RotateRight);
     }
 
-    // 通常左回転 //
+    /// <summary> ミノを左回転する関数 </summary>
     public void RotateLeft()
     {
         // LogHelper.Log("Start", LogHelper.LogLevel.Debug, "Mino", "Rotateleft()");
+
+        /// <summary> 左回転のZ軸の回転量 </summary>
+        int RotateLeftAroundZ = 90;
 
         if (CanRotate == false) // 回転できないブロックの場合
         {
@@ -133,10 +221,13 @@ public class Mino : MonoBehaviour
         }
 
         // ミノの角度の調整(左回転)
-        gameStatus.UpdateMinoAngleAfter(MinoRotationDirections.RotateLeft);
+        UpdateMinoAngleAfter(MinoRotationDirections.RotateLeft);
     }
 
-    // Iミノの軸を計算し、Vectoe3で返す関数 //
+    /// <summary> Iミノの軸を計算し、Vector3で返す関数 </summary>
+    /// <param name="Imino_x"> Iミノのx座標</param>
+    /// <param name="Imino_y"> Iミノのy座標 </param>
+    /// <returns> Iミノの軸となる座標(Vector3) </returns>
     public Vector3 AxisCheck_ForI(int Imino_x, int Imino_y) // Imino_x と Imino_y はIミノのx, y座標
     {
         LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "AxisCheckt()", "Start");
@@ -151,27 +242,27 @@ public class Mino : MonoBehaviour
         // xOffset と yOffset の正負は回転前の向きによって変化する
 
         // 向きがNorthの時
-        if (gameStatus.MinoAngleAfter == MinoDirections.North)
+        if (MinoStats.MinoAngleAfter == MinoDirections.North)
         {
             AxisPosition = $"North: Axis = ({Imino_x + xOffset}, {Imino_y - yOffset})";
             LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "AxisCheck_ForI()", AxisPosition);
-            LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "AxisCheckt()", "End");
+            LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "AxisCheck()", "End");
             return new Vector3(Imino_x + xOffset, Imino_y - yOffset, 0);
         }
         // 向きがEastの時
-        else if (gameStatus.MinoAngleAfter == MinoDirections.East)
+        else if (MinoStats.MinoAngleAfter == MinoDirections.East)
         {
             AxisPosition = $"East: Axis = ({Imino_x - xOffset}, {Imino_y - yOffset})";
             LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "AxisCheck_ForI()", AxisPosition);
-            LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "AxisCheckt()", "End");
+            LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "AxisCheck()", "End");
             return new Vector3(Imino_x - xOffset, Imino_y - yOffset, 0);
         }
         // 向きがSouthの時
-        else if (gameStatus.MinoAngleAfter == MinoDirections.South)
+        else if (MinoStats.MinoAngleAfter == MinoDirections.South)
         {
             AxisPosition = $"South: Axis = ({Imino_x - xOffset}, {Imino_y + yOffset})";
             LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "AxisCheck_ForI()", AxisPosition);
-            LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "AxisCheckt()", "End");
+            LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "AxisCheck()", "End");
             return new Vector3(Imino_x - xOffset, Imino_y + yOffset, 0);
         }
         // 向きがWestの時
@@ -179,30 +270,123 @@ public class Mino : MonoBehaviour
         {
             AxisPosition = $"West: Axis = ({Imino_x + xOffset}, {Imino_y + yOffset})";
             LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "AxisCheck_ForI()", AxisPosition);
-            LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "AxisCheckt()", "End");
+            LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "AxisCheck()", "End");
             return new Vector3(Imino_x + xOffset, Imino_y + yOffset, 0);
         }
     }
 
-    // スーパーローテーションシステム(SRS) //
-    // 通常回転ができなかった時に試す回転
-    // 4つの軌跡を辿り、ブロックや壁に衝突しなかったらそこに移動する
+    /// <summary> MinoAngleAfterの更新をする関数 </summary>
+    /// <param name="_rotateDirection"> 回転方向 </param>
+    public void UpdateMinoAngleAfter(MinoRotationDirections _rotateDirection)
+    {
+        switch (_rotateDirection)
+        {
+            case MinoRotationDirections.RotateRight:
+                switch (MinoStats.MinoAngleAfter)
+                {
+                    case MinoDirections.North:
+                        MinoStats.Update(_minoAngleAfter: MinoDirections.East);
+                        break;
+                    case MinoDirections.East:
+                        MinoStats.Update(_minoAngleAfter: MinoDirections.South);
+                        break;
+                    case MinoDirections.South:
+                        MinoStats.Update(_minoAngleAfter: MinoDirections.West);
+                        break;
+                    case MinoDirections.West:
+                        MinoStats.Update(_minoAngleAfter: MinoDirections.North);
+                        break;
+                }
+                break;
+            case MinoRotationDirections.RotateLeft:
+                switch (MinoStats.MinoAngleAfter)
+                {
+                    case MinoDirections.North:
+                        MinoStats.Update(_minoAngleAfter: MinoDirections.West);
+                        break;
+                    case MinoDirections.East:
+                        MinoStats.Update(_minoAngleAfter: MinoDirections.North);
+                        break;
+                    case MinoDirections.South:
+                        MinoStats.Update(_minoAngleAfter: MinoDirections.East);
+                        break;
+                    case MinoDirections.West:
+                        MinoStats.Update(_minoAngleAfter: MinoDirections.South);
+                        break;
+                }
+                break;
+        }
+    }
 
-    // ↓参考にした動画
-    // https://www.youtube.com/watch?v=0OQ7mP97vdc
+    /// <summary> MinoAngleAfter の値を MinoAngleBefore に変更する関数 </summary>
+    public void UpdateMinoAngleAfterToMinoAngleBefore()
+    {
+        MinoStats.Update(_minoAngleAfter: MinoStats.MinoAngleBefore);
+    }
 
+    /// <summary> MinoAngleBefore の値を MinoAngleAfter に変更する関数 </summary>
+    public void UpdateMinoAngleBeforeToMinoAngleAfter()
+    {
+        Debug.Log("uooo");
+        Debug.Log(MinoStats.MinoAngleAfter);
+        Debug.Log(MinoStats.MinoAngleBefore);
+        MinoStats.Update(_minoAngleBefore: MinoStats.MinoAngleAfter);
+        Debug.Log("ie-i");
+        Debug.Log(MinoStats.MinoAngleAfter);
+        Debug.Log(MinoStats.MinoAngleBefore);
+    }
+
+    /// <summary> 通常回転のリセットをする関数 </summary>
+    public void ResetRotate()
+    {
+        // 通常回転が右回転だった時
+        if ((MinoStats.MinoAngleAfter == MinoDirections.North && MinoStats.MinoAngleAfter == MinoDirections.East) ||
+        (MinoStats.MinoAngleAfter == MinoDirections.East && MinoStats.MinoAngleAfter == MinoDirections.South) ||
+        (MinoStats.MinoAngleAfter == MinoDirections.South && MinoStats.MinoAngleAfter == MinoDirections.West) ||
+        (MinoStats.MinoAngleAfter == MinoDirections.West && MinoStats.MinoAngleAfter == MinoDirections.North))
+        {
+            spawner.activeMino.RotateLeft(); // 左回転で回転前の状態に戻す
+        }
+        else // 通常回転が左回転だった時
+        {
+            spawner.activeMino.RotateRight(); // 右回転で回転前の状態に戻す
+        }
+    }
+
+    /// <summary> ミノの向きを初期化する関数 </summary>
+    public void ResetAngle()
+    {
+        MinoStats.Update(_minoAngleAfter: MinoDirections.North, _minoAngleBefore: MinoDirections.North);
+    }
+
+    /// <summary> StepsSRSの値をリセットする関数 </summary>
+    public void ResetStepsSRS()
+    {
+        MinoStats.Update(_stepsSRS: 0);
+    }
+
+    /// <summary> スーパーローテーションシステム(SRS)の計算をする関数 </summary>
+    /// <remarks>
+    /// 通常回転ができなかった時に試す特殊回転 <br/>
+    /// 4つの軌跡を辿り、ブロックや壁に衝突しなかったらそこに移動する <br/>
+    /// Iミノとそれ以外のミノとで処理が異なる <br/>
+    /// <br/>
+    /// ↓参考にした動画 <br/>
+    /// https://www.youtube.com/watch?v=0OQ7mP97vdc
+    /// </remarks>
+    /// <returns> 成功したかどうか(true or false) </returns>
     public bool SuperRotationSystem()
     {
         LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()", "Start");
 
+        /// <summary> SRSの成功失敗の判定 </summary>
         bool success = false;
 
-        // SRSはIミノとそれ以外のミノとで処理が違うため分けて処理する
         // Iミノ以外のSRS
         if (spawner.activeMinoName != "I_Mino")
         {
-            if ((gameStatus.MinoAngleBefore == MinoDirections.North && gameStatus.MinoAngleAfter == MinoDirections.East) ||
-                (gameStatus.MinoAngleBefore == MinoDirections.South && gameStatus.MinoAngleAfter == MinoDirections.East))   // North から East , South から East に回転する時
+            if ((MinoStats.MinoAngleBefore == MinoDirections.North && MinoStats.MinoAngleAfter == MinoDirections.East) ||
+                (MinoStats.MinoAngleBefore == MinoDirections.South && MinoStats.MinoAngleAfter == MinoDirections.East))   // North から East , South から East に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -218,8 +402,8 @@ public class Mino : MonoBehaviour
                 () => spawner.activeMino.MoveLeft()  // 第四法則
             }, "NtoE, StoE");
             }
-            else if ((gameStatus.MinoAngleBefore == MinoDirections.West && gameStatus.MinoAngleAfter == MinoDirections.North) ||
-                (gameStatus.MinoAngleBefore == MinoDirections.West && gameStatus.MinoAngleAfter == MinoDirections.South))   // West から North , West から South に回転する時
+            else if ((MinoStats.MinoAngleBefore == MinoDirections.West && MinoStats.MinoAngleAfter == MinoDirections.North) ||
+                (MinoStats.MinoAngleBefore == MinoDirections.West && MinoStats.MinoAngleAfter == MinoDirections.South))   // West から North , West から South に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -235,8 +419,8 @@ public class Mino : MonoBehaviour
                 () => spawner.activeMino.MoveLeft()  // 第四法則
             }, "WtoN, WtoS");
             }
-            else if ((gameStatus.MinoAngleBefore == MinoDirections.East && gameStatus.MinoAngleAfter == MinoDirections.North) ||
-                (gameStatus.MinoAngleBefore == MinoDirections.East && gameStatus.MinoAngleAfter == MinoDirections.South))   // East から North , East から South に回転する時
+            else if ((MinoStats.MinoAngleBefore == MinoDirections.East && MinoStats.MinoAngleAfter == MinoDirections.North) ||
+                (MinoStats.MinoAngleBefore == MinoDirections.East && MinoStats.MinoAngleAfter == MinoDirections.South))   // East から North , East から South に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -252,8 +436,8 @@ public class Mino : MonoBehaviour
                 () => spawner.activeMino.MoveRight()  // 第四法則
             }, "EtoN, EtoS");
             }
-            else if ((gameStatus.MinoAngleBefore == MinoDirections.North && gameStatus.MinoAngleAfter == MinoDirections.West) ||
-                (gameStatus.MinoAngleBefore == MinoDirections.South && gameStatus.MinoAngleAfter == MinoDirections.West))   // North から West , South から West に回転する時
+            else if ((MinoStats.MinoAngleBefore == MinoDirections.North && MinoStats.MinoAngleAfter == MinoDirections.West) ||
+                (MinoStats.MinoAngleBefore == MinoDirections.South && MinoStats.MinoAngleAfter == MinoDirections.West))   // North から West , South から West に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -273,8 +457,8 @@ public class Mino : MonoBehaviour
         // IミノのSRS(かなり複雑)
         else
         {
-            if ((gameStatus.MinoAngleBefore == MinoDirections.North && gameStatus.MinoAngleAfter == MinoDirections.East) ||
-                (gameStatus.MinoAngleBefore == MinoDirections.West && gameStatus.MinoAngleAfter == MinoDirections.South))  // North から East , West から South に回転する時
+            if ((MinoStats.MinoAngleBefore == MinoDirections.North && MinoStats.MinoAngleAfter == MinoDirections.East) ||
+                (MinoStats.MinoAngleBefore == MinoDirections.West && MinoStats.MinoAngleAfter == MinoDirections.South))  // North から East , West から South に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -307,8 +491,8 @@ public class Mino : MonoBehaviour
                 }
             }, "NtoE, WtoS, I");
             }
-            else if ((gameStatus.MinoAngleBefore == MinoDirections.West && gameStatus.MinoAngleAfter == MinoDirections.North) ||
-                (gameStatus.MinoAngleBefore == MinoDirections.South && gameStatus.MinoAngleAfter == MinoDirections.East))   // West から North , South から East に回転する時
+            else if ((MinoStats.MinoAngleBefore == MinoDirections.West && MinoStats.MinoAngleAfter == MinoDirections.North) ||
+                (MinoStats.MinoAngleBefore == MinoDirections.South && MinoStats.MinoAngleAfter == MinoDirections.East))   // West から North , South から East に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -338,8 +522,8 @@ public class Mino : MonoBehaviour
                 }
             }, "WtoN, StoE, I");
             }
-            else if ((gameStatus.MinoAngleBefore == MinoDirections.East && gameStatus.MinoAngleAfter == MinoDirections.North) ||
-                (gameStatus.MinoAngleBefore == MinoDirections.South && gameStatus.MinoAngleAfter == MinoDirections.West))   // East から North , South から West に回転する時
+            else if ((MinoStats.MinoAngleBefore == MinoDirections.East && MinoStats.MinoAngleAfter == MinoDirections.North) ||
+                (MinoStats.MinoAngleBefore == MinoDirections.South && MinoStats.MinoAngleAfter == MinoDirections.West))   // East から North , South から West に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -372,8 +556,8 @@ public class Mino : MonoBehaviour
                 }
             }, "EtoN, StoW, I");
             }
-            else if ((gameStatus.MinoAngleBefore == MinoDirections.North && gameStatus.MinoAngleAfter == MinoDirections.West) ||
-                (gameStatus.MinoAngleBefore == MinoDirections.East && gameStatus.MinoAngleAfter == MinoDirections.South))   // North から West , East から South に回転する時
+            else if ((MinoStats.MinoAngleBefore == MinoDirections.North && MinoStats.MinoAngleAfter == MinoDirections.West) ||
+                (MinoStats.MinoAngleBefore == MinoDirections.East && MinoStats.MinoAngleAfter == MinoDirections.South))   // North から West , East から South に回転する時
             {
                 success = TrySuperRotation(new List<Action>
             {
@@ -409,18 +593,22 @@ public class Mino : MonoBehaviour
         return success; // SRSが成功したかどうかを返す
     }
 
+    /// <summary> SRSの各ステップを試す関数 </summary>
+    /// <param name="rotationSteps"> 各ステップのアクションリスト </param>
+    /// <param name="direction"> 方向の説明 </param>
+    /// <returns> 成功したかどうか(true or false) </returns>
     private bool TrySuperRotation(List<Action> rotationSteps, string direction)
     {
         Vector3 originalPosition = spawner.activeMino.transform.position; // 現在の位置を保存
+
         for (int step = 0; step < rotationSteps.Count; step++)
         {
-            gameStatus.IncreaseStepsSRS();
-
+            MinoStats.Update(_stepsSRS: MinoStats.StepsSRS + 1);
             rotationSteps[step]();
 
             if (board.CheckPosition(spawner.activeMino))
             {
-                LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "TrySuperRotation()", $"Success SRS = {gameStatus.StepsSRS}, {direction}");
+                LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "TrySuperRotation()", $"Success SRS = {MinoStats.StepsSRS}, {direction}");
                 LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "TrySuperRotation()", "End");
                 return true;
             }
@@ -428,460 +616,567 @@ public class Mino : MonoBehaviour
 
         // 全てのステップが失敗した場合、回転前の状態に戻す
         spawner.activeMino.transform.position = originalPosition;
-        gameStatus.ResetRotate();
+        ResetRotate();
         LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "TrySuperRotation()", $"Failure SRS, {direction}");
         LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "TrySuperRotation()", "End");
         return false;
     }
 
-
-
-    // public bool SuperRotationSystem()
-    // {
-    //     LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()", "Start");
-
-    //     // SRSはIミノとそれ以外のミノとで処理が違うため分けて処理する
-    //     // Iミノ以外のSRS
-    //     if (spawner.activeMinoName != "I_Mino")
-    //     {
-    //         //Debug.Log("Iミノ以外のSRS");
-
-    //         if ((gameStatus.MinoAngleBefore == North && gameStatus.MinoAngleAfter == East) ||
-    //             (gameStatus.MinoAngleBefore == South && gameStatus.MinoAngleAfter == East))   // North から East , South から East に回転する時
-    //         {
-    //             // 第一法則
-    //             spawner.activeMino.MoveLeft(); // 左に1つ移動
-
-    //             // SRSの段階数を格納(TspinMiniの判定に必要)
-    //             gameStatus.IncreaseLastSRS(); // 1
-
-    //             if (!board.CheckPosition(spawner.activeMino))
-    //             {
-    //                 // 第二法則
-    //                 spawner.activeMino.MoveUp(); // 上に1つ移動
-
-    //                 gameStatus.IncreaseLastSRS(); // 2
-
-    //                 if (!board.CheckPosition(spawner.activeMino))
-    //                 {
-    //                     // 第三法則
-    //                     spawner.activeMino.MoveRight(); // 右に1つ移動
-    //                     spawner.activeMino.MoveDown();
-    //                     spawner.activeMino.MoveDown();
-    //                     spawner.activeMino.MoveDown(); // 下に3つ移動
-
-    //                     gameStatus.IncreaseLastSRS(); // 3
-
-    //                     if (!board.CheckPosition(spawner.activeMino))
-    //                     {
-    //                         // 第四法則
-    //                         spawner.activeMino.MoveLeft(); // 左に1つ移動
-
-    //                         gameStatus.IncreaseLastSRS(); // 4
-
-    //                         if (!board.CheckPosition(spawner.activeMino))
-    //                         {
-    //                             // SRSができなかった時、回転前の状態に戻る
-    //                             spawner.activeMino.MoveRight();
-    //                             spawner.activeMino.MoveUp();
-    //                             spawner.activeMino.MoveUp();
-
-    //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
-
-    //                             LogHelper.Log("Failure SRS, NtoE, StoE", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-
-    //                             return false; // SRSができなかった時、falseを返す
-    //                         }
-    //                         LogHelper.Log("Success SRS = 4, NtoE, StoE", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //                     }
-    //                     LogHelper.Log("Success SRS = 3, NtoE, StoE", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //                 }
-    //                 LogHelper.Log("Success SRS = 2, NtoE, StoE", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //             }
-    //             LogHelper.Log("Success SRS = 1, NtoE, StoE", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //         }
-    //         else if ((gameStatus.MinoAngleBefore == West && gameStatus.MinoAngleAfter == North) ||
-    //             (gameStatus.MinoAngleBefore == West && gameStatus.MinoAngleAfter == South))   // West から North , West から South に回転する時
-    //         {
-    //             // 第一法則
-    //             spawner.activeMino.MoveLeft(); // 左に1つ移動
-
-    //             // SRSの段階数を格納(TspinMiniの判定に必要)
-    //             gameStatus.IncreaseLastSRS(); // 1
-
-    //             if (!board.CheckPosition(spawner.activeMino))
-    //             {
-    //                 // 第二法則
-    //                 spawner.activeMino.MoveDown(); // 下に1つ移動
-
-    //                 gameStatus.IncreaseLastSRS(); // 2
-
-    //                 if (!board.CheckPosition(spawner.activeMino))
-    //                 {
-    //                     // 第三法則
-    //                     spawner.activeMino.MoveRight(); // 右に1つ移動
-    //                     spawner.activeMino.MoveUp();
-    //                     spawner.activeMino.MoveUp();
-    //                     spawner.activeMino.MoveUp(); // 上に3つ移動
-
-    //                     gameStatus.IncreaseLastSRS(); // 3
-
-    //                     if (!board.CheckPosition(spawner.activeMino))
-    //                     {
-    //                         // 第四法則
-    //                         spawner.activeMino.MoveLeft(); // 左に1つ移動
-
-    //                         gameStatus.IncreaseLastSRS(); // 4
-
-    //                         if (!board.CheckPosition(spawner.activeMino))
-    //                         {
-    //                             //SRSができなかった際に回転前の状態に戻る
-    //                             spawner.activeMino.MoveRight();
-    //                             spawner.activeMino.MoveDown();
-    //                             spawner.activeMino.MoveDown();
-
-    //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
-
-    //                             LogHelper.Log("Failure SRS, WtoN, WtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-
-    //                             return false; // SRSができなかった時、falseを返す
-    //                         }
-    //                         LogHelper.Log("Success SRS = 4, WtoN, WtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //                     }
-    //                     LogHelper.Log("Success SRS = 3, WtoN, WtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //                 }
-    //                 LogHelper.Log("Success SRS = 2, WtoN, WtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //             }
-    //             LogHelper.Log("Success SRS = 1, WtoN, WtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //         }
-    //         else if ((gameStatus.MinoAngleBefore == East && gameStatus.MinoAngleAfter == North) ||
-    //             (gameStatus.MinoAngleBefore == East && gameStatus.MinoAngleAfter == South))   // East から North , East から South に回転する時
-    //         {
-    //             // 第一法則
-    //             spawner.activeMino.MoveRight(); // 右に1つ移動
-
-    //             // SRSの段階数を格納(TspinMiniの判定に必要)
-    //             gameStatus.IncreaseLastSRS(); // 1
-
-    //             if (!board.CheckPosition(spawner.activeMino))
-    //             {
-    //                 // 第二法則
-    //                 spawner.activeMino.MoveDown(); // 下に1つ移動
-
-    //                 gameStatus.IncreaseLastSRS(); // 2
-
-    //                 if (!board.CheckPosition(spawner.activeMino))
-    //                 {
-    //                     // 第三法則
-    //                     spawner.activeMino.MoveLeft(); // 左に1つ移動
-    //                     spawner.activeMino.MoveUp();
-    //                     spawner.activeMino.MoveUp();
-    //                     spawner.activeMino.MoveUp(); // 上に3つ移動
-
-    //                     gameStatus.IncreaseLastSRS(); // 3
-
-    //                     if (!board.CheckPosition(spawner.activeMino))
-    //                     {
-    //                         // 第四法則
-    //                         spawner.activeMino.MoveRight(); // 右に1つ移動
-
-    //                         gameStatus.IncreaseLastSRS(); // 4
-
-    //                         if (!board.CheckPosition(spawner.activeMino))
-    //                         {
-    //                             // SRSができなかった際に回転前の状態に戻る
-    //                             spawner.activeMino.MoveLeft();
-    //                             spawner.activeMino.MoveDown();
-    //                             spawner.activeMino.MoveDown();
-
-    //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
-
-    //                             LogHelper.Log("Failure SRS, EtoN, EtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-
-    //                             return false; // SRSができなかった時、falseを返す
-    //                         }
-    //                         LogHelper.Log("Success SRS = 4, EtoN, EtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //                     }
-    //                     LogHelper.Log("Success SRS = 3, EtoN, EtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //                 }
-    //                 LogHelper.Log("Success SRS = 2, EtoN, EtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //             }
-    //             LogHelper.Log("Success SRS = 1, EtoN, EtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //         }
-    //         else if ((gameStatus.MinoAngleBefore == North && gameStatus.MinoAngleAfter == West) ||
-    //             (gameStatus.MinoAngleBefore == South && gameStatus.MinoAngleAfter == West))   // North から West , South から West に回転する時
-    //         {
-    //             // 第一法則
-    //             spawner.activeMino.MoveRight(); // 右に1つ移動
-
-    //             // SRSの段階数を格納(TspinMiniの判定に必要)
-    //             gameStatus.IncreaseLastSRS(); // 1
-
-    //             if (!board.CheckPosition(spawner.activeMino))
-    //             {
-    //                 // 第二法則
-    //                 spawner.activeMino.MoveUp(); // 上に1つ移動
-
-    //                 gameStatus.IncreaseLastSRS(); // 2
-
-    //                 if (!board.CheckPosition(spawner.activeMino))
-    //                 {
-    //                     // 第三法則
-    //                     spawner.activeMino.MoveLeft(); // 左に1つ移動
-    //                     spawner.activeMino.MoveDown();
-    //                     spawner.activeMino.MoveDown();
-    //                     spawner.activeMino.MoveDown(); // 下に3つ移動
-
-    //                     gameStatus.IncreaseLastSRS(); // 3
-
-    //                     if (!board.CheckPosition(spawner.activeMino))
-    //                     {
-    //                         // 第四法則
-    //                         spawner.activeMino.MoveRight(); // 右に1つ移動
-
-    //                         gameStatus.IncreaseLastSRS(); // 4
-
-    //                         if (!board.CheckPosition(spawner.activeMino))
-    //                         {
-    //                             // SRSができなかった時、通常回転前の状態に戻る
-    //                             spawner.activeMino.MoveLeft();
-    //                             spawner.activeMino.MoveUp();
-    //                             spawner.activeMino.MoveUp();
-
-    //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
-
-    //                             LogHelper.Log("Failure SRS, NtoW, StoW", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-
-    //                             return false; // SRSができなかった時、falseを返す
-    //                         }
-    //                         LogHelper.Log("Success SRS = 4, NtoW, StoW", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //                     }
-    //                     LogHelper.Log("Success SRS = 3, NtoW, StoW", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //                 }
-    //                 LogHelper.Log("Success SRS = 2, NtoW, StoW", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //             }
-    //             LogHelper.Log("Success SRS = 1, NtoW, StoW", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //         }
-    //     }
-    //     // IミノのSRS(かなり複雑)
-    //     else
-    //     {
-    //         //Debug.Log("IミノのSRS");
-
-    //         if ((gameStatus.MinoAngleBefore == North && gameStatus.MinoAngleAfter == East) ||
-    //             (gameStatus.MinoAngleBefore == West && gameStatus.MinoAngleAfter == South))  // North から East , West から South に回転する時
-    //         {
-    //             // 第一法則
-    //             spawner.activeMino.MoveLeft();
-    //             spawner.activeMino.MoveLeft(); // 左に2つ移動
-
-    //             if (!board.CheckPosition(spawner.activeMino))
-    //             {
-    //                 // 第二法則
-    //                 spawner.activeMino.MoveRight();
-    //                 spawner.activeMino.MoveRight();
-    //                 spawner.activeMino.MoveRight(); // 右に3つ移動
-
-    //                 if (!board.CheckPosition(spawner.activeMino))
-    //                 {
-    //                     // 第三法則
-    //                     spawner.activeMino.MoveLeft();
-    //                     spawner.activeMino.MoveLeft();
-    //                     spawner.activeMino.MoveLeft(); // 左に3つ移動
-    //                     spawner.activeMino.MoveDown(); // 下に1つ移動
-
-    //                     if (!board.CheckPosition(spawner.activeMino))
-    //                     {
-    //                         // 第四法則
-    //                         spawner.activeMino.MoveRight();
-    //                         spawner.activeMino.MoveRight();
-    //                         spawner.activeMino.MoveRight(); // 右に3つ移動
-    //                         spawner.activeMino.MoveUp();
-    //                         spawner.activeMino.MoveUp();
-    //                         spawner.activeMino.MoveUp(); // 上に3つ移動
-
-    //                         if (!board.CheckPosition(spawner.activeMino))
-    //                         {
-    //                             // SRSができなかった際に回転前の状態に戻る
-    //                             spawner.activeMino.MoveLeft();
-    //                             spawner.activeMino.MoveDown();
-    //                             spawner.activeMino.MoveDown();
-
-    //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
-
-    //                             LogHelper.Log("Failure SRS, NtoE, WtoS, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-
-    //                             return false; // SRSができなかった時、falseを返す
-    //                         }
-    //                         LogHelper.Log("Success SRS = 4, NtoE, WtoS, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //                     }
-    //                     LogHelper.Log("Success SRS = 3, NtoE, WtoS, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //                 }
-    //                 LogHelper.Log("Success SRS = 2, NtoE, WtoS, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //             }
-    //             LogHelper.Log("Success SRS = 1, NtoE, WtoS, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //         }
-    //         else if ((gameStatus.MinoAngleBefore == West && gameStatus.MinoAngleAfter == North) ||
-    //             (gameStatus.MinoAngleBefore == South && gameStatus.MinoAngleAfter == East))   // West から North , South から East に回転する時
-    //         {
-    //             // 第一法則
-    //             spawner.activeMino.MoveRight(); // 右に1つ移動
-
-    //             if (!board.CheckPosition(spawner.activeMino))
-    //             {
-    //                 // 第二法則
-    //                 spawner.activeMino.MoveLeft();
-    //                 spawner.activeMino.MoveLeft();
-    //                 spawner.activeMino.MoveLeft(); // 左に3つ移動
-
-    //                 if (!board.CheckPosition(spawner.activeMino))
-    //                 {
-    //                     // 第三法則
-    //                     spawner.activeMino.MoveRight();
-    //                     spawner.activeMino.MoveRight();
-    //                     spawner.activeMino.MoveRight(); // 右に3つ移動
-    //                     spawner.activeMino.MoveDown();
-    //                     spawner.activeMino.MoveDown(); // 下に2つ移動
-
-    //                     if (!board.CheckPosition(spawner.activeMino))
-    //                     {
-    //                         // 第四法則
-    //                         spawner.activeMino.MoveLeft();
-    //                         spawner.activeMino.MoveLeft();
-    //                         spawner.activeMino.MoveLeft(); // 左に3つ移動
-    //                         spawner.activeMino.MoveUp();
-    //                         spawner.activeMino.MoveUp();
-    //                         spawner.activeMino.MoveUp(); // 上に3つ移動
-
-    //                         if (!board.CheckPosition(spawner.activeMino))
-    //                         {
-    //                             // SRSができなかった際に回転前の状態に戻る
-    //                             spawner.activeMino.MoveRight();
-    //                             spawner.activeMino.MoveRight();
-    //                             spawner.activeMino.MoveDown();
-
-    //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
-
-    //                             LogHelper.Log("Failure SRS, WtoN, StoE, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-
-    //                             return false; // SRSができなかった時、falseを返す
-    //                         }
-    //                         LogHelper.Log("Success SRS = 4, WtoN, StoE, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //                     }
-    //                     LogHelper.Log("Success SRS = 3, WtoN, StoE, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //                 }
-    //                 LogHelper.Log("Success SRS = 2, WtoN, StoE, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //             }
-    //             LogHelper.Log("Success SRS = 1, WtoN, StoE, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //         }
-    //         else if ((gameStatus.MinoAngleBefore == East && gameStatus.MinoAngleAfter == North) ||
-    //             (gameStatus.MinoAngleBefore == South && gameStatus.MinoAngleAfter == West))   // East から North , South から West に回転する時
-    //         {
-    //             // 第一法則
-    //             spawner.activeMino.MoveRight();
-    //             spawner.activeMino.MoveRight(); // 右に2つ移動
-
-    //             if (!board.CheckPosition(spawner.activeMino))
-    //             {
-    //                 // 第二法則
-    //                 spawner.activeMino.MoveLeft();
-    //                 spawner.activeMino.MoveLeft();
-    //                 spawner.activeMino.MoveLeft(); // 左に3つ移動
-
-    //                 if (!board.CheckPosition(spawner.activeMino))
-    //                 {
-    //                     // 第三法則
-    //                     spawner.activeMino.MoveRight();
-    //                     spawner.activeMino.MoveRight();
-    //                     spawner.activeMino.MoveRight(); // 右に3つ移動
-    //                     spawner.activeMino.MoveUp(); // 上に1つ移動
-
-    //                     if (!board.CheckPosition(spawner.activeMino))
-    //                     {
-    //                         // 第四法則
-    //                         spawner.activeMino.MoveLeft();
-    //                         spawner.activeMino.MoveLeft();
-    //                         spawner.activeMino.MoveLeft(); // 左に3つ移動
-    //                         spawner.activeMino.MoveDown();
-    //                         spawner.activeMino.MoveDown();
-    //                         spawner.activeMino.MoveDown(); // 下に3つ移動
-
-    //                         if (!board.CheckPosition(spawner.activeMino))
-    //                         {
-    //                             // SRSができなかった際に回転前の状態に戻る
-    //                             spawner.activeMino.MoveRight();
-    //                             spawner.activeMino.MoveUp();
-    //                             spawner.activeMino.MoveUp();
-
-    //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
-
-    //                             LogHelper.Log("Failure SRS, EtoN, StoW, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-
-    //                             return false; // SRSができなかった時、falseを返す
-    //                         }
-    //                         LogHelper.Log("Success SRS = 4, EtoN, StoW, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //                     }
-    //                     LogHelper.Log("Success SRS = 3, EtoN, StoW, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //                 }
-    //                 LogHelper.Log("Success SRS = 2, EtoN, StoW, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //             }
-    //             LogHelper.Log("Success SRS = 1, EtoN, StoW, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
-    //         }
-    //         else if ((gameStatus.MinoAngleBefore == North && gameStatus.MinoAngleAfter == West) ||
-    //             (gameStatus.MinoAngleBefore == East && gameStatus.MinoAngleAfter == South))   // North から West , East から South に回転する時
-    //         {
-    //             // 第一法則
-    //             spawner.activeMino.MoveLeft(); // 左に1つ移動
-
-    //             if (!board.CheckPosition(spawner.activeMino))
-    //             {
-    //                 // 第二法則
-    //                 spawner.activeMino.MoveRight();
-    //                 spawner.activeMino.MoveRight();
-    //                 spawner.activeMino.MoveRight(); // 右に3つ移動
-
-    //                 if (!board.CheckPosition(spawner.activeMino))
-    //                 {
-    //                     // 第三法則
-    //                     spawner.activeMino.MoveLeft();
-    //                     spawner.activeMino.MoveLeft();
-    //                     spawner.activeMino.MoveLeft(); // 左に3つ移動
-    //                     spawner.activeMino.MoveUp();
-    //                     spawner.activeMino.MoveUp(); // 上に2つ移動
-
-    //                     if (!board.CheckPosition(spawner.activeMino))
-    //                     {
-    //                         // 第四法則
-    //                         spawner.activeMino.MoveRight();
-    //                         spawner.activeMino.MoveRight();
-    //                         spawner.activeMino.MoveRight(); // 右に3つ移動
-    //                         spawner.activeMino.MoveDown();
-    //                         spawner.activeMino.MoveDown();
-    //                         spawner.activeMino.MoveDown(); // 下に3つ移動
-
-    //                         if (!board.CheckPosition(spawner.activeMino))
-    //                         {
-    //                             // SRSができなかった時、回転前の状態に戻る
-    //                             spawner.activeMino.MoveLeft();
-    //                             spawner.activeMino.MoveLeft();
-    //                             spawner.activeMino.MoveUp();
-
-    //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
-
-    //                             LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()", "End");
-
-    //                             return false; // SRSができなかった時、falseを返す
-    //                         }
-    //                         LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 4, NtoW, EtoS, I");
-    //                     }
-    //                     LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 3, NtoW, EtoS, I");
-    //                 }
-    //                 LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 2, NtoW, EtoS, I");
-    //             }
-    //             LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 1, NtoW, EtoS, I");
-    //         }
-    //     }
-    //     LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()", "End");
-    //     return true; // SRSができた時、trueを返す
-    // }
+    /// <summary> MinoAngleAfter の値を返す関数 </summary>
+    /// <returns> MinoAngleAfter(MinoDirections) </returns>
+    public MinoDirections GetMinoAngleAfter()
+    {
+        return MinoStats.MinoAngleAfter;
+    }
+
+    /// <summary> MinoAngleBefore の値を返す関数 </summary>
+    /// <returns> MinoAngleBefore(MinoDirections) </returns>
+    public MinoDirections GetMinoAngleBefore()
+    {
+        return MinoStats.MinoAngleBefore;
+    }
+
+    /// <summary> StepsSRS の値を返す関数 </summary>
+    /// <returns> StepsSRS(int) </returns>
+    public int GetStepsSRS()
+    {
+        return MinoStats.StepsSRS;
+    }
 }
+
+/////////////////// 旧コード ///////////////////
+
+// // ミノの向き //
+// private string North = "North";
+// private string East = "East";
+// private string South = "South";
+// private string West = "West";
+
+// // 回転方向 //
+// private string UseRotateRight = "RotateRight";
+// private string UseRotateLeft = "RotateLeft";
+
+// public bool SuperRotationSystem()
+// {
+//     LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()", "Start");
+
+//     // SRSはIミノとそれ以外のミノとで処理が違うため分けて処理する
+//     // Iミノ以外のSRS
+//     if (spawner.activeMinoName != "I_Mino")
+//     {
+//         //Debug.Log("Iミノ以外のSRS");
+
+//         if ((MinoStats.MinoAngleBefore == North && MinoStats.MinoAngleAfter == East) ||
+//             (MinoStats.MinoAngleBefore == South && MinoStats.MinoAngleAfter == East))   // North から East , South から East に回転する時
+//         {
+//             // 第一法則
+//             spawner.activeMino.MoveLeft(); // 左に1つ移動
+
+//             // SRSの段階数を格納(TspinMiniの判定に必要)
+//             gameStatus.IncreaseLastSRS(); // 1
+
+//             if (!board.CheckPosition(spawner.activeMino))
+//             {
+//                 // 第二法則
+//                 spawner.activeMino.MoveUp(); // 上に1つ移動
+
+//                 gameStatus.IncreaseLastSRS(); // 2
+
+//                 if (!board.CheckPosition(spawner.activeMino))
+//                 {
+//                     // 第三法則
+//                     spawner.activeMino.MoveRight(); // 右に1つ移動
+//                     spawner.activeMino.MoveDown();
+//                     spawner.activeMino.MoveDown();
+//                     spawner.activeMino.MoveDown(); // 下に3つ移動
+
+//                     gameStatus.IncreaseLastSRS(); // 3
+
+//                     if (!board.CheckPosition(spawner.activeMino))
+//                     {
+//                         // 第四法則
+//                         spawner.activeMino.MoveLeft(); // 左に1つ移動
+
+//                         gameStatus.IncreaseLastSRS(); // 4
+
+//                         if (!board.CheckPosition(spawner.activeMino))
+//                         {
+//                             // SRSができなかった時、回転前の状態に戻る
+//                             spawner.activeMino.MoveRight();
+//                             spawner.activeMino.MoveUp();
+//                             spawner.activeMino.MoveUp();
+
+//                             gameStatus.Reset_Rotate(); // 通常回転のリセット
+
+//                             LogHelper.Log("Failure SRS, NtoE, StoE", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+
+//                             return false; // SRSができなかった時、falseを返す
+//                         }
+//                         LogHelper.Log("Success SRS = 4, NtoE, StoE", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                     }
+//                     LogHelper.Log("Success SRS = 3, NtoE, StoE", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                 }
+//                 LogHelper.Log("Success SRS = 2, NtoE, StoE", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//             }
+//             LogHelper.Log("Success SRS = 1, NtoE, StoE", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//         }
+//         else if ((MinoStats.MinoAngleBefore == West && MinoStats.MinoAngleAfter == North) ||
+//             (MinoStats.MinoAngleBefore == West && MinoStats.MinoAngleAfter == South))   // West から North , West から South に回転する時
+//         {
+//             // 第一法則
+//             spawner.activeMino.MoveLeft(); // 左に1つ移動
+
+//             // SRSの段階数を格納(TspinMiniの判定に必要)
+//             gameStatus.IncreaseLastSRS(); // 1
+
+//             if (!board.CheckPosition(spawner.activeMino))
+//             {
+//                 // 第二法則
+//                 spawner.activeMino.MoveDown(); // 下に1つ移動
+
+//                 gameStatus.IncreaseLastSRS(); // 2
+
+//                 if (!board.CheckPosition(spawner.activeMino))
+//                 {
+//                     // 第三法則
+//                     spawner.activeMino.MoveRight(); // 右に1つ移動
+//                     spawner.activeMino.MoveUp();
+//                     spawner.activeMino.MoveUp();
+//                     spawner.activeMino.MoveUp(); // 上に3つ移動
+
+//                     gameStatus.IncreaseLastSRS(); // 3
+
+//                     if (!board.CheckPosition(spawner.activeMino))
+//                     {
+//                         // 第四法則
+//                         spawner.activeMino.MoveLeft(); // 左に1つ移動
+
+//                         gameStatus.IncreaseLastSRS(); // 4
+
+//                         if (!board.CheckPosition(spawner.activeMino))
+//                         {
+//                             //SRSができなかった際に回転前の状態に戻る
+//                             spawner.activeMino.MoveRight();
+//                             spawner.activeMino.MoveDown();
+//                             spawner.activeMino.MoveDown();
+
+//                             gameStatus.Reset_Rotate(); // 通常回転のリセット
+
+//                             LogHelper.Log("Failure SRS, WtoN, WtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+
+//                             return false; // SRSができなかった時、falseを返す
+//                         }
+//                         LogHelper.Log("Success SRS = 4, WtoN, WtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                     }
+//                     LogHelper.Log("Success SRS = 3, WtoN, WtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                 }
+//                 LogHelper.Log("Success SRS = 2, WtoN, WtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//             }
+//             LogHelper.Log("Success SRS = 1, WtoN, WtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//         }
+//         else if ((MinoStats.MinoAngleBefore == East && MinoStats.MinoAngleAfter == North) ||
+//             (MinoStats.MinoAngleBefore == East && MinoStats.MinoAngleAfter == South))   // East から North , East から South に回転する時
+//         {
+//             // 第一法則
+//             spawner.activeMino.MoveRight(); // 右に1つ移動
+
+//             // SRSの段階数を格納(TspinMiniの判定に必要)
+//             gameStatus.IncreaseLastSRS(); // 1
+
+//             if (!board.CheckPosition(spawner.activeMino))
+//             {
+//                 // 第二法則
+//                 spawner.activeMino.MoveDown(); // 下に1つ移動
+
+//                 gameStatus.IncreaseLastSRS(); // 2
+
+//                 if (!board.CheckPosition(spawner.activeMino))
+//                 {
+//                     // 第三法則
+//                     spawner.activeMino.MoveLeft(); // 左に1つ移動
+//                     spawner.activeMino.MoveUp();
+//                     spawner.activeMino.MoveUp();
+//                     spawner.activeMino.MoveUp(); // 上に3つ移動
+
+//                     gameStatus.IncreaseLastSRS(); // 3
+
+//                     if (!board.CheckPosition(spawner.activeMino))
+//                     {
+//                         // 第四法則
+//                         spawner.activeMino.MoveRight(); // 右に1つ移動
+
+//                         gameStatus.IncreaseLastSRS(); // 4
+
+//                         if (!board.CheckPosition(spawner.activeMino))
+//                         {
+//                             // SRSができなかった際に回転前の状態に戻る
+//                             spawner.activeMino.MoveLeft();
+//                             spawner.activeMino.MoveDown();
+//                             spawner.activeMino.MoveDown();
+
+//                             gameStatus.Reset_Rotate(); // 通常回転のリセット
+
+//                             LogHelper.Log("Failure SRS, EtoN, EtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+
+//                             return false; // SRSができなかった時、falseを返す
+//                         }
+//                         LogHelper.Log("Success SRS = 4, EtoN, EtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                     }
+//                     LogHelper.Log("Success SRS = 3, EtoN, EtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                 }
+//                 LogHelper.Log("Success SRS = 2, EtoN, EtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//             }
+//             LogHelper.Log("Success SRS = 1, EtoN, EtoS", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//         }
+//         else if ((MinoStats.MinoAngleBefore == North && MinoStats.MinoAngleAfter == West) ||
+//             (MinoStats.MinoAngleBefore == South && MinoStats.MinoAngleAfter == West))   // North から West , South から West に回転する時
+//         {
+//             // 第一法則
+//             spawner.activeMino.MoveRight(); // 右に1つ移動
+
+//             // SRSの段階数を格納(TspinMiniの判定に必要)
+//             gameStatus.IncreaseLastSRS(); // 1
+
+//             if (!board.CheckPosition(spawner.activeMino))
+//             {
+//                 // 第二法則
+//                 spawner.activeMino.MoveUp(); // 上に1つ移動
+
+//                 gameStatus.IncreaseLastSRS(); // 2
+
+//                 if (!board.CheckPosition(spawner.activeMino))
+//                 {
+//                     // 第三法則
+//                     spawner.activeMino.MoveLeft(); // 左に1つ移動
+//                     spawner.activeMino.MoveDown();
+//                     spawner.activeMino.MoveDown();
+//                     spawner.activeMino.MoveDown(); // 下に3つ移動
+
+//                     gameStatus.IncreaseLastSRS(); // 3
+
+//                     if (!board.CheckPosition(spawner.activeMino))
+//                     {
+//                         // 第四法則
+//                         spawner.activeMino.MoveRight(); // 右に1つ移動
+
+//                         gameStatus.IncreaseLastSRS(); // 4
+
+//                         if (!board.CheckPosition(spawner.activeMino))
+//                         {
+//                             // SRSができなかった時、通常回転前の状態に戻る
+//                             spawner.activeMino.MoveLeft();
+//                             spawner.activeMino.MoveUp();
+//                             spawner.activeMino.MoveUp();
+
+//                             gameStatus.Reset_Rotate(); // 通常回転のリセット
+
+//                             LogHelper.Log("Failure SRS, NtoW, StoW", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+
+//                             return false; // SRSができなかった時、falseを返す
+//                         }
+//                         LogHelper.Log("Success SRS = 4, NtoW, StoW", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                     }
+//                     LogHelper.Log("Success SRS = 3, NtoW, StoW", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                 }
+//                 LogHelper.Log("Success SRS = 2, NtoW, StoW", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//             }
+//             LogHelper.Log("Success SRS = 1, NtoW, StoW", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//         }
+//     }
+//     // IミノのSRS(かなり複雑)
+//     else
+//     {
+//         //Debug.Log("IミノのSRS");
+
+//         if ((MinoStats.MinoAngleBefore == North && MinoStats.MinoAngleAfter == East) ||
+//             (MinoStats.MinoAngleBefore == West && MinoStats.MinoAngleAfter == South))  // North から East , West から South に回転する時
+//         {
+//             // 第一法則
+//             spawner.activeMino.MoveLeft();
+//             spawner.activeMino.MoveLeft(); // 左に2つ移動
+
+//             if (!board.CheckPosition(spawner.activeMino))
+//             {
+//                 // 第二法則
+//                 spawner.activeMino.MoveRight();
+//                 spawner.activeMino.MoveRight();
+//                 spawner.activeMino.MoveRight(); // 右に3つ移動
+
+//                 if (!board.CheckPosition(spawner.activeMino))
+//                 {
+//                     // 第三法則
+//                     spawner.activeMino.MoveLeft();
+//                     spawner.activeMino.MoveLeft();
+//                     spawner.activeMino.MoveLeft(); // 左に3つ移動
+//                     spawner.activeMino.MoveDown(); // 下に1つ移動
+
+//                     if (!board.CheckPosition(spawner.activeMino))
+//                     {
+//                         // 第四法則
+//                         spawner.activeMino.MoveRight();
+//                         spawner.activeMino.MoveRight();
+//                         spawner.activeMino.MoveRight(); // 右に3つ移動
+//                         spawner.activeMino.MoveUp();
+//                         spawner.activeMino.MoveUp();
+//                         spawner.activeMino.MoveUp(); // 上に3つ移動
+
+//                         if (!board.CheckPosition(spawner.activeMino))
+//                         {
+//                             // SRSができなかった際に回転前の状態に戻る
+//                             spawner.activeMino.MoveLeft();
+//                             spawner.activeMino.MoveDown();
+//                             spawner.activeMino.MoveDown();
+
+//                             gameStatus.Reset_Rotate(); // 通常回転のリセット
+
+//                             LogHelper.Log("Failure SRS, NtoE, WtoS, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+
+//                             return false; // SRSができなかった時、falseを返す
+//                         }
+//                         LogHelper.Log("Success SRS = 4, NtoE, WtoS, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                     }
+//                     LogHelper.Log("Success SRS = 3, NtoE, WtoS, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                 }
+//                 LogHelper.Log("Success SRS = 2, NtoE, WtoS, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//             }
+//             LogHelper.Log("Success SRS = 1, NtoE, WtoS, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//         }
+//         else if ((MinoStats.MinoAngleBefore == West && MinoStats.MinoAngleAfter == North) ||
+//             (MinoStats.MinoAngleBefore == South && MinoStats.MinoAngleAfter == East))   // West から North , South から East に回転する時
+//         {
+//             // 第一法則
+//             spawner.activeMino.MoveRight(); // 右に1つ移動
+
+//             if (!board.CheckPosition(spawner.activeMino))
+//             {
+//                 // 第二法則
+//                 spawner.activeMino.MoveLeft();
+//                 spawner.activeMino.MoveLeft();
+//                 spawner.activeMino.MoveLeft(); // 左に3つ移動
+
+//                 if (!board.CheckPosition(spawner.activeMino))
+//                 {
+//                     // 第三法則
+//                     spawner.activeMino.MoveRight();
+//                     spawner.activeMino.MoveRight();
+//                     spawner.activeMino.MoveRight(); // 右に3つ移動
+//                     spawner.activeMino.MoveDown();
+//                     spawner.activeMino.MoveDown(); // 下に2つ移動
+
+//                     if (!board.CheckPosition(spawner.activeMino))
+//                     {
+//                         // 第四法則
+//                         spawner.activeMino.MoveLeft();
+//                         spawner.activeMino.MoveLeft();
+//                         spawner.activeMino.MoveLeft(); // 左に3つ移動
+//                         spawner.activeMino.MoveUp();
+//                         spawner.activeMino.MoveUp();
+//                         spawner.activeMino.MoveUp(); // 上に3つ移動
+
+//                         if (!board.CheckPosition(spawner.activeMino))
+//                         {
+//                             // SRSができなかった際に回転前の状態に戻る
+//                             spawner.activeMino.MoveRight();
+//                             spawner.activeMino.MoveRight();
+//                             spawner.activeMino.MoveDown();
+
+//                             gameStatus.Reset_Rotate(); // 通常回転のリセット
+
+//                             LogHelper.Log("Failure SRS, WtoN, StoE, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+
+//                             return false; // SRSができなかった時、falseを返す
+//                         }
+//                         LogHelper.Log("Success SRS = 4, WtoN, StoE, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                     }
+//                     LogHelper.Log("Success SRS = 3, WtoN, StoE, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                 }
+//                 LogHelper.Log("Success SRS = 2, WtoN, StoE, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//             }
+//             LogHelper.Log("Success SRS = 1, WtoN, StoE, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//         }
+//         else if ((MinoStats.MinoAngleBefore == East && MinoStats.MinoAngleAfter == North) ||
+//             (MinoStats.MinoAngleBefore == South && MinoStats.MinoAngleAfter == West))   // East から North , South から West に回転する時
+//         {
+//             // 第一法則
+//             spawner.activeMino.MoveRight();
+//             spawner.activeMino.MoveRight(); // 右に2つ移動
+
+//             if (!board.CheckPosition(spawner.activeMino))
+//             {
+//                 // 第二法則
+//                 spawner.activeMino.MoveLeft();
+//                 spawner.activeMino.MoveLeft();
+//                 spawner.activeMino.MoveLeft(); // 左に3つ移動
+
+//                 if (!board.CheckPosition(spawner.activeMino))
+//                 {
+//                     // 第三法則
+//                     spawner.activeMino.MoveRight();
+//                     spawner.activeMino.MoveRight();
+//                     spawner.activeMino.MoveRight(); // 右に3つ移動
+//                     spawner.activeMino.MoveUp(); // 上に1つ移動
+
+//                     if (!board.CheckPosition(spawner.activeMino))
+//                     {
+//                         // 第四法則
+//                         spawner.activeMino.MoveLeft();
+//                         spawner.activeMino.MoveLeft();
+//                         spawner.activeMino.MoveLeft(); // 左に3つ移動
+//                         spawner.activeMino.MoveDown();
+//                         spawner.activeMino.MoveDown();
+//                         spawner.activeMino.MoveDown(); // 下に3つ移動
+
+//                         if (!board.CheckPosition(spawner.activeMino))
+//                         {
+//                             // SRSができなかった際に回転前の状態に戻る
+//                             spawner.activeMino.MoveRight();
+//                             spawner.activeMino.MoveUp();
+//                             spawner.activeMino.MoveUp();
+
+//                             gameStatus.Reset_Rotate(); // 通常回転のリセット
+
+//                             LogHelper.Log("Failure SRS, EtoN, StoW, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+
+//                             return false; // SRSができなかった時、falseを返す
+//                         }
+//                         LogHelper.Log("Success SRS = 4, EtoN, StoW, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                     }
+//                     LogHelper.Log("Success SRS = 3, EtoN, StoW, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                 }
+//                 LogHelper.Log("Success SRS = 2, EtoN, StoW, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//             }
+//             LogHelper.Log("Success SRS = 1, EtoN, StoW, I", LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()");
+//         }
+//         else if ((MinoStats.MinoAngleBefore == North && MinoStats.MinoAngleAfter == West) ||
+//             (MinoStats.MinoAngleBefore == East && MinoStats.MinoAngleAfter == South))   // North から West , East から South に回転する時
+//         {
+//             // 第一法則
+//             spawner.activeMino.MoveLeft(); // 左に1つ移動
+
+//             if (!board.CheckPosition(spawner.activeMino))
+//             {
+//                 // 第二法則
+//                 spawner.activeMino.MoveRight();
+//                 spawner.activeMino.MoveRight();
+//                 spawner.activeMino.MoveRight(); // 右に3つ移動
+
+//                 if (!board.CheckPosition(spawner.activeMino))
+//                 {
+//                     // 第三法則
+//                     spawner.activeMino.MoveLeft();
+//                     spawner.activeMino.MoveLeft();
+//                     spawner.activeMino.MoveLeft(); // 左に3つ移動
+//                     spawner.activeMino.MoveUp();
+//                     spawner.activeMino.MoveUp(); // 上に2つ移動
+
+//                     if (!board.CheckPosition(spawner.activeMino))
+//                     {
+//                         // 第四法則
+//                         spawner.activeMino.MoveRight();
+//                         spawner.activeMino.MoveRight();
+//                         spawner.activeMino.MoveRight(); // 右に3つ移動
+//                         spawner.activeMino.MoveDown();
+//                         spawner.activeMino.MoveDown();
+//                         spawner.activeMino.MoveDown(); // 下に3つ移動
+
+//                         if (!board.CheckPosition(spawner.activeMino))
+//                         {
+//                             // SRSができなかった時、回転前の状態に戻る
+//                             spawner.activeMino.MoveLeft();
+//                             spawner.activeMino.MoveLeft();
+//                             spawner.activeMino.MoveUp();
+
+//                             gameStatus.Reset_Rotate(); // 通常回転のリセット
+
+//                             LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()", "End");
+
+//                             return false; // SRSができなかった時、falseを返す
+//                         }
+//                         LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 4, NtoW, EtoS, I");
+//                     }
+//                     LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 3, NtoW, EtoS, I");
+//                 }
+//                 LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 2, NtoW, EtoS, I");
+//             }
+//             LogHelper.Log(LogHelper.LogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 1, NtoW, EtoS, I");
+//         }
+//     }
+//     LogHelper.Log(LogHelper.LogLevel.Debug, "Mino", "SuperRotationSystem()", "End");
+//     return true; // SRSができた時、trueを返す
+// }
+
+
+/// <summary>
+// /// ミノの統計情報を保持する構造体
+// /// </summary>
+// public struct MinoStats
+// {
+//     /// <summary> ミノの回転後の向き </summary>
+//     /// <remarks>
+//     /// 初期値はNorthの状態 <br/>
+//     /// Spin判定を確認する際、回転後の向きと回転前の向きの情報が必要なため
+//     /// </remarks>
+//     private MinoDirections minoAngleAfter;
+
+//     /// <summary>ミノの回転前の向き
+//     /// <remarks>
+//     /// 初期値はNorthの状態 <br/>
+//     /// Spin判定を確認する際、回転後の向きと回転前の向きの情報が必要なため
+//     /// </remarks>
+//     private MinoDirections minoAngleBefore;
+
+//     /// <summary> スーパーローテーションシステム(SRS)の段階 </summary>
+//     /// <remarks>
+//     /// SRSが使用されていないときは0, 1〜4の時は、SRSの段階を表す
+//     /// </remarks>
+//     /// <value> 0~4 </value>
+//     [SerializeField] private int stepsSRS;
+
+//     // ゲッタープロパティ //
+//     public MinoDirections MinoAngleAfter => minoAngleAfter;
+//     public MinoDirections MinoAngleBefore => minoAngleBefore;
+//     public int StepsSRS => stepsSRS;
+
+//     /// <summary> デフォルトコンストラクタ </summary>
+//     public MinoStats(MinoDirections _minoAngleAfter, MinoDirections _minoAngleBefore, int _stepsSRS)
+//     {
+//         minoAngleAfter = _minoAngleAfter;
+//         minoAngleBefore = _minoAngleBefore;
+//         stepsSRS = _stepsSRS;
+//     }
+
+//     /// <summary> デフォルトの <see cref="MinoStats"/> を作成する関数 </summary>
+//     /// <returns>
+//     /// デフォルト値で初期化された <see cref="MinoStats"/> のインスタンス
+//     /// </returns>
+//     public static MinoStats CreateDefault()
+//     {
+//         return new MinoStats
+//         {
+//             minoAngleAfter = MinoDirections.North,
+//             minoAngleBefore = MinoDirections.North,
+//             stepsSRS = 0
+//         };
+//     }
+
+//     /// <summary> 指定されたフィールドの値を更新する関数 </summary>
+//     /// <param name="_minoAngleAfter"> ミノの回転後の向き </param>
+//     /// <param name="_minoAngleBefore"> ミノの回転前の向き </param>
+//     /// <param name="_stepsSRS"> SRSの段階 </param>
+//     /// <returns> 更新された <see cref="MinoStats"/> の新しいインスタンス </returns>
+//     /// <remarks>
+//     /// 指定されていない引数は現在の値を維持
+//     /// </remarks>
+//     public MinoStats Update(MinoDirections? _minoAngleAfter = null, MinoDirections? _minoAngleBefore = null, int? _stepsSRS = null)
+//     {
+//         var updatedStats = new MinoStats(
+//             _minoAngleAfter ?? minoAngleAfter,
+//             _minoAngleBefore ?? minoAngleBefore,
+//             _stepsSRS ?? stepsSRS
+//         );
+//         // TODO: ログの記入
+//         return updatedStats;
+//     }
+// }
+
+/////////////////////////////////////////////////////////
