@@ -1,50 +1,40 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-///// シーン遷移に関するスクリプト /////
-
-
-// ↓このスクリプトで可能なこと↓ //
-
-// シーン遷移
-
+/// <summary>
+/// シーン遷移に関するスクリプト
+/// </summary>
 public class SceneTransition : MonoBehaviour
 {
-    // 扱うシーン //
-    // [SerializeField] private Scene MenuScene;
-    // [SerializeField] private Scene PlayScene;
-    // [SerializeField] private Scene GameOverScene;
-
+    /// <summary>
+    /// ゲームオブジェクトをシーン遷移時に破壊されないように設定する
+    /// </summary>
     private void Start()
     {
         DontDestroyOnLoad(gameObject); // シーンが変わっても破壊されない
     }
 
-    // MenuScene の Start ボタンが押された時の処理をする関数 //
-    public void SelectStartBottun()
+    /// <summary> MenuScene の Start ボタンが押された時の処理をする関数 </summary>
+    public void SelectStartButton()
     {
-        // PlayScene に遷移
         SceneManager.LoadScene("Play", LoadSceneMode.Single); // 他のシーンはアンロードする
     }
 
-    // GameOverScene の Retry ボタンが押された時の処理をする関数 //
+    /// <summary> GameOverScene の Retry ボタンが押された時の処理をする関数 </summary>
     public void SelectRetry()
     {
-        // PlaySceneに遷移
         SceneManager.LoadScene("Play", LoadSceneMode.Single); // 他のシーンはアンロードする
     }
 
-    // GameOverScene の Menu ボタン、MainScene の Menu ボタンが押された時の処理をする関数(未実装) //
+    /// <summary> GameOverScene の Menu ボタン、MainScene の Menu ボタンが押された時の処理をする関数 </summary>
     public void SelectMenu()
     {
-        // MenuSceneに遷移
         SceneManager.LoadScene("Menu", LoadSceneMode.Single); // 他のシーンはアンロードする
     }
 
-    // PlayScene でゲームオーバーになった時の処理をする関数 //
+    /// <summary> PlayScene でゲームオーバーになった時の処理をする関数 </summary>
     public void GameOver()
     {
-        // GameOverSceneに遷移
         SceneManager.LoadScene("GameOver", LoadSceneMode.Single); // 他のシーンはアンロードする
     }
 }
