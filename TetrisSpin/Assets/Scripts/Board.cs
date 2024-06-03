@@ -1,8 +1,48 @@
 using System.Reflection.Emit;
 using JetBrains.Annotations;
+using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary> テトリスのボードを管理するクラス </summary>
+/// <summary>
+/// ボードの統計情報を保持する静的クラス
+/// </summary>
+public static class BoardStats
+{
+    /// <summary> ライン消去の履歴を記録するリスト </summary>
+    private static List<int> lineClearCountHistory = new List<int>();
+
+    // ゲッタープロパティ //
+    public static List<int> LineClearCountHistory => lineClearCountHistory;
+
+    /// <summary> 指定されたフィールドの値を更新する関数 </summary>
+    /// <param name="_lineClearCountHistory"> ライン消去の履歴 </param>
+    /// <remarks>
+    /// 指定されていない引数は現在の値を維持
+    /// </remarks>
+    public static void Update(List<int> _lineClearCountHistory = null)
+    {
+        lineClearCountHistory = _lineClearCountHistory ?? new List<int>(lineClearCountHistory);
+        // TODO: ログの記入
+    }
+
+    /// <summary> ライン消去数の履歴を追加する </summary>
+    /// <param name="_lineClearCount"> 消去したライン数 </param>
+    public static void AddLineClearCountHistory(int _lineClearCount)
+    {
+        lineClearCountHistory.Add(_lineClearCount);
+        // TODO: ログの記入
+    }
+
+    /// <summary> デフォルトの <see cref="BoardStats"/> にリセットする関数 </summary>
+    public static void Reset()
+    {
+        lineClearCountHistory.Clear();
+    }
+}
+
+/// <summary>
+/// テトリスのボードを管理するクラス
+/// </summary>
 /// <remarks>
 /// ミノの位置判定、ブロックのセーブ、ライン消去などを処理する
 /// </remarks>
@@ -17,10 +57,13 @@ public class Board : MonoBehaviour
     private int height = 40;
     /// <summary> ゲームボードの横幅(10) </summary>
     private int width = 10;
-    /// <summary> headerのゲッタープロパティ </summary>
+
+    // ゲッタープロパティ //
     public int Header => header;
-    /// <summary> heightのゲッタープロパティ </summary>
     public int Height => height;
+
+    /// <summary>ゲームボード基盤の四角形 </summary>
+    [SerializeField] private Transform emptySprite;
 
     /// <summary> ゲーム画面内のグリッド </summary>
     /// <remarks>
@@ -28,9 +71,6 @@ public class Board : MonoBehaviour
     /// </remarks>
     /// <value> [0~ ,0~] </value>
     public Transform[,] grid;
-
-    /// <summary>ゲームボード基盤の四角形 </summary>
-    [SerializeField] private Transform emptySprite;
 
     /// <summary>
     /// ゲームボードグリッドの定義
@@ -65,8 +105,8 @@ public class Board : MonoBehaviour
     }
 
     /// <summary> activeMinoが存在できる位置か判定する関数を呼ぶ関数 </summary>
-    /// <param name="_activeMino">操作中のミノ</param>
-    /// <returns>ブロックが存在できる場合 true、それ以外の場合は false</returns>
+    /// <param name="_activeMino"> 操作中のミノ </param>
+    /// <returns> ブロックが存在できる場合 true、それ以外の場合は false </returns>
     public bool CheckPosition(Mino _activeMino)
     {
         // 操作中のミノを構成するブロック個々に調べる
@@ -89,19 +129,19 @@ public class Board : MonoBehaviour
     }
 
     /// <summary> ブロックが枠内にあるか判定する関数 </summary>
-    /// <param name="_x">activeMinoを構成するブロックの x 座標</param>
-    /// <param name="_y">activeMinoを構成するブロックの y 座標</param>
-    /// <returns>ブロックが枠内にある場合 true、それ以外の場合は false</returns>
+    /// <param name="_x"> activeMinoを構成するブロックの x 座標 </param>
+    /// <param name="_y"> activeMinoを構成するブロックの y 座標 </param>
+    /// <returns> ブロックが枠内にある場合 true、それ以外の場合は false </returns>
     public bool IsWithinBoard(int _x, int _y)
     {
         return (_x >= 0 && _x < width && _y >= 0);
     }
 
     /// <summary> activeMinoとブロックが重なっているか判定する関数 </summary>
-    /// <param name="_x">activeMinoを構成するブロックの x 座標</param>
-    /// <param name="_y">activeMinoを構成するブロックの y 座標</param>
-    /// <param name="_activeMino">操作中のミノ</param>
-    /// <returns>ブロックが重なっていない場合 true、それ以外の場合は false</returns>
+    /// <param name="_x"> activeMinoを構成するブロックの x 座標 </param>
+    /// <param name="_y"> activeMinoを構成するブロックの y 座標 </param>
+    /// <param name="_activeMino"> 操作中のミノ </param>
+    /// <returns> ブロックが重なっていない場合 true、それ以外の場合は false </returns>
     private bool CheckMinoCollision(int _x, int _y, Mino _activeMino)
     {
         // 二次元配列が空ではない(他のブロックがある時)
@@ -110,7 +150,7 @@ public class Board : MonoBehaviour
     }
 
     /// <summary> ブロックが落ちたポジションを記録する関数 </summary>
-    /// <param name="_activeMino">操作中のミノ</param>
+    /// <param name="_activeMino"> 操作中のミノ </param>
     public void SaveBlockInGrid(Mino _activeMino)
     {
         foreach (Transform item in _activeMino.transform)
@@ -122,10 +162,11 @@ public class Board : MonoBehaviour
     }
 
     /// <summary> 全ての行をチェックして、埋まっていれば削除する関数を呼ぶ関数 </summary>
-    /// <returns>列消去数(ClearRowCount)</returns>
+    /// <returns> 合計の消去ライン数(lineClearCount) </returns>
     public int ClearAllRows()
     {
-        int ClearRowCount = 0; // 合計列消去数を ClearRowCount に格納
+        /// <summary> 合計の消去ライン数 </summary>
+        int lineClearCount = 0;
 
         for (int y = 0; y < Height; y++)
         {
@@ -137,16 +178,16 @@ public class Board : MonoBehaviour
 
                 y--;
 
-                ClearRowCount++;
+                lineClearCount++;
             }
         }
 
-        return ClearRowCount; // 列消去数を返す
+        return lineClearCount;
     }
 
     /// <summary> 指定された行がブロックで埋まっているか確認する関数 </summary>
-    /// <param name="_y">調べる y 座標</param>
-    /// <returns>指定された行がブロックで埋まっている場合 true、それ以外の場合は false</returns>
+    /// <param name="_y"> 調べる y 座標 </param>
+    /// <returns> 指定された行がブロックで埋まっている場合 true、それ以外の場合は false </returns>
     bool IsComplete(int _y)
     {
         for (int x = 0; x < width; x++)
@@ -161,7 +202,7 @@ public class Board : MonoBehaviour
     }
 
     /// <summary> 指定された行のブロックを削除する関数 </summary>
-    /// <param name="_y">調べる y 座標</param>
+    /// <param name="_y"> 調べる y 座標 </param>
     private void ClearRow(int _y)
     {
         for (int x = 0; x < width; x++)
@@ -176,7 +217,7 @@ public class Board : MonoBehaviour
     }
 
     /// <summary> 指定されたy座標より高い位置にある全てのブロックを1段下げる関数 </summary>
-    /// <param name="_y">下げる y 座標(この y 以上のブロックが1段下がる)</param>
+    /// <param name="_y"> 下げる y 座標(この y 以上のブロックが1段下がる) </param>
     private void ShiftRowsDown(int _y)
     {
         for (int y = _y; y < Height; y++)
@@ -194,7 +235,7 @@ public class Board : MonoBehaviour
     }
 
     /// <summary> PerfectClearか判別する関数 </summary>
-    /// <returns>PerfectClear 判定の場合 true、それ以外の場合は false</returns>
+    /// <returns> PerfectClear 判定の場合 true、それ以外の場合は false </returns>
     public bool CheckPerfectClear()
     {
         for (int y = 0; y < Height; y++)
@@ -211,10 +252,10 @@ public class Board : MonoBehaviour
     }
 
     /// <summary> 指定されたマスがブロック、もしくは壁かどうか確認する関数 </summary>
-    /// <param name="_x">調べる x 座標</param>
-    /// <param name="_y">調べる y 座標</param>
-    /// <param name="_activeMino">操作中のミノ</param>
-    /// <returns>指定されたマスがブロック、もしくは壁の場合 true、それ以外の場合は false</returns>
+    /// <param name="_x"> 調べる x 座標 </param>
+    /// <param name="_y"> 調べる y 座標 </param>
+    /// <param name="_activeMino"> 操作中のミノ </param>
+    /// <returns> 指定されたマスがブロック、もしくは壁の場合 true、それ以外の場合は false </returns>
     public bool CheckGrid(int _x, int _y, Mino _activeMino)
     {
         if (_x < 0 || _y < 0) // gridの座標が負の場合(壁判定)
@@ -235,8 +276,8 @@ public class Board : MonoBehaviour
     }
 
     /// <summary> ミノを構成するブロックについて、最上部のブロックのy座標を返す関数 </summary>
-    /// <param name="_activeMino">操作中のミノ</param>
-    /// <returns>最上部のブロックのy座標 topBlockPosition_y</returns>
+    /// <param name="_activeMino"> 操作中のミノ </param>
+    /// <returns> 最上部のブロックのy座標 topBlockPosition_y </returns>
     public int CheckActiveMinoTopBlockPosition_y(Mino _activeMino)
     {
         int topBlockPosition_y = 0; // 最上部のブロックのY座標(初期値は底の数値)
@@ -257,8 +298,8 @@ public class Board : MonoBehaviour
     }
 
     /// <summary> ミノを構成するブロックについて、最下部ブロックのy座標データを返す関数 </summary>
-    /// <param name="_activeMino">操作中のミノ</param>
-    /// <returns>最下部のブロックのy座標 bottomBlockPosition_y</returns>
+    /// <param name="_activeMino"> 操作中のミノ </param>
+    /// <returns> 最下部のブロックのy座標 bottomBlockPosition_y </returns>
     public int CheckActiveMinoBottomBlockPosition_y(Mino _activeMino)
     {
         int bottomBlockPosition_y = 21; // 最下部のブロックのY座標(初期値はゲームオーバーになる数値)
@@ -278,9 +319,16 @@ public class Board : MonoBehaviour
         return bottomBlockPosition_y;
     }
 
+    /// <summary> ライン消去数の履歴を追加する </summary>
+    /// <param name="_lineClearCount"> 消去ライン数 </param>
+    public void AddLineClearCountHistory(int _lineClearCount)
+    {
+        BoardStats.AddLineClearCountHistory(_lineClearCount);
+    }
+
     /// <summary> ゲームオーバーか判定する関数 </summary>
-    /// <param name="_activeMino">操作中のミノ</param>
-    /// <returns>ゲームオーバー判定の場合 true、それ以外の場合は false</returns>
+    /// <param name="_activeMino"> 操作中のミノ </param>
+    /// <returns> ゲームオーバー判定の場合 true、それ以外の場合は false </returns>
     public bool CheckGameOver(Mino _activeMino)
     {
         int bottomBlockPosition_y = CheckActiveMinoBottomBlockPosition_y(_activeMino); // ActiveMino の1番下のブロックのy座標
@@ -293,3 +341,63 @@ public class Board : MonoBehaviour
         return false;
     }
 }
+
+/////////////////// 旧コード ///////////////////
+
+// /// <summary>
+// /// ボードの統計情報を保持する構造体
+// /// </summary>
+// public struct BoardStats
+// {
+//     /// <summary> ライン消去の履歴を記録するリスト </summary>
+//     private List<int> lineClearCountHistory;
+
+//     // ゲッタープロパティ //
+//     public List<int> LineClearCountHistory => lineClearCountHistory;
+
+//     /// <summary> デフォルトコンストラクタ </summary>
+//     public BoardStats(List<int> _lineClearCountHistory)
+//     {
+//         lineClearCountHistory = _lineClearCountHistory ?? new List<int>();
+//     }
+
+//     /// <summary> デフォルトの <see cref="BoardStats"/> を作成する関数 </summary>
+//     /// <returns>
+//     /// デフォルト値で初期化された <see cref="BoardStats"/> のインスタンス
+//     /// </returns>
+//     public static BoardStats CreateDefault()
+//     {
+//         return new BoardStats
+//         {
+//             lineClearCountHistory = new List<int>()
+//         };
+//     }
+
+//     /// <summary> 指定されたフィールドの値を更新する関数 </summary>
+//     /// <param name="_lineClearCountHistory"> ライン消去の履歴 </param>
+//     /// <returns> 更新された <see cref="BoardStats"/> の新しいインスタンス </returns>
+//     /// <remarks>
+//     /// 指定されていない引数は現在の値を維持
+//     /// </remarks>
+//     public BoardStats Update(List<int> _lineClearCountHistory = null)
+//     {
+//         var updatedStats = new BoardStats(
+//             _lineClearCountHistory ?? new List<int>(lineClearCountHistory)
+//         );
+//         // TODO: ログの記入
+//         return updatedStats;
+//     }
+
+//     /// <summary> ライン消去数の履歴を追加する </summary>
+//     /// <param name="_lineClearCount"> 消去したライン数 </param>
+//     public BoardStats AddLineClearCountHistory(int _lineClearCount)
+//     {
+//         var newHistory = new List<int>(lineClearCountHistory)
+//         {
+//             _lineClearCount
+//         };
+//         return Update(newHistory);
+//     }
+// }
+
+/////////////////////////////////////////////////////////
