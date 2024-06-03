@@ -19,7 +19,7 @@ public enum AudioNames
 }
 
 /// <summary>
-/// オーディオクリップの再生を管理するクラス<br/>
+/// オーディオクリップの再生を管理するクラス <br/>
 /// </summary>
 /// <remarks>
 /// ボリュームやピッチの調節も可能
@@ -37,16 +37,16 @@ public class AudioManager : MonoBehaviour
     /// </remarks>
     [SerializeField] private AudioClip[] Audios;
 
-    /// <summary>AudioNames と AudioClip の辞書</summary>
+    /// <summary> AudioNames と AudioClip の辞書</summary>
     private Dictionary<AudioNames, AudioClip> AudioClipDictionary;
 
-    /// <summary>低ボリュームの値(0.2f)</summary>
+    /// <summary> 低ボリュームの値(0.2f) </summary>
     private float LowVolume = 0.2f;
-    /// <summary>中ボリュームの値(0.5f)</summary>
+    /// <summary> 中ボリュームの値(0.5f) </summary>
     private float MediumVolume = 0.5f;
-    /// <summary>高ボリュームの値(0.7f)</summary>
+    /// <summary> 高ボリュームの値(0.7f) </summary>
     private float HighVolume = 0.7f;
-    /// <summary>最大ボリュームの値(1)/// </summary>
+    /// <summary> 最大ボリュームの値(1)/// </summary>
     private int MaxVolume = 1;
 
     /// <summary> 初期化処理 </summary>
@@ -95,7 +95,7 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary> 指定されたオーディオクリップを再生する関数 </summary>
-    /// <param name="audioName">再生するオーディオクリップの名前</param>
+    /// <param name="audioName"> 再生するオーディオクリップの名前 </param>
     public void PlaySound(AudioNames audioName)
     {
         if (AudioClipDictionary.TryGetValue(audioName, out AudioClip clip))
@@ -111,7 +111,7 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary> 音量を設定する関数 </summary>
-    /// <param name="audioName">再生するオーディオクリップの名前</param>
+    /// <param name="audioName"> 再生するオーディオクリップの名前 </param>
     private void SetVolume(AudioNames audioName)
     {
         switch (audioName)
