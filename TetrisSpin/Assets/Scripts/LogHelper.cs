@@ -2,6 +2,33 @@ using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
+/// スクリプト一覧
+/// </summary>
+public enum Scripts
+{
+    AudioManager,
+    Board,
+    GameManager,
+    GameStatus,
+    LogHelper,
+    Mino,
+    Rounding,
+    SceneTransition,
+    Spawner,
+    SpinCheck,
+    TextEffect,
+    Timer
+}
+
+/// <summary>
+/// 関数一覧
+/// </summary>
+public enum Method
+{
+    //
+}
+
+/// <summary>
 /// ログ出力の補助を行う静的クラス
 /// </summary>
 public static class LogHelper
@@ -17,9 +44,7 @@ public static class LogHelper
         Error
     }
 
-    /// <summary>
-    /// デバッグメッセージを格納する辞書
-    /// </summary>
+    /// <summary> デバッグメッセージを格納する辞書 </summary>
     private static readonly Dictionary<string, string> DebugMessages;
 
     /// <summary>
@@ -31,9 +56,7 @@ public static class LogHelper
         DebugList();
     }
 
-    /// <summary>
-    /// デバッグメッセージを辞書に設定する
-    /// </summary>
+    /// <summary> デバッグメッセージを辞書に設定する </summary>
     private static void DebugList()
     {
         DebugMessages["Start"] = "Starting Method";
@@ -53,33 +76,28 @@ public static class LogHelper
         // 他のメッセージも同様に追加
     }
 
-    /// <summary>
-    /// 指定されたログレベルと情報でログを出力する
-    /// </summary>
-    /// <param name="level">ログレベル</param>
-    /// <param name="script">スクリプト名</param>
-    /// <param name="method">メソッド名</param>
-    /// <param name="title_or_Info">タイトルまたは情報</param>
-    public static void Log(LogLevel level, string script, string method, string title_or_Info)
+    /// <summary> 指定されたログレベルと情報でログを出力する関数を呼ぶ関数 </summary>
+    /// <param name="_level"> ログレベル </param>
+    /// <param name="_script"> スクリプト名 </param>
+    /// <param name="_method"> メソッド名 </param>
+    /// <param name="_title_or_Info"> タイトルまたは情報 </param>
+    public static void Log(LogLevel _level, string _script, string _method, string _title_or_Info)
     {
-        if (level == LogLevel.Debug)
+        if (_level == LogLevel.Debug)
         {
-            DebugLog(level, script, method, title_or_Info);
+            DebugLog(_level, _script, _method, _title_or_Info);
         }
-        else if (level == LogLevel.Info)
+        else if (_level == LogLevel.Info)
         {
-            InfoLog(level, script, method, title_or_Info);
+            InfoLog(_level, _script, _method, _title_or_Info);
         }
-
     }
 
-    /// <summary>
-    /// デバッグログを出力する
-    /// </summary>
-    /// <param name="level">ログレベル</param>
-    /// <param name="script">スクリプト名</param>
-    /// <param name="method">メソッド名</param>
-    /// <param name="title">タイトル</param>
+    /// <summary> デバッグログを出力する関数 </summary>
+    /// <param name="level"> ログレベル </param>
+    /// <param name="script"> スクリプト名 </param>
+    /// <param name="method"> メソッド名 </param>
+    /// <param name="title"> タイトル </param>
     private static void DebugLog(LogLevel level, string script, string method, string title)
     {
         if (DebugMessages.TryGetValue(title, out string message)) // Keyの照合を行う
@@ -94,53 +112,45 @@ public static class LogHelper
         }
     }
 
-    /// <summary>
-    /// 情報ログを出力する
-    /// </summary>
-    /// <param name="level">ログレベル</param>
-    /// <param name="script">スクリプト名</param>
-    /// <param name="method">メソッド名</param>
-    /// <param name="info">情報</param>
+    /// <summary> 情報ログを出力する関数 </summary>
+    /// <param name="level"> ログレベル </param>
+    /// <param name="script"> スクリプト名 </param>
+    /// <param name="method"> メソッド名 </param>
+    /// <param name="info"> 情報 </param>
     private static void InfoLog(LogLevel level, string script, string method, string info)
     {
         string logMessage = FormatInfoLogMessage(level, script, method, info);
         Debug.Log(logMessage);
     }
 
-    /// <summary>
-    /// デバッグログメッセージをフォーマットする
-    /// </summary>
-    /// <param name="level">ログレベル</param>
-    /// <param name="script">スクリプト名</param>
+    /// <summary> デバッグログメッセージをフォーマットする関数 </summary>
+    /// <param name="level"> ログレベル</param>
+    /// <param name="script"> スクリプト名</param>
     /// <param name="method">メソッド名</param>
     /// <param name="title">タイトル</param>
     /// <param name="message">メッセージ</param>
-    /// <returns>フォーマットされたログメッセージ</returns>
+    /// <returns> フォーマットされたログメッセージ </returns>
     private static string FormatDebugLogMessage(LogLevel level, string script, string method, string title, string message)
     {
         string color = GetColorByLevel(level);
         return $"<size=10><color={color}>[{level}] [{script}] [{method}]</color> {title} / {message}</size>";
     }
 
-    /// <summary>
-    /// 情報ログメッセージをフォーマットする
-    /// </summary>
-    /// <param name="level">ログレベル</param>
-    /// <param name="script">スクリプト名</param>
-    /// <param name="method">メソッド名</param>
-    /// <param name="info">情報</param>
-    /// <returns>フォーマットされたログメッセージ</returns>
+    /// <summary> 情報ログメッセージをフォーマットする関数 </summary>
+    /// <param name="level"> ログレベル </param>
+    /// <param name="script"> スクリプト名 </param>
+    /// <param name="method"> メソッド名 </param>
+    /// <param name="info"> 情報 </param>
+    /// <returns> フォーマットされたログメッセージ </returns>
     private static string FormatInfoLogMessage(LogLevel level, string script, string method, string info)
     {
         string color = GetColorByLevel(level);
         return $"<size=10><color={color}>[{level}] [{script}] [{method}]</color> {info}</size>";
     }
 
-    /// <summary>
-    /// ログレベルに応じて色を選択する
-    /// </summary>
-    /// <param name="level">ログレベル</param>
-    /// <returns>色</returns>
+    /// <summary> ログレベルに応じて色を選択する関数 </summary>
+    /// <param name="level"> ログレベル </param>
+    /// <returns> 色 </returns>
     private static string GetColorByLevel(LogLevel level)
     {
         switch (level)
