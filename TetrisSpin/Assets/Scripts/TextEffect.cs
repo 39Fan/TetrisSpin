@@ -48,21 +48,6 @@ public class TextEffect : MonoBehaviour
     private int Alpha_0 = 0; // 0の時は透明
     private int Alpha_1 = 1; // 1の時は不透明
 
-    // 干渉するスクリプト //
-    private Board board;
-    private GameStatus gameStatus;
-    private SpinCheck spinCheck;
-
-    /// <summary>
-    /// インスタンス化
-    /// </summary>
-    private void Awake()
-    {
-        board = FindObjectOfType<Board>();
-        gameStatus = FindObjectOfType<GameStatus>();
-        spinCheck = FindObjectOfType<SpinCheck>();
-    }
-
     /// <summary> 表示するテキストを判別する関数 </summary>
     /// <param name="_lineClearCount"> 消去ライン数 </param>
     public void TextDisplay(SpinTypeNames _spinType, int _lineClearCount)
@@ -172,67 +157,8 @@ public class TextEffect : MonoBehaviour
             // TODO: エラー
         }
 
-        // // スピンタイプと行消去数に基づいて攻撃力を選択
-        // if (spinTypeAttackMapping.ContainsKey(_spinType) && spinTypeAttackMapping[_spinType].ContainsKey(_lineClearCount))
-        // {
-        //     gameStatus.IncreaseAttackLines(spinTypeAttackMapping[_spinType][_lineClearCount]); // 対応した攻撃力を反映
-        // }
-
-        // CheckBackToBack(_spinType, displayText); // BackToBack判定をチェック
-        // CheckRen(_lineClearCount); // Ren判定をチェック
-        // if (board.CheckPerfectClear()) // PerfectClear判定をチェック
-        // {
-        //     gameStatus.IncreaseAttackLines(PerfectClearBonus);
-        //     PerfectClearAnimation();
-        // }
-
         return displayText;
     }
-
-    // /// <summary> BackToBackの判定を確認し、ダメージの計算を行う関数 </summary>
-    // /// <param name="_spinType">スピンタイプ</param>
-    // /// <param name="_displayText">表示するテキスト</param>
-    // private void CheckBackToBack(SpinTypeNames _spinType, TextMeshProUGUI _displayText)
-    // {
-    //     // Spin判定がない、かつテトリスでない場合
-    //     if (_spinType == SpinTypeNames.None && _displayText != Tetris_Text)
-    //     {
-    //         // BackToBack判定をリセット
-    //         gameStatus.ResetBackToBack();
-    //     }
-    //     else
-    //     {
-    //         if (!gameStatus.BackToBack)
-    //         {
-    //             // BackToBack判定を付与
-    //             gameStatus.SetBackToBack();
-    //         }
-    //         else
-    //         {
-    //             // すでにBackToBack判定が付与されている場合(前回付与した判定をキープしていた場合)
-    //             gameStatus.IncreaseAttackLines(BackToBackBonus);
-    //             BackToBackAnimation();
-    //         }
-    //     }
-    // }
-
-    // /// <summary> Renの判定を確認し、ダメージの計算を行う関数 </summary>
-    // /// <param name="_lineClearCount">消去したラインの数</param>
-    // private void CheckRen(int _lineClearCount)
-    // {
-    //     if (_lineClearCount >= 1)
-    //     {
-    //         // 1列以上消去していれば
-    //         gameStatus.IncreaseRen();
-    //         // int ren = Mathf.Min(gameStatus.ren, RenBonus.Length - 1);
-    //         gameStatus.IncreaseAttackLines(RenBonus[gameStatus.Ren]);
-    //     }
-    //     else
-    //     {
-    //         // 列消去ができていない場合、リセットする
-    //         gameStatus.ResetRen();
-    //     }
-    // }
 
     /// <summary> テキストのアニメーションを行う関数 </summary>
     /// <param name="_displayText">表示するテキスト</param>
@@ -285,14 +211,14 @@ public class TextEffect : MonoBehaviour
     }
 
     /// <summary> BackToBackアニメーションを行う関数 </summary>
-    private void BackToBackAnimation()
+    public void BackToBackAnimation()
     {
         TextMeshProUGUI instantiatedText = Instantiate(BackToBack_Text, Canvas);
         TextFadeInAndOut(instantiatedText);
     }
 
     /// <summary> PerfectClearアニメーションを行う関数 </summary>
-    private void PerfectClearAnimation()
+    public void PerfectClearAnimation()
     {
         TextMeshProUGUI instantiatedText = Instantiate(PerfectClear_Text, Canvas);
         TextFadeInAndOut(instantiatedText);
@@ -988,6 +914,21 @@ public class TextEffect : MonoBehaviour
 // private int TspinMiniAttack = 0;
 // private int TspinDoubleMiniAttack = 1;
 
+// // 干渉するスクリプト //
+// private Board board;
+// private GameStatus gameStatus;
+// private SpinCheck spinCheck;
+
+// /// <summary>
+// /// インスタンス化
+// /// </summary>
+// private void Awake()
+// {
+//     board = FindObjectOfType<Board>();
+//     gameStatus = FindObjectOfType<GameStatus>();
+//     spinCheck = FindObjectOfType<SpinCheck>();
+// }
+
 // if (spinCheck.spinTypeName == "None") // Spin判定がない場合
 // {
 //     DisplayNonSpinText(_lineClearCount);
@@ -1302,5 +1243,64 @@ public class TextEffect : MonoBehaviour
 //         }
 //     }
 // };
+
+// // スピンタイプと行消去数に基づいて攻撃力を選択
+// if (spinTypeAttackMapping.ContainsKey(_spinType) && spinTypeAttackMapping[_spinType].ContainsKey(_lineClearCount))
+// {
+//     gameStatus.IncreaseAttackLines(spinTypeAttackMapping[_spinType][_lineClearCount]); // 対応した攻撃力を反映
+// }
+
+// CheckBackToBack(_spinType, displayText); // BackToBack判定をチェック
+// CheckRen(_lineClearCount); // Ren判定をチェック
+// if (board.CheckPerfectClear()) // PerfectClear判定をチェック
+// {
+//     gameStatus.IncreaseAttackLines(PerfectClearBonus);
+//     PerfectClearAnimation();
+// }
+
+// /// <summary> BackToBackの判定を確認し、ダメージの計算を行う関数 </summary>
+// /// <param name="_spinType">スピンタイプ</param>
+// /// <param name="_displayText">表示するテキスト</param>
+// private void CheckBackToBack(SpinTypeNames _spinType, TextMeshProUGUI _displayText)
+// {
+//     // Spin判定がない、かつテトリスでない場合
+//     if (_spinType == SpinTypeNames.None && _displayText != Tetris_Text)
+//     {
+//         // BackToBack判定をリセット
+//         gameStatus.ResetBackToBack();
+//     }
+//     else
+//     {
+//         if (!gameStatus.BackToBack)
+//         {
+//             // BackToBack判定を付与
+//             gameStatus.SetBackToBack();
+//         }
+//         else
+//         {
+//             // すでにBackToBack判定が付与されている場合(前回付与した判定をキープしていた場合)
+//             gameStatus.IncreaseAttackLines(BackToBackBonus);
+//             BackToBackAnimation();
+//         }
+//     }
+// }
+
+// /// <summary> Renの判定を確認し、ダメージの計算を行う関数 </summary>
+// /// <param name="_lineClearCount">消去したラインの数</param>
+// private void CheckRen(int _lineClearCount)
+// {
+//     if (_lineClearCount >= 1)
+//     {
+//         // 1列以上消去していれば
+//         gameStatus.IncreaseRen();
+//         // int ren = Mathf.Min(gameStatus.ren, RenBonus.Length - 1);
+//         gameStatus.IncreaseAttackLines(RenBonus[gameStatus.Ren]);
+//     }
+//     else
+//     {
+//         // 列消去ができていない場合、リセットする
+//         gameStatus.ResetRen();
+//     }
+// }
 
 /////////////////////////////////////////////////////////
