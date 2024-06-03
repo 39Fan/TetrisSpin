@@ -70,13 +70,13 @@ public class Spawner : MonoBehaviour
 
     // 干渉するスクリプト //
     Board board;
-    GameStatus gameStatus;
+    Mino mino;
 
     // インスタンス化 //
     private void Awake()
     {
         board = FindObjectOfType<Board>();
-        gameStatus = FindObjectOfType<GameStatus>();
+        mino = FindObjectOfType<Mino>();
 
         // Minos と MinoNames の辞書を作成
         for (int i = 0; i < MinoNames.Length; i++)
@@ -248,8 +248,8 @@ public class Spawner : MonoBehaviour
             HoldMino = SpawnHoldMino(MinoDictionary[HoldMinoName]); // Holdされたミノを画面左上に表示
 
             // 変数の初期化
-            gameStatus.ResetAngle();
-            gameStatus.ResetStepsSRS();
+            mino.ResetAngle();
+            mino.ResetStepsSRS();
         }
     }
 
