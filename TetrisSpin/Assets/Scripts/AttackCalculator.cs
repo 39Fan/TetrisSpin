@@ -150,6 +150,7 @@ public class AttackCalculator : MonoBehaviour
 
     // 干渉するスクリプト //
     Board board;
+    TextEffect textEffect;
 
     // 干渉するストラクト //
     private AttackCalculatorStats attackCalculatorStats;
@@ -160,6 +161,7 @@ public class AttackCalculator : MonoBehaviour
     private void Awake()
     {
         board = FindObjectOfType<Board>();
+        textEffect = FindObjectOfType<TextEffect>();
 
         attackCalculatorStats = AttackCalculatorStats.CreateDefault();
     }
@@ -193,6 +195,8 @@ public class AttackCalculator : MonoBehaviour
             (_lineClearCount == 4 || (_spinType != SpinTypeNames.None && _lineClearCount >= 1)))
         {
             attackCalculatorStats = attackCalculatorStats.Update(_attackLines: attackCalculatorStats.AttackLines + backToBackBonus);
+
+            textEffect.BackToBackAnimation();
         }
 
         if (_lineClearCount == 4 || _spinType != SpinTypeNames.None)
@@ -218,6 +222,8 @@ public class AttackCalculator : MonoBehaviour
         {
             attackCalculatorStats = attackCalculatorStats.Update(_perfectClear: true);
             attackCalculatorStats = attackCalculatorStats.Update(_attackLines: perfectClearBonus);
+
+            textEffect.PerfectClearAnimation();
         }
         else
         {
@@ -237,21 +243,12 @@ public class AttackCalculator : MonoBehaviour
             attackCalculatorStats = attackCalculatorStats.Update(_ren: attackCalculatorStats.Ren + 1);
             attackCalculatorStats = attackCalculatorStats.Update(_attackLines:
                 attackCalculatorStats.AttackLines + renBonus[attackCalculatorStats.Ren]);
+
+            // TODO TextEffectでRENのテキスト表示をする
         }
         else
         {
             attackCalculatorStats = attackCalculatorStats.Update(_ren: -1);
         }
     }
-
-    // public int GetPerfectClearBonus()
-    // {
-    //     return PerfectClearBonus;
-    // }
-
-    // if (spinType != SpinTypeNames.None && lineClearCount > 0)
-    // {
-    //     attackCalculatorStats.Update(_attackLines: attackCalculatorStats.AttackLines + backToBackBonus);
-    //     // attackLines += gameStatus.BackToBack ? BackToBackBonus : 0;
-    // }
 }
