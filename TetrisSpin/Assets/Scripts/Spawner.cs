@@ -180,40 +180,34 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    // 生成されるミノの順番を決める関数 //
+    /// <summary> 生成されるミノの順番を決める関数 </summary>
     public void DetermineSpawnMinoOrder()
     {
-        List<MinoType> minoNames = new List<MinoType>(); // ミノの名前が入るリスト
+        /// <summary> ミノの種類が入るリスト </summary>
+        List<MinoType> minoNames = new List<MinoType>();
 
-        // minoNamesにミノの名前を全て入れる
         for (int ii = 0; ii < MinoType.GetValues(typeof(MinoType)).Length; ii++)
         {
             minoNames.Add((MinoType)ii);
         }
 
-        while (minoNames.Count > 0) // minoNames の配列がなくなるまで繰り返す
+        while (minoNames.Count > 0)
         {
-            // 0から minoNames の配列数までの範囲でランダムな数値を取得し index に格納
             int index = Random.Range(0, minoNames.Count);
-
-            // minoNames[index] の名前を randomName に格納
-            MinoType randomName = minoNames[index];
-
-            // randomNameを SpawnMinoOrders に追加
-            SpawnerStats.AddSpawnMinoOrder(randomName);
-
-            // インデックス位置の要素を削除
+            MinoType randomMinoType = minoNames[index];
+            SpawnerStats.AddSpawnMinoOrder(randomMinoType);
             minoNames.RemoveAt(index);
         }
     }
 
-    // ActiveMino から底までの距離を計算する関数 //
-    private void CheckActiveMinoToBaseDistance()
+    /// <summary> 操作中のミノから底までの距離を計算する関数 </summary>
+    /// <returns> 操作中のミノから底までの距離(activeMinoToBaseDistance) </returns>
+    private int CheckActiveMinoToBaseDistance()
     {
-        /// <summary> ActiveMinoから底までの距離 </summary>
+        /// <summary> 操作中のミノから底までの距離 </summary>
         int activeMinoToBaseDistance;
 
-        // ActiveMino の各座標を格納する変数を宣言
+        // 操作中のミノの各座標を格納する変数を宣言
         int activeMino_x = Mathf.RoundToInt(activeMino.transform.position.x);
         int activeMino_y = Mathf.RoundToInt(activeMino.transform.position.y);
         int activeMino_z = Mathf.RoundToInt(activeMino.transform.position.z);
@@ -221,17 +215,17 @@ public class Spawner : MonoBehaviour
         // ゲームボードの高さのマスの数 + 2　回繰り返す
         for (activeMinoToBaseDistance = 0; activeMinoToBaseDistance < board.Height - board.Header + 2; activeMinoToBaseDistance++)
         {
-            // ActiveMino のY座標を ActiveMinoToBaseDistance の値だけ下に移動する
+            // 操作中のミノのY座標を ActiveMinoToBaseDistance の値だけ下に移動する
             activeMino.transform.position = new Vector3
                 (activeMino_x, activeMino_y - activeMinoToBaseDistance, activeMino_z);
 
-            // ActiveMino が他のミノにぶつかる、またはゲームボードからはみ出した時
+            // 操作中のミノが他のミノにぶつかる、またはゲームボードからはみ出した場合
             if (!board.CheckPosition(activeMino))
             {
-                // この段階で ActiveMinoToBaseDistance から1引いた値が ActiveMino から底までの距離となる
+                // この段階で ActiveMinoToBaseDistance から1引いた値が、操作中のミノから底までの距離となる
                 activeMinoToBaseDistance--;
 
-                // ActiveMinoの位置を元に戻す
+                // 操作中のミノを元の位置に戻す
                 activeMino.transform.position = new Vector3
                     (activeMino_x, activeMino_y, activeMino_z);
 
@@ -239,12 +233,12 @@ public class Spawner : MonoBehaviour
                 break;
             }
 
-            SpawnerStats.Update(_activeMinoToBaseDistance: activeMinoToBaseDistance);
-
-            // ActiveMinoを元の位置に戻す
+            // 操作中のミノを元の位置に戻す
             activeMino.transform.position = new Vector3
                 (activeMino_x, activeMino_y, activeMino_z);
         }
+
+        return activeMinoToBaseDistance;
     }
 
     // 新しいActiveMinoを生成する関数
@@ -264,7 +258,7 @@ public class Spawner : MonoBehaviour
             Destroy(ghostMino.gameObject); // 古いゴーストミノを削除
         }
 
-        CheckActiveMinoToBaseDistance(); // ActiveMinoToBaseDistance の計算
+        SpawnerStats.Update(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
 
         ghostMino = SpawnGhostMino(ghostMinoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber]], activeMino, SpawnerStats.ActiveMinoToBaseDistance); // ゴーストミノの生成も同時に行う
         // SpawnerStats.Update(_activeMino: SpawnGhostMino(ghostMinoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber]], activeMino, activeMinoToBaseDistance));
@@ -273,7 +267,7 @@ public class Spawner : MonoBehaviour
     // ゴーストミノの位置調整を行う関数
     public void AdjustGhostMinoPosition()
     {
-        CheckActiveMinoToBaseDistance(); // ActiveMinoToBaseDistance の計算
+        SpawnerStats.Update(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
 
         // ActiveMino の情報を取得
         int activeMinoPos_x = Mathf.RoundToInt(activeMino.transform.position.x);
@@ -343,7 +337,7 @@ public class Spawner : MonoBehaviour
             activeMino = SpawnActiveMino(holdMino); // HoldミノをActiveMinoに戻す
             // SpawnerStats.Update(_activeMino: SpawnActiveMino(SpawnerStats.HoldMino));
 
-            CheckActiveMinoToBaseDistance(); // ActiveMinoToBaseDistance の計算
+            SpawnerStats.Update(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
 
             ghostMino = SpawnGhostMino(ghostMinoDictionary[SpawnerStats.ActiveMinoName], activeMino, SpawnerStats.ActiveMinoToBaseDistance);
             // SpawnerStats.Update(_ghostMino: SpawnGhostMino(ghostMinoDictionary[activeMinoName], activeMino, activeMinoToBaseDistance));
