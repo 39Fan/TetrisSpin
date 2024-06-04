@@ -165,19 +165,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b3873ebf0cd914273bc76cf4441575b2, type: 3}
   - {fileID: 8300000, guid: d6430629e5b4a47f6bc9f481117d8164, type: 3}
   - {fileID: 8300000, guid: bf280ad86dcc54ff98d90002c0b55a88, type: 3}
-  AudioNames:
-  - GameOver
-  - Hard_Drop
-  - Hold
-  - Move_Down
-  - Move_Left_Right
-  - Normal_Destroy
-  - Normal_Drop
-  - Rotation
-  - Spin
-  - Spin_Destroy
-  - Start_or_Retry
-  - Tetris
 --- !u!4 &632505142
 Transform:
   m_ObjectHideFlags: 0
@@ -222,9 +209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842fab3c0627a42b29c6a4ba69e010bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MenuScene: {fileID: 0}
-  PlayScene: {fileID: 0}
-  GameOverScene: {fileID: 0}
 --- !u!4 &982896925
 Transform:
   m_ObjectHideFlags: 0

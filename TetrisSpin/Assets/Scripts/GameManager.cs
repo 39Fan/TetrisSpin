@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
     AttackCalculator attackCalculator;
     Board board;
     TextEffect textEffect;
-    Mino mino;
+    MinoMovement minoMovement;
     SceneTransition sceneTransition;
     Spawner spawner;
     SpinCheck spinCheck;
@@ -112,11 +112,11 @@ public class GameManager : MonoBehaviour
         attackCalculator = FindObjectOfType<AttackCalculator>();
         board = FindObjectOfType<Board>();
         textEffect = FindObjectOfType<TextEffect>();
-        mino = FindObjectOfType<Mino>();
+        minoMovement = FindObjectOfType<MinoMovement>();
         sceneTransition = FindObjectOfType<SceneTransition>();
         spawner = FindObjectOfType<Spawner>();
         spinCheck = FindObjectOfType<SpinCheck>();
-        timer = FindObjectOfType<Timer>();
+        timer = FindObjectOfType<Timer>();//TODO new
     }
 
     /// <summary>
@@ -125,12 +125,14 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         timer.ResetTimer();
+        SpawnerStats.Reset();
+        spinCheck.ResetSpinTypeName();
 
         // ゲーム開始時余分にミノの順番を決める
         spawner.DetermineSpawnMinoOrder();
 
         spawner.CreateNewActiveMino(GameManagerStats.MinoPopNumber);
-        spawner.CreateNewNextMinos(GameManagerStats.MinoPopNumber);
+        spawner.CreateNextMinos(GameManagerStats.MinoPopNumber);
     }
 
     /// <summary>
@@ -245,13 +247,13 @@ public class GameManager : MonoBehaviour
 
         timer.UpdateLeftRightTimer();
 
-        spawner.activeMino.MoveRight();
+        spawner.ActiveMino.MoveRight();
 
-        if (!board.CheckPosition(spawner.activeMino)) // 右に動かせない時
+        if (!board.CheckPosition(spawner.ActiveMino)) // 右に動かせない時
         {
             // DebugHelper.Log("Move right failed: Cannot move to the right - Reverting to original position", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-            spawner.activeMino.MoveLeft(); // 左に動かす(元に戻すため)
+            spawner.ActiveMino.MoveLeft(); // 左に動かす(元に戻すため)
         }
         else // 動かせた時
         {
@@ -262,7 +264,7 @@ public class GameManager : MonoBehaviour
             // 移動したため、以下の処理を実行
             spawner.AdjustGhostMinoPosition();
             spinCheck.ResetSpinTypeName();
-            mino.ResetStepsSRS();
+            minoMovement.ResetStepsSRS();
         }
 
         IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
@@ -275,13 +277,13 @@ public class GameManager : MonoBehaviour
 
         timer.UpdateLeftRightTimer();
 
-        spawner.activeMino.MoveRight(); // 右に動かす
+        spawner.ActiveMino.MoveRight(); // 右に動かす
 
-        if (!board.CheckPosition(spawner.activeMino)) // 右に動かせない時
+        if (!board.CheckPosition(spawner.ActiveMino)) // 右に動かせない時
         {
             // DebugHelper.Log("Continuous move right failed: Cannot move to the right - Reverting to original position", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-            spawner.activeMino.MoveLeft(); // 左に動かす(元に戻すため)
+            spawner.ActiveMino.MoveLeft(); // 左に動かす(元に戻すため)
         }
         else // 動かせた時
         {
@@ -292,7 +294,7 @@ public class GameManager : MonoBehaviour
             // 移動したため、以下の処理を実行
             spawner.AdjustGhostMinoPosition();
             spinCheck.ResetSpinTypeName();
-            mino.ResetStepsSRS();
+            minoMovement.ResetStepsSRS();
         }
 
         IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
@@ -305,13 +307,13 @@ public class GameManager : MonoBehaviour
 
         timer.UpdateLeftRightTimer();
 
-        spawner.activeMino.MoveLeft();
+        spawner.ActiveMino.MoveLeft();
 
-        if (!board.CheckPosition(spawner.activeMino)) // 左に動かせない時
+        if (!board.CheckPosition(spawner.ActiveMino)) // 左に動かせない時
         {
             // DebugHelper.Log("Move left failed: Cannot move to the left - Reverting to original position", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-            spawner.activeMino.MoveRight(); // 右に動かす(元に戻すため)
+            spawner.ActiveMino.MoveRight(); // 右に動かす(元に戻すため)
         }
         else // 動かせた時
         {
@@ -322,7 +324,7 @@ public class GameManager : MonoBehaviour
             // 移動したため、以下の処理を実行
             spawner.AdjustGhostMinoPosition();
             spinCheck.ResetSpinTypeName();
-            mino.ResetStepsSRS();
+            minoMovement.ResetStepsSRS();
         }
 
         IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
@@ -335,13 +337,13 @@ public class GameManager : MonoBehaviour
 
         timer.UpdateLeftRightTimer();
 
-        spawner.activeMino.MoveLeft();
+        spawner.ActiveMino.MoveLeft();
 
-        if (!board.CheckPosition(spawner.activeMino)) // 左に動かせない時
+        if (!board.CheckPosition(spawner.ActiveMino)) // 左に動かせない時
         {
             // DebugHelper.Log("Continuous move left failed: Cannot move to the left - Reverting to original position", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-            spawner.activeMino.MoveRight(); // 右に動かす(元に戻すため)
+            spawner.ActiveMino.MoveRight(); // 右に動かす(元に戻すため)
         }
         else // 動かせた時
         {
@@ -352,7 +354,7 @@ public class GameManager : MonoBehaviour
             // 移動したため、以下の処理を実行
             spawner.AdjustGhostMinoPosition();
             spinCheck.ResetSpinTypeName();
-            mino.ResetStepsSRS();
+            minoMovement.ResetStepsSRS();
         }
 
         IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
@@ -369,13 +371,13 @@ public class GameManager : MonoBehaviour
     {
         timer.UpdateDownTimer();
 
-        spawner.activeMino.MoveDown();
+        spawner.ActiveMino.MoveDown();
 
-        if (!board.CheckPosition(spawner.activeMino)) // 下に動かせない時
+        if (!board.CheckPosition(spawner.ActiveMino)) // 下に動かせない時
         {
             // DebugHelper.Log("Move down failed: Cannot move down - Reverting to original position", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-            spawner.activeMino.MoveUp(); // 上に動かす(元に戻すため)
+            spawner.ActiveMino.MoveUp(); // 上に動かす(元に戻すため)
         }
         else // 動かせた時
         {
@@ -388,7 +390,7 @@ public class GameManager : MonoBehaviour
                 spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
             }
 
-            mino.ResetStepsSRS(); // 移動したため、StepsSRSの値を0に
+            minoMovement.ResetStepsSRS(); // 移動したため、StepsSRSの値を0に
         }
     }
 
@@ -397,19 +399,19 @@ public class GameManager : MonoBehaviour
     {
         timer.UpdateRotateTimer();
 
-        mino.ResetStepsSRS();
+        minoMovement.ResetStepsSRS();
 
-        spawner.activeMino.RotateRight();
+        spawner.ActiveMino.RotateRight();
 
-        if (!board.CheckPosition(spawner.activeMino)) // 通常回転ができなかった時
+        if (!board.CheckPosition(spawner.ActiveMino)) // 通常回転ができなかった時
         {
             // DebugHelper.Log("Normal rotation failed: Trying Super Rotation System (SRS)", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-            if (!mino.SuperRotationSystem()) // SRSもできなかった時
+            if (!minoMovement.SuperRotationSystem()) // SRSもできなかった時
             {
                 // DebugHelper.Log("Super Rotation System (SRS) failed: Reverting rotation", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-                mino.UpdateMinoAngleAfterToMinoAngleBefore();
+                minoMovement.UpdateMinoAngleAfterToMinoAngleBefore();
 
                 AudioManager.Instance.PlaySound(AudioNames.Rotation);
             }
@@ -435,19 +437,19 @@ public class GameManager : MonoBehaviour
     {
         timer.UpdateRotateTimer();
 
-        mino.ResetStepsSRS();
+        minoMovement.ResetStepsSRS();
 
-        spawner.activeMino.RotateLeft();
+        spawner.ActiveMino.RotateLeft();
 
-        if (!board.CheckPosition(spawner.activeMino)) // 通常回転ができなかった時
+        if (!board.CheckPosition(spawner.ActiveMino)) // 通常回転ができなかった時
         {
             // DebugHelper.Log("Normal rotation failed: Trying Super Rotation System (SRS)", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-            if (!mino.SuperRotationSystem()) // SRSもできなかった時
+            if (!minoMovement.SuperRotationSystem()) // SRSもできなかった時
             {
                 // DebugHelper.Log("Super Rotation System (SRS) failed: Reverting rotation", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-                mino.UpdateMinoAngleAfterToMinoAngleBefore();
+                minoMovement.UpdateMinoAngleAfterToMinoAngleBefore();
 
                 AudioManager.Instance.PlaySound(AudioNames.Rotation);
             }
@@ -482,11 +484,11 @@ public class GameManager : MonoBehaviour
 
         spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
 
-        mino.UpdateMinoAngleBeforeToMinoAngleAfter();
+        minoMovement.UpdateMinoAngleBeforeToMinoAngleAfter();
 
-        minoAngleAfter = mino.GetMinoAngleAfter();
+        minoAngleAfter = minoMovement.GetMinoAngleAfter();
         // minoAngleBefore = mino.GetMinoAngleBefore();
-        stepsSRS = mino.GetStepsSRS();
+        stepsSRS = minoMovement.GetStepsSRS();
         spinCheck.CheckSpinType(minoAngleAfter, stepsSRS);
 
         if (spinCheck.SpinTypeName != SpinTypeNames.None) // スピン判定がない場合
@@ -522,13 +524,13 @@ public class GameManager : MonoBehaviour
         // Heightの値分繰り返す(20)
         for (int i = 0; i < board.Height; i++)
         {
-            spawner.activeMino.MoveDown();
+            spawner.ActiveMino.MoveDown();
 
-            if (!board.CheckPosition(spawner.activeMino)) // 底にぶつかった時
+            if (!board.CheckPosition(spawner.ActiveMino)) // 底にぶつかった時
             {
                 // DebugHelper.Log("Hard drop: Mino hit the bottom, reverting to last valid position", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-                spawner.activeMino.MoveUp(); // ミノを正常な位置に戻す
+                spawner.ActiveMino.MoveUp(); // ミノを正常な位置に戻す
 
                 break;
             }
@@ -538,7 +540,7 @@ public class GameManager : MonoBehaviour
             {
                 spinCheck.ResetSpinTypeName();
             }
-            mino.ResetStepsSRS();
+            minoMovement.ResetStepsSRS();
         }
 
         // DebugHelper.Log("Hard drop: Mino reached the bottom", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
@@ -568,7 +570,7 @@ public class GameManager : MonoBehaviour
 
                 GameManagerStats.Update(_minoPopNumber: GameManagerStats.MinoPopNumber + 1);
 
-                spawner.CreateNewHoldMino(GameManagerStats.FirstHold, GameManagerStats.MinoPopNumber);
+                spawner.CreateHoldMino(GameManagerStats.FirstHold, GameManagerStats.MinoPopNumber);
 
                 GameManagerStats.Update(_firstHold: false);
             }
@@ -576,7 +578,7 @@ public class GameManager : MonoBehaviour
             {
                 // DebugHelper.Log("Subsequent hold action", DebugHelper.LogLevel.Debug, "GameManager", "PlayerInput()");
 
-                spawner.CreateNewHoldMino(GameManagerStats.FirstHold, GameManagerStats.MinoPopNumber);
+                spawner.CreateHoldMino(GameManagerStats.FirstHold, GameManagerStats.MinoPopNumber);
             }
         }
         else
@@ -590,11 +592,11 @@ public class GameManager : MonoBehaviour
     {
         timer.UpdateDownTimer();
 
-        spawner.activeMino.MoveDown();
+        spawner.ActiveMino.MoveDown();
 
-        if (!board.CheckPosition(spawner.activeMino))
+        if (!board.CheckPosition(spawner.ActiveMino))
         {
-            spawner.activeMino.MoveUp(); // ミノを正常な位置に戻す
+            spawner.ActiveMino.MoveUp(); // ミノを正常な位置に戻す
         }
         else
         {
@@ -603,7 +605,7 @@ public class GameManager : MonoBehaviour
                 spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
             }
 
-            mino.ResetStepsSRS();
+            minoMovement.ResetStepsSRS();
         }
     }
 
@@ -612,18 +614,18 @@ public class GameManager : MonoBehaviour
     {
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "RockDown()", "Start");
 
-        int newBottomBlockPosition_y = board.CheckActiveMinoBottomBlockPosition_y(spawner.activeMino); // 操作中のミノの1番下のブロックのy座標を取得
+        int newBottomBlockPosition_y = board.CheckActiveMinoBottomBlockPosition_y(spawner.ActiveMino); // 操作中のミノの1番下のブロックのy座標を取得
 
         if (GameManagerStats.LowestBlockPositionY <= newBottomBlockPosition_y) // lowestBlockPositionYが更新されていない場合
         {
-            spawner.activeMino.MoveDown();
+            spawner.ActiveMino.MoveDown();
 
             // 1マス下が底の時((底に面している時)
             // かつインターバル時間を超過している、または15回以上移動や回転を行った時
-            if (!board.CheckPosition(spawner.activeMino) && (Time.time >= timer.BottomTimer ||
+            if (!board.CheckPosition(spawner.ActiveMino) && (Time.time >= timer.BottomTimer ||
                 GameManagerStats.BottomMoveCount >= GameManagerStats.BottomMoveCountLimit))
             {
-                spawner.activeMino.MoveUp(); // 元の位置に戻す
+                spawner.ActiveMino.MoveUp(); // 元の位置に戻す
 
                 // AudioManager.Instance.PlaySound(AudioNames.NormalDrop_Audio);
 
@@ -631,7 +633,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                spawner.activeMino.MoveUp(); // 元の位置に戻す
+                spawner.ActiveMino.MoveUp(); // 元の位置に戻す
             }
         }
         else // lowestBlockPositionYが更新された場合
@@ -660,7 +662,7 @@ public class GameManager : MonoBehaviour
         /// <summary> 合計の消去ライン数 </summary>
         int lineClearCount;
 
-        if (board.CheckGameOver(spawner.activeMino)) // ミノの設置時にゲームオーバーの条件を満たした場合
+        if (board.CheckGameOver(spawner.ActiveMino)) // ミノの設置時にゲームオーバーの条件を満たした場合
         {
             textEffect.StopAnimation();
 
@@ -675,7 +677,7 @@ public class GameManager : MonoBehaviour
         ResetRockDown();
         timer.ResetTimer();
 
-        board.SaveBlockInGrid(spawner.activeMino);
+        board.SaveBlockInGrid(spawner.ActiveMino);
         lineClearCount = board.ClearAllRows();
         board.AddLineClearCountHistory(lineClearCount);
         attackCalculator.CalculateAttackLines(spinCheck.SpinTypeName, lineClearCount);
@@ -683,17 +685,17 @@ public class GameManager : MonoBehaviour
 
         // 各種変数のリセット
         spinCheck.ResetSpinTypeName();
-        mino.ResetAngle();
-        mino.ResetStepsSRS();
+        minoMovement.ResetAngle();
+        minoMovement.ResetStepsSRS();
 
         GameManagerStats.Update(_minoPutNumber: GameManagerStats.MinoPutNumber + 1,
             _minoPopNumber: GameManagerStats.MinoPopNumber + 1, _useHold: false);
 
         spawner.CreateNewActiveMino(GameManagerStats.MinoPopNumber);
 
-        spawner.CreateNewNextMinos(GameManagerStats.MinoPopNumber);
+        spawner.CreateNextMinos(GameManagerStats.MinoPopNumber);
 
-        if (!board.CheckPosition(spawner.activeMino)) // ミノを生成した際に、ブロックと重なってしまった場合
+        if (!board.CheckPosition(spawner.ActiveMino)) // ミノを生成した際に、ブロックと重なってしまった場合
         {
             textEffect.StopAnimation();
 
@@ -811,7 +813,7 @@ public class GameManager : MonoBehaviour
 //     yield return null; // 次のフレームまで待機
 // }
 
-// if (!board.CheckPosition(spawner.activeMino))
+// if (!board.CheckPosition(spawner.ActiveMino))
 // {
 //     Debug.LogError("[GameManager Update()] ゲームボードからミノがはみ出した。または、ブロックに重なった。");
 // }
