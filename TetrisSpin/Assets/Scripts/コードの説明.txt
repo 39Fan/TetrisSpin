@@ -1,14 +1,7 @@
-[変数名]
+[命名規則]
 
-・列挙型の変数(enum)は、パスカルケース
-例: GameOver
-
-・メンバ変数(class内の変数)、ローカル変数(メソッド内の変数)、インスタンス、ゲッターはキャメルケース
-例: activeMino
-
-・仮引数は、引数の先頭に "_" をつける
-例: _activeMino
-
+以下のサイトを参考にする
+https://qiita.com/walkerjito/items/fd64c39bb18d99479857
 
 [XMLコメント]
 
