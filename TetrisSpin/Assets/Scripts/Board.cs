@@ -25,18 +25,18 @@ public static class BoardStats
         // TODO: ログの記入
     }
 
-    /// <summary> ライン消去数の履歴を追加する </summary>
+    /// <summary> デフォルトの <see cref="BoardStats"/> にリセットする関数 </summary>
+    public static void Reset()
+    {
+        lineClearCountHistory.Clear();
+    }
+
+    /// <summary> ライン消去数の履歴を追加する関数 </summary>
     /// <param name="_lineClearCount"> 消去したライン数 </param>
     public static void AddLineClearCountHistory(int _lineClearCount)
     {
         lineClearCountHistory.Add(_lineClearCount);
         // TODO: ログの記入
-    }
-
-    /// <summary> デフォルトの <see cref="BoardStats"/> にリセットする関数 </summary>
-    public static void Reset()
-    {
-        lineClearCountHistory.Clear();
     }
 }
 
@@ -107,7 +107,7 @@ public class Board : MonoBehaviour
     /// <summary> activeMinoが存在できる位置か判定する関数を呼ぶ関数 </summary>
     /// <param name="_activeMino"> 操作中のミノ </param>
     /// <returns> ブロックが存在できる場合 true、それ以外の場合は false </returns>
-    public bool CheckPosition(Mino _activeMino)
+    public bool CheckPosition(MinoMovement _activeMino)
     {
         // 操作中のミノを構成するブロック個々に調べる
         foreach (Transform item in _activeMino.transform)
@@ -142,7 +142,7 @@ public class Board : MonoBehaviour
     /// <param name="_y"> activeMinoを構成するブロックの y 座標 </param>
     /// <param name="_activeMino"> 操作中のミノ </param>
     /// <returns> ブロックが重なっていない場合 true、それ以外の場合は false </returns>
-    private bool CheckMinoCollision(int _x, int _y, Mino _activeMino)
+    private bool CheckMinoCollision(int _x, int _y, MinoMovement _activeMino)
     {
         // 二次元配列が空ではない(他のブロックがある時)
         // 親が違う
@@ -151,7 +151,7 @@ public class Board : MonoBehaviour
 
     /// <summary> ブロックが落ちたポジションを記録する関数 </summary>
     /// <param name="_activeMino"> 操作中のミノ </param>
-    public void SaveBlockInGrid(Mino _activeMino)
+    public void SaveBlockInGrid(MinoMovement _activeMino)
     {
         foreach (Transform item in _activeMino.transform)
         {
@@ -256,7 +256,7 @@ public class Board : MonoBehaviour
     /// <param name="_y"> 調べる y 座標 </param>
     /// <param name="_activeMino"> 操作中のミノ </param>
     /// <returns> 指定されたマスがブロック、もしくは壁の場合 true、それ以外の場合は false </returns>
-    public bool CheckGrid(int _x, int _y, Mino _activeMino)
+    public bool CheckGrid(int _x, int _y, MinoMovement _activeMino)
     {
         if (_x < 0 || _y < 0) // gridの座標が負の場合(壁判定)
         {
@@ -278,7 +278,7 @@ public class Board : MonoBehaviour
     /// <summary> ミノを構成するブロックについて、最上部のブロックのy座標を返す関数 </summary>
     /// <param name="_activeMino"> 操作中のミノ </param>
     /// <returns> 最上部のブロックのy座標 topBlockPosition_y </returns>
-    public int CheckActiveMinoTopBlockPosition_y(Mino _activeMino)
+    public int CheckActiveMinoTopBlockPosition_y(MinoMovement _activeMino)
     {
         int topBlockPosition_y = 0; // 最上部のブロックのY座標(初期値は底の数値)
         int temp; // 一時的な変数
@@ -300,7 +300,7 @@ public class Board : MonoBehaviour
     /// <summary> ミノを構成するブロックについて、最下部ブロックのy座標データを返す関数 </summary>
     /// <param name="_activeMino"> 操作中のミノ </param>
     /// <returns> 最下部のブロックのy座標 bottomBlockPosition_y </returns>
-    public int CheckActiveMinoBottomBlockPosition_y(Mino _activeMino)
+    public int CheckActiveMinoBottomBlockPosition_y(MinoMovement _activeMino)
     {
         int bottomBlockPosition_y = 21; // 最下部のブロックのY座標(初期値はゲームオーバーになる数値)
         int temp; // 一時的な変数
@@ -329,7 +329,7 @@ public class Board : MonoBehaviour
     /// <summary> ゲームオーバーか判定する関数 </summary>
     /// <param name="_activeMino"> 操作中のミノ </param>
     /// <returns> ゲームオーバー判定の場合 true、それ以外の場合は false </returns>
-    public bool CheckGameOver(Mino _activeMino)
+    public bool CheckGameOver(MinoMovement _activeMino)
     {
         int bottomBlockPosition_y = CheckActiveMinoBottomBlockPosition_y(_activeMino); // ActiveMino の1番下のブロックのy座標
 
