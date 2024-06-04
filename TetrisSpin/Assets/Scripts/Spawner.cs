@@ -1,51 +1,141 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-///// ミノの出現に関するスクリプト /////
+/// <summary>
+/// Spawnerの統計情報を保持する静的クラス
+/// </summary>
+public static class SpawnerStats
+{
+    /// <summary> 生成されるミノの順番リスト </summary>
+    private static List<MinoType> spawnMinoOrders = new List<MinoType>();
 
+    /// <summary> 操作中のミノの名前 </summary>
+    private static MinoType activeMinoName;
+    /// <summary> ホールドミノの名前 </summary>
+    private static MinoType holdMinoName;
 
-// ↓このスクリプトで可能なこと↓ //
+    /// <summary> ActiveMinoから底までの距離 </summary>
+    /// <remarks>
+    /// ゴーストミノの生成座標の計算で必要
+    /// </remarks>
+    private static int activeMinoToBaseDistance;
 
-// 生成するミノの決定
-// ゲーム画面にミノを表示する
+    // ゲッタープロパティ //
+    public static List<MinoType> SpawnMinoOrders => spawnMinoOrders;
+    public static MinoType ActiveMinoName => activeMinoName;
+    public static MinoType HoldMinoName => holdMinoName;
+    public static int ActiveMinoToBaseDistance => activeMinoToBaseDistance;
 
+    /// <summary> 指定されたフィールドの値を更新する関数 </summary>
+    /// <param name="_activeMinoName"> 操作中のミノの名前 </param>
+    /// <param name="_holdMinoName"> ホールドミノの名前 </param>
+    /// <param name="_activeMinoToBaseDistance"> ActiveMinoから底までの距離 </param>
+    /// <remarks>
+    /// 指定されていない引数は現在の値を維持
+    /// </remarks>
+    public static void Update(MinoType? _activeMinoName = null, MinoType? _holdMinoName = null, int? _activeMinoToBaseDistance = null)
+    {
+        activeMinoName = _activeMinoName ?? activeMinoName;
+        holdMinoName = _holdMinoName ?? holdMinoName;
+        activeMinoToBaseDistance = _activeMinoToBaseDistance ?? activeMinoToBaseDistance;
+        // TODO: ログの記入
+    }
 
+    /// <summary> デフォルトの <see cref="AttackCalculatorStats"/> にリセットする関数 </summary>
+    public static void Reset()
+    {
+        spawnMinoOrders.Clear();
+        activeMinoName = default;
+        holdMinoName = default;
+        activeMinoToBaseDistance = 0;
+    }
+
+    /// <summary> 生成されるミノの順番リストを追加する関数 </summary>
+    /// <param name="_addMinoType"> 追加するミノの種類 </param>
+    public static void AddSpawnMinoOrder(MinoType _addMinoType)
+    {
+        spawnMinoOrders.Add(_addMinoType);
+        // TODO: ログの記入
+    }
+
+    // /// <summary> ネクストリストを追加する関数 </summary>
+    // /// <param name="_addNextMino"> 追加するミノの種類 </param>
+    // ///  <param name="_number"> 何番目のネクストか </param>
+    // public static void AddNextMinos(MinoMovement _addNextMino, int _number)
+    // {
+    //     nextMinos[_number] = _addNextMino;
+    //     // TODO: ログの記入
+    // }
+}
+
+/// <summary>
+/// ミノの出現に関するスクリプト
+/// </summary>
 public class Spawner : MonoBehaviour
 {
-    // ミノのPrefabs //
-    [SerializeField] private Mino[] Minos; // 順番は(I, J, L, O, S, T, Z)
-    [SerializeField] private Mino[] GhostMinos; // 順番は(I, J, L, O, S, T, Z)
+    /// <summary> 操作中のミノ </summary>
+    private MinoMovement activeMino;
+    /// <summary> ゴーストミノ </summary>
+    private MinoMovement ghostMino;
+    /// <summary> ネクストミノリスト </summary>
+    private MinoMovement[] nextMinos = new MinoMovement[5];
+    /// <summary> ホールドミノ </summary>
+    private MinoMovement holdMino;
 
-    // ミノの名前 //
-    private string[] MinoNames = new string[]
-    {
-        "I_Mino", "J_Mino", "L_Mino", "O_Mino", "S_Mino", "T_Mino", "Z_Mino"
-    };
+    /// <summary> ミノのPrefabs </summary>
+    /// <remarks>
+    /// 順番は(I, J, L, O, S, T, Z)
+    /// </remarks>
+    [SerializeField] private MinoMovement[] minos;
+    /// <summary> ゴーストミノのPrefabs </summary>
+    /// <remarks>
+    /// 順番は(I, J, L, O, S, T, Z)
+    /// </remarks>
+    [SerializeField] private MinoMovement[] ghostMinos;
 
-    // 辞書 //
-    Dictionary<string, Mino> MinoDictionary = new Dictionary<string, Mino>(); // MinosとMinoNamesのDictionary
-    Dictionary<string, Mino> GhostMinoDictionary = new Dictionary<string, Mino>(); // GhostMinosとMinoNamesのDictionary
+    // /// <summary> ミノの名前リスト </summary>
+    // private string[] MinoNames = new string[]
+    // {
+    //     "I_Mino", "J_Mino", "L_Mino", "O_Mino", "S_Mino", "T_Mino", "Z_Mino"
+    // };
 
-    // 生成されるミノの順番 //
-    [SerializeField] private List<string> SpawnMinoOrders = new List<string>();
+    /// <summary> MinosとMinoNamesのDictionary </summary>
+    Dictionary<MinoType, MinoMovement> minoDictionary = new Dictionary<MinoType, MinoMovement>();
 
-    // ゲームに可視化されるミノ //
-    private Mino ActiveMino; // 操作中のミノ
-    private Mino GhostMino; // ゴーストミノ
-    private Mino[] NextMinos = new Mino[5]; // Nextミノ
-    private Mino HoldMino; // Holdミノ
+    /// <summary> GhostMinosとMinoNamesのDictionary </summary>
+    Dictionary<MinoType, MinoMovement> ghostMinoDictionary = new Dictionary<MinoType, MinoMovement>();
 
-    // ActiveMinoとHoldMinoの名前 //
-    private string ActiveMinoName;
-    private string HoldMinoName;
+    // /// <summary> 生成されるミノの順番リスト </summary>
+    // private List<string> spawnMinoOrders = new List<string>();
 
-    // ActiveMinoから底までの距離 //
-    private int ActiveMinoToBaseDistance; // ゴーストミノの生成座標の計算で必要
+    // /// <summary> 操作中のミノ </summary>
+    // private MinoMovement activeMino;
+    // /// <summary> ゴーストミノ </summary>
+    // private MinoMovement ghostMino;
+    // /// <summary> ネクストミノリスト </summary>
+    // private MinoMovement[] nextMinos = new MinoMovement[5];
+    // /// <summary> ホールドミノ </summary>
+    // private MinoMovement holdMino;
 
-    // ミノの生成座標
-    private Vector3 SpawnMinoPosition { get; } = new Vector3(4, 19, 0); // ActiveMino
-    private Vector3 HoldMinoPosition { get; } = new Vector3(-3, 17, 0); // HoldMino
-    private Vector3[] NextMinoPositions = new Vector3[5] // NextMinos
+    // /// <summary> 操作中のミノの名前 </summary>
+    // private string activeMinoName;
+    // /// <summary> ホールドミノの名前 </summary>
+    // private string holdMinoName;
+
+    // /// <summary> ActiveMinoから底までの距離 </summary>
+    // /// <remarks>
+    // /// ゴーストミノの生成座標の計算で必要
+    // /// </remarks>
+    // private int activeMinoToBaseDistance;
+
+    /// <summary> 操作中のミノの生成座標 </summary>
+    private Vector3 spawnMinoPosition { get; } = new Vector3(4, 19, 0);
+
+    /// <summary> ホールドミノの生成座標 </summary>
+    private Vector3 holdMinoPosition { get; } = new Vector3(-3, 17, 0);
+
+    /// <summary> ネクストミノの生成座標リスト </summary>
+    private Vector3[] nextMinoPositions = new Vector3[5] // NextMinos
     {
         new Vector3(12, 17, 0),
         new Vector3(12, 14, 0),
@@ -54,51 +144,51 @@ public class Spawner : MonoBehaviour
         new Vector3(12, 5, 0)
     };
 
-    // ゲッタープロパティ //
-    public Mino activeMino
-    {
-        get { return ActiveMino; }
-    }
-    public Mino ghostMino
-    {
-        get { return GhostMino; }
-    }
-    public string activeMinoName
-    {
-        get { return ActiveMinoName; }
-    }
+    // // ゲッタープロパティ //
+    // public MinoMovement ActiveMino => activeMino;
+    // public MinoMovement GhostMino => ghostMino;
+    // public string ActiveMinoName => activeMinoName;
+    public MinoMovement ActiveMino => activeMino;
+    public MinoMovement GhostMino => ghostMino;
+    public MinoMovement[] NextMinos => nextMinos;
+    public MinoMovement HoldMino => holdMino;
 
     // 干渉するスクリプト //
     Board board;
-    Mino mino;
+    MinoMovement minoMovement;
 
-    // インスタンス化 //
+    /// <summary>
+    /// インスタンス化時の処理
+    /// </summary>
+    /// <remarks>
+    /// 辞書の作成も行う
+    /// </remarks>
     private void Awake()
     {
         board = FindObjectOfType<Board>();
-        mino = FindObjectOfType<Mino>();
+        minoMovement = FindObjectOfType<MinoMovement>();
 
         // Minos と MinoNames の辞書を作成
-        for (int i = 0; i < MinoNames.Length; i++)
+        for (int ii = 0; ii < minos.Length; ii++)
         {
-            MinoDictionary[MinoNames[i]] = Minos[i];
+            minoDictionary[(MinoType)ii] = minos[ii];
         }
         // GhostMinos と MinoNames の辞書を作成
-        for (int i = 0; i < MinoNames.Length; i++)
+        for (int ii = 0; ii < ghostMinos.Length; ii++)
         {
-            GhostMinoDictionary[MinoNames[i]] = GhostMinos[i];
+            ghostMinoDictionary[(MinoType)ii] = ghostMinos[ii];
         }
     }
 
     // 生成されるミノの順番を決める関数 //
     public void DetermineSpawnMinoOrder()
     {
-        List<string> minoNames = new List<string>(); // ミノの名前が入るリスト
+        List<MinoType> minoNames = new List<MinoType>(); // ミノの名前が入るリスト
 
         // minoNamesにミノの名前を全て入れる
-        for (int numbers = 0; numbers < MinoNames.Length; numbers++)
+        for (int ii = 0; ii < MinoType.GetValues(typeof(MinoType)).Length; ii++)
         {
-            minoNames.Add(MinoNames[numbers]);
+            minoNames.Add((MinoType)ii);
         }
 
         while (minoNames.Count > 0) // minoNames の配列がなくなるまで繰り返す
@@ -107,10 +197,10 @@ public class Spawner : MonoBehaviour
             int index = Random.Range(0, minoNames.Count);
 
             // minoNames[index] の名前を randomName に格納
-            string randomName = minoNames[index];
+            MinoType randomName = minoNames[index];
 
             // randomNameを SpawnMinoOrders に追加
-            SpawnMinoOrders.Add(randomName);
+            SpawnerStats.AddSpawnMinoOrder(randomName);
 
             // インデックス位置の要素を削除
             minoNames.RemoveAt(index);
@@ -120,34 +210,39 @@ public class Spawner : MonoBehaviour
     // ActiveMino から底までの距離を計算する関数 //
     private void CheckActiveMinoToBaseDistance()
     {
+        /// <summary> ActiveMinoから底までの距離 </summary>
+        int activeMinoToBaseDistance;
+
         // ActiveMino の各座標を格納する変数を宣言
-        int activeMino_x = Mathf.RoundToInt(ActiveMino.transform.position.x);
-        int activeMino_y = Mathf.RoundToInt(ActiveMino.transform.position.y);
-        int activeMino_z = Mathf.RoundToInt(ActiveMino.transform.position.z);
+        int activeMino_x = Mathf.RoundToInt(activeMino.transform.position.x);
+        int activeMino_y = Mathf.RoundToInt(activeMino.transform.position.y);
+        int activeMino_z = Mathf.RoundToInt(activeMino.transform.position.z);
 
         // ゲームボードの高さのマスの数 + 2　回繰り返す
-        for (ActiveMinoToBaseDistance = 0; ActiveMinoToBaseDistance < board.Height - board.Header + 2; ActiveMinoToBaseDistance++)
+        for (activeMinoToBaseDistance = 0; activeMinoToBaseDistance < board.Height - board.Header + 2; activeMinoToBaseDistance++)
         {
             // ActiveMino のY座標を ActiveMinoToBaseDistance の値だけ下に移動する
-            ActiveMino.transform.position = new Vector3
-                (activeMino_x, activeMino_y - ActiveMinoToBaseDistance, activeMino_z);
+            activeMino.transform.position = new Vector3
+                (activeMino_x, activeMino_y - activeMinoToBaseDistance, activeMino_z);
 
             // ActiveMino が他のミノにぶつかる、またはゲームボードからはみ出した時
-            if (!board.CheckPosition(ActiveMino))
+            if (!board.CheckPosition(activeMino))
             {
                 // この段階で ActiveMinoToBaseDistance から1引いた値が ActiveMino から底までの距離となる
-                ActiveMinoToBaseDistance--;
+                activeMinoToBaseDistance--;
 
                 // ActiveMinoの位置を元に戻す
-                ActiveMino.transform.position = new Vector3
+                activeMino.transform.position = new Vector3
                     (activeMino_x, activeMino_y, activeMino_z);
 
                 // breakでこのfor文を抜けて ActiveMinoToBaseDistance の値を決定
                 break;
             }
 
+            SpawnerStats.Update(_activeMinoToBaseDistance: activeMinoToBaseDistance);
+
             // ActiveMinoを元の位置に戻す
-            ActiveMino.transform.position = new Vector3
+            activeMino.transform.position = new Vector3
                 (activeMino_x, activeMino_y, activeMino_z);
         }
     }
@@ -160,18 +255,19 @@ public class Spawner : MonoBehaviour
             DetermineSpawnMinoOrder(); // 生成されるミノを補充
         }
 
-        ActiveMino = SpawnActiveMino(MinoDictionary[SpawnMinoOrders[_MinoPopNumber]]); // 実際に生成する
+        activeMino = SpawnActiveMino(minoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber]]);
 
-        ActiveMinoName = SpawnMinoOrders[_MinoPopNumber]; // 名前を保存
+        SpawnerStats.Update(_activeMinoName: SpawnerStats.SpawnMinoOrders[_MinoPopNumber]);
 
-        if (GhostMino) // すでにゴーストミノが存在する時
+        if (ghostMino) // すでにゴーストミノが存在する時
         {
-            Destroy(GhostMino.gameObject); // 古いゴーストミノを削除
+            Destroy(ghostMino.gameObject); // 古いゴーストミノを削除
         }
 
         CheckActiveMinoToBaseDistance(); // ActiveMinoToBaseDistance の計算
 
-        GhostMino = SpawnGhostMino(GhostMinoDictionary[SpawnMinoOrders[_MinoPopNumber]], ActiveMino, ActiveMinoToBaseDistance); // ゴーストミノの生成も同時に行う
+        ghostMino = SpawnGhostMino(ghostMinoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber]], activeMino, SpawnerStats.ActiveMinoToBaseDistance); // ゴーストミノの生成も同時に行う
+        // SpawnerStats.Update(_activeMino: SpawnGhostMino(ghostMinoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber]], activeMino, activeMinoToBaseDistance));
     }
 
     // ゴーストミノの位置調整を行う関数
@@ -180,84 +276,94 @@ public class Spawner : MonoBehaviour
         CheckActiveMinoToBaseDistance(); // ActiveMinoToBaseDistance の計算
 
         // ActiveMino の情報を取得
-        int activeMinoPos_x = Mathf.RoundToInt(ActiveMino.transform.position.x);
-        int activeMinoPos_y = Mathf.RoundToInt(ActiveMino.transform.position.y);
-        int activeMinoPos_z = Mathf.RoundToInt(ActiveMino.transform.position.z);
+        int activeMinoPos_x = Mathf.RoundToInt(activeMino.transform.position.x);
+        int activeMinoPos_y = Mathf.RoundToInt(activeMino.transform.position.y);
+        int activeMinoPos_z = Mathf.RoundToInt(activeMino.transform.position.z);
 
-        GhostMino.transform.rotation = ActiveMino.transform.rotation; // 向きの調整
-        GhostMino.transform.position = new Vector3(activeMinoPos_x, activeMinoPos_y - ActiveMinoToBaseDistance, activeMinoPos_z); // 位置の調整
+        ghostMino.transform.rotation = activeMino.transform.rotation; // 向きの調整
+        ghostMino.transform.position = new Vector3(activeMinoPos_x, activeMinoPos_y - SpawnerStats.ActiveMinoToBaseDistance, activeMinoPos_z); // 位置の調整
     }
 
     // Nextミノを生成する関数 //
-    public void CreateNewNextMinos(int _MinoPopNumber)
+    public void CreateNextMinos(int _MinoPopNumber)
     {
-        for (int nextMinoOrder = 0; nextMinoOrder < NextMinos.Length; nextMinoOrder++) // NextMinosの数だけ繰り返す
+        for (int nextMinoOrder = 0; nextMinoOrder < nextMinos.Length; nextMinoOrder++) // NextMinosの数だけ繰り返す
         {
             if (_MinoPopNumber == 0) // ゲームスタート時
             {
                 // Nextミノを一個ずつ生成していく
-                NextMinos[nextMinoOrder] = SpawnNextMino(MinoDictionary[SpawnMinoOrders[_MinoPopNumber + nextMinoOrder + 1]], nextMinoOrder);
+                nextMinos[nextMinoOrder] = SpawnNextMino(minoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber + nextMinoOrder + 1]], nextMinoOrder);
+                // SpawnerStats.AddNextMinos(_addNextMino: SpawnNextMino(minoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber + nextMinoOrder + 1]], nextMinoOrder), _number: nextMinoOrder);
             }
             else // 2回目以降
             {
                 //以前のNextMinoを消去
-                Destroy(NextMinos[nextMinoOrder].gameObject);
+                Destroy(nextMinos[nextMinoOrder].gameObject);
 
-                NextMinos[nextMinoOrder] = SpawnNextMino(MinoDictionary[SpawnMinoOrders[_MinoPopNumber + nextMinoOrder + 1]], nextMinoOrder);
+                nextMinos[nextMinoOrder] = SpawnNextMino(minoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber + nextMinoOrder + 1]], nextMinoOrder);
+                // SpawnerStats.AddNextMinos(_addNextMino: SpawnNextMino(minoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber + nextMinoOrder + 1]], nextMinoOrder), _number: nextMinoOrder);
             }
         }
     }
 
     // Hold機能の処理をする関数 //
-    public void CreateNewHoldMino(bool _FirstHold, int _MinoPopNumber)
+    public void CreateHoldMino(bool _FirstHold, int _MinoPopNumber)
     {
         // 1回目のHold
         if (_FirstHold == true)
         {
-            Destroy(ActiveMino.gameObject); // ActiveMinoを削除
+            Destroy(activeMino.gameObject); // ActiveMinoを削除
+            Destroy(ghostMino.gameObject); // GhostMinoを削除
 
-            HoldMinoName = ActiveMinoName; // ActiveMinoの名前を保存
+            // holdMinoName = activeMinoName; // ActiveMinoの名前を保存
+            SpawnerStats.Update(_holdMinoName: SpawnerStats.ActiveMinoName);
 
-            HoldMino = SpawnHoldMino(MinoDictionary[HoldMinoName]); // Holdされたミノを画面左上に表示
+            holdMino = SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]); // Holdされたミノを画面左上に表示
+            // SpawnerStats.Update(_holdMino: SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]));
 
             CreateNewActiveMino(_MinoPopNumber); // 新しいActiveMinoを生成
 
-            CreateNewNextMinos(_MinoPopNumber); // 新しいNextミノを生成
+            CreateNextMinos(_MinoPopNumber); // 新しいNextミノを生成
         }
 
         // 2回目以降のHold
         else
         {
-            Destroy(ActiveMino.gameObject); // ActiveMinoを削除
-            Destroy(GhostMino.gameObject); // GhostMinoを削除
+            Destroy(activeMino.gameObject); // ActiveMinoを削除
+            Destroy(ghostMino.gameObject); // GhostMinoを削除
 
             // ActiveMinoName と HoldMinoName の名前を交換する
-            string temp;
-            temp = ActiveMinoName;
-            ActiveMinoName = HoldMinoName;
-            HoldMinoName = temp;
+            MinoType temp;
+            temp = SpawnerStats.ActiveMinoName;
+            // activeMinoName = SpawnerStats.HoldMinoName;
+            SpawnerStats.Update(_activeMinoName: SpawnerStats.HoldMinoName);
+            // holdMinoName = temp;
+            SpawnerStats.Update(_holdMinoName: temp);
 
-            ActiveMino = SpawnActiveMino(HoldMino); // HoldミノをActiveMinoに戻す
+            activeMino = SpawnActiveMino(holdMino); // HoldミノをActiveMinoに戻す
+            // SpawnerStats.Update(_activeMino: SpawnActiveMino(SpawnerStats.HoldMino));
 
             CheckActiveMinoToBaseDistance(); // ActiveMinoToBaseDistance の計算
 
-            GhostMino = SpawnGhostMino(GhostMinoDictionary[ActiveMinoName], ActiveMino, ActiveMinoToBaseDistance);
+            ghostMino = SpawnGhostMino(ghostMinoDictionary[SpawnerStats.ActiveMinoName], activeMino, SpawnerStats.ActiveMinoToBaseDistance);
+            // SpawnerStats.Update(_ghostMino: SpawnGhostMino(ghostMinoDictionary[activeMinoName], activeMino, activeMinoToBaseDistance));
 
-            Destroy(HoldMino.gameObject); // 以前のホールドミノを削除
+            Destroy(holdMino.gameObject); // 以前のホールドミノを削除
 
-            HoldMino = SpawnHoldMino(MinoDictionary[HoldMinoName]); // Holdされたミノを画面左上に表示
+            holdMino = SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]); // Holdされたミノを画面左上に表示
+            // SpawnerStats.Update(_holdMino: SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]));
 
             // 変数の初期化
-            mino.ResetAngle();
-            mino.ResetStepsSRS();
+            minoMovement.ResetAngle();
+            minoMovement.ResetStepsSRS();
         }
     }
 
     // 選ばれたミノを生成する関数 //
-    public Mino SpawnActiveMino(Mino _SelecyMino)
+    public MinoMovement SpawnActiveMino(MinoMovement _SelecyMino)
     {
-        Mino activeMino = Instantiate(_SelecyMino,
-        SpawnMinoPosition, Quaternion.identity); // Quaternion.identityは、向きの回転に関する設定をしないことを表す
+        MinoMovement activeMino = Instantiate(_SelecyMino,
+        spawnMinoPosition, Quaternion.identity); // Quaternion.identityは、向きの回転に関する設定をしないことを表す
 
         if (activeMino)
         {
@@ -270,7 +376,7 @@ public class Spawner : MonoBehaviour
     }
 
     // ゴーストミノを生成する関数 //
-    public Mino SpawnGhostMino(Mino _SelectMino, Mino _ActiveMino, int _ActiveMinoToBaseDistance)
+    public MinoMovement SpawnGhostMino(MinoMovement _SelectMino, MinoMovement _ActiveMino, int _ActiveMinoToBaseDistance)
     {
         // ActiveMinoの各座標を格納する変数を宣言
         int activeMinoInfo_x = Mathf.RoundToInt(_ActiveMino.transform.position.x);
@@ -278,7 +384,7 @@ public class Spawner : MonoBehaviour
         int activeMinoInfo_z = Mathf.RoundToInt(_ActiveMino.transform.position.z);
 
         //orderに対応するゴーストミノを、active_mino_infoのY座標からActiveMinoToBaseDistanceの値だけ下に移動した位置に生成
-        Mino ghostMino = Instantiate(_SelectMino,
+        MinoMovement ghostMino = Instantiate(_SelectMino,
             new Vector3(activeMinoInfo_x, activeMinoInfo_y - _ActiveMinoToBaseDistance, activeMinoInfo_z), Quaternion.identity);
 
         if (ghostMino)
@@ -292,21 +398,21 @@ public class Spawner : MonoBehaviour
     }
 
     // Nextミノを表示する関数 //
-    public Mino SpawnNextMino(Mino _SelectMino, int _nextMinoOrder)
+    public MinoMovement SpawnNextMino(MinoMovement _SelectMino, int _nextMinoOrder)
     {
-        Mino nextMino = Instantiate(_SelectMino,
-            NextMinoPositions[_nextMinoOrder], Quaternion.identity);
+        MinoMovement nextMino = Instantiate(_SelectMino,
+            nextMinoPositions[_nextMinoOrder], Quaternion.identity);
 
         return nextMino;
     }
 
     //Holdされたミノを表示する関数
-    public Mino SpawnHoldMino(Mino _SelectMino)
+    public MinoMovement SpawnHoldMino(MinoMovement _SelectMino)
     {
         //minoに対応するミノを生成
         //Quaternion.identityは、向きの回転に関する設定をしないことを表す
-        Mino spawnHoldMino = Instantiate(_SelectMino,
-        HoldMinoPosition, Quaternion.identity);
+        MinoMovement spawnHoldMino = Instantiate(_SelectMino,
+        holdMinoPosition, Quaternion.identity);
 
         if (spawnHoldMino)
         {
