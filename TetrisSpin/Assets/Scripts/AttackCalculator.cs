@@ -72,29 +72,7 @@ public class AttackCalculator : MonoBehaviour
     /// </summary>
     private Dictionary<SpinTypeNames, Dictionary<int, int>> spinTypeAttackMapping = new Dictionary<SpinTypeNames, Dictionary<int, int>>
     {
-        { SpinTypeNames.J_Spin, new Dictionary<int, int>
-            {
-                { 0, 0 },
-                { 1, 1 }, // JspinSingleAttack
-                { 2, 3 }, // JspinDoubleAttack
-                { 3, 6 }  // JspinTripleAttack
-            }
-        },
-        { SpinTypeNames.L_Spin, new Dictionary<int, int>
-            {
-                { 0, 0 },
-                { 1, 1 }, // LspinSingleAttack
-                { 2, 3 }, // LspinDoubleAttack
-                { 3, 6 }  // LspinTripleAttack
-            }
-        },
-        { SpinTypeNames.I_SpinMini, new Dictionary<int, int>
-            {
-                { 0, 0 },
-                { 1, 1 } // IspinMiniAttack
-            }
-        },
-        { SpinTypeNames.I_Spin, new Dictionary<int, int>
+        { SpinTypeNames.Ispin, new Dictionary<int, int>
             {
                 { 0, 0 },
                 { 1, 2 }, // IspinSingleAttack
@@ -103,7 +81,45 @@ public class AttackCalculator : MonoBehaviour
                 { 4, 8 }  // IspinQuattroAttack
             }
         },
-        { SpinTypeNames.T_Spin, new Dictionary<int, int>
+        { SpinTypeNames.IspinMini, new Dictionary<int, int>
+            {
+                { 0, 0 },
+                { 1, 1 } // IspinMiniAttack
+            }
+        },
+        { SpinTypeNames.Jspin, new Dictionary<int, int>
+            {
+                { 0, 0 },
+                { 1, 1 }, // JspinSingleAttack
+                { 2, 3 }, // JspinDoubleAttack
+                { 3, 6 }  // JspinTripleAttack
+            }
+        },
+        { SpinTypeNames.Lspin, new Dictionary<int, int>
+            {
+                { 0, 0 },
+                { 1, 1 }, // LspinSingleAttack
+                { 2, 3 }, // LspinDoubleAttack
+                { 3, 6 }  // LspinTripleAttack
+            }
+        },
+        { SpinTypeNames.Sspin, new Dictionary<int, int>
+            {
+                { 0, 0 },
+                { 1, 2 }, // SspinSingleAttack
+                { 2, 4 }, // SspinDoubleAttack
+                { 3, 8 }  // SspinTripleAttack
+            }
+        },
+        { SpinTypeNames.SspinMini, new Dictionary<int, int>
+            {
+                { 0, 0 },
+                { 1, 0 }, // SspinMiniAttack
+                { 2, 1 }, // SspinDoubleMiniAttack
+                { 3, 3 }  // SspinTripleMiniAttack
+            }
+        },
+        { SpinTypeNames.Tspin, new Dictionary<int, int>
             {
                 { 0, 0 },
                 { 1, 2 }, // TspinSingleAttack
@@ -111,11 +127,27 @@ public class AttackCalculator : MonoBehaviour
                 { 3, 6 }  // TspinTripleAttack
             }
         },
-        { SpinTypeNames.T_SpinMini, new Dictionary<int, int>
+        { SpinTypeNames.TspinMini, new Dictionary<int, int>
             {
                 { 0, 0 },
                 { 1, 0 }, // TspinMiniAttack
                 { 2, 1 }  // TspinDoubleMiniAttack
+            }
+        },
+        { SpinTypeNames.Zspin, new Dictionary<int, int>
+            {
+                { 0, 0 },
+                { 1, 2 }, // ZspinSingleAttack
+                { 2, 4 }, // ZspinDoubleAttack
+                { 3, 8 }  // ZspinTripleAttack
+            }
+        },
+        { SpinTypeNames.ZspinMini, new Dictionary<int, int>
+            {
+                { 0, 0 },
+                { 1, 0 }, // ZspinMiniAttack
+                { 2, 1 }, // ZspinDoubleMiniAttack
+                { 3, 3 }  // ZspinTripleMiniAttack
             }
         },
         { SpinTypeNames.None, new Dictionary<int, int>

@@ -7,13 +7,13 @@ using UnityEngine;
 /// </summary>
 public enum eMinoType
 {
-    I_Mino,
-    J_Mino,
-    L_Mino,
-    O_Mino,
-    S_Mino,
-    T_Mino,
-    Z_Mino
+    IMino,
+    JMino,
+    LMino,
+    OMino,
+    SMino,
+    TMino,
+    ZMino
 }
 
 /// <summary>
@@ -165,7 +165,7 @@ public class MinoMovement : MonoBehaviour
             return; // Oミノは回転できないので弾かれる
         }
 
-        if (SpawnerStats.ActiveMinoName != eMinoType.I_Mino) // Iミノ以外の右回転
+        if (SpawnerStats.ActiveMinoName != eMinoType.IMino) // Iミノ以外の右回転
         {
             transform.Rotate(0, 0, RotateRightAroundZ);
         }
@@ -197,7 +197,7 @@ public class MinoMovement : MonoBehaviour
         }
 
         // Iミノ以外の左回転
-        if (SpawnerStats.ActiveMinoName != eMinoType.I_Mino)
+        if (SpawnerStats.ActiveMinoName != eMinoType.IMino)
         {
             transform.Rotate(0, 0, RotateLeftAroundZ);
         }
@@ -370,7 +370,7 @@ public class MinoMovement : MonoBehaviour
         bool success = false;
 
         // Iミノ以外のSRS
-        if (SpawnerStats.ActiveMinoName != eMinoType.I_Mino)
+        if (SpawnerStats.ActiveMinoName != eMinoType.IMino)
         {
             if ((MinoMovementStats.MinoAngleBefore == eMinoDirection.North && MinoMovementStats.MinoAngleAfter == eMinoDirection.East) ||
                 (MinoMovementStats.MinoAngleBefore == eMinoDirection.South && MinoMovementStats.MinoAngleAfter == eMinoDirection.East))   // North から East , South から East に回転する時

@@ -216,7 +216,7 @@ public class PlayerInput : MonoBehaviour
         {
             AudioManager.Instance.PlaySound(eAudioName.MoveDown);
 
-            if (spinCheck.SpinTypeName != SpinTypeNames.I_Spin) // I-Spinは下移動しても解除されないようにしている
+            if (spinCheck.SpinTypeName != SpinTypeNames.Ispin) // I-Spinは下移動しても解除されないようにしている
             {
                 spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
             }
@@ -295,7 +295,7 @@ public class PlayerInput : MonoBehaviour
                 break;
             }
 
-            if (spinCheck.SpinTypeName != SpinTypeNames.I_Spin) // I-Spinは下移動しても解除されないようにしている
+            if (spinCheck.SpinTypeName != SpinTypeNames.Ispin) // I-Spinは下移動しても解除されないようにしている
             {
                 spinCheck.ResetSpinTypeName();
             }

@@ -12,37 +12,57 @@ public class TextEffect : MonoBehaviour
     [SerializeField] private RectTransform Canvas;
 
     // 表示できるテキスト //
-    [SerializeField] private TextMeshProUGUI Ready_Text;
-    [SerializeField] private TextMeshProUGUI Go_Text;
+    [SerializeField] private TextMeshProUGUI ReadyText;
+    [SerializeField] private TextMeshProUGUI GoText;
 
-    [SerializeField] private TextMeshProUGUI BackToBack_Text;
-    [SerializeField] private TextMeshProUGUI PerfectClear_Text;
-    [SerializeField] private TextMeshProUGUI Rens_Text;
+    [SerializeField] private TextMeshProUGUI BackToBackText;
+    [SerializeField] private TextMeshProUGUI PerfectClearText;
+    [SerializeField] private TextMeshProUGUI RensText;
 
-    [SerializeField] private TextMeshProUGUI OneLineClear_Text;
-    [SerializeField] private TextMeshProUGUI TwoLineClear_Text;
-    [SerializeField] private TextMeshProUGUI ThreeLineClear_Text;
-    [SerializeField] private TextMeshProUGUI Tetris_Text;
-    [SerializeField] private TextMeshProUGUI Ispin_Text;
-    [SerializeField] private TextMeshProUGUI IspinSingle_Text;
-    [SerializeField] private TextMeshProUGUI IspinDouble_Text;
-    [SerializeField] private TextMeshProUGUI IspinTriple_Text;
-    [SerializeField] private TextMeshProUGUI IspinQuattro_Text;
-    [SerializeField] private TextMeshProUGUI IspinMini_Text;
-    [SerializeField] private TextMeshProUGUI Jspin_Text;
-    [SerializeField] private TextMeshProUGUI JspinSingle_Text;
-    [SerializeField] private TextMeshProUGUI JspinDouble_Text;
-    [SerializeField] private TextMeshProUGUI JspinTriple_Text;
-    [SerializeField] private TextMeshProUGUI Lspin_Text;
-    [SerializeField] private TextMeshProUGUI LspinSingle_Text;
-    [SerializeField] private TextMeshProUGUI LspinDouble_Text;
-    [SerializeField] private TextMeshProUGUI LspinTriple_Text;
-    [SerializeField] private TextMeshProUGUI Tspin_Text;
-    [SerializeField] private TextMeshProUGUI TspinSingle_Text;
-    [SerializeField] private TextMeshProUGUI TspinDouble_Text;
-    [SerializeField] private TextMeshProUGUI TspinTriple_Text;
-    [SerializeField] private TextMeshProUGUI TspinMini_Text;
-    [SerializeField] private TextMeshProUGUI TspinDoubleMini_Text;
+    [SerializeField] private TextMeshProUGUI OneLineClearText;
+    [SerializeField] private TextMeshProUGUI TwoLineClearText;
+    [SerializeField] private TextMeshProUGUI ThreeLineClearText;
+    [SerializeField] private TextMeshProUGUI TetrisText;
+    [SerializeField] private TextMeshProUGUI IspinText;
+    [SerializeField] private TextMeshProUGUI IspinSingleText;
+    [SerializeField] private TextMeshProUGUI IspinDoubleText;
+    [SerializeField] private TextMeshProUGUI IspinTripleText;
+    [SerializeField] private TextMeshProUGUI IspinQuattroText;
+    [SerializeField] private TextMeshProUGUI IspinMiniText;
+    [SerializeField] private TextMeshProUGUI JspinText;
+    [SerializeField] private TextMeshProUGUI JspinSingleText;
+    [SerializeField] private TextMeshProUGUI JspinDoubleText;
+    [SerializeField] private TextMeshProUGUI JspinTripleText;
+    [SerializeField] private TextMeshProUGUI JpinMiniText;
+    [SerializeField] private TextMeshProUGUI JspinDoubleMiniText;
+    [SerializeField] private TextMeshProUGUI JspinTripleMiniText;
+    [SerializeField] private TextMeshProUGUI LspinText;
+    [SerializeField] private TextMeshProUGUI LspinSingleText;
+    [SerializeField] private TextMeshProUGUI LspinDoubleText;
+    [SerializeField] private TextMeshProUGUI LspinTripleText;
+    [SerializeField] private TextMeshProUGUI LspinMiniText;
+    [SerializeField] private TextMeshProUGUI LspinDoubleMiniText;
+    [SerializeField] private TextMeshProUGUI LspinTripleMiniText;
+    [SerializeField] private TextMeshProUGUI SspinText;
+    [SerializeField] private TextMeshProUGUI SspinSingleText;
+    [SerializeField] private TextMeshProUGUI SspinDoubleText;
+    [SerializeField] private TextMeshProUGUI SspinTripleText;
+    [SerializeField] private TextMeshProUGUI SspinMiniText;
+    [SerializeField] private TextMeshProUGUI SspinDoubleMiniText;
+    [SerializeField] private TextMeshProUGUI SspinTripleMiniText;
+    [SerializeField] private TextMeshProUGUI TspinText;
+    [SerializeField] private TextMeshProUGUI TspinSingleText;
+    [SerializeField] private TextMeshProUGUI TspinDoubleText;
+    [SerializeField] private TextMeshProUGUI TspinTripleText;
+    [SerializeField] private TextMeshProUGUI TspinMiniText;
+    [SerializeField] private TextMeshProUGUI TspinDoubleMiniText;
+    [SerializeField] private TextMeshProUGUI ZspinText;
+    [SerializeField] private TextMeshProUGUI ZspinSingleText;
+    [SerializeField] private TextMeshProUGUI ZspinDoubleText;
+    [SerializeField] private TextMeshProUGUI ZspinTripleText;
+    [SerializeField] private TextMeshProUGUI ZspinMiniText;
+    [SerializeField] private TextMeshProUGUI ZspinDoubleMiniText;
+    [SerializeField] private TextMeshProUGUI ZspinTripleMiniText;
 
     // 透明度 //
     private int Alpha_0 = 0; // 0の時は透明
@@ -88,58 +108,90 @@ public class TextEffect : MonoBehaviour
         // スピンタイプと消去ライン数に対応するテキストをマッピングするディクショナリ
         Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>> spinTypeTextMapping = new Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>>
     {
-        { SpinTypeNames.I_SpinMini, new Dictionary<int, TextMeshProUGUI>
+        { SpinTypeNames.Ispin, new Dictionary<int, TextMeshProUGUI>
             {
-                { 0, IspinMini_Text },
-                { 1, IspinMini_Text }
+                { 0, IspinText },
+                { 1, IspinSingleText },
+                { 2, IspinDoubleText },
+                { 3, IspinTripleText },
+                { 4, IspinQuattroText }
             }
         },
-        { SpinTypeNames.I_Spin, new Dictionary<int, TextMeshProUGUI>
+        { SpinTypeNames.IspinMini, new Dictionary<int, TextMeshProUGUI>
             {
-                { 0, Ispin_Text },
-                { 1, IspinSingle_Text },
-                { 2, IspinDouble_Text },
-                { 3, IspinTriple_Text },
-                { 4, IspinQuattro_Text }
+                { 0, IspinMiniText },
+                { 1, IspinMiniText }
             }
         },
-        { SpinTypeNames.J_Spin, new Dictionary<int, TextMeshProUGUI>
+        { SpinTypeNames.Jspin, new Dictionary<int, TextMeshProUGUI>
             {
-                { 0, Jspin_Text },
-                { 1, JspinSingle_Text },
-                { 2, JspinDouble_Text },
-                { 3, JspinTriple_Text }
+                { 0, JspinText },
+                { 1, JspinSingleText },
+                { 2, JspinDoubleText },
+                { 3, JspinTripleText }
             }
         },
-        { SpinTypeNames.L_Spin, new Dictionary<int, TextMeshProUGUI>
+        { SpinTypeNames.Lspin, new Dictionary<int, TextMeshProUGUI>
             {
-                { 0, Lspin_Text },
-                { 1, LspinSingle_Text },
-                { 2, LspinDouble_Text },
-                { 3, LspinTriple_Text }
+                { 0, LspinText },
+                { 1, LspinSingleText },
+                { 2, LspinDoubleText },
+                { 3, LspinTripleText }
             }
         },
-        { SpinTypeNames.T_Spin, new Dictionary<int, TextMeshProUGUI>
+        { SpinTypeNames.Sspin, new Dictionary<int, TextMeshProUGUI>
             {
-                { 0, Tspin_Text },
-                { 1, TspinSingle_Text },
-                { 2, TspinDouble_Text },
-                { 3, TspinTriple_Text }
+                { 0, SspinText },
+                { 1, SspinSingleText },
+                { 2, SspinDoubleText },
+                { 3, SspinTripleText }
             }
         },
-        { SpinTypeNames.T_SpinMini, new Dictionary<int, TextMeshProUGUI>
+        { SpinTypeNames.SspinMini, new Dictionary<int, TextMeshProUGUI>
             {
-                { 0, TspinMini_Text },
-                { 1, TspinMini_Text },
-                { 2, TspinDoubleMini_Text }
+                { 0, SspinMiniText },
+                { 1, SspinMiniText },
+                { 2, SspinDoubleMiniText },
+                { 3, SspinTripleMiniText }
+            }
+        },
+        { SpinTypeNames.Tspin, new Dictionary<int, TextMeshProUGUI>
+            {
+                { 0, TspinText },
+                { 1, TspinSingleText },
+                { 2, TspinDoubleText },
+                { 3, TspinTripleText }
+            }
+        },
+        { SpinTypeNames.TspinMini, new Dictionary<int, TextMeshProUGUI>
+            {
+                { 0, TspinMiniText },
+                { 1, TspinMiniText },
+                { 2, TspinDoubleMiniText }
+            }
+        },
+        { SpinTypeNames.Zspin, new Dictionary<int, TextMeshProUGUI>
+            {
+                { 0, ZspinText },
+                { 1, ZspinSingleText },
+                { 2, ZspinDoubleText },
+                { 3, ZspinTripleText }
+            }
+        },
+        { SpinTypeNames.ZspinMini, new Dictionary<int, TextMeshProUGUI>
+            {
+                { 0, ZspinMiniText },
+                { 1, ZspinMiniText },
+                { 2, ZspinDoubleMiniText },
+                { 3, ZspinTripleMiniText }
             }
         },
         { SpinTypeNames.None, new Dictionary<int, TextMeshProUGUI>
             {
-                { 1, OneLineClear_Text },
-                { 2, TwoLineClear_Text },
-                { 3, ThreeLineClear_Text },
-                { 4, Tetris_Text },
+                { 1, OneLineClearText },
+                { 2, TwoLineClearText },
+                { 3, ThreeLineClearText },
+                { 4, TetrisText },
             }
         }
 
@@ -213,14 +265,14 @@ public class TextEffect : MonoBehaviour
     /// <summary> BackToBackアニメーションを行う関数 </summary>
     public void BackToBackAnimation()
     {
-        TextMeshProUGUI instantiatedText = Instantiate(BackToBack_Text, Canvas);
+        TextMeshProUGUI instantiatedText = Instantiate(BackToBackText, Canvas);
         TextFadeInAndOut(instantiatedText);
     }
 
     /// <summary> PerfectClearアニメーションを行う関数 </summary>
     public void PerfectClearAnimation()
     {
-        TextMeshProUGUI instantiatedText = Instantiate(PerfectClear_Text, Canvas);
+        TextMeshProUGUI instantiatedText = Instantiate(PerfectClearText, Canvas);
         TextFadeInAndOut(instantiatedText);
     }
 
@@ -232,8 +284,8 @@ public class TextEffect : MonoBehaviour
         float waitInterval_ready = 3f;
         float waitInterval_go = 2f;
 
-        TextMeshProUGUI ready = Instantiate(Ready_Text, Canvas);
-        TextMeshProUGUI go = Instantiate(Go_Text, Canvas);
+        TextMeshProUGUI ready = Instantiate(ReadyText, Canvas);
+        TextMeshProUGUI go = Instantiate(GoText, Canvas);
 
         Sequence sequence_ready = DOTween.Sequence();
         Sequence sequence_go = DOTween.Sequence();
@@ -276,49 +328,49 @@ public class TextEffect : MonoBehaviour
 //     [SerializeField] private RectTransform Canvas;
 
 //     // 表示できるテキスト //
-//     [SerializeField] private TextMeshProUGUI Ready_Text;
-//     [SerializeField] private TextMeshProUGUI Go_Text;
+//     [SerializeField] private TextMeshProUGUI ReadyText;
+//     [SerializeField] private TextMeshProUGUI GoText;
 
-//     [SerializeField] private TextMeshProUGUI BackToBack_Text;
-//     [SerializeField] private TextMeshProUGUI PerfectClear_Text;
-//     [SerializeField] private TextMeshProUGUI Rens_Text;
+//     [SerializeField] private TextMeshProUGUI BackToBackText;
+//     [SerializeField] private TextMeshProUGUI PerfectClearText;
+//     [SerializeField] private TextMeshProUGUI RensText;
 
-//     [SerializeField] private TextMeshProUGUI OneLineClear_Text;
-//     [SerializeField] private TextMeshProUGUI TwoLineClear_Text;
-//     [SerializeField] private TextMeshProUGUI ThreeLineClear_Text;
-//     [SerializeField] private TextMeshProUGUI Tetris_Text;
-//     [SerializeField] private TextMeshProUGUI Ispin_Text;
-//     [SerializeField] private TextMeshProUGUI IspinSingle_Text;
-//     [SerializeField] private TextMeshProUGUI IspinDouble_Text;
-//     [SerializeField] private TextMeshProUGUI IspinTriple_Text;
-//     [SerializeField] private TextMeshProUGUI IspinQuattro_Text;
-//     [SerializeField] private TextMeshProUGUI IspinMini_Text;
-//     [SerializeField] private TextMeshProUGUI Jspin_Text;
-//     [SerializeField] private TextMeshProUGUI JspinSingle_Text;
-//     [SerializeField] private TextMeshProUGUI JspinDouble_Text;
-//     [SerializeField] private TextMeshProUGUI JspinTriple_Text;
-//     [SerializeField] private TextMeshProUGUI Lspin_Text;
-//     [SerializeField] private TextMeshProUGUI LspinSingle_Text;
-//     [SerializeField] private TextMeshProUGUI LspinDouble_Text;
-//     [SerializeField] private TextMeshProUGUI LspinTriple_Text;
-//     [SerializeField] private TextMeshProUGUI Ospin_Text;
-//     [SerializeField] private TextMeshProUGUI OspinSingle_Text;
-//     [SerializeField] private TextMeshProUGUI OspinDouble_Text;
-//     [SerializeField] private TextMeshProUGUI OspinTriple_Text;
-//     [SerializeField] private TextMeshProUGUI Sspin_Text;
-//     [SerializeField] private TextMeshProUGUI SspinSingle_Text;
-//     [SerializeField] private TextMeshProUGUI SspinDouble_Text;
-//     [SerializeField] private TextMeshProUGUI SspinTriple_Text;
-//     [SerializeField] private TextMeshProUGUI Tspin_Text;
-//     [SerializeField] private TextMeshProUGUI TspinSingle_Text;
-//     [SerializeField] private TextMeshProUGUI TspinDouble_Text;
-//     [SerializeField] private TextMeshProUGUI TspinTriple_Text;
-//     [SerializeField] private TextMeshProUGUI TspinMini_Text;
-//     [SerializeField] private TextMeshProUGUI TspinDoubleMini_Text;
-//     [SerializeField] private TextMeshProUGUI Zspin_Text;
-//     [SerializeField] private TextMeshProUGUI ZspinSingle_Text;
-//     [SerializeField] private TextMeshProUGUI ZspinDouble_Text;
-//     [SerializeField] private TextMeshProUGUI ZspinTriple_Text;
+//     [SerializeField] private TextMeshProUGUI OneLineClearText;
+//     [SerializeField] private TextMeshProUGUI TwoLineClearText;
+//     [SerializeField] private TextMeshProUGUI ThreeLineClearText;
+//     [SerializeField] private TextMeshProUGUI TetrisText;
+//     [SerializeField] private TextMeshProUGUI IspinText;
+//     [SerializeField] private TextMeshProUGUI IspinSingleText;
+//     [SerializeField] private TextMeshProUGUI IspinDoubleText;
+//     [SerializeField] private TextMeshProUGUI IspinTripleText;
+//     [SerializeField] private TextMeshProUGUI IspinQuattroText;
+//     [SerializeField] private TextMeshProUGUI IspinMiniText;
+//     [SerializeField] private TextMeshProUGUI JspinText;
+//     [SerializeField] private TextMeshProUGUI JspinSingleText;
+//     [SerializeField] private TextMeshProUGUI JspinDoubleText;
+//     [SerializeField] private TextMeshProUGUI JspinTripleText;
+//     [SerializeField] private TextMeshProUGUI LspinText;
+//     [SerializeField] private TextMeshProUGUI LspinSingleText;
+//     [SerializeField] private TextMeshProUGUI LspinDoubleText;
+//     [SerializeField] private TextMeshProUGUI LspinTripleText;
+//     [SerializeField] private TextMeshProUGUI OspinText;
+//     [SerializeField] private TextMeshProUGUI OspinSingleText;
+//     [SerializeField] private TextMeshProUGUI OspinDoubleText;
+//     [SerializeField] private TextMeshProUGUI OspinTripleText;
+//     [SerializeField] private TextMeshProUGUI SspinText;
+//     [SerializeField] private TextMeshProUGUI SspinSingleText;
+//     [SerializeField] private TextMeshProUGUI SspinDoubleText;
+//     [SerializeField] private TextMeshProUGUI SspinTripleText;
+//     [SerializeField] private TextMeshProUGUI TspinText;
+//     [SerializeField] private TextMeshProUGUI TspinSingleText;
+//     [SerializeField] private TextMeshProUGUI TspinDoubleText;
+//     [SerializeField] private TextMeshProUGUI TspinTripleText;
+//     [SerializeField] private TextMeshProUGUI TspinMiniText;
+//     [SerializeField] private TextMeshProUGUI TspinDoubleMiniText;
+//     [SerializeField] private TextMeshProUGUI ZspinText;
+//     [SerializeField] private TextMeshProUGUI ZspinSingleText;
+//     [SerializeField] private TextMeshProUGUI ZspinDoubleText;
+//     [SerializeField] private TextMeshProUGUI ZspinTripleText;
 
 
 //     // 透明度 //
@@ -386,7 +438,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Normal_Destroy");
 
-//                         TextAnimation(OneLineClear_Text);
+//                         TextAnimation(OneLineClearText);
 
 //                         break;
 
@@ -399,7 +451,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Normal_Destroy");
 
-//                         TextAnimation(TwoLineClear_Text);
+//                         TextAnimation(TwoLineClearText);
 
 //                         break;
 
@@ -412,7 +464,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Normal_Destroy");
 
-//                         TextAnimation(ThreeLineClear_Text);
+//                         TextAnimation(ThreeLineClearText);
 
 //                         break;
 
@@ -425,7 +477,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Tetris");
 
-//                         TextAnimation(Tetris_Text);
+//                         TextAnimation(TetrisText);
 
 //                         break;
 //                 }
@@ -438,7 +490,7 @@ public class TextEffect : MonoBehaviour
 //                     case 0:
 //                         AudioManager.Instance.PlaySound("Normal_Drop");
 
-//                         TextAnimation(Jspin_Text);
+//                         TextAnimation(JspinText);
 
 //                         break;
 
@@ -449,7 +501,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(JspinSingle_Text);
+//                         TextAnimation(JspinSingleText);
 
 //                         break;
 
@@ -460,7 +512,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(JspinDouble_Text);
+//                         TextAnimation(JspinDoubleText);
 
 //                         break;
 
@@ -471,7 +523,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(JspinTriple_Text);
+//                         TextAnimation(JspinTripleText);
 
 //                         break;
 //                 }
@@ -484,7 +536,7 @@ public class TextEffect : MonoBehaviour
 //                     case 0:
 //                         AudioManager.Instance.PlaySound("Normal_Drop");
 
-//                         TextAnimation(Lspin_Text);
+//                         TextAnimation(LspinText);
 
 //                         break;
 
@@ -495,7 +547,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(LspinSingle_Text);
+//                         TextAnimation(LspinSingleText);
 
 //                         break;
 
@@ -506,7 +558,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(LspinDouble_Text);
+//                         TextAnimation(LspinDoubleText);
 
 //                         break;
 
@@ -517,7 +569,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(LspinTriple_Text);
+//                         TextAnimation(LspinTripleText);
 
 //                         break;
 //                 }
@@ -531,7 +583,7 @@ public class TextEffect : MonoBehaviour
 //                     case 0:
 //                         AudioManager.Instance.PlaySound("Normal_Drop");
 
-//                         TextAnimation(IspinMini_Text);
+//                         TextAnimation(IspinMiniText);
 
 //                         break;
 
@@ -542,7 +594,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(IspinMini_Text);
+//                         TextAnimation(IspinMiniText);
 
 //                         break;
 //                 }
@@ -556,7 +608,7 @@ public class TextEffect : MonoBehaviour
 //                     case 0:
 //                         AudioManager.Instance.PlaySound("Normal_Drop");
 
-//                         TextAnimation(Ispin_Text);
+//                         TextAnimation(IspinText);
 
 //                         break;
 
@@ -567,7 +619,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(IspinSingle_Text);
+//                         TextAnimation(IspinSingleText);
 
 //                         break;
 
@@ -578,7 +630,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(IspinDouble_Text);
+//                         TextAnimation(IspinDoubleText);
 
 //                         break;
 
@@ -589,7 +641,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(IspinTriple_Text);
+//                         TextAnimation(IspinTripleText);
 
 //                         break;
 //                     case 4:
@@ -599,7 +651,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(IspinQuattro_Text);
+//                         TextAnimation(IspinQuattroText);
 
 //                         break;
 //                 }
@@ -613,7 +665,7 @@ public class TextEffect : MonoBehaviour
 //                     case 0:
 //                         AudioManager.Instance.PlaySound("Normal_Drop");
 
-//                         TextAnimation(Tspin_Text);
+//                         TextAnimation(TspinText);
 
 //                         break;
 
@@ -624,7 +676,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(TspinSingle_Text);
+//                         TextAnimation(TspinSingleText);
 
 //                         break;
 
@@ -635,7 +687,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(TspinDouble_Text);
+//                         TextAnimation(TspinDoubleText);
 
 //                         break;
 
@@ -646,7 +698,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(TspinTriple_Text);
+//                         TextAnimation(TspinTripleText);
 
 //                         break;
 //                 }
@@ -660,7 +712,7 @@ public class TextEffect : MonoBehaviour
 //                     case 0:
 //                         AudioManager.Instance.PlaySound("Normal_Drop");
 
-//                         TextAnimation(TspinMini_Text);
+//                         TextAnimation(TspinMiniText);
 
 //                         break;
 
@@ -671,7 +723,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(TspinMini_Text);
+//                         TextAnimation(TspinMiniText);
 
 //                         break;
 
@@ -682,7 +734,7 @@ public class TextEffect : MonoBehaviour
 
 //                         AudioManager.Instance.PlaySound("Spin_Destroy");
 
-//                         TextAnimation(TspinDoubleMini_Text);
+//                         TextAnimation(TspinDoubleMiniText);
 
 //                         break;
 //                 }
@@ -760,10 +812,10 @@ public class TextEffect : MonoBehaviour
 //         TextMeshProUGUI InstantiatedText = Instantiate(_displayText, Canvas);
 
 //         // 選ばれたテキストのテキストコンポーネントとトランスフォームコンポーネントを取得
-//         TextMeshProUGUI displayText_Text = InstantiatedText.GetComponent<TextMeshProUGUI>();
+//         TextMeshProUGUI displayTextText = InstantiatedText.GetComponent<TextMeshProUGUI>();
 //         Transform displayText_Transform = InstantiatedText.GetComponent<Transform>();
 
-//         TextFadeInAndOut(displayText_Text); // 選ばれたテキストのフェードインとフェードアウトを行う
+//         TextFadeInAndOut(displayTextText); // 選ばれたテキストのフェードインとフェードアウトを行う
 
 //         TextMove(displayText_Transform); // 選ばれたテキストの移動アニメーションを行う
 //     }
@@ -827,21 +879,21 @@ public class TextEffect : MonoBehaviour
 //     // BackToBackの表示をする関数を呼ぶ関数 //
 //     private void BackToBackAnimation()
 //     {
-//         TextMeshProUGUI InstantiatedText = Instantiate(BackToBack_Text, Canvas);
+//         TextMeshProUGUI InstantiatedText = Instantiate(BackToBackText, Canvas);
 
-//         TextMeshProUGUI displayText_Text = InstantiatedText.GetComponent<TextMeshProUGUI>();
+//         TextMeshProUGUI displayTextText = InstantiatedText.GetComponent<TextMeshProUGUI>();
 
-//         TextFadeInAndOut(displayText_Text); // 選ばれたテキストのフェードインとフェードアウトを行う
+//         TextFadeInAndOut(displayTextText); // 選ばれたテキストのフェードインとフェードアウトを行う
 //     }
 
 //     // PerfectClearの表示をする関数を呼ぶ関数 //
 //     private void PerfectClearAnimation()
 //     {
-//         TextMeshProUGUI InstantiatedText = Instantiate(PerfectClear_Text, Canvas);
+//         TextMeshProUGUI InstantiatedText = Instantiate(PerfectClearText, Canvas);
 
-//         TextMeshProUGUI displayText_Text = InstantiatedText.GetComponent<TextMeshProUGUI>();
+//         TextMeshProUGUI displayTextText = InstantiatedText.GetComponent<TextMeshProUGUI>();
 
-//         TextFadeInAndOut(displayText_Text); // 選ばれたテキストのフェードインとフェードアウトを行う
+//         TextFadeInAndOut(displayTextText); // 選ばれたテキストのフェードインとフェードアウトを行う
 //     }
 
 //     // Ready Go の表示をする関数 //
@@ -855,8 +907,8 @@ public class TextEffect : MonoBehaviour
 //         float waitInterval_ready = 3f;
 //         float waitInterval_go = 2f;
 
-//         TextMeshProUGUI ready = Instantiate(Ready_Text, Canvas);
-//         TextMeshProUGUI go = Instantiate(Go_Text, Canvas);
+//         TextMeshProUGUI ready = Instantiate(ReadyText, Canvas);
+//         TextMeshProUGUI go = Instantiate(GoText, Canvas);
 
 //         Sequence sequence_ready = DOTween.Sequence();
 //         Sequence sequence_go = DOTween.Sequence(); // Sequenceの作成
@@ -949,25 +1001,25 @@ public class TextEffect : MonoBehaviour
 //         case 1:
 //             gameStatus.ResetBackToBack();
 //             RenAttackLines();
-//             PlaySoundAndAnimateText("Normal_Destroy", OneLineClear_Text);
+//             PlaySoundAndAnimateText("Normal_Destroy", OneLineClearText);
 //             break;
 //         case 2:
 //             gameStatus.ResetBackToBack();
 //             gameStatus.IncreaseAttackLines(TwoLineClearAttack);
 //             RenAttackLines();
-//             PlaySoundAndAnimateText("Normal_Destroy", TwoLineClear_Text);
+//             PlaySoundAndAnimateText("Normal_Destroy", TwoLineClearText);
 //             break;
 //         case 3:
 //             gameStatus.ResetBackToBack();
 //             gameStatus.IncreaseAttackLines(ThreeLineClearAttack);
 //             RenAttackLines();
-//             PlaySoundAndAnimateText("Normal_Destroy", ThreeLineClear_Text);
+//             PlaySoundAndAnimateText("Normal_Destroy", ThreeLineClearText);
 //             break;
 //         case 4:
 //             CheckBackToBack();
 //             RenAttackLines();
 //             gameStatus.IncreaseAttackLines(TetrisAttack);
-//             PlaySoundAndAnimateText("Tetris", Tetris_Text);
+//             PlaySoundAndAnimateText("Tetris", TetrisText);
 //             break;
 //     }
 // }
@@ -982,16 +1034,16 @@ public class TextEffect : MonoBehaviour
 //             switch (_lineClearCount)
 //             {
 //                 case 0:
-//                     displayText = Jspin_Text;
+//                     displayText = JspinText;
 //                     break;
 //                 case 1:
-//                     displayText = JspinSingle_Text;
+//                     displayText = JspinSingleText;
 //                     break;
 //                 case 2:
-//                     displayText = JspinDouble_Text;
+//                     displayText = JspinDoubleText;
 //                     break;
 //                 case 3:
-//                     displayText = JspinTriple_Text;
+//                     displayText = JspinTripleText;
 //                     break;
 //             }
 //             break;
@@ -999,16 +1051,16 @@ public class TextEffect : MonoBehaviour
 //             switch (_lineClearCount)
 //             {
 //                 case 0:
-//                     displayText = Lspin_Text;
+//                     displayText = LspinText;
 //                     break;
 //                 case 1:
-//                     displayText = LspinSingle_Text;
+//                     displayText = LspinSingleText;
 //                     break;
 //                 case 2:
-//                     displayText = LspinDouble_Text;
+//                     displayText = LspinDoubleText;
 //                     break;
 //                 case 3:
-//                     displayText = LspinTriple_Text;
+//                     displayText = LspinTripleText;
 //                     break;
 //             }
 //             break;
@@ -1017,7 +1069,7 @@ public class TextEffect : MonoBehaviour
 //             {
 //                 case 0:
 //                 case 1:
-//                     displayText = IspinMini_Text;
+//                     displayText = IspinMiniText;
 //                     break;
 //             }
 //             break;
@@ -1025,19 +1077,19 @@ public class TextEffect : MonoBehaviour
 //             switch (_lineClearCount)
 //             {
 //                 case 0:
-//                     displayText = Ispin_Text;
+//                     displayText = IspinText;
 //                     break;
 //                 case 1:
-//                     displayText = IspinSingle_Text;
+//                     displayText = IspinSingleText;
 //                     break;
 //                 case 2:
-//                     displayText = IspinDouble_Text;
+//                     displayText = IspinDoubleText;
 //                     break;
 //                 case 3:
-//                     displayText = IspinTriple_Text;
+//                     displayText = IspinTripleText;
 //                     break;
 //                 case 4:
-//                     displayText = IspinQuattro_Text;
+//                     displayText = IspinQuattroText;
 //                     break;
 //             }
 //             break;
@@ -1045,16 +1097,16 @@ public class TextEffect : MonoBehaviour
 //             switch (_lineClearCount)
 //             {
 //                 case 0:
-//                     displayText = Tspin_Text;
+//                     displayText = TspinText;
 //                     break;
 //                 case 1:
-//                     displayText = TspinSingle_Text;
+//                     displayText = TspinSingleText;
 //                     break;
 //                 case 2:
-//                     displayText = TspinDouble_Text;
+//                     displayText = TspinDoubleText;
 //                     break;
 //                 case 3:
-//                     displayText = TspinTriple_Text;
+//                     displayText = TspinTripleText;
 //                     break;
 //             }
 //             break;
@@ -1062,13 +1114,13 @@ public class TextEffect : MonoBehaviour
 //             switch (_lineClearCount)
 //             {
 //                 case 0:
-//                     displayText = TspinMini_Text;
+//                     displayText = TspinMiniText;
 //                     break;
 //                 case 1:
-//                     displayText = TspinMini_Text;
+//                     displayText = TspinMiniText;
 //                     break;
 //                 case 2:
-//                     displayText = TspinDoubleMini_Text;
+//                     displayText = TspinDoubleMiniText;
 //                     break;
 //             }
 //             break;
@@ -1076,16 +1128,16 @@ public class TextEffect : MonoBehaviour
 //             switch (_lineClearCount)
 //             {
 //                 case 1:
-//                     displayText = OneLineClear_Text;
+//                     displayText = OneLineClearText;
 //                     break;
 //                 case 2:
-//                     displayText = TwoLineClear_Text;
+//                     displayText = TwoLineClearText;
 //                     break;
 //                 case 3:
-//                     displayText = ThreeLineClear_Text;
+//                     displayText = ThreeLineClearText;
 //                     break;
 //                 case 4:
-//                     displayText = Tetris_Text;
+//                     displayText = TetrisText;
 //                     break;
 //             }
 //             break;
@@ -1104,22 +1156,22 @@ public class TextEffect : MonoBehaviour
 //     switch (spinType)
 //     {
 //         case "J-Spin":
-//             HandleSpinText(_lineClearCount, Jspin_Text, JspinSingleAttack, JspinSingle_Text, JspinDoubleAttack, JspinDouble_Text, JspinTripleAttack, JspinTriple_Text);
+//             HandleSpinText(_lineClearCount, JspinText, JspinSingleAttack, JspinSingleText, JspinDoubleAttack, JspinDoubleText, JspinTripleAttack, JspinTripleText);
 //             break;
 //         case "L-Spin":
-//             HandleSpinText(_lineClearCount, Lspin_Text, LspinSingleAttack, LspinSingle_Text, LspinDoubleAttack, LspinDouble_Text, LspinTripleAttack, LspinTriple_Text);
+//             HandleSpinText(_lineClearCount, LspinText, LspinSingleAttack, LspinSingleText, LspinDoubleAttack, LspinDoubleText, LspinTripleAttack, LspinTripleText);
 //             break;
 //         case "I-Spin Mini":
-//             HandleMiniSpinText(_lineClearCount, IspinMini_Text, IspinMiniAttack, IspinMini_Text);
+//             HandleMiniSpinText(_lineClearCount, IspinMiniText, IspinMiniAttack, IspinMiniText);
 //             break;
 //         case "I-Spin":
-//             HandleSpinText(_lineClearCount, Ispin_Text, IspinSingleAttack, IspinSingle_Text, IspinDoubleAttack, IspinDouble_Text, IspinTripleAttack, IspinTriple_Text, IspinQuattroAttack, IspinQuattro_Text);
+//             HandleSpinText(_lineClearCount, IspinText, IspinSingleAttack, IspinSingleText, IspinDoubleAttack, IspinDoubleText, IspinTripleAttack, IspinTripleText, IspinQuattroAttack, IspinQuattroText);
 //             break;
 //         case "T-Spin":
-//             HandleSpinText(_lineClearCount, Tspin_Text, TspinSingleAttack, TspinSingle_Text, TspinDoubleAttack, TspinDouble_Text, TspinTripleAttack, TspinTriple_Text);
+//             HandleSpinText(_lineClearCount, TspinText, TspinSingleAttack, TspinSingleText, TspinDoubleAttack, TspinDoubleText, TspinTripleAttack, TspinTripleText);
 //             break;
 //         case "T-Spin Mini":
-//             HandleMiniSpinText(_lineClearCount, TspinMini_Text, TspinMiniAttack, TspinMini_Text, TspinDoubleMiniAttack, TspinDoubleMini_Text);
+//             HandleMiniSpinText(_lineClearCount, TspinMiniText, TspinMiniAttack, TspinMiniText, TspinDoubleMiniAttack, TspinDoubleMiniText);
 //             break;
 //     }
 // }
@@ -1264,7 +1316,7 @@ public class TextEffect : MonoBehaviour
 // private void CheckBackToBack(SpinTypeNames _spinType, TextMeshProUGUI _displayText)
 // {
 //     // Spin判定がない、かつテトリスでない場合
-//     if (_spinType == SpinTypeNames.None && _displayText != Tetris_Text)
+//     if (_spinType == SpinTypeNames.None && _displayText != TetrisText)
 //     {
 //         // BackToBack判定をリセット
 //         gameStatus.ResetBackToBack();

@@ -122,7 +122,7 @@ public class GameAutoRunner : MonoBehaviour
         }
         else
         {
-            if (spinCheck.SpinTypeName != SpinTypeNames.I_Spin)
+            if (spinCheck.SpinTypeName != SpinTypeNames.Ispin)
             {
                 spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
             }
