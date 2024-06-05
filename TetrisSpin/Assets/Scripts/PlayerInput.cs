@@ -1,6 +1,41 @@
 using UnityEngine;
 
 /// <summary>
+/// PlayerInputの統計情報を保持する静的クラス
+/// </summary>
+public static class PlayerInputStats
+{
+    /// <summary> ホールドの使用判定 </summary>
+    private static bool useHold = false;
+    /// <summary> ゲーム中で最初のホールドの使用判定 </summary>
+    private static bool firstHold = true;
+
+    // ゲッタープロパティ //
+    public static bool UseHold => useHold;
+    public static bool FirstHold => firstHold;
+
+    /// <summary> 指定されたフィールドの値を更新する関数 </summary>
+    /// <param name="_useHold"> ホールドの使用判定 </param>
+    /// <param name="_firstHold"> ゲーム中で最初のホールドの使用判定 </param>
+    /// <remarks>
+    /// 指定されていない引数は現在の値を維持
+    /// </remarks>
+    public static void Update(bool? _useHold = null, bool? _firstHold = null)
+    {
+        useHold = _useHold ?? useHold;
+        firstHold = _firstHold ?? firstHold;
+        // TODO: ログの記入
+    }
+
+    /// <summary> デフォルトの <see cref="AttackCalculatorStats"/> にリセットする関数 </summary>
+    public static void Reset()
+    {
+        useHold = false;
+        firstHold = true;
+    }
+}
+
+/// <summary>
 /// プレイヤーの入力を処理するクラス
 /// </summary>
 public class PlayerInput : MonoBehaviour
@@ -275,21 +310,21 @@ public class PlayerInput : MonoBehaviour
     /// <summary> ホールド入力時の処理を行う関数 </summary>
     private void HoldInput()
     {
-        if (GameManagerStats.UseHold == false)
+        if (PlayerInputStats.UseHold == false)
         {
-            GameManagerStats.Update(_useHold: true);
+            PlayerInputStats.Update(_useHold: true);
             AudioManager.Instance.PlaySound(AudioNames.Hold);
             gameAutoRunner.ResetRockDown();
 
-            if (GameManagerStats.FirstHold == true) // ゲーム中で最初のHoldだった時
+            if (PlayerInputStats.FirstHold == true) // ゲーム中で最初のHoldだった時
             {
                 GameManagerStats.Update(_minoPopNumber: GameManagerStats.MinoPopNumber + 1);
-                spawner.CreateHoldMino(GameManagerStats.FirstHold, GameManagerStats.MinoPopNumber);
-                GameManagerStats.Update(_firstHold: false);
+                spawner.CreateHoldMino(PlayerInputStats.FirstHold, GameManagerStats.MinoPopNumber);
+                PlayerInputStats.Update(_firstHold: false);
             }
             else
             {
-                spawner.CreateHoldMino(GameManagerStats.FirstHold, GameManagerStats.MinoPopNumber);
+                spawner.CreateHoldMino(PlayerInputStats.FirstHold, GameManagerStats.MinoPopNumber);
             }
         }
     }
@@ -331,7 +366,7 @@ public class PlayerInput : MonoBehaviour
     private void IncreaseBottomMoveCount()
     {
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "IncreaseBottomMoveCount()", "Start");
-        GameManagerStats.Update(_bottomMoveCount: GameManagerStats.BottomMoveCount + 1);
+        GameAutoRunnerStats.Update(_bottomMoveCount: GameAutoRunnerStats.BottomMoveCount + 1);
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "IncreaseBottomMoveCount()", "End");
     }
 }

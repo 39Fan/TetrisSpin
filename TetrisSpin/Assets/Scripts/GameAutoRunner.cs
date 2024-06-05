@@ -1,6 +1,51 @@
 using UnityEngine;
 
 /// <summary>
+/// GameAutoRunnerの統計情報を保持する静的クラス
+/// </summary>
+public static class GameAutoRunnerStats
+{
+    /// <summary> ロックダウンの移動回数 </summary>
+    /// <remarks>
+    /// ミノがボトムに到達してからの移動回数を表す
+    /// </remarks>
+    /// <value> 0~15 </value>
+    private static int bottomMoveCount = 0;
+    /// <summary> 操作中のミノを構成するブロックのうち、最も低い y 座標を保持する変数 </summary>
+    /// <remarks>
+    /// ロックダウンの処理に必要 <br/>
+    /// この値が更新されるたびにロックダウンの移動回数制限がリセットされる <br/>
+    /// 初期値はゲームボードの最高高さである 20 に設定
+    /// </remarks>
+    /// <value> 0~20 </value>
+    private static int lowestBlockPositionY = 20;
+
+    // ゲッタープロパティ //
+    public static int BottomMoveCount => bottomMoveCount;
+    public static int LowestBlockPositionY => lowestBlockPositionY;
+
+    /// <summary> 指定されたフィールドの値を更新する関数 </summary>
+    /// <param name="_bottomMoveCount"> ロックダウンの移動回数 </param>
+    /// <param name="_lowestBlockPositionY"> 操作中のミノを構成するブロックのうち、最も低い y 座標を保持する変数 </param>
+    /// <remarks>
+    /// 指定されていない引数は現在の値を維持
+    /// </remarks>
+    public static void Update(int? _bottomMoveCount = null, int? _lowestBlockPositionY = null)
+    {
+        bottomMoveCount = _bottomMoveCount ?? bottomMoveCount;
+        lowestBlockPositionY = _lowestBlockPositionY ?? lowestBlockPositionY;
+        // TODO: ログの記入
+    }
+
+    /// <summary> デフォルトの <see cref="AttackCalculatorStats"/> にリセットする関数 </summary>
+    public static void Reset()
+    {
+        bottomMoveCount = 0;
+        lowestBlockPositionY = 20;
+    }
+}
+
+/// <summary>
 /// ゲーム中の自動処理を行うクラス
 /// </summary>
 public class GameAutoRunner : MonoBehaviour
@@ -32,11 +77,11 @@ public class GameAutoRunner : MonoBehaviour
         int bottomMoveCountLimit = 15;
         int newBottomBlockPositionY = board.CheckActiveMinoBottomBlockPositionY(spawner.ActiveMino);
 
-        if (GameManagerStats.LowestBlockPositionY <= newBottomBlockPositionY) // lowestBlockPositionYが更新されていない場合
+        if (GameAutoRunnerStats.LowestBlockPositionY <= newBottomBlockPositionY) // lowestBlockPositionYが更新されていない場合
         {
             spawner.ActiveMino.MoveDown();
 
-            if (!board.CheckPosition(spawner.ActiveMino) && (Time.time >= Timer.BottomTimer || GameManagerStats.BottomMoveCount >= bottomMoveCountLimit))
+            if (!board.CheckPosition(spawner.ActiveMino) && (Time.time >= Timer.BottomTimer || GameAutoRunnerStats.BottomMoveCount >= bottomMoveCountLimit))
             {
                 spawner.ActiveMino.MoveUp(); // 元の位置に戻す
                 SetMinoFixed(); // ミノの設置判定
@@ -48,8 +93,8 @@ public class GameAutoRunner : MonoBehaviour
         }
         else // lowestBlockPositionYが更新された場合
         {
-            GameManagerStats.Update(_bottomMoveCount: 0);
-            GameManagerStats.Update(_lowestBlockPositionY: newBottomBlockPositionY); // BottomPositionの更新
+            GameAutoRunnerStats.Update(_bottomMoveCount: 0);
+            GameAutoRunnerStats.Update(_lowestBlockPositionY: newBottomBlockPositionY); // BottomPositionの更新
         }
 
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameAutoRunner", "RockDown()", "End");
@@ -59,7 +104,7 @@ public class GameAutoRunner : MonoBehaviour
     public void ResetRockDown()
     {
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameAutoRunner", "ResetRockDown()", "Start");
-        GameManagerStats.Update(_bottomMoveCount: 0, _lowestBlockPositionY: 20);
+        GameAutoRunnerStats.Update(_bottomMoveCount: 0, _lowestBlockPositionY: 20);
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameAutoRunner", "ResetRockDown()", "End");
     }
 
@@ -122,7 +167,8 @@ public class GameAutoRunner : MonoBehaviour
         minoMovement.ResetStepsSRS();
 
         GameManagerStats.Update(_minoPutNumber: GameManagerStats.MinoPutNumber + 1,
-            _minoPopNumber: GameManagerStats.MinoPopNumber + 1, _useHold: false);
+            _minoPopNumber: GameManagerStats.MinoPopNumber + 1);
+        PlayerInputStats.Update(_useHold: false);
 
         spawner.CreateNewActiveMino(GameManagerStats.MinoPopNumber);
 

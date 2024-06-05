@@ -10,15 +10,15 @@ public static class SpawnerStats
     private static List<MinoType> spawnMinoOrders = new List<MinoType>();
 
     /// <summary> 操作中のミノの名前 </summary>
-    private static MinoType activeMinoName;
+    private static MinoType activeMinoName = default;
     /// <summary> ホールドミノの名前 </summary>
-    private static MinoType holdMinoName;
+    private static MinoType holdMinoName = default;
 
     /// <summary> 操作中のミノから底までの距離 </summary>
     /// <remarks>
     /// ゴーストミノの生成座標の計算で必要
     /// </remarks>
-    private static int activeMinoToBaseDistance;
+    private static int activeMinoToBaseDistance = 20;
 
     // ゲッタープロパティ //
     public static List<MinoType> SpawnMinoOrders => spawnMinoOrders;
@@ -47,7 +47,7 @@ public static class SpawnerStats
         spawnMinoOrders.Clear();
         activeMinoName = default;
         holdMinoName = default;
-        activeMinoToBaseDistance = 0;
+        activeMinoToBaseDistance = 20;
     }
 
     /// <summary> 生成されるミノの順番リストを追加する関数 </summary>
