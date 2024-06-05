@@ -65,7 +65,7 @@ public static class SpawnerStats
 public class Spawner : MonoBehaviour
 {
     /// <summary> 操作中のミノ </summary>
-    [SerializeField] private MinoMovement activeMino;
+    private MinoMovement activeMino;
     /// <summary> ゴーストミノ </summary>
     private MinoMovement ghostMino;
     /// <summary> ネクストミノリスト </summary>

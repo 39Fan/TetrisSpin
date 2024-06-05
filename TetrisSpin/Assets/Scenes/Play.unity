@@ -152,7 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13fd6ddfa99bc4183af351d9db533291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spinTypeName: 9
 --- !u!4 &68356027
 Transform:
   m_ObjectHideFlags: 0
@@ -692,35 +691,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 2107780354}
-  Ready_Text: {fileID: 9221938030515851941, guid: ba777e16d465e411eb29779eb7d62dbc, type: 3}
-  Go_Text: {fileID: 3577881937356462567, guid: 395db873edb3443bb8d63a0ce5287ca5, type: 3}
-  BackToBack_Text: {fileID: 138140958047380289, guid: 606b83e3cd79f40fea5d8afd44151be1, type: 3}
-  PerfectClear_Text: {fileID: 138140958047380289, guid: 0e078f4bc0d244d7688af4be35653f89, type: 3}
-  Rens_Text: {fileID: 0}
-  OneLineClear_Text: {fileID: 685415778677099611, guid: 87fc86337995d4a27b637924744ac573, type: 3}
-  TwoLineClear_Text: {fileID: 5712830375027673458, guid: 6fc986b153f6848e09a5dc2c98ea49d0, type: 3}
-  ThreeLineClear_Text: {fileID: 4037795811324003423, guid: cd1b7d9fa2946455bb9b8aab9d15694c, type: 3}
-  Tetris_Text: {fileID: 3700903264843670351, guid: 0728881853df94d3b943b9c767ad24d4, type: 3}
-  Ispin_Text: {fileID: 1633818741928931802, guid: ddb5ce2ec30a9411893204bee98ed0d1, type: 3}
-  IspinSingle_Text: {fileID: 1633818741928931802, guid: b97011915398c47bdb88149d17d01598, type: 3}
-  IspinDouble_Text: {fileID: 1633818741928931802, guid: 6ba44b035e0a0418f8ff3c289f6f67d8, type: 3}
-  IspinTriple_Text: {fileID: 1633818741928931802, guid: 3ff12905f9a3140969707e58893957bb, type: 3}
-  IspinQuattro_Text: {fileID: 1633818741928931802, guid: 927923c1eebec4c52874e6098f41c35a, type: 3}
-  IspinMini_Text: {fileID: 1633818741928931802, guid: 7782e64310467467fb97b7a8ca91e125, type: 3}
-  Jspin_Text: {fileID: 1633818741928931802, guid: 7e2e276afe8b248a3a5a77779cceede5, type: 3}
-  JspinSingle_Text: {fileID: 1633818741928931802, guid: d52466654870c4171a12ee0e0ef30baa, type: 3}
-  JspinDouble_Text: {fileID: 1633818741928931802, guid: e3239d1e383b54b4a88082f3f857ee6b, type: 3}
-  JspinTriple_Text: {fileID: 1633818741928931802, guid: 898691e00d3084461884b786edb786c4, type: 3}
-  Lspin_Text: {fileID: 1633818741928931802, guid: e3a4ebc2d5cd94bbbb4904543ba648d0, type: 3}
-  LspinSingle_Text: {fileID: 1633818741928931802, guid: fc57b03800c7b428ca031b36db05a67b, type: 3}
-  LspinDouble_Text: {fileID: 1633818741928931802, guid: f6bad036c74524d26b17ce66ce2aa3b2, type: 3}
-  LspinTriple_Text: {fileID: 1633818741928931802, guid: dce5bc7eccbb24e378a4f690da162eb2, type: 3}
-  Tspin_Text: {fileID: 1633818741928931802, guid: 5ef42f5abaac74b4e804d66327192c15, type: 3}
-  TspinSingle_Text: {fileID: 3191080098678034068, guid: ed0023454acc34073808e26c4b5d1bc5, type: 3}
-  TspinDouble_Text: {fileID: 835706068503385815, guid: 61190addfd5524551bfdb282933266c5, type: 3}
-  TspinTriple_Text: {fileID: 2910127633995747759, guid: d350f8e514897454f94a332eab911e30, type: 3}
-  TspinMini_Text: {fileID: 9112384351425725138, guid: e215bbfd339f746b6aa508510d2f2363, type: 3}
-  TspinDoubleMini_Text: {fileID: 1481246784689171504, guid: cd2c8d2acc8cc43eaac72b8fd66e1560, type: 3}
+  ReadyText: {fileID: 9221938030515851941, guid: ba777e16d465e411eb29779eb7d62dbc, type: 3}
+  GoText: {fileID: 3577881937356462567, guid: 395db873edb3443bb8d63a0ce5287ca5, type: 3}
+  BackToBackText: {fileID: 138140958047380289, guid: 606b83e3cd79f40fea5d8afd44151be1, type: 3}
+  PerfectClearText: {fileID: 138140958047380289, guid: 0e078f4bc0d244d7688af4be35653f89, type: 3}
+  RensText: {fileID: 0}
+  OneLineClearText: {fileID: 685415778677099611, guid: 87fc86337995d4a27b637924744ac573, type: 3}
+  TwoLineClearText: {fileID: 5712830375027673458, guid: 6fc986b153f6848e09a5dc2c98ea49d0, type: 3}
+  ThreeLineClearText: {fileID: 4037795811324003423, guid: cd1b7d9fa2946455bb9b8aab9d15694c, type: 3}
+  TetrisText: {fileID: 3700903264843670351, guid: 0728881853df94d3b943b9c767ad24d4, type: 3}
+  IspinText: {fileID: 1633818741928931802, guid: ddb5ce2ec30a9411893204bee98ed0d1, type: 3}
+  IspinSingleText: {fileID: 1633818741928931802, guid: b97011915398c47bdb88149d17d01598, type: 3}
+  IspinDoubleText: {fileID: 1633818741928931802, guid: 6ba44b035e0a0418f8ff3c289f6f67d8, type: 3}
+  IspinTripleText: {fileID: 1633818741928931802, guid: 3ff12905f9a3140969707e58893957bb, type: 3}
+  IspinQuattroText: {fileID: 1633818741928931802, guid: 927923c1eebec4c52874e6098f41c35a, type: 3}
+  IspinMiniText: {fileID: 1633818741928931802, guid: 7782e64310467467fb97b7a8ca91e125, type: 3}
+  JspinText: {fileID: 1633818741928931802, guid: 7e2e276afe8b248a3a5a77779cceede5, type: 3}
+  JspinSingleText: {fileID: 1633818741928931802, guid: d52466654870c4171a12ee0e0ef30baa, type: 3}
+  JspinDoubleText: {fileID: 1633818741928931802, guid: e3239d1e383b54b4a88082f3f857ee6b, type: 3}
+  JspinTripleText: {fileID: 1633818741928931802, guid: 898691e00d3084461884b786edb786c4, type: 3}
+  JpinMiniText: {fileID: 1633818741928931802, guid: 19b1c7646441c45b2a7e4e054d3ef7cc, type: 3}
+  JspinDoubleMiniText: {fileID: 1633818741928931802, guid: 9516a476bf5924623b4595036292790b, type: 3}
+  JspinTripleMiniText: {fileID: 1633818741928931802, guid: 47ad1812cd7bd4e409bbeff50423eba1, type: 3}
+  LspinText: {fileID: 1633818741928931802, guid: e3a4ebc2d5cd94bbbb4904543ba648d0, type: 3}
+  LspinSingleText: {fileID: 1633818741928931802, guid: fc57b03800c7b428ca031b36db05a67b, type: 3}
+  LspinDoubleText: {fileID: 1633818741928931802, guid: f6bad036c74524d26b17ce66ce2aa3b2, type: 3}
+  LspinTripleText: {fileID: 1633818741928931802, guid: dce5bc7eccbb24e378a4f690da162eb2, type: 3}
+  LspinMiniText: {fileID: 1633818741928931802, guid: 6adc81c51e34a442faf8448e4b921893, type: 3}
+  LspinDoubleMiniText: {fileID: 1633818741928931802, guid: 94af4db35f77b48d4b35e4aef539a086, type: 3}
+  LspinTripleMiniText: {fileID: 1633818741928931802, guid: d5b44603aba5b49d58fb771efe6b77d6, type: 3}
+  SspinText: {fileID: 1633818741928931802, guid: 1d379767a24694dd3841582bb64b56ba, type: 3}
+  SspinSingleText: {fileID: 1633818741928931802, guid: b5c4f061f176d4ec19df0ae20edfe2de, type: 3}
+  SspinDoubleText: {fileID: 1633818741928931802, guid: c340b95820b3d48e49dca8d022d04b56, type: 3}
+  SspinTripleText: {fileID: 1633818741928931802, guid: bd8c63e1c858b49d98ae558be5adfe0d, type: 3}
+  SspinMiniText: {fileID: 1633818741928931802, guid: c3c6dbaa3e3ea4de99a69f6d5eabe78a, type: 3}
+  SspinDoubleMiniText: {fileID: 1633818741928931802, guid: 782683de2b0414ad8a5f4df358023372, type: 3}
+  SspinTripleMiniText: {fileID: 1633818741928931802, guid: c89cdcee7f4d843cbba97f165cd1a5a3, type: 3}
+  TspinText: {fileID: 1633818741928931802, guid: 5ef42f5abaac74b4e804d66327192c15, type: 3}
+  TspinSingleText: {fileID: 3191080098678034068, guid: ed0023454acc34073808e26c4b5d1bc5, type: 3}
+  TspinDoubleText: {fileID: 835706068503385815, guid: 61190addfd5524551bfdb282933266c5, type: 3}
+  TspinTripleText: {fileID: 2910127633995747759, guid: d350f8e514897454f94a332eab911e30, type: 3}
+  TspinMiniText: {fileID: 9112384351425725138, guid: e215bbfd339f746b6aa508510d2f2363, type: 3}
+  TspinDoubleMiniText: {fileID: 1481246784689171504, guid: cd2c8d2acc8cc43eaac72b8fd66e1560, type: 3}
+  ZspinText: {fileID: 1633818741928931802, guid: f46770d0d3d3a4b9f9f62fa1833a684a, type: 3}
+  ZspinSingleText: {fileID: 1633818741928931802, guid: 3bfe59f2b188544228df4295c877f85e, type: 3}
+  ZspinDoubleText: {fileID: 1633818741928931802, guid: 1aff8ae31e3f845b0b3cbfd2ce7ba16c, type: 3}
+  ZspinTripleText: {fileID: 1633818741928931802, guid: 4486c90851b3445508867dc1ff38146a, type: 3}
+  ZspinMiniText: {fileID: 1633818741928931802, guid: 5e4cdef47082c49489478a425d50dcd4, type: 3}
+  ZspinDoubleMiniText: {fileID: 1633818741928931802, guid: fe5126d7973a7408e83bc606e20a1b3c, type: 3}
+  ZspinTripleMiniText: {fileID: 1633818741928931802, guid: 885e83c5252b549f7b6f83a83fc69886, type: 3}
 --- !u!1 &2011930346
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,7 +784,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318efbfd3445240e293384397c19f498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeMino: {fileID: 0}
   minos:
   - {fileID: 8307858071370145673, guid: 65ec4392ea54e4033a5b0b26a3c63d7f, type: 3}
   - {fileID: 1286937462468131724, guid: 0a52b5d5e205845afb556f4b9d8f1fce, type: 3}
