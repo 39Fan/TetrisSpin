@@ -4,7 +4,7 @@ using System.Collections.Generic;
 /// <summary>
 /// スクリプト一覧
 /// </summary>
-public enum Scripts
+public enum eScripts
 {
     AudioManager,
     Board,
@@ -23,7 +23,7 @@ public enum Scripts
 /// <summary>
 /// 関数一覧
 /// </summary>
-public enum Method
+public enum eMethod
 {
     //
 }
@@ -36,7 +36,7 @@ public static class LogHelper
     /// <summary>
     /// ログのレベルを定義する列挙型
     /// </summary>
-    public enum LogLevel
+    public enum eLogLevel
     {
         Debug,
         Info,
@@ -81,13 +81,13 @@ public static class LogHelper
     /// <param name="_script"> スクリプト名 </param>
     /// <param name="_method"> メソッド名 </param>
     /// <param name="_title_or_Info"> タイトルまたは情報 </param>
-    public static void Log(LogLevel _level, string _script, string _method, string _title_or_Info)
+    public static void Log(eLogLevel _level, string _script, string _method, string _title_or_Info)
     {
-        if (_level == LogLevel.Debug)
+        if (_level == eLogLevel.Debug)
         {
             DebugLog(_level, _script, _method, _title_or_Info);
         }
-        else if (_level == LogLevel.Info)
+        else if (_level == eLogLevel.Info)
         {
             InfoLog(_level, _script, _method, _title_or_Info);
         }
@@ -98,7 +98,7 @@ public static class LogHelper
     /// <param name="script"> スクリプト名 </param>
     /// <param name="method"> メソッド名 </param>
     /// <param name="title"> タイトル </param>
-    private static void DebugLog(LogLevel level, string script, string method, string title)
+    private static void DebugLog(eLogLevel level, string script, string method, string title)
     {
         if (DebugMessages.TryGetValue(title, out string message)) // Keyの照合を行う
         {
@@ -117,7 +117,7 @@ public static class LogHelper
     /// <param name="script"> スクリプト名 </param>
     /// <param name="method"> メソッド名 </param>
     /// <param name="info"> 情報 </param>
-    private static void InfoLog(LogLevel level, string script, string method, string info)
+    private static void InfoLog(eLogLevel level, string script, string method, string info)
     {
         string logMessage = FormatInfoLogMessage(level, script, method, info);
         Debug.Log(logMessage);
@@ -130,7 +130,7 @@ public static class LogHelper
     /// <param name="title">タイトル</param>
     /// <param name="message">メッセージ</param>
     /// <returns> フォーマットされたログメッセージ </returns>
-    private static string FormatDebugLogMessage(LogLevel level, string script, string method, string title, string message)
+    private static string FormatDebugLogMessage(eLogLevel level, string script, string method, string title, string message)
     {
         string color = GetColorByLevel(level);
         return $"<size=10><color={color}>[{level}] [{script}] [{method}]</color> {title} / {message}</size>";
@@ -142,7 +142,7 @@ public static class LogHelper
     /// <param name="method"> メソッド名 </param>
     /// <param name="info"> 情報 </param>
     /// <returns> フォーマットされたログメッセージ </returns>
-    private static string FormatInfoLogMessage(LogLevel level, string script, string method, string info)
+    private static string FormatInfoLogMessage(eLogLevel level, string script, string method, string info)
     {
         string color = GetColorByLevel(level);
         return $"<size=10><color={color}>[{level}] [{script}] [{method}]</color> {info}</size>";
@@ -151,17 +151,17 @@ public static class LogHelper
     /// <summary> ログレベルに応じて色を選択する関数 </summary>
     /// <param name="level"> ログレベル </param>
     /// <returns> 色 </returns>
-    private static string GetColorByLevel(LogLevel level)
+    private static string GetColorByLevel(eLogLevel level)
     {
         switch (level)
         {
-            case LogLevel.Debug:
+            case eLogLevel.Debug:
                 return "#98FB98"; // PaleGreen (優しい緑)
-            case LogLevel.Info:
+            case eLogLevel.Info:
                 return "#ADD8E6"; // LightBlue (優しい青)
-            case LogLevel.Warning:
+            case eLogLevel.Warning:
                 return "yellow";
-            case LogLevel.Error:
+            case eLogLevel.Error:
                 return "red";
             default:
                 return "white";

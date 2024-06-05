@@ -59,22 +59,22 @@ public class TextEffect : MonoBehaviour
         {
             if (_lineClearCount >= 1)
             {
-                AudioManager.Instance.PlaySound(AudioNames.SpinDestroy);
+                AudioManager.Instance.PlaySound(eAudioName.SpinDestroy);
             }
             else
             {
-                AudioManager.Instance.PlaySound(AudioNames.NormalDestroy);
+                AudioManager.Instance.PlaySound(eAudioName.NormalDestroy);
             }
         }
         else
         {
             if (_lineClearCount >= 1)
             {
-                AudioManager.Instance.PlaySound(AudioNames.NormalDestroy);
+                AudioManager.Instance.PlaySound(eAudioName.NormalDestroy);
             }
             else
             {
-                AudioManager.Instance.PlaySound(AudioNames.NormalDrop);
+                AudioManager.Instance.PlaySound(eAudioName.NormalDrop);
             }
         }
     }
