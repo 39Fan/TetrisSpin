@@ -197,7 +197,7 @@ public class AttackCalculator : MonoBehaviour
         if (board.CheckPerfectClear())
         {
             AttackCalculatorStats.Update(_perfectClear: true);
-            AttackCalculatorStats.Update(_attackLines: perfectClearBonus);
+            AttackCalculatorStats.Update(_attackLines: AttackCalculatorStats.AttackLines + perfectClearBonus);
 
             textEffect.PerfectClearAnimation();
         }
