@@ -18,55 +18,24 @@ public static class GameManagerStats
     /// ホールドを使用すると、その時点からミノの生成数より1小さくなる
     /// </remarks>
     private static int minoPutNumber = 0;
-    /// <summary> ロックダウンの移動回数 </summary>
-    /// <remarks>
-    /// ミノがボトムに到達してからの移動回数を表す
-    /// </remarks>
-    /// <value> 0~15 </value>
-    private static int bottomMoveCount = 0;
-    /// <summary> 操作中のミノを構成するブロックのうち、最も低い y 座標を保持するプロパティ </summary>
-    /// <remarks>
-    /// ロックダウンの処理に必要 <br/>
-    /// この値が更新されるたびにロックダウンの移動回数制限がリセットされる <br/>
-    /// 初期値はゲームボードの最高高さである 20 に設定
-    /// </remarks>
-    /// <value> 0~20 </value>
-    private static int lowestBlockPositionY = 20;
-    /// <summary> ホールドの使用判定 </summary>
-    private static bool useHold = false;
-    /// <summary> ゲーム中で最初のホールドの使用判定 </summary>
-    private static bool firstHold = true;
 
     // ゲッタープロパティ //
     public static bool GameOver => gameOver;
     public static int MinoPopNumber => minoPopNumber;
     public static int MinoPutNumber => minoPutNumber;
-    public static int BottomMoveCount => bottomMoveCount;
-    public static int LowestBlockPositionY => lowestBlockPositionY;
-    public static bool UseHold => useHold;
-    public static bool FirstHold => firstHold;
 
     /// <summary> 指定されたフィールドの値を更新する関数 </summary>
     /// <param name="_gameOver"> ゲームオーバー判定 </param>
     /// <param name="_minoPopNumber"> ミノの生成数 </param>
     /// <param name="_minoPutNumber"> ミノの設置数 </param>
-    /// <param name="_bottomMoveCount"> ロックダウンの移動回数 </param>
-    /// <param name="_lowestBlockPositionY"> 最も低いブロックのy座標 </param>
-    /// <param name="_useHold"> ホールドの使用判定 </param>
-    /// <param name="_firstHold"> ゲーム中で最初のホールドの使用判定 </param>
     /// <remarks>
     /// 指定されていない引数は現在の値を維持
     /// </remarks>
-    public static void Update(bool? _gameOver = null, int? _minoPopNumber = null, int? _minoPutNumber = null, int? _bottomMoveCount = null,
-        int? _lowestBlockPositionY = null, bool? _useHold = null, bool? _firstHold = null)
+    public static void Update(bool? _gameOver = null, int? _minoPopNumber = null, int? _minoPutNumber = null)
     {
         gameOver = _gameOver ?? gameOver;
         minoPopNumber = _minoPopNumber ?? minoPopNumber;
         minoPutNumber = _minoPutNumber ?? minoPutNumber;
-        bottomMoveCount = _bottomMoveCount ?? bottomMoveCount;
-        lowestBlockPositionY = _lowestBlockPositionY ?? lowestBlockPositionY;
-        useHold = _useHold ?? useHold;
-        firstHold = _firstHold ?? firstHold;
         // TODO: ログの記入
     }
 
@@ -76,10 +45,6 @@ public static class GameManagerStats
         gameOver = false;
         minoPopNumber = 0;
         minoPutNumber = 0;
-        bottomMoveCount = 0;
-        lowestBlockPositionY = 20;
-        useHold = false;
-        firstHold = true;
     }
 }
 
