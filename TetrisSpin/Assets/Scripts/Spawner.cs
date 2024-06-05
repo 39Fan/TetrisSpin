@@ -232,6 +232,20 @@ public class Spawner : MonoBehaviour
         return newActiveMinoToBaseDistance;
     }
 
+    /// <summary> ゴーストミノの位置調整を行う関数 </summary>
+    public void AdjustGhostMinoPosition()
+    {
+        SpawnerStats.Update(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
+
+        // 操作中のミノの各座標を格納する変数を宣言
+        int activeMinoPos_x = Mathf.RoundToInt(activeMino.transform.position.x);
+        int activeMinoPos_y = Mathf.RoundToInt(activeMino.transform.position.y);
+        int activeMinoPos_z = Mathf.RoundToInt(activeMino.transform.position.z);
+
+        ghostMino.transform.rotation = activeMino.transform.rotation; // 向きの調整
+        ghostMino.transform.position = new Vector3(activeMinoPos_x, activeMinoPos_y - SpawnerStats.ActiveMinoToBaseDistance, activeMinoPos_z); // 位置の調整
+    }
+
     /// <summary> 新しい activeMino を生成する際の処理をする関数 </summary>
     /// <param name="_minoPopNumber"> ミノの生成数 </param>
     public void CreateNewActiveMino(int _minoPopNumber)
@@ -254,20 +268,6 @@ public class Spawner : MonoBehaviour
 
         ghostMino = SpawnGhostMino(ghostMinoDictionary[SpawnerStats.SpawnMinoOrders[_minoPopNumber]], activeMino, SpawnerStats.ActiveMinoToBaseDistance); // ゴーストミノの生成も同時に行う
         // SpawnerStats.Update(_activeMino: SpawnGhostMino(ghostMinoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber]], activeMino, activeMinoToBaseDistance));
-    }
-
-    /// <summary> ゴーストミノの位置調整を行う関数 </summary>
-    public void AdjustGhostMinoPosition()
-    {
-        SpawnerStats.Update(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
-
-        // 操作中のミノの各座標を格納する変数を宣言
-        int activeMinoPos_x = Mathf.RoundToInt(activeMino.transform.position.x);
-        int activeMinoPos_y = Mathf.RoundToInt(activeMino.transform.position.y);
-        int activeMinoPos_z = Mathf.RoundToInt(activeMino.transform.position.z);
-
-        ghostMino.transform.rotation = activeMino.transform.rotation; // 向きの調整
-        ghostMino.transform.position = new Vector3(activeMinoPos_x, activeMinoPos_y - SpawnerStats.ActiveMinoToBaseDistance, activeMinoPos_z); // 位置の調整
     }
 
     /// <summary>  ネクストミノを生成する関数 </summary>
@@ -394,9 +394,9 @@ public class Spawner : MonoBehaviour
     /// <param name="_selectMino"> 生成するミノの種類 </param>
     /// <param name="_nextMinoOrder"> 何番目のネクストか </param>
     /// <returns> 新しい nextMino (newNextMino) </returns>
-    public MinoMovement SpawnNextMino(MinoMovement _SelectMino, int _nextMinoOrder)
+    public MinoMovement SpawnNextMino(MinoMovement _selectMino, int _nextMinoOrder)
     {
-        MinoMovement newNextMino = Instantiate(_SelectMino,
+        MinoMovement newNextMino = Instantiate(_selectMino,
             nextMinoPositions[_nextMinoOrder], Quaternion.identity);
 
         return newNextMino;
@@ -405,9 +405,9 @@ public class Spawner : MonoBehaviour
     /// <summary> 新しい holdMino を生成する関数 </summary>
     /// <param name="_selectMino"> 生成するミノの種類 </param>
     /// <returns> 新しい holdMino (newHoldMino) </returns>
-    public MinoMovement SpawnHoldMino(MinoMovement _SelectMino)
+    public MinoMovement SpawnHoldMino(MinoMovement _selectMino)
     {
-        MinoMovement newHoldMino = Instantiate(_SelectMino,
+        MinoMovement newHoldMino = Instantiate(_selectMino,
         holdMinoPosition, Quaternion.identity);
 
         if (newHoldMino)
