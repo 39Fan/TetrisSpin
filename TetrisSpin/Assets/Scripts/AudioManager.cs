@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary> オーディオ名 列挙型 </summary>
-public enum AudioNames
+public enum eAudioName
 {
     GameOver,
     HardDrop,
@@ -33,12 +33,12 @@ public class AudioManager : MonoBehaviour
 
     /// <summary> 各種オーディオクリップの配列 </summary>
     /// <remarks>
-    /// AudioNamesと対応
+    /// eAudioNameと対応
     /// </remarks>
     [SerializeField] private AudioClip[] Audios;
 
-    /// <summary> AudioNames と AudioClip の辞書</summary>
-    private Dictionary<AudioNames, AudioClip> AudioClipDictionary;
+    /// <summary> eAudioName と AudioClip の辞書</summary>
+    private Dictionary<eAudioName, AudioClip> AudioClipDictionary;
 
     /// <summary> 低ボリュームの値(0.2f) </summary>
     private float LowVolume = 0.2f;
@@ -71,9 +71,9 @@ public class AudioManager : MonoBehaviour
     /// <summary> AudioName と AudioClip の辞書を作成する関数 </summary>
     private void BuildAudioClipDictionary()
     {
-        AudioClipDictionary = new Dictionary<AudioNames, AudioClip>();
+        AudioClipDictionary = new Dictionary<eAudioName, AudioClip>();
 
-        if (Audios.Length != System.Enum.GetValues(typeof(AudioNames)).Length)
+        if (Audios.Length != System.Enum.GetValues(typeof(eAudioName)).Length)
         {
             // Debug.LogError("[AudioManager BuildAudioClipDictionary()] Audiosの数とAudioNameの数が一致しません。");
             return;
@@ -81,7 +81,7 @@ public class AudioManager : MonoBehaviour
 
         for (int i = 0; i < Audios.Length; i++)
         {
-            AudioNames audioName = (AudioNames)i;
+            eAudioName audioName = (eAudioName)i;
 
             if (!AudioClipDictionary.ContainsKey(audioName))
             {
@@ -96,7 +96,7 @@ public class AudioManager : MonoBehaviour
 
     /// <summary> 指定されたオーディオクリップを再生する関数 </summary>
     /// <param name="audioName"> 再生するオーディオクリップの名前 </param>
-    public void PlaySound(AudioNames audioName)
+    public void PlaySound(eAudioName audioName)
     {
         if (AudioClipDictionary.TryGetValue(audioName, out AudioClip clip))
         {
@@ -112,13 +112,13 @@ public class AudioManager : MonoBehaviour
 
     /// <summary> 音量を設定する関数 </summary>
     /// <param name="audioName"> 再生するオーディオクリップの名前 </param>
-    private void SetVolume(AudioNames audioName)
+    private void SetVolume(eAudioName audioName)
     {
         switch (audioName)
         {
-            case AudioNames.StartOrRetry:
-            case AudioNames.MoveDown:
-            case AudioNames.MoveLeftRight: // これらのオーディオは音量を下げるように調整
+            case eAudioName.StartOrRetry:
+            case eAudioName.MoveDown:
+            case eAudioName.MoveLeftRight: // これらのオーディオは音量を下げるように調整
                 audioSource.volume = LowVolume;
                 break;
 
@@ -132,7 +132,7 @@ public class AudioManager : MonoBehaviour
 /////////////////// 旧コード ///////////////////
 
 // // オーディオの名前 //
-// public string[] AudioNames =
+// public string[] eAudioName =
 // {
 //     "GameOver",
 //     "Hard_Drop",
@@ -151,24 +151,24 @@ public class AudioManager : MonoBehaviour
 // // SEのピッチの値 //
 // float LowPitch = 0.6f;
 // int NormalPitch = 1;
-// // Audios と AudioNames の辞書を作成する関数 //
+// // Audios と eAudioName の辞書を作成する関数 //
 // private void BuildAudioClipDictionary()
 // {
-//     if (Audios.Length != AudioNames.Length)
+//     if (Audios.Length != eAudioName.Length)
 //     {
-//         Debug.LogError("[AudioManager BuildAudioClipDictionary()] AudiosとAudioNamesの数が一致しません。");
+//         Debug.LogError("[AudioManager BuildAudioClipDictionary()] AudiosとeAudioNameの数が一致しません。");
 //         return;
 //     }
 
 //     for (int i = 0; i < Audios.Length; i++)
 //     {
-//         if (AudioClipDictionary.ContainsKey(AudioNames[i]))
+//         if (AudioClipDictionary.ContainsKey(eAudioName[i]))
 //         {
-//             Debug.LogWarning($"[AudioManager BuildAudioClipDictionary()] {AudioNames[i]} はすでに登録されています。");
+//             Debug.LogWarning($"[AudioManager BuildAudioClipDictionary()] {eAudioName[i]} はすでに登録されています。");
 //         }
 //         else
 //         {
-//             AudioClipDictionary.Add(AudioNames[i], Audios[i]);
+//             AudioClipDictionary.Add(eAudioName[i], Audios[i]);
 //         }
 //     }
 // }

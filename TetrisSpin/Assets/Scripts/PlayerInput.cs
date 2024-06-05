@@ -121,7 +121,7 @@ public class PlayerInput : MonoBehaviour
         }
         else // 動かせた時
         {
-            AudioManager.Instance.PlaySound(AudioNames.MoveLeftRight);
+            AudioManager.Instance.PlaySound(eAudioName.MoveLeftRight);
             spawner.AdjustGhostMinoPosition();
             spinCheck.ResetSpinTypeName();
             minoMovement.ResetStepsSRS();
@@ -143,7 +143,7 @@ public class PlayerInput : MonoBehaviour
         }
         else // 動かせた時
         {
-            AudioManager.Instance.PlaySound(AudioNames.MoveLeftRight);
+            AudioManager.Instance.PlaySound(eAudioName.MoveLeftRight);
             spawner.AdjustGhostMinoPosition();
             spinCheck.ResetSpinTypeName();
             minoMovement.ResetStepsSRS();
@@ -165,7 +165,7 @@ public class PlayerInput : MonoBehaviour
         }
         else // 動かせた時
         {
-            AudioManager.Instance.PlaySound(AudioNames.MoveLeftRight);
+            AudioManager.Instance.PlaySound(eAudioName.MoveLeftRight);
             spawner.AdjustGhostMinoPosition();
             spinCheck.ResetSpinTypeName();
             minoMovement.ResetStepsSRS();
@@ -187,7 +187,7 @@ public class PlayerInput : MonoBehaviour
         }
         else // 動かせた時
         {
-            AudioManager.Instance.PlaySound(AudioNames.MoveLeftRight);
+            AudioManager.Instance.PlaySound(eAudioName.MoveLeftRight);
             spawner.AdjustGhostMinoPosition();
             spinCheck.ResetSpinTypeName();
             minoMovement.ResetStepsSRS();
@@ -214,7 +214,7 @@ public class PlayerInput : MonoBehaviour
         }
         else // 動かせた時
         {
-            AudioManager.Instance.PlaySound(AudioNames.MoveDown);
+            AudioManager.Instance.PlaySound(eAudioName.MoveDown);
 
             if (spinCheck.SpinTypeName != SpinTypeNames.I_Spin) // I-Spinは下移動しても解除されないようにしている
             {
@@ -237,7 +237,7 @@ public class PlayerInput : MonoBehaviour
             if (!minoMovement.SuperRotationSystem()) // SRSもできなかった時
             {
                 minoMovement.UpdateMinoAngleAfterToMinoAngleBefore();
-                AudioManager.Instance.PlaySound(AudioNames.Rotation);
+                AudioManager.Instance.PlaySound(eAudioName.Rotation);
             }
             else // SRSが成功した時
             {
@@ -264,7 +264,7 @@ public class PlayerInput : MonoBehaviour
             if (!minoMovement.SuperRotationSystem()) // SRSもできなかった時
             {
                 minoMovement.UpdateMinoAngleAfterToMinoAngleBefore();
-                AudioManager.Instance.PlaySound(AudioNames.Rotation);
+                AudioManager.Instance.PlaySound(eAudioName.Rotation);
             }
             else // SRSが成功した時
             {
@@ -282,7 +282,7 @@ public class PlayerInput : MonoBehaviour
     /// <summary> ハードドロップ入力時の処理を行う関数 </summary>
     private void HardDropInput()
     {
-        AudioManager.Instance.PlaySound(AudioNames.HardDrop);
+        AudioManager.Instance.PlaySound(eAudioName.HardDrop);
 
         // Heightの値分繰り返す(20)
         for (int i = 0; i < board.Height; i++)
@@ -313,7 +313,7 @@ public class PlayerInput : MonoBehaviour
         if (PlayerInputStats.UseHold == false)
         {
             PlayerInputStats.Update(_useHold: true);
-            AudioManager.Instance.PlaySound(AudioNames.Hold);
+            AudioManager.Instance.PlaySound(eAudioName.Hold);
             gameAutoRunner.ResetRockDown();
 
             if (PlayerInputStats.FirstHold == true) // ゲーム中で最初のHoldだった時
@@ -332,10 +332,10 @@ public class PlayerInput : MonoBehaviour
     /// <summary> 回転が成功した時の処理をする関数 </summary>
     private void SuccessRotateAction()
     {
-        LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "SuccessRotateAction()", "Start");
+        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameManager", "SuccessRotateAction()", "Start");
 
         /// <summary> ミノの回転後の向き </summary>
-        MinoDirections minoAngleAfter;
+        eMinoDirection minoAngleAfter;
         // /// <summary> ミノの回転前の向き </summary>
         // MinoDirections minoAngleBefore;
         /// <summary> スーパーローテーションシステム(SRS)の段階 </summary>
@@ -352,21 +352,21 @@ public class PlayerInput : MonoBehaviour
 
         if (spinCheck.SpinTypeName != SpinTypeNames.None) // スピン判定がない場合
         {
-            AudioManager.Instance.PlaySound(AudioNames.Spin);
+            AudioManager.Instance.PlaySound(eAudioName.Spin);
         }
         else // スピン判定がある場合
         {
-            AudioManager.Instance.PlaySound(AudioNames.Rotation);
+            AudioManager.Instance.PlaySound(eAudioName.Rotation);
         }
 
-        LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "SuccessRotateAction()", "End");
+        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameManager", "SuccessRotateAction()", "End");
     }
 
     /// <summary> BottomMoveCountを進める関数 </summary>
     private void IncreaseBottomMoveCount()
     {
-        LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "IncreaseBottomMoveCount()", "Start");
+        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameManager", "IncreaseBottomMoveCount()", "Start");
         GameAutoRunnerStats.Update(_bottomMoveCount: GameAutoRunnerStats.BottomMoveCount + 1);
-        LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "IncreaseBottomMoveCount()", "End");
+        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameManager", "IncreaseBottomMoveCount()", "End");
     }
 }

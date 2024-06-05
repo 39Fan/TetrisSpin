@@ -7,12 +7,12 @@ using UnityEngine;
 public static class SpawnerStats
 {
     /// <summary> 生成されるミノの順番リスト </summary>
-    private static List<MinoType> spawnMinoOrders = new List<MinoType>();
+    private static List<eMinoType> spawnMinoOrders = new List<eMinoType>();
 
     /// <summary> 操作中のミノの名前 </summary>
-    private static MinoType activeMinoName = default;
+    private static eMinoType activeMinoName = default;
     /// <summary> ホールドミノの名前 </summary>
-    private static MinoType holdMinoName = default;
+    private static eMinoType holdMinoName = default;
 
     /// <summary> 操作中のミノから底までの距離 </summary>
     /// <remarks>
@@ -21,9 +21,9 @@ public static class SpawnerStats
     private static int activeMinoToBaseDistance = 20;
 
     // ゲッタープロパティ //
-    public static List<MinoType> SpawnMinoOrders => spawnMinoOrders;
-    public static MinoType ActiveMinoName => activeMinoName;
-    public static MinoType HoldMinoName => holdMinoName;
+    public static List<eMinoType> SpawnMinoOrders => spawnMinoOrders;
+    public static eMinoType ActiveMinoName => activeMinoName;
+    public static eMinoType HoldMinoName => holdMinoName;
     public static int ActiveMinoToBaseDistance => activeMinoToBaseDistance;
 
     /// <summary> 指定されたフィールドの値を更新する関数 </summary>
@@ -33,7 +33,7 @@ public static class SpawnerStats
     /// <remarks>
     /// 指定されていない引数は現在の値を維持
     /// </remarks>
-    public static void Update(MinoType? _activeMinoName = null, MinoType? _holdMinoName = null, int? _activeMinoToBaseDistance = null)
+    public static void Update(eMinoType? _activeMinoName = null, eMinoType? _holdMinoName = null, int? _activeMinoToBaseDistance = null)
     {
         activeMinoName = _activeMinoName ?? activeMinoName;
         holdMinoName = _holdMinoName ?? holdMinoName;
@@ -51,10 +51,10 @@ public static class SpawnerStats
     }
 
     /// <summary> 生成されるミノの順番リストを追加する関数 </summary>
-    /// <param name="_addMinoType"> 追加するミノの種類 </param>
-    public static void AddSpawnMinoOrder(MinoType _addMinoType)
+    /// <param name="_addeMinoType"> 追加するミノの種類 </param>
+    public static void AddSpawnMinoOrder(eMinoType _addeMinoType)
     {
-        spawnMinoOrders.Add(_addMinoType);
+        spawnMinoOrders.Add(_addeMinoType);
         // TODO: ログの記入
     }
 }
@@ -91,10 +91,10 @@ public class Spawner : MonoBehaviour
     // };
 
     /// <summary> MinosとMinoNamesのDictionary </summary>
-    Dictionary<MinoType, MinoMovement> minoDictionary = new Dictionary<MinoType, MinoMovement>();
+    Dictionary<eMinoType, MinoMovement> minoDictionary = new Dictionary<eMinoType, MinoMovement>();
 
     /// <summary> GhostMinosとMinoNamesのDictionary </summary>
-    Dictionary<MinoType, MinoMovement> ghostMinoDictionary = new Dictionary<MinoType, MinoMovement>();
+    Dictionary<eMinoType, MinoMovement> ghostMinoDictionary = new Dictionary<eMinoType, MinoMovement>();
 
     // /// <summary> 生成されるミノの順番リスト </summary>
     // private List<string> spawnMinoOrders = new List<string>();
@@ -162,12 +162,12 @@ public class Spawner : MonoBehaviour
         // Minos と MinoNames の辞書を作成
         for (int ii = 0; ii < minos.Length; ii++)
         {
-            minoDictionary[(MinoType)ii] = minos[ii];
+            minoDictionary[(eMinoType)ii] = minos[ii];
         }
         // GhostMinos と MinoNames の辞書を作成
         for (int ii = 0; ii < ghostMinos.Length; ii++)
         {
-            ghostMinoDictionary[(MinoType)ii] = ghostMinos[ii];
+            ghostMinoDictionary[(eMinoType)ii] = ghostMinos[ii];
         }
     }
 
@@ -175,18 +175,18 @@ public class Spawner : MonoBehaviour
     public void DetermineSpawnMinoOrder()
     {
         /// <summary> ミノの種類が入るリスト </summary>
-        List<MinoType> minoNames = new List<MinoType>();
+        List<eMinoType> minoNames = new List<eMinoType>();
 
-        for (int ii = 0; ii < MinoType.GetValues(typeof(MinoType)).Length; ii++)
+        for (int ii = 0; ii < eMinoType.GetValues(typeof(eMinoType)).Length; ii++)
         {
-            minoNames.Add((MinoType)ii);
+            minoNames.Add((eMinoType)ii);
         }
 
         while (minoNames.Count > 0)
         {
             int index = Random.Range(0, minoNames.Count);
-            MinoType randomMinoType = minoNames[index];
-            SpawnerStats.AddSpawnMinoOrder(randomMinoType);
+            eMinoType randomeMinoType = minoNames[index];
+            SpawnerStats.AddSpawnMinoOrder(randomeMinoType);
             minoNames.RemoveAt(index);
         }
     }
@@ -322,7 +322,7 @@ public class Spawner : MonoBehaviour
             Destroy(ghostMino.gameObject);
 
             // activeMinoName と holdMinoName の名前を交換する
-            MinoType temp;
+            eMinoType temp;
             temp = SpawnerStats.ActiveMinoName;
             // activeMinoName = SpawnerStats.HoldMinoName;
             SpawnerStats.Update(_activeMinoName: SpawnerStats.HoldMinoName);
@@ -433,12 +433,12 @@ public class Spawner : MonoBehaviour
 // public static class SpawnerStats
 // {
 //     /// <summary> 生成されるミノの順番リスト </summary>
-//     private static List<MinoType> spawnMinoOrders = new List<MinoType>();
+//     private static List<eMinoType> spawnMinoOrders = new List<eMinoType>();
 
 //     /// <summary> 操作中のミノの名前 </summary>
-//     private static MinoType activeMinoName;
+//     private static eMinoType activeMinoName;
 //     /// <summary> ホールドミノの名前 </summary>
-//     private static MinoType holdMinoName;
+//     private static eMinoType holdMinoName;
 
 //     /// <summary> 操作中のミノから底までの距離 </summary>
 //     /// <remarks>
@@ -447,9 +447,9 @@ public class Spawner : MonoBehaviour
 //     private static int activeMinoToBaseDistance;
 
 //     // ゲッタープロパティ //
-//     public static List<MinoType> SpawnMinoOrders => spawnMinoOrders;
-//     public static MinoType ActiveMinoName => activeMinoName;
-//     public static MinoType HoldMinoName => holdMinoName;
+//     public static List<eMinoType> SpawnMinoOrders => spawnMinoOrders;
+//     public static eMinoType ActiveMinoName => activeMinoName;
+//     public static eMinoType HoldMinoName => holdMinoName;
 //     public static int ActiveMinoToBaseDistance => activeMinoToBaseDistance;
 
 //     /// <summary> 指定されたフィールドの値を更新する関数 </summary>
@@ -459,7 +459,7 @@ public class Spawner : MonoBehaviour
 //     /// <remarks>
 //     /// 指定されていない引数は現在の値を維持
 //     /// </remarks>
-//     public static void Update(MinoType? _activeMinoName = null, MinoType? _holdMinoName = null, int? _activeMinoToBaseDistance = null)
+//     public static void Update(eMinoType? _activeMinoName = null, eMinoType? _holdMinoName = null, int? _activeMinoToBaseDistance = null)
 //     {
 //         activeMinoName = _activeMinoName ?? activeMinoName;
 //         holdMinoName = _holdMinoName ?? holdMinoName;
@@ -477,10 +477,10 @@ public class Spawner : MonoBehaviour
 //     }
 
 //     /// <summary> 生成されるミノの順番リストを追加する関数 </summary>
-//     /// <param name="_addMinoType"> 追加するミノの種類 </param>
-//     public static void AddSpawnMinoOrder(MinoType _addMinoType)
+//     /// <param name="_addeMinoType"> 追加するミノの種類 </param>
+//     public static void AddSpawnMinoOrder(eMinoType _addeMinoType)
 //     {
-//         spawnMinoOrders.Add(_addMinoType);
+//         spawnMinoOrders.Add(_addeMinoType);
 //         // TODO: ログの記入
 //     }
 
@@ -563,13 +563,13 @@ public class Spawner : MonoBehaviour
 //     // };
 
 //     /// <summary> MinosとMinoNamesのDictionary </summary>
-//     Dictionary<MinoType, MinoMovement> minoDictionary = new Dictionary<MinoType, MinoMovement>();
+//     Dictionary<eMinoType, MinoMovement> minoDictionary = new Dictionary<eMinoType, MinoMovement>();
 
 //     /// <summary> GhostMinosとMinoNamesのDictionary </summary>
-//     Dictionary<MinoType, MinoMovement> ghostMinoDictionary = new Dictionary<MinoType, MinoMovement>();
+//     Dictionary<eMinoType, MinoMovement> ghostMinoDictionary = new Dictionary<eMinoType, MinoMovement>();
 
-//     private Dictionary<MinoType, ObjectPool<MinoMovement>> minoPools = new Dictionary<MinoType, ObjectPool<MinoMovement>>();
-//     private Dictionary<MinoType, ObjectPool<MinoMovement>> ghostMinoPools = new Dictionary<MinoType, ObjectPool<MinoMovement>>();
+//     private Dictionary<eMinoType, ObjectPool<MinoMovement>> minoPools = new Dictionary<eMinoType, ObjectPool<MinoMovement>>();
+//     private Dictionary<eMinoType, ObjectPool<MinoMovement>> ghostMinoPools = new Dictionary<eMinoType, ObjectPool<MinoMovement>>();
 
 //     // /// <summary> 生成されるミノの順番リスト </summary>
 //     // private List<string> spawnMinoOrders = new List<string>();
@@ -637,18 +637,18 @@ public class Spawner : MonoBehaviour
 //         // // Minos と MinoNames の辞書を作成
 //         // for (int ii = 0; ii < minos.Length; ii++)
 //         // {
-//         //     minoDictionary[(MinoType)ii] = minos[ii];
+//         //     minoDictionary[(eMinoType)ii] = minos[ii];
 //         // }
 //         // // GhostMinos と MinoNames の辞書を作成
 //         // for (int ii = 0; ii < ghostMinos.Length; ii++)
 //         // {
-//         //     ghostMinoDictionary[(MinoType)ii] = ghostMinos[ii];
+//         //     ghostMinoDictionary[(eMinoType)ii] = ghostMinos[ii];
 //         // }
 
 //         for (int ii = 0; ii < minos.Length; ii++)
 //         {
-//             minoDictionary[(MinoType)ii] = minos[ii];
-//             minoPools[(MinoType)ii] = new ObjectPool<MinoMovement>(
+//             minoDictionary[(eMinoType)ii] = minos[ii];
+//             minoPools[(eMinoType)ii] = new ObjectPool<MinoMovement>(
 //                 createFunc: () => Instantiate(minos[ii]),
 //                 actionOnGet: (mino) => { mino.gameObject.SetActive(true); },
 //                 actionOnRelease: (mino) => { mino.gameObject.SetActive(false); },
@@ -661,8 +661,8 @@ public class Spawner : MonoBehaviour
 
 //         for (int ii = 0; ii < ghostMinos.Length; ii++)
 //         {
-//             ghostMinoDictionary[(MinoType)ii] = ghostMinos[ii];
-//             ghostMinoPools[(MinoType)ii] = new ObjectPool<MinoMovement>(
+//             ghostMinoDictionary[(eMinoType)ii] = ghostMinos[ii];
+//             ghostMinoPools[(eMinoType)ii] = new ObjectPool<MinoMovement>(
 //                 createFunc: () => Instantiate(ghostMinos[ii]),
 //                 actionOnGet: (mino) => { mino.gameObject.SetActive(true); },
 //                 actionOnRelease: (mino) => { mino.gameObject.SetActive(false); },
@@ -678,18 +678,18 @@ public class Spawner : MonoBehaviour
 //     public void DetermineSpawnMinoOrder()
 //     {
 //         /// <summary> ミノの種類が入るリスト </summary>
-//         List<MinoType> minoNames = new List<MinoType>();
+//         List<eMinoType> minoNames = new List<eMinoType>();
 
-//         for (int ii = 0; ii < MinoType.GetValues(typeof(MinoType)).Length; ii++)
+//         for (int ii = 0; ii < eMinoType.GetValues(typeof(eMinoType)).Length; ii++)
 //         {
-//             minoNames.Add((MinoType)ii);
+//             minoNames.Add((eMinoType)ii);
 //         }
 
 //         while (minoNames.Count > 0)
 //         {
 //             int index = Random.Range(0, minoNames.Count);
-//             MinoType randomMinoType = minoNames[index];
-//             SpawnerStats.AddSpawnMinoOrder(randomMinoType);
+//             eMinoType randomeMinoType = minoNames[index];
+//             SpawnerStats.AddSpawnMinoOrder(randomeMinoType);
 //             minoNames.RemoveAt(index);
 //         }
 //     }
@@ -838,7 +838,7 @@ public class Spawner : MonoBehaviour
 //             if (ghostMino != null) ReturnGhostMino(ghostMino);
 
 //             // activeMinoName と holdMinoName の名前を交換する
-//             MinoType temp;
+//             eMinoType temp;
 //             temp = SpawnerStats.ActiveMinoName;
 //             // activeMinoName = SpawnerStats.HoldMinoName;
 //             SpawnerStats.Update(_activeMinoName: SpawnerStats.HoldMinoName);
@@ -864,7 +864,7 @@ public class Spawner : MonoBehaviour
 //         }
 //     }
 
-//     private MinoType GetMinoTypeFromDictionary(MinoMovement _selectMino)
+//     private eMinoType GeteMinoTypeFromDictionary(MinoMovement _selectMino)
 //     {
 //         foreach (var kvp in minoDictionary)
 //         {
@@ -884,7 +884,7 @@ public class Spawner : MonoBehaviour
 //         // MinoMovement newActiveMino = Instantiate(_selectMino,
 //         // spawnActiveMinoPosition, Quaternion.identity); // Quaternion.identityは、向きの回転に関する設定をしないことを表す
 
-//         MinoType type = GetMinoTypeFromDictionary(_selectMino);
+//         eMinoType type = GeteMinoTypeFromDictionary(_selectMino);
 //         MinoMovement newActiveMino = minoPools[type].Get();
 //         newActiveMino.transform.position = spawnActiveMinoPosition;
 //         newActiveMino.transform.rotation = Quaternion.identity;
@@ -908,7 +908,7 @@ public class Spawner : MonoBehaviour
 
 //         // return newGhostMino;
 
-//         MinoType type = GetMinoTypeFromDictionary(_selectMino);
+//         eMinoType type = GeteMinoTypeFromDictionary(_selectMino);
 //         MinoMovement newGhostMino = ghostMinoPools[type].Get();
 //         newGhostMino.transform.position = new Vector3(_activeMino.transform.position.x, _activeMino.transform.position.y - _activeMinoToBaseDistance, _activeMino.transform.position.z);
 //         newGhostMino.transform.rotation = Quaternion.identity;
@@ -926,7 +926,7 @@ public class Spawner : MonoBehaviour
 
 //         // return newNextMino;
 
-//         MinoType type = GetMinoTypeFromDictionary(_selectMino);
+//         eMinoType type = GeteMinoTypeFromDictionary(_selectMino);
 //         MinoMovement newNextMino = minoPools[type].Get();
 //         newNextMino.transform.position = spawnNextMinoPositions[_nextMinoOrder];
 //         newNextMino.transform.rotation = Quaternion.identity;
@@ -950,7 +950,7 @@ public class Spawner : MonoBehaviour
 //         //     return null;
 //         // }
 
-//         MinoType type = GetMinoTypeFromDictionary(_selectMino);
+//         eMinoType type = GeteMinoTypeFromDictionary(_selectMino);
 //         MinoMovement newHoldMino = minoPools[type].Get();
 //         newHoldMino.transform.position = spawnHoldMinoPosition;
 //         newHoldMino.transform.rotation = Quaternion.identity;
@@ -959,7 +959,7 @@ public class Spawner : MonoBehaviour
 
 //     public void ReturnMino(MinoMovement mino)
 //     {
-//         MinoType type = GetMinoTypeFromDictionary(mino);
+//         eMinoType type = GeteMinoTypeFromDictionary(mino);
 //         if (minoPools.ContainsKey(type))
 //         {
 //             minoPools[type].Release(mino);
@@ -968,7 +968,7 @@ public class Spawner : MonoBehaviour
 
 //     public void ReturnGhostMino(MinoMovement ghostMino)
 //     {
-//         MinoType type = GetMinoTypeFromDictionary(ghostMino);
+//         eMinoType type = GeteMinoTypeFromDictionary(ghostMino);
 //         if (ghostMinoPools.ContainsKey(type))
 //         {
 //             ghostMinoPools[type].Release(ghostMino);

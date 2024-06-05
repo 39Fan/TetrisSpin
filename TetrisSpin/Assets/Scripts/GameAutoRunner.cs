@@ -72,7 +72,7 @@ public class GameAutoRunner : MonoBehaviour
     /// <summary> ロックダウンの処理をする関数 </summary>
     public void RockDown()
     {
-        LogHelper.Log(LogHelper.LogLevel.Debug, "GameAutoRunner", "RockDown()", "Start");
+        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "RockDown()", "Start");
 
         int bottomMoveCountLimit = 15;
         int newBottomBlockPositionY = board.CheckActiveMinoBottomBlockPositionY(spawner.ActiveMino);
@@ -97,21 +97,21 @@ public class GameAutoRunner : MonoBehaviour
             GameAutoRunnerStats.Update(_lowestBlockPositionY: newBottomBlockPositionY); // BottomPositionの更新
         }
 
-        LogHelper.Log(LogHelper.LogLevel.Debug, "GameAutoRunner", "RockDown()", "End");
+        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "RockDown()", "End");
     }
 
     /// <summary> RockDownに関する変数のリセット </summary>
     public void ResetRockDown()
     {
-        LogHelper.Log(LogHelper.LogLevel.Debug, "GameAutoRunner", "ResetRockDown()", "Start");
+        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "ResetRockDown()", "Start");
         GameAutoRunnerStats.Update(_bottomMoveCount: 0, _lowestBlockPositionY: 20);
-        LogHelper.Log(LogHelper.LogLevel.Debug, "GameAutoRunner", "ResetRockDown()", "End");
+        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "ResetRockDown()", "End");
     }
 
     /// <summary> 自動落下の処理をする関数 </summary>
     public void AutoDown()
     {
-        LogHelper.Log(LogHelper.LogLevel.Debug, "GameAutoRunner", "AutoDown()", "Start");
+        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "AutoDown()", "Start");
 
         Timer.UpdateDownTimer();
         spawner.ActiveMino.MoveDown();
@@ -129,13 +129,13 @@ public class GameAutoRunner : MonoBehaviour
             minoMovement.ResetStepsSRS();
         }
 
-        LogHelper.Log(LogHelper.LogLevel.Debug, "GameAutoRunner", "AutoDown()", "End");
+        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "AutoDown()", "End");
     }
 
     /// <summary> ミノの設置場所が確定した時の処理をする関数 </summary>
     public void SetMinoFixed()
     {
-        LogHelper.Log(LogHelper.LogLevel.Debug, "GameAutoRunner", "SetMinoFixed()", "Start");
+        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "SetMinoFixed()", "Start");
 
         /// <summary> 合計の消去ライン数 </summary>
         int lineClearCount;
@@ -185,6 +185,6 @@ public class GameAutoRunner : MonoBehaviour
             return;
         }
 
-        LogHelper.Log(LogHelper.LogLevel.Debug, "GameAutoRunner", "SetMinoFixed()", "End");
+        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "SetMinoFixed()", "End");
     }
 }

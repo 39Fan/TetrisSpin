@@ -59,29 +59,29 @@ public class SpinCheck : MonoBehaviour
     /// <remarks>
     /// この関数は回転成功時に呼び出される
     /// </remarks>
-    public void CheckSpinType(MinoDirections _minoAngleAfter, int _stepsSRS)
+    public void CheckSpinType(eMinoDirection _minoAngleAfter, int _stepsSRS)
     {
         switch (SpawnerStats.ActiveMinoName)
         {
-            case MinoType.I_Mino:
-                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "IspinCheck()", "Start");
+            case eMinoType.I_Mino:
+                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "IspinCheck()", "Start");
                 IspinCheck(_minoAngleAfter);
-                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "IspinCheck()", "End");
+                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "IspinCheck()", "End");
                 break;
-            case MinoType.J_Mino:
-                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "JspinCheck()", "Start");
+            case eMinoType.J_Mino:
+                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "JspinCheck()", "Start");
                 JspinCheck(_minoAngleAfter, _stepsSRS);
-                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "JspinCheck()", "End");
+                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "JspinCheck()", "End");
                 break;
-            case MinoType.L_Mino:
-                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "LspinCheck()", "Start");
+            case eMinoType.L_Mino:
+                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "LspinCheck()", "Start");
                 LspinCheck(_minoAngleAfter, _stepsSRS);
-                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "LspinCheck()", "End");
+                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "LspinCheck()", "End");
                 break;
-            case MinoType.T_Mino:
-                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "TspinCheck()", "Start");
+            case eMinoType.T_Mino:
+                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "TspinCheck()", "Start");
                 TspinCheck(_minoAngleAfter, _stepsSRS);
-                LogHelper.Log(LogHelper.LogLevel.Debug, "SpinCheck", "TspinCheck()", "End");
+                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "TspinCheck()", "End");
                 break;
             default:
                 // Debug.LogError("[SpinCheck CheckSpinType()] activeMinoNameが特定できません。");
@@ -93,9 +93,9 @@ public class SpinCheck : MonoBehaviour
     /// <remarks>
     /// Mini判定も確認する
     /// </remarks>
-    private void IspinCheck(MinoDirections _minoAngleAfter)
+    private void IspinCheck(eMinoDirection _minoAngleAfter)
     {
-        if (_minoAngleAfter == MinoDirections.North || _minoAngleAfter == MinoDirections.South) // Iミノが横向きの場合
+        if (_minoAngleAfter == eMinoDirection.North || _minoAngleAfter == eMinoDirection.South) // Iミノが横向きの場合
         {
             // IspinMiniの判定をチェックする
 
@@ -148,8 +148,8 @@ public class SpinCheck : MonoBehaviour
             string checkBlocksAboveInfo = string.Join(", ", checkBlocksAbove_ForI);
             string checkBlocksBelowInfo = string.Join(", ", checkBlocksBelow_ForI);
 
-            LogHelper.Log(LogHelper.LogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksAboveInfo);
-            LogHelper.Log(LogHelper.LogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksBelowInfo); // Infoログ
+            LogHelper.Log(LogHelper.eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksAboveInfo);
+            LogHelper.Log(LogHelper.eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksBelowInfo); // Infoログ
 
             // 条件を満たすか確認
             if (checkBlocksAbove_ForI.FindAll(block => block == Existence.Exist).Count >= 1 ||
@@ -242,9 +242,9 @@ public class SpinCheck : MonoBehaviour
             string checkBlocksLeftSideInfo = string.Join(", ", checkBlocksLeftSide_ForI);
             string checkBlocksUpperInfo = string.Join(", ", checkBlocksUpper_ForI);
 
-            LogHelper.Log(LogHelper.LogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksRightSideInfo);
-            LogHelper.Log(LogHelper.LogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksLeftSideInfo);
-            LogHelper.Log(LogHelper.LogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksUpperInfo); // Infoログ
+            LogHelper.Log(LogHelper.eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksRightSideInfo);
+            LogHelper.Log(LogHelper.eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksLeftSideInfo);
+            LogHelper.Log(LogHelper.eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksUpperInfo); // Infoログ
 
             // 条件を満たすか確認
             if (checkBlocksRightSide_ForI.FindAll(block => block == Existence.Exist).Count >= 3 &&
@@ -257,7 +257,7 @@ public class SpinCheck : MonoBehaviour
     }
 
     /// <summary>Jspinの判定をする関数</summary>
-    private void JspinCheck(MinoDirections _minoAngleAfter, int _stepsSRS)
+    private void JspinCheck(eMinoDirection _minoAngleAfter, int _stepsSRS)
     {
         // Jspinの判定をチェックする
 
@@ -301,19 +301,19 @@ public class SpinCheck : MonoBehaviour
 
         int[,] currentOffsets = null;
 
-        if (_minoAngleAfter == MinoDirections.North) // Jミノが北向きの場合
+        if (_minoAngleAfter == eMinoDirection.North) // Jミノが北向きの場合
         {
             currentOffsets = northOffset_ForJ;
         }
-        else if (_minoAngleAfter == MinoDirections.East) // Jミノが東向きの場合
+        else if (_minoAngleAfter == eMinoDirection.East) // Jミノが東向きの場合
         {
             currentOffsets = eastOffset_ForJ;
         }
-        else if (_minoAngleAfter == MinoDirections.South) // Jミノが南向きの場合
+        else if (_minoAngleAfter == eMinoDirection.South) // Jミノが南向きの場合
         {
             currentOffsets = southOffset_ForJ;
         }
-        else if (_minoAngleAfter == MinoDirections.West) // Jミノが西向きの場合
+        else if (_minoAngleAfter == eMinoDirection.West) // Jミノが西向きの場合
         {
             currentOffsets = westOffset_ForJ;
         }
@@ -339,7 +339,7 @@ public class SpinCheck : MonoBehaviour
     }
 
     /// <summary>Lspinの判定をする関数</summary>
-    private void LspinCheck(MinoDirections _minoAngleAfter, int _stepsSRS)
+    private void LspinCheck(eMinoDirection _minoAngleAfter, int _stepsSRS)
     {
         // Lspinの判定をチェックする
 
@@ -384,19 +384,19 @@ public class SpinCheck : MonoBehaviour
         int[,] currentOffsets = null;
 
         // Lミノの向きで処理を分岐させる
-        if (_minoAngleAfter == MinoDirections.North)
+        if (_minoAngleAfter == eMinoDirection.North)
         {
             currentOffsets = northOffset_ForJ;
         }
-        else if (_minoAngleAfter == MinoDirections.East)
+        else if (_minoAngleAfter == eMinoDirection.East)
         {
             currentOffsets = eastOffset_ForJ;
         }
-        else if (_minoAngleAfter == MinoDirections.South)
+        else if (_minoAngleAfter == eMinoDirection.South)
         {
             currentOffsets = southOffset_ForJ;
         }
-        else if (_minoAngleAfter == MinoDirections.West)
+        else if (_minoAngleAfter == eMinoDirection.West)
         {
             currentOffsets = westOffset_ForJ;
         }
@@ -426,7 +426,7 @@ public class SpinCheck : MonoBehaviour
     /// <remarks>
     /// Mini判定も確認する
     /// </remarks>
-    private void TspinCheck(MinoDirections _minoAngleAfter, int _stepsSRS)
+    private void TspinCheck(eMinoDirection _minoAngleAfter, int _stepsSRS)
     {
         // Tミノの中心から順番に[1, 1]、[1, -1]、[-1, 1]、[-1, -1]の分だけ移動した座標にブロックや壁がないか確認する
         // ブロックや壁があった時は Exist ない時は Not Exist で_ActiveMinoCountのリストに追加されていく
@@ -455,7 +455,7 @@ public class SpinCheck : MonoBehaviour
 
         string checkBlocksInfo = string.Join(", ", checkBlocks_ForT);
 
-        LogHelper.Log(LogHelper.LogLevel.Info, "SpinCheck", "TspinCheck()", checkBlocksInfo); // Infoログ
+        LogHelper.Log(LogHelper.eLogLevel.Info, "SpinCheck", "TspinCheck()", checkBlocksInfo); // Infoログ
 
 
         // Tspinの判定をチェックする
@@ -490,7 +490,7 @@ public class SpinCheck : MonoBehaviour
                 // Tミノの突起の左右が空白の時、T-Spin Mini 判定になる
                 switch (_minoAngleAfter)
                 {
-                    case MinoDirections.North: // Tミノが北向きの時、右上と左上を確認する
+                    case eMinoDirection.North: // Tミノが北向きの時、右上と左上を確認する
                         if (checkBlocks_ForT[right_up] == Existence.NotExist || checkBlocks_ForT[left_up] == Existence.NotExist)
                         {
                             spinTypeName = SpinTypeNames.T_SpinMini;
@@ -502,7 +502,7 @@ public class SpinCheck : MonoBehaviour
 
                         break;
 
-                    case MinoDirections.East: // 右上と右下
+                    case eMinoDirection.East: // 右上と右下
                         if (checkBlocks_ForT[right_up] == Existence.NotExist || checkBlocks_ForT[right_down] == Existence.NotExist)
                         {
                             spinTypeName = SpinTypeNames.T_SpinMini;
@@ -514,7 +514,7 @@ public class SpinCheck : MonoBehaviour
 
                         break;
 
-                    case MinoDirections.South: // 右下と左下
+                    case eMinoDirection.South: // 右下と左下
                         if (checkBlocks_ForT[right_down] == Existence.NotExist || checkBlocks_ForT[left_down] == Existence.NotExist)
                         {
                             spinTypeName = SpinTypeNames.T_SpinMini;
@@ -526,7 +526,7 @@ public class SpinCheck : MonoBehaviour
 
                         break;
 
-                    case MinoDirections.West: // 左上と左下
+                    case eMinoDirection.West: // 左上と左下
                         if (checkBlocks_ForT[left_up] == Existence.NotExist || checkBlocks_ForT[left_down] == Existence.NotExist)
                         {
                             spinTypeName = SpinTypeNames.T_SpinMini;
