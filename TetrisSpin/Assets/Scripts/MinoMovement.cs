@@ -152,10 +152,6 @@ public class MinoMovement : MonoBehaviour
     public void MoveDown()
     {
         // LogHelper.Log("Start", LogHelper.LogLevel.Debug, "Mino", "MoveDown()");
-        Debug.Log(MinoMovementStats.StepsSRS);
-        Debug.Log(MinoMovementStats.MinoAngleAfter);
-        Debug.Log(MinoMovementStats.MinoAngleBefore);
-
         Move(new Vector3(0, -1, 0));
     }
 
@@ -327,13 +323,7 @@ public class MinoMovement : MonoBehaviour
     /// <summary> MinoAngleBefore の値を MinoAngleAfter に変更する関数 </summary>
     public void UpdateMinoAngleBeforeToMinoAngleAfter()
     {
-        Debug.Log("uooo");
-        Debug.Log(MinoMovementStats.MinoAngleAfter);
-        Debug.Log(MinoMovementStats.MinoAngleBefore);
         MinoMovementStats.Update(_minoAngleBefore: MinoMovementStats.MinoAngleAfter);
-        Debug.Log("ie-i");
-        Debug.Log(MinoMovementStats.MinoAngleAfter);
-        Debug.Log(MinoMovementStats.MinoAngleBefore);
     }
 
     /// <summary> 通常回転のリセットをする関数 </summary>
