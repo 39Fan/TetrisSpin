@@ -185,7 +185,7 @@ public class SpinCheck : MonoBehaviour
             List<Existence> checkBlocksUpper_ForI = new List<Existence>();
 
             // Iミノの上部にブロックがあるか調べるために必要な変数
-            int IminoTopPosition_y = board.CheckActiveMinoTopBlockPosition_y(spawner.ActiveMino); // Iミノの最上部のy座標
+            int IminoTopPositionY = board.CheckActiveMinoTopBlockPositionY(spawner.ActiveMino); // Iミノの最上部のy座標
 
             int xOffset = 1;
             int yOffset = 1; // Ispinの判定に必要なオフセット
@@ -221,10 +221,10 @@ public class SpinCheck : MonoBehaviour
             }
 
             // ②を調べる
-            while (IminoTopPosition_y + yOffset < 20) // ゲームボードの上部からはみ出すまで調べる
+            while (IminoTopPositionY + yOffset < 20) // ゲームボードの上部からはみ出すまで調べる
             {
                 // Iミノの上部にブロックが存在するか1マスずつ調べていく
-                if (board.CheckGrid(Mathf.RoundToInt(spawner.ActiveMino.transform.position.x), IminoTopPosition_y + yOffset, spawner.ActiveMino))
+                if (board.CheckGrid(Mathf.RoundToInt(spawner.ActiveMino.transform.position.x), IminoTopPositionY + yOffset, spawner.ActiveMino))
                 {
                     checkBlocksUpper_ForI.Add(Existence.Exist);
                 }

@@ -277,10 +277,10 @@ public class Board : MonoBehaviour
 
     /// <summary> ミノを構成するブロックについて、最上部のブロックのy座標を返す関数 </summary>
     /// <param name="_activeMino"> 操作中のミノ </param>
-    /// <returns> 最上部のブロックのy座標 topBlockPosition_y </returns>
-    public int CheckActiveMinoTopBlockPosition_y(MinoMovement _activeMino)
+    /// <returns> 最上部のブロックのy座標(topBlockPositionY) </returns>
+    public int CheckActiveMinoTopBlockPositionY(MinoMovement _activeMino)
     {
-        int topBlockPosition_y = 0; // 最上部のブロックのY座標(初期値は底の数値)
+        int topBlockPositionY = 0; // 最上部のブロックのY座標(初期値は底の数値)
         int temp; // 一時的な変数
 
         foreach (Transform item in _activeMino.transform) // ミノの各ブロックを調べる
@@ -288,21 +288,21 @@ public class Board : MonoBehaviour
             temp = Mathf.RoundToInt(item.transform.position.y); // ブロックのy座標の値
 
             // 1番ブロックのy座標が高い値を探す
-            if (temp >= topBlockPosition_y)
+            if (temp >= topBlockPositionY)
             {
-                topBlockPosition_y = temp;
+                topBlockPositionY = temp;
             }
         }
 
-        return topBlockPosition_y;
+        return topBlockPositionY;
     }
 
     /// <summary> ミノを構成するブロックについて、最下部ブロックのy座標データを返す関数 </summary>
     /// <param name="_activeMino"> 操作中のミノ </param>
-    /// <returns> 最下部のブロックのy座標 bottomBlockPosition_y </returns>
-    public int CheckActiveMinoBottomBlockPosition_y(MinoMovement _activeMino)
+    /// <returns> 最下部のブロックのy座標(bottomBlockPositionY) </returns>
+    public int CheckActiveMinoBottomBlockPositionY(MinoMovement _activeMino)
     {
-        int bottomBlockPosition_y = 21; // 最下部のブロックのY座標(初期値はゲームオーバーになる数値)
+        int bottomBlockPositionY = 21; // 最下部のブロックのY座標(初期値はゲームオーバーになる数値)
         int temp; // 一時的な変数
 
         foreach (Transform item in _activeMino.transform) // ミノの各ブロックを調べる
@@ -310,13 +310,13 @@ public class Board : MonoBehaviour
             temp = Mathf.RoundToInt(item.transform.position.y); // ブロックのy座標の値
 
             // 1番ブロックのy座標が低い値を探す
-            if (temp < bottomBlockPosition_y)
+            if (temp < bottomBlockPositionY)
             {
-                bottomBlockPosition_y = temp;
+                bottomBlockPositionY = temp;
             }
         }
 
-        return bottomBlockPosition_y;
+        return bottomBlockPositionY;
     }
 
     /// <summary> ライン消去数の履歴を追加する </summary>
@@ -331,7 +331,7 @@ public class Board : MonoBehaviour
     /// <returns> ゲームオーバー判定の場合 true、それ以外の場合は false </returns>
     public bool CheckGameOver(MinoMovement _activeMino)
     {
-        int bottomBlockPosition_y = CheckActiveMinoBottomBlockPosition_y(_activeMino); // ActiveMino の1番下のブロックのy座標
+        int bottomBlockPosition_y = CheckActiveMinoBottomBlockPositionY(_activeMino); // ActiveMino の1番下のブロックのy座標
 
         if (bottomBlockPosition_y >= 21) // ミノの1番下のブロックのy座標が21を超えている場合
         {
