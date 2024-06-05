@@ -38,7 +38,6 @@ public enum MinoRotationDirections
     RotateLeft
 }
 
-// TODO :プールを作る
 /// <summary>
 /// ミノの統計情報を保持する静的クラス
 /// </summary>

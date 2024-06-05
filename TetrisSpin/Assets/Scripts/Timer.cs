@@ -1,48 +1,48 @@
 using UnityEngine;
 
 /// <summary>
-/// タイマーを管理するクラス
+/// タイマーを管理する静的クラス
 /// </summary>
-public class Timer : MonoBehaviour
+public static class Timer
 {
     /// <summary> 次の左右キー入力までの時間 </summary>
     /// <remarks> 左右キーが押されたときに更新される </remarks>
-    private float nextKeyLeftRightTimer;
+    private static float nextKeyLeftRightTimer;
     /// <summary> 次の回転キー入力までの時間 </summary>
     /// <remarks> 回転キーが押されたときに更新される </remarks>
-    private float nextKeyRotateTimer;
+    private static float nextKeyRotateTimer;
     /// <summary> 次の下キー入力までの時間 </summary>
     /// <remarks> 下キーが押されたときに更新される </remarks>
-    private float nextKeyDownTimer;
+    private static float nextKeyDownTimer;
     /// <summary> 次の自動落下までの時間 </summary>
-    private float autoDropTimer;
+    private static float autoDropTimer;
     /// <summary> 次のロックダウンまでの時間 </summary>
-    private float bottomTimer;
+    private static float bottomTimer;
 
     /// <summary> 通常の左右キー入力のインターバル </summary>
-    private float nextKeyLeftRightInterval_Normal = 0.20f;
+    private static float nextKeyLeftRightInterval_Normal = 0.20f;
     /// <summary> 連続左右キー入力のインターバル </summary>
     /// <remarks> 連続左右入力用 </remarks>
-    private float nextKeyLeftRightInterval_Short = 0.05f;
+    private static float nextKeyLeftRightInterval_Short = 0.05f;
     /// <summary> 回転キー入力のインターバル </summary>
-    private float nextKeyRotateInterval = 0.05f;
+    private static float nextKeyRotateInterval = 0.05f;
     /// <summary> 下キー入力のインターバル </summary>
-    private float nextKeyDownInterval = 0.05f;
+    private static float nextKeyDownInterval = 0.05f;
     /// <summary> 自動落下のインターバル </summary>
-    private float autoDropInterval = 1f;
+    private static float autoDropInterval = 1f;
     /// <summary> ロックダウンのインターバル </summary>
-    private float bottomTimerInterval = 1f;
+    private static float bottomTimerInterval = 1f;
 
     /// <summary> 連続左右入力が行われているかどうか </summary>
-    private bool continuousLRKey = false;
+    private static bool continuousLRKey = false;
 
     // ゲッタープロパティ
-    public float NextKeyLeftRightTimer => nextKeyLeftRightTimer;
-    public float NextKeyRotateTimer => nextKeyRotateTimer;
-    public float NextKeyDownTimer => nextKeyDownTimer;
-    public float AutoDropTimer => autoDropTimer;
-    public float BottomTimer => bottomTimer;
-    public bool ContinuousLRKey
+    public static float NextKeyLeftRightTimer => nextKeyLeftRightTimer;
+    public static float NextKeyRotateTimer => nextKeyRotateTimer;
+    public static float NextKeyDownTimer => nextKeyDownTimer;
+    public static float AutoDropTimer => autoDropTimer;
+    public static float BottomTimer => bottomTimer;
+    public static bool ContinuousLRKey
     {
         get => continuousLRKey;
         set => continuousLRKey = value;
@@ -54,7 +54,7 @@ public class Timer : MonoBehaviour
     /// <remarks>
     /// ゲームスタート時とミノが設置された時に使用される
     /// </remarks>
-    public void ResetTimer()
+    public static void Reset()
     {
         nextKeyDownTimer = Time.time;
         nextKeyLeftRightTimer = Time.time;
@@ -66,7 +66,7 @@ public class Timer : MonoBehaviour
     /// <summary>
     /// 右入力または左入力のタイマーを更新する関数
     /// </summary>
-    public void UpdateLeftRightTimer()
+    public static void UpdateLeftRightTimer()
     {
         if (continuousLRKey)
         {
@@ -83,7 +83,7 @@ public class Timer : MonoBehaviour
     /// <summary>
     /// 回転入力のタイマーを更新する関数
     /// </summary>
-    public void UpdateRotateTimer()
+    public static void UpdateRotateTimer()
     {
         nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
         bottomTimer = Time.time + bottomTimerInterval;
@@ -92,13 +92,14 @@ public class Timer : MonoBehaviour
     /// <summary>
     /// 下入力および自動落下のタイマーを更新する関数
     /// </summary>
-    public void UpdateDownTimer()
+    public static void UpdateDownTimer()
     {
         nextKeyDownTimer = Time.time + nextKeyDownInterval;
         autoDropTimer = Time.time + autoDropInterval;
         bottomTimer = Time.time + bottomTimerInterval;
     }
 }
+
 
 /////////////////// 旧コード ///////////////////
 
@@ -191,6 +192,106 @@ public class Timer : MonoBehaviour
 //         AutoDropTimer = Time.time + AutoDropInteaval;
 
 //         BottomTimer = Time.time + BottomTimerInterval;
+//     }
+// }
+
+// /// <summary>
+// /// タイマーを管理するクラス
+// /// </summary>
+// public class Timer : MonoBehaviour
+// {
+//     /// <summary> 次の左右キー入力までの時間 </summary>
+//     /// <remarks> 左右キーが押されたときに更新される </remarks>
+//     private float nextKeyLeftRightTimer;
+//     /// <summary> 次の回転キー入力までの時間 </summary>
+//     /// <remarks> 回転キーが押されたときに更新される </remarks>
+//     private float nextKeyRotateTimer;
+//     /// <summary> 次の下キー入力までの時間 </summary>
+//     /// <remarks> 下キーが押されたときに更新される </remarks>
+//     private float nextKeyDownTimer;
+//     /// <summary> 次の自動落下までの時間 </summary>
+//     private float autoDropTimer;
+//     /// <summary> 次のロックダウンまでの時間 </summary>
+//     private float bottomTimer;
+
+//     /// <summary> 通常の左右キー入力のインターバル </summary>
+//     private float nextKeyLeftRightInterval_Normal = 0.20f;
+//     /// <summary> 連続左右キー入力のインターバル </summary>
+//     /// <remarks> 連続左右入力用 </remarks>
+//     private float nextKeyLeftRightInterval_Short = 0.05f;
+//     /// <summary> 回転キー入力のインターバル </summary>
+//     private float nextKeyRotateInterval = 0.05f;
+//     /// <summary> 下キー入力のインターバル </summary>
+//     private float nextKeyDownInterval = 0.05f;
+//     /// <summary> 自動落下のインターバル </summary>
+//     private float autoDropInterval = 1f;
+//     /// <summary> ロックダウンのインターバル </summary>
+//     private float bottomTimerInterval = 1f;
+
+//     /// <summary> 連続左右入力が行われているかどうか </summary>
+//     private bool continuousLRKey = false;
+
+//     // ゲッタープロパティ
+//     public float NextKeyLeftRightTimer => nextKeyLeftRightTimer;
+//     public float NextKeyRotateTimer => nextKeyRotateTimer;
+//     public float NextKeyDownTimer => nextKeyDownTimer;
+//     public float AutoDropTimer => autoDropTimer;
+//     public float BottomTimer => bottomTimer;
+//     public bool ContinuousLRKey
+//     {
+//         get => continuousLRKey;
+//         set => continuousLRKey = value;
+//     }
+
+//     /// <summary>
+//     /// タイマーを初期化する関数
+//     /// </summary>
+//     /// <remarks>
+//     /// ゲームスタート時とミノが設置された時に使用される
+//     /// </remarks>
+//     public void ResetTimer()
+//     {
+//         nextKeyDownTimer = Time.time;
+//         nextKeyLeftRightTimer = Time.time;
+//         nextKeyRotateTimer = Time.time;
+//         autoDropTimer = Time.time + autoDropInterval;
+//         bottomTimer = Time.time + bottomTimerInterval;
+//     }
+
+//     /// <summary>
+//     /// 右入力または左入力のタイマーを更新する関数
+//     /// </summary>
+//     public void UpdateLeftRightTimer()
+//     {
+//         if (continuousLRKey)
+//         {
+//             nextKeyLeftRightTimer = Time.time + nextKeyLeftRightInterval_Short;
+//         }
+//         else
+//         {
+//             nextKeyLeftRightTimer = Time.time + nextKeyLeftRightInterval_Normal;
+//         }
+
+//         bottomTimer = Time.time + bottomTimerInterval;
+//     }
+
+//     /// <summary>
+//     /// 回転入力のタイマーを更新する関数
+//     /// </summary>
+//     public void UpdateRotateTimer()
+//     {
+//         nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
+//         bottomTimer = Time.time + bottomTimerInterval;
+//     }
+
+//     /// <summary>
+//     /// 下入力および自動落下のタイマーを更新する関数
+//     /// </summary>
+//     public void UpdateDownTimer()
+//     {
+//         nextKeyDownTimer = Time.time + nextKeyDownInterval;
+//         autoDropTimer = Time.time + autoDropInterval;
+//         bottomTimer = Time.time + bottomTimerInterval;
 //     }
 // }
 
