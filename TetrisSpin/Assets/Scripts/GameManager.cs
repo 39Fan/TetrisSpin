@@ -24,8 +24,6 @@ public static class GameManagerStats
     /// </remarks>
     /// <value> 0~15 </value>
     private static int bottomMoveCount = 0;
-    /// <summary> ロックダウンの移動回数制限 </summary>
-    private static int bottomMoveCountLimit = 15; // TODO 移動
     /// <summary> 操作中のミノを構成するブロックのうち、最も低い y 座標を保持するプロパティ </summary>
     /// <remarks>
     /// ロックダウンの処理に必要 <br/>
@@ -44,7 +42,6 @@ public static class GameManagerStats
     public static int MinoPopNumber => minoPopNumber;
     public static int MinoPutNumber => minoPutNumber;
     public static int BottomMoveCount => bottomMoveCount;
-    public static int BottomMoveCountLimit => bottomMoveCountLimit;
     public static int LowestBlockPositionY => lowestBlockPositionY;
     public static bool UseHold => useHold;
     public static bool FirstHold => firstHold;
@@ -54,7 +51,6 @@ public static class GameManagerStats
     /// <param name="_minoPopNumber"> ミノの生成数 </param>
     /// <param name="_minoPutNumber"> ミノの設置数 </param>
     /// <param name="_bottomMoveCount"> ロックダウンの移動回数 </param>
-    /// <param name="_bottomMoveCountLimit"> ロックダウンの移動回数制限 </param>
     /// <param name="_lowestBlockPositionY"> 最も低いブロックのy座標 </param>
     /// <param name="_useHold"> ホールドの使用判定 </param>
     /// <param name="_firstHold"> ゲーム中で最初のホールドの使用判定 </param>
@@ -62,13 +58,12 @@ public static class GameManagerStats
     /// 指定されていない引数は現在の値を維持
     /// </remarks>
     public static void Update(bool? _gameOver = null, int? _minoPopNumber = null, int? _minoPutNumber = null, int? _bottomMoveCount = null,
-        int? _bottomMoveCountLimit = null, int? _lowestBlockPositionY = null, bool? _useHold = null, bool? _firstHold = null)
+        int? _lowestBlockPositionY = null, bool? _useHold = null, bool? _firstHold = null)
     {
         gameOver = _gameOver ?? gameOver;
         minoPopNumber = _minoPopNumber ?? minoPopNumber;
         minoPutNumber = _minoPutNumber ?? minoPutNumber;
         bottomMoveCount = _bottomMoveCount ?? bottomMoveCount;
-        bottomMoveCountLimit = _bottomMoveCountLimit ?? bottomMoveCountLimit;
         lowestBlockPositionY = _lowestBlockPositionY ?? lowestBlockPositionY;
         useHold = _useHold ?? useHold;
         firstHold = _firstHold ?? firstHold;
@@ -82,7 +77,6 @@ public static class GameManagerStats
         minoPopNumber = 0;
         minoPutNumber = 0;
         bottomMoveCount = 0;
-        bottomMoveCountLimit = 15;
         lowestBlockPositionY = 20;
         useHold = false;
         firstHold = true;
@@ -102,7 +96,6 @@ public class GameManager : MonoBehaviour
     SceneTransition sceneTransition;
     Spawner spawner;
     SpinCheck spinCheck;
-    Timer timer;
 
     /// <summary>
     /// インスタンス化
@@ -116,7 +109,6 @@ public class GameManager : MonoBehaviour
         sceneTransition = FindObjectOfType<SceneTransition>();
         spawner = FindObjectOfType<Spawner>();
         spinCheck = FindObjectOfType<SpinCheck>();
-        timer = FindObjectOfType<Timer>();//TODO new
     }
 
     /// <summary>
@@ -124,7 +116,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        timer.ResetTimer();
         SpawnerStats.Reset();
         spinCheck.ResetSpinTypeName();
 
@@ -150,7 +141,7 @@ public class GameManager : MonoBehaviour
         PlayerInput();
 
         // 自動落下
-        if (Time.time > timer.AutoDropTimer)
+        if (Time.time > Timer.AutoDropTimer)
         {
             LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "AutoDown()", "Start");
             AutoDown();
@@ -169,7 +160,7 @@ public class GameManager : MonoBehaviour
             LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "MoveRightInput()", "End");
         }
         // 連続右移動入力
-        else if (Input.GetKey(KeyCode.D) && (Time.time > timer.NextKeyLeftRightTimer)) // Dキーが長押しされている時
+        else if (Input.GetKey(KeyCode.D) && (Time.time > Timer.NextKeyLeftRightTimer)) // Dキーが長押しされている時
         {
             LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "ContinuousMoveRightInput()", "Start");
             ContinuousMoveRightInput();
@@ -190,7 +181,7 @@ public class GameManager : MonoBehaviour
             LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "MoveLeftInput()", "End");
         }
         // 連続左移動入力
-        else if (Input.GetKey(KeyCode.A) && (Time.time > timer.NextKeyLeftRightTimer)) // Aキーが長押しされている時
+        else if (Input.GetKey(KeyCode.A) && (Time.time > Timer.NextKeyLeftRightTimer)) // Aキーが長押しされている時
         {
             LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "ContinuousMoveLeftInput()", "Start");
             ContinuousMoveLeftInput();
@@ -204,21 +195,21 @@ public class GameManager : MonoBehaviour
             LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "ReleaseContinuousMoveRightLeftInput()", "End");
         }
         // 下移動入力
-        else if (Input.GetKey(KeyCode.S) && (Time.time > timer.NextKeyDownTimer)) // Sキーに割り当て
+        else if (Input.GetKey(KeyCode.S) && (Time.time > Timer.NextKeyDownTimer)) // Sキーに割り当て
         {
             LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "MoveDownInput()", "Start");
             MoveDownInput();
             LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "MoveDownInput()", "End");
         }
         // 右回転入力
-        else if (Input.GetKeyDown(KeyCode.P) && (Time.time > timer.NextKeyRotateTimer)) // Pキーに割り当て
+        else if (Input.GetKeyDown(KeyCode.P) && (Time.time > Timer.NextKeyRotateTimer)) // Pキーに割り当て
         {
             LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "RotateRightInput()", "Start");
             RotateRightInput();
             LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "RotateRightInput()", "End");
         }
         // 左回転入力
-        else if (Input.GetKeyDown(KeyCode.L) && (Time.time > timer.NextKeyRotateTimer)) // Lキーに割り当て
+        else if (Input.GetKeyDown(KeyCode.L) && (Time.time > Timer.NextKeyRotateTimer)) // Lキーに割り当て
         {
             LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "RotateLeftInput()", "Start");
             RotateLeftInput();
@@ -243,9 +234,9 @@ public class GameManager : MonoBehaviour
     /// <summary> 右移動入力時の処理を行う関数 </summary>
     private void MoveRightInput()
     {
-        timer.ContinuousLRKey = false; // キーの連続入力でない判定を付与
+        Timer.ContinuousLRKey = false; // キーの連続入力でない判定を付与
 
-        timer.UpdateLeftRightTimer();
+        Timer.UpdateLeftRightTimer();
 
         spawner.ActiveMino.MoveRight();
 
@@ -273,9 +264,9 @@ public class GameManager : MonoBehaviour
     /// <summary> 連続右移動入力時の処理を行う関数 </summary>
     private void ContinuousMoveRightInput()
     {
-        timer.ContinuousLRKey = true; // キーの連続入力判定を付与
+        Timer.ContinuousLRKey = true; // キーの連続入力判定を付与
 
-        timer.UpdateLeftRightTimer();
+        Timer.UpdateLeftRightTimer();
 
         spawner.ActiveMino.MoveRight(); // 右に動かす
 
@@ -303,9 +294,9 @@ public class GameManager : MonoBehaviour
     /// <summary> 左移動入力時の処理を行う関数 </summary>
     private void MoveLeftInput()
     {
-        timer.ContinuousLRKey = false; // キーの連続入力でない
+        Timer.ContinuousLRKey = false; // キーの連続入力でない
 
-        timer.UpdateLeftRightTimer();
+        Timer.UpdateLeftRightTimer();
 
         spawner.ActiveMino.MoveLeft();
 
@@ -333,9 +324,9 @@ public class GameManager : MonoBehaviour
     /// <summary> 連続左移動入力時の処理を行う関数 </summary>
     private void ContinuousMoveLeftInput()
     {
-        timer.ContinuousLRKey = true; // キーの連続入力がされた
+        Timer.ContinuousLRKey = true; // キーの連続入力がされた
 
-        timer.UpdateLeftRightTimer();
+        Timer.UpdateLeftRightTimer();
 
         spawner.ActiveMino.MoveLeft();
 
@@ -363,13 +354,13 @@ public class GameManager : MonoBehaviour
     /// <summary> 連続右、または左移動入力の解除処理を行う関数 </summary>
     private void ReleaseContinuousMoveRightLeftInput()
     {
-        timer.ContinuousLRKey = false;
+        Timer.ContinuousLRKey = false;
     }
 
     /// <summary> 下移動入力時の処理を行う関数 </summary>
     private void MoveDownInput()
     {
-        timer.UpdateDownTimer();
+        Timer.UpdateDownTimer();
 
         spawner.ActiveMino.MoveDown();
 
@@ -397,7 +388,7 @@ public class GameManager : MonoBehaviour
     /// <summary> 右回転入力時の処理を行う関数 </summary>
     private void RotateRightInput()
     {
-        timer.UpdateRotateTimer();
+        Timer.UpdateRotateTimer();
 
         minoMovement.ResetStepsSRS();
 
@@ -435,7 +426,7 @@ public class GameManager : MonoBehaviour
     /// <summary> 左回転入力時の処理を行う関数 </summary>
     private void RotateLeftInput()
     {
-        timer.UpdateRotateTimer();
+        Timer.UpdateRotateTimer();
 
         minoMovement.ResetStepsSRS();
 
@@ -507,12 +498,7 @@ public class GameManager : MonoBehaviour
     private void IncreaseBottomMoveCount()
     {
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "IncreaseBottomMoveCount()", "Start");
-
-        if (GameManagerStats.BottomMoveCount < GameManagerStats.BottomMoveCountLimit) // BottomMoveCount が15未満の時
-        {
-            GameManagerStats.Update(_bottomMoveCount: GameManagerStats.BottomMoveCount + 1);
-        }
-
+        GameManagerStats.Update(_bottomMoveCount: GameManagerStats.BottomMoveCount + 1);
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "IncreaseBottomMoveCount()", "End");
     }
 
@@ -590,7 +576,7 @@ public class GameManager : MonoBehaviour
     /// <summary> 時間経過で落ちる時の処理をする関数 </summary>
     void AutoDown()
     {
-        timer.UpdateDownTimer();
+        Timer.UpdateDownTimer();
 
         spawner.ActiveMino.MoveDown();
 
@@ -614,6 +600,9 @@ public class GameManager : MonoBehaviour
     {
         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "RockDown()", "Start");
 
+        /// <summary> ロックダウンの移動回数制限 </summary>
+        int bottomMoveCountLimit = 15;
+
         int newBottomBlockPosition_y = board.CheckActiveMinoBottomBlockPosition_y(spawner.ActiveMino); // 操作中のミノの1番下のブロックのy座標を取得
 
         if (GameManagerStats.LowestBlockPositionY <= newBottomBlockPosition_y) // lowestBlockPositionYが更新されていない場合
@@ -622,8 +611,8 @@ public class GameManager : MonoBehaviour
 
             // 1マス下が底の時((底に面している時)
             // かつインターバル時間を超過している、または15回以上移動や回転を行った時
-            if (!board.CheckPosition(spawner.ActiveMino) && (Time.time >= timer.BottomTimer ||
-                GameManagerStats.BottomMoveCount >= GameManagerStats.BottomMoveCountLimit))
+            if (!board.CheckPosition(spawner.ActiveMino) && (Time.time >= Timer.BottomTimer ||
+                GameManagerStats.BottomMoveCount >= bottomMoveCountLimit))
             {
                 spawner.ActiveMino.MoveUp(); // 元の位置に戻す
 
@@ -675,7 +664,7 @@ public class GameManager : MonoBehaviour
 
         // 各種変数のリセット
         ResetRockDown();
-        timer.ResetTimer();
+        Timer.Reset();
 
         board.SaveBlockInGrid(spawner.ActiveMino);
         lineClearCount = board.ClearAllRows();
@@ -826,7 +815,7 @@ public class GameManager : MonoBehaviour
 // // 連続左移動入力の解除処理を行う関数 //
 // private void ReleaseContinuousMoveLeftInput()
 // {
-//     timer.ContinuousLRKey = false; // キーの連続入力でない
+//     Timer.ContinuousLRKey = false; // キーの連続入力でない
 // }
 
 /*void SpinEffect(int i)
