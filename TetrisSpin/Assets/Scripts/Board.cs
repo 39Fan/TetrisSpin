@@ -12,29 +12,41 @@ public static class BoardStats
     // ゲッタープロパティ //
     public static List<int> LineClearCountHistory => lineClearCountHistory;
 
-    /// <summary> 指定されたフィールドの値を更新する関数 </summary>
-    /// <param name="_lineClearCountHistory"> ライン消去の履歴 </param>
-    /// <remarks>
-    /// 指定されていない引数は現在の値を維持
-    /// </remarks>
-    public static void Update(List<int> _lineClearCountHistory = null)
-    {
-        lineClearCountHistory = _lineClearCountHistory ?? new List<int>(lineClearCountHistory);
-        // TODO: ログの記入
-    }
+    /// <summary> スタッツログの詳細 </summary>
+    private static string logStatsDetail;
+
+    // /// <summary> 指定されたフィールドの値を更新する関数 </summary>
+    // /// <param name="_lineClearCountHistory"> ライン消去の履歴 </param>
+    // /// <remarks>
+    // /// 指定されていない引数は現在の値を維持
+    // /// </remarks>
+    // public static void UpdateStats(List<int> _lineClearCountHistory = null)
+    // {
+    //     lineClearCountHistory = _lineClearCountHistory ?? lineClearCountHistory;
+    // }
 
     /// <summary> デフォルトの <see cref="BoardStats"/> にリセットする関数 </summary>
-    public static void Reset()
+    public static void ResetStats()
     {
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.BoardStats, eMethod.ResetStats, eLogTitle.Start);
+
         lineClearCountHistory.Clear();
+
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.BoardStats, eMethod.ResetStats, eLogTitle.End);
     }
 
     /// <summary> ライン消去数の履歴を追加する関数 </summary>
     /// <param name="_lineClearCount"> 消去したライン数 </param>
     public static void AddLineClearCountHistory(int _lineClearCount)
     {
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.BoardStats, eMethod.AddLineClearCountHistory, eLogTitle.Start);
+
         lineClearCountHistory.Add(_lineClearCount);
-        // TODO: ログの記入
+
+        logStatsDetail = $"lineClearCountHistory : {lineClearCountHistory}";
+        LogHelper.InfoLog(eClasses.BoardStats, eMethod.AddLineClearCountHistory, eLogTitle.StatsInfo, logStatsDetail);
+
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.BoardStats, eMethod.AddLineClearCountHistory, eLogTitle.End);
     }
 }
 
@@ -102,7 +114,7 @@ public class Board : MonoBehaviour
 
     }
 
-    /// <summary> activeMinoが存在できる位置か判定する関数を呼ぶ関数 </summary>
+    /// <summary> 操作中のミノが存在できる位置か判定する関数を呼ぶ関数 </summary>
     /// <param name="_activeMino"> 操作中のミノ </param>
     /// <returns> ブロックが存在できる場合 true、それ以外の場合は false </returns>
     public bool CheckPosition(MinoMovement _activeMino)
@@ -127,17 +139,17 @@ public class Board : MonoBehaviour
     }
 
     /// <summary> ブロックが枠内にあるか判定する関数 </summary>
-    /// <param name="_x"> activeMinoを構成するブロックの x 座標 </param>
-    /// <param name="_y"> activeMinoを構成するブロックの y 座標 </param>
+    /// <param name="_x"> 操作中のミノを構成するブロックの x 座標 </param>
+    /// <param name="_y"> 操作中のミノを構成するブロックの y 座標 </param>
     /// <returns> ブロックが枠内にある場合 true、それ以外の場合は false </returns>
     public bool IsWithinBoard(int _x, int _y)
     {
         return (_x >= 0 && _x < width && _y >= 0);
     }
 
-    /// <summary> activeMinoとブロックが重なっているか判定する関数 </summary>
-    /// <param name="_x"> activeMinoを構成するブロックの x 座標 </param>
-    /// <param name="_y"> activeMinoを構成するブロックの y 座標 </param>
+    /// <summary> 操作中のミノとブロックが重なっているか判定する関数 </summary>
+    /// <param name="_x"> 操作中のミノを構成するブロックの x 座標 </param>
+    /// <param name="_y"> 操作中のミノを構成するブロックの y 座標 </param>
     /// <param name="_activeMino"> 操作中のミノ </param>
     /// <returns> ブロックが重なっていない場合 true、それ以外の場合は false </returns>
     private bool CheckMinoCollision(int _x, int _y, MinoMovement _activeMino)
@@ -232,7 +244,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    /// <summary> PerfectClearか判別する関数 </summary>
+    /// <summary> PerfectClear か判別する関数 </summary>
     /// <returns> PerfectClear 判定の場合 true、それ以外の場合は false </returns>
     public bool CheckPerfectClear()
     {

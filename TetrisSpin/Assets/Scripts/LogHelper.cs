@@ -2,30 +2,148 @@ using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// スクリプト一覧
+/// ログレベル 列挙型
 /// </summary>
-public enum eScripts
+public enum eLogLevel
 {
+    Debug,
+    Info,
+    Warning,
+    Error
+}
+
+/// <summary>
+/// ログタイトル 列挙型
+/// </summary>
+public enum eLogTitle
+{
+    // 共通タイトル //
+    Start, End, KeyNotFound,
+    // 各種 Stats クラス //
+    StatsInfo,
+    // AttackCalculator クラス //
+    AttackLinesValue,
+    // AudioManager クラス //
+    MismatchBetweenAudioAndAudioNameCount, AudioNameAlreadyExists,
+    // BoardStats クラス //
+
+    // Board クラス //
+
+    // GameAutoRunner クラス //
+
+    // LogHelper クラス //
+
+    // MinoMovement クラス //
+    SRSInfo, InvalidMinosPositionDetected,
+    // PlayerInput クラス //
+
+    // SceneTransition クラス //
+
+    // SpawnerStats クラス //
+
+    // Spawner クラス //
+
+    // SpinCheck クラス //
+
+    // TextEffect クラス //
+
+    // Timer クラス //
+}
+
+// /// <summary>
+// /// スクリプト 列挙型
+// /// </summary>
+// public enum eScripts
+// {
+//     AttackCalculator,
+//     AudioManager,
+//     Board,
+//     GameAutoRunner,
+//     GameManager,
+//     LogHelper,
+//     MinoMovement,
+//     PlayerInput,
+//     Rounding,
+//     SceneTransition,
+//     Spawner,
+//     SpinCheck,
+//     TextEffect,
+//     Timer
+// }
+
+/// <summary>
+/// クラス 列挙型
+/// </summary>
+public enum eClasses
+{
+    AttackCalculator,
+    AttackCalculatorStats,
     AudioManager,
     Board,
+    BoardStats,
+    GameAutoRunner,
+    GameAutoRunnerStats,
     GameManager,
-    GameStatus,
+    GameManagerStats,
     LogHelper,
-    Mino,
+    MinoMovement,
+    MinoMovementStats,
+    PlayerInput,
+    PlayerInputStats,
     Rounding,
     SceneTransition,
     Spawner,
+    SpawnerStats,
     SpinCheck,
     TextEffect,
     Timer
 }
 
 /// <summary>
-/// 関数一覧
+/// 関数 列挙型
 /// </summary>
 public enum eMethod
 {
-    //
+    // 共通関数 //
+    Awake, Start, Update,
+    // 各種 Stats クラス //
+    UpdateStats, ResetStats,
+    // AttackCalculator クラス //
+    CalculateAttackLines, CalculateBackToBack, CalculatePerfectClear, CalculateRen,
+    // AudioManager クラス //
+    PlaySound, SetVolume, BuildAudioClipDictionary,
+    // BoardStats クラス //
+    AddLineClearCountHistory,
+    // Board クラス //
+    CheckPosition, IsWithinBoard, CheckMinoCollision, SaveBlockInGrid, ClearAllRows, IsComplete, ClearRow, ShiftRowsDown,
+    CheckPerfectClear, CheckGrid, CheckActiveMinoTopBlockPositionY, CheckActiveMinoBottomBlockPositionY, CheckGameOver,
+    // GameAutoRunner クラス //
+    RockDown, ResetRockDown, AutoDown, SetMinoFixed,
+    // LogHelper クラス //
+    Log, DebugLog, InfoLog, WarningLog, ErrorLog, FormatLogMessage, FormatInfoLogMessage, GetColorByLevel,
+    // MinoMovement クラス //
+    Move, MoveLeft, MoveRight, MoveUp, MoveDown, RotateRight, RotateLeft, AxisCheckForI,
+    UpdateMinoAngleAfter, UpdateMinoAngleAfterToMinoAngleBefore, UpdateMinoAngleBeforeToMinoAngleAfter,
+    ResetRotate, ResetAngle, ResetStepsSRS, SuperRotationSystem, TrySuperRotation, GetMinoAngleAfter, GetMinoAngleBefore, GetStepsSRS,
+    // PlayerInput クラス //
+    InputInGame, MoveRightInput, ContinuousMoveRightInput, MoveLeftInput, ContinuousMoveLeftInput,
+    ReleaseContinuousMoveRightLeftInput, MoveDownInput, RotateRightInput, RotateLeftInput,
+    HardDropInput, HoldInput, SuccessRotateAction, IncreaseBottomMoveCount, ConfirmMinoMovement,
+    // SceneTransition クラス //
+    SelectStartButton, SelectRetry, SelectMenu, GameOver,
+    // SpawnerStats クラス //
+    AddSpawnMinoOrder,
+    // Spawner クラス //
+    DetermineSpawnMinoOrder, CheckActiveMinoToBaseDistance, AdjustGhostMinoPosition,
+    CreateNewActiveMino, CreateNextMinos, CreateHoldMino, SpawnActiveMino, SpawnGhostMino, SpawnNextMino, SpawnHoldMino,
+    // SpinCheck クラス //
+    CheckSpinType, ResetSpinTypeName, IspinCheck, JspinCheck, LspinCheck, SspinCheck, TspinCheck, ZspinCheck,
+    // TextEffect クラス //
+    TextDisplay, DetermineTextToDisplay, TextAnimation, TextFadeInAndOut, TextMove,
+    BackToBackAnimation, PerfectClearAnimation, ReadyGoAnimation, StopAnimation,
+    // Timer クラス //
+    ResetTimer, UpdateMoveLeftRightTimer, UpdateMoveDownTimer, UpdateRotateTimer
+
 }
 
 /// <summary>
@@ -33,127 +151,120 @@ public enum eMethod
 /// </summary>
 public static class LogHelper
 {
-    /// <summary>
-    /// ログのレベルを定義する列挙型
-    /// </summary>
-    public enum eLogLevel
-    {
-        Debug,
-        Info,
-        Warning,
-        Error
-    }
-
     /// <summary> デバッグメッセージを格納する辞書 </summary>
-    private static readonly Dictionary<string, string> DebugMessages;
+    private static readonly Dictionary<eLogTitle, string> DebugMessages;
 
     /// <summary>
     /// 静的コンストラクタでデバッグメッセージを初期化
     /// </summary>
     static LogHelper()
     {
-        DebugMessages = new Dictionary<string, string>();
+        DebugMessages = new Dictionary<eLogTitle, string>();
         DebugList();
     }
 
     /// <summary> デバッグメッセージを辞書に設定する </summary>
     private static void DebugList()
     {
-        DebugMessages["Start"] = "Starting Method";
-        DebugMessages["End"] = "Ending Method";
+        DebugMessages[eLogTitle.Start] = "関数の開始";
+        DebugMessages[eLogTitle.End] = "関数の終了";
+        DebugMessages[eLogTitle.KeyNotFound] = "辞書のキーが見つかりませんでした。";
+        DebugMessages[eLogTitle.MismatchBetweenAudioAndAudioNameCount] = "Audios の数と eAudioName の数が一致していません。";
+        DebugMessages[eLogTitle.AudioNameAlreadyExists] = "すでに登録されている AudioName が存在します。";
+        // DebugMessages["MoveRightFailure"] = "Move right failed: Cannot move to the right - Reverting to original position";
 
-        // DebugMessages["KeyNotFound"] = "Error: The specified key was not found in the dictionary.";
-
-        DebugMessages["EndRightMoveInput"] = "Ending RightMoveInput";
-        DebugMessages["MoveRightSuccess"] = "Move right succeeded: Mino successfully moved to the right";
-        DebugMessages["MoveRightFailure"] = "Move right failed: Cannot move to the right - Reverting to original position";
-
-        DebugMessages["StartLeftMoveInput"] = "Starting LeftMoveInput";
-        DebugMessages["EndLeftMoveInput"] = "Ending LeftMoveInput";
-        DebugMessages["MoveLeftSuccess"] = "Move left succeeded: Mino successfully moved to the left";
-        DebugMessages["MoveLeftFailure"] = "Move left failed: Cannot move to the left - Reverting to original position";
+        // DebugMessages["StartLeftMoveInput"] = "Starting LeftMoveInput";
+        // DebugMessages["EndLeftMoveInput"] = "Ending LeftMoveInput";
+        // DebugMessages["MoveLeftSuccess"] = "Move left succeeded: Mino successfully moved to the left";
+        // DebugMessages["MoveLeftFailure"] = "Move left failed: Cannot move to the left - Reverting to original position";
 
         // 他のメッセージも同様に追加
     }
 
-    /// <summary> 指定されたログレベルと情報でログを出力する関数を呼ぶ関数 </summary>
-    /// <param name="_level"> ログレベル </param>
-    /// <param name="_script"> スクリプト名 </param>
-    /// <param name="_method"> メソッド名 </param>
-    /// <param name="_title_or_Info"> タイトルまたは情報 </param>
-    public static void Log(eLogLevel _level, string _script, string _method, string _title_or_Info)
-    {
-        if (_level == eLogLevel.Debug)
-        {
-            DebugLog(_level, _script, _method, _title_or_Info);
-        }
-        else if (_level == eLogLevel.Info)
-        {
-            InfoLog(_level, _script, _method, _title_or_Info);
-        }
-    }
-
     /// <summary> デバッグログを出力する関数 </summary>
-    /// <param name="level"> ログレベル </param>
-    /// <param name="script"> スクリプト名 </param>
-    /// <param name="method"> メソッド名 </param>
-    /// <param name="title"> タイトル </param>
-    private static void DebugLog(eLogLevel level, string script, string method, string title)
+    /// <param name="_class"> クラス名 </param>
+    /// <param name="_method"> メソッド名 </param>
+    /// <param name="_title"> タイトル </param>
+    public static void DebugLog(eClasses _class, eMethod _method, eLogTitle _title)
     {
-        if (DebugMessages.TryGetValue(title, out string message)) // Keyの照合を行う
+        if (DebugMessages.TryGetValue(_title, out string message)) // Keyの照合を行う
         {
-            string logMessage = FormatDebugLogMessage(level, script, method, title, message);
+            string logMessage = FormatLogMessage(eLogLevel.Debug, _class, _method, _title, message);
             Debug.Log(logMessage);
         }
         else // Keyが照合しなかった場合
         {
-            string logMessage = FormatDebugLogMessage(level, script, method, "KeyNotFound", "The specified key was not found in the dictionary");
+            string logMessage = FormatLogMessage(eLogLevel.Error, eClasses.LogHelper, eMethod.DebugLog, eLogTitle.KeyNotFound, DebugMessages[eLogTitle.KeyNotFound]);
             Debug.Log(logMessage);
         }
     }
 
     /// <summary> 情報ログを出力する関数 </summary>
-    /// <param name="level"> ログレベル </param>
-    /// <param name="script"> スクリプト名 </param>
-    /// <param name="method"> メソッド名 </param>
-    /// <param name="info"> 情報 </param>
-    private static void InfoLog(eLogLevel level, string script, string method, string info)
+    /// <param name="_class"> クラス名 </param>
+    /// <param name="_method"> メソッド名 </param>
+    /// <param name="_title"> タイトル </param>
+    /// <param name="_info"> 情報 </param>
+    public static void InfoLog(eClasses _class, eMethod _method, eLogTitle _title, string _info)
     {
-        string logMessage = FormatInfoLogMessage(level, script, method, info);
+        string logMessage = FormatLogMessage(eLogLevel.Info, _class, _method, _title, _info);
         Debug.Log(logMessage);
     }
 
-    /// <summary> デバッグログメッセージをフォーマットする関数 </summary>
-    /// <param name="level"> ログレベル</param>
-    /// <param name="script"> スクリプト名</param>
-    /// <param name="method">メソッド名</param>
-    /// <param name="title">タイトル</param>
-    /// <param name="message">メッセージ</param>
-    /// <returns> フォーマットされたログメッセージ </returns>
-    private static string FormatDebugLogMessage(eLogLevel level, string script, string method, string title, string message)
+    /// <summary> 警告ログを出力する関数 </summary>
+    /// <param name="_class"> クラス名 </param>
+    /// <param name="_method"> メソッド名 </param>
+    /// <param name="_title"> タイトル </param>
+    public static void WarningLog(eClasses _class, eMethod _method, eLogTitle _title)
     {
-        string color = GetColorByLevel(level);
-        return $"<size=10><color={color}>[{level}] [{script}] [{method}]</color> {title} / {message}</size>";
+        if (DebugMessages.TryGetValue(_title, out string message)) // Keyの照合を行う
+        {
+            string logMessage = FormatLogMessage(eLogLevel.Warning, _class, _method, _title, message);
+            Debug.Log(logMessage);
+        }
+        else // Keyが照合しなかった場合
+        {
+            string logMessage = FormatLogMessage(eLogLevel.Error, eClasses.LogHelper, eMethod.WarningLog, eLogTitle.KeyNotFound, DebugMessages[eLogTitle.KeyNotFound]);
+            Debug.Log(logMessage);
+        }
     }
 
-    /// <summary> 情報ログメッセージをフォーマットする関数 </summary>
-    /// <param name="level"> ログレベル </param>
-    /// <param name="script"> スクリプト名 </param>
-    /// <param name="method"> メソッド名 </param>
-    /// <param name="info"> 情報 </param>
-    /// <returns> フォーマットされたログメッセージ </returns>
-    private static string FormatInfoLogMessage(eLogLevel level, string script, string method, string info)
+    /// <summary> エラーログを出力する関数 </summary>
+    /// <param name="_class"> クラス名 </param>
+    /// <param name="_method"> メソッド名 </param>
+    /// <param name="_title"> タイトル </param>
+    public static void ErrorLog(eClasses _class, eMethod _method, eLogTitle _title)
     {
-        string color = GetColorByLevel(level);
-        return $"<size=10><color={color}>[{level}] [{script}] [{method}]</color> {info}</size>";
+        if (DebugMessages.TryGetValue(_title, out string message)) // Keyの照合を行う
+        {
+            string logMessage = FormatLogMessage(eLogLevel.Error, _class, _method, _title, message);
+            Debug.Log(logMessage);
+        }
+        else // Keyが照合しなかった場合
+        {
+            string logMessage = FormatLogMessage(eLogLevel.Error, eClasses.LogHelper, eMethod.ErrorLog, eLogTitle.KeyNotFound, DebugMessages[eLogTitle.KeyNotFound]);
+            Debug.Log(logMessage);
+        }
+    }
+
+    /// <summary> ログメッセージをフォーマットする関数 </summary>
+    /// <param name="_logLevel"> ログレベル </param>
+    /// <param name="_class"> クラス名 </param>
+    /// <param name="_method"> メソッド名 </param>
+    /// <param name="_title"> タイトル </param>
+    /// <param name="_detail"> 詳細 </param>
+    /// <returns> フォーマットされたログメッセージ </returns>
+    private static string FormatLogMessage(eLogLevel _logLevel, eClasses _class, eMethod _method, eLogTitle _title, string _detail)
+    {
+        string color = GetColorByLevel(_logLevel);
+        return $"<size=10><color={color}>[{_logLevel}] [{_class}] [{_method}]</color> {_title} / {_detail}</size>";
     }
 
     /// <summary> ログレベルに応じて色を選択する関数 </summary>
-    /// <param name="level"> ログレベル </param>
+    /// <param name="_logLevel"> ログレベル </param>
     /// <returns> 色 </returns>
-    private static string GetColorByLevel(eLogLevel level)
+    private static string GetColorByLevel(eLogLevel _logLevel)
     {
-        switch (level)
+        switch (_logLevel)
         {
             case eLogLevel.Debug:
                 return "#98FB98"; // PaleGreen (優しい緑)

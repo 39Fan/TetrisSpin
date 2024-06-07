@@ -38,16 +38,19 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip[] Audios;
 
     /// <summary> eAudioName と AudioClip の辞書</summary>
-    private Dictionary<eAudioName, AudioClip> AudioClipDictionary;
+    private Dictionary<eAudioName, AudioClip> AudioClipDictionary = new Dictionary<eAudioName, AudioClip>();
 
     /// <summary> 低ボリュームの値(0.2f) </summary>
     private float LowVolume = 0.2f;
     /// <summary> 中ボリュームの値(0.5f) </summary>
     private float MediumVolume = 0.5f;
-    /// <summary> 高ボリュームの値(0.7f) </summary>
-    private float HighVolume = 0.7f;
-    /// <summary> 最大ボリュームの値(1)/// </summary>
-    private int MaxVolume = 1;
+    // /// <summary> 高ボリュームの値(0.7f) </summary>
+    // private float HighVolume = 0.7f;
+    // /// <summary> 最大ボリュームの値(1) </summary>
+    // private int MaxVolume = 1;
+
+    // /// <summary> ログメッセージ </summary>
+    // private string logMessage;
 
     /// <summary> 初期化処理 </summary>
     /// <remarks>
@@ -71,11 +74,11 @@ public class AudioManager : MonoBehaviour
     /// <summary> AudioName と AudioClip の辞書を作成する関数 </summary>
     private void BuildAudioClipDictionary()
     {
-        AudioClipDictionary = new Dictionary<eAudioName, AudioClip>();
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.AudioManager, eMethod.BuildAudioClipDictionary, eLogTitle.Start);
 
         if (Audios.Length != System.Enum.GetValues(typeof(eAudioName)).Length)
         {
-            // Debug.LogError("[AudioManager BuildAudioClipDictionary()] Audiosの数とAudioNameの数が一致しません。");
+            LogHelper.ErrorLog(eClasses.AudioManager, eMethod.BuildAudioClipDictionary, eLogTitle.MismatchBetweenAudioAndAudioNameCount);
             return;
         }
 
@@ -89,31 +92,38 @@ public class AudioManager : MonoBehaviour
             }
             else
             {
-                // Debug.LogWarning($"[AudioManager BuildAudioClipDictionary()] {audioName} はすでに登録されています。");
+                LogHelper.WarningLog(eClasses.AudioManager, eMethod.BuildAudioClipDictionary, eLogTitle.AudioNameAlreadyExists);
             }
         }
+
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.AudioManager, eMethod.BuildAudioClipDictionary, eLogTitle.End);
     }
 
     /// <summary> 指定されたオーディオクリップを再生する関数 </summary>
     /// <param name="audioName"> 再生するオーディオクリップの名前 </param>
     public void PlaySound(eAudioName audioName)
     {
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.AudioManager, eMethod.PlaySound, eLogTitle.Start);
+
         if (AudioClipDictionary.TryGetValue(audioName, out AudioClip clip))
         {
             SetVolume(audioName); // 音量の調整
-
             audioSource.PlayOneShot(clip); // 出力
         }
         else
         {
-            // Debug.LogError($"[AudioManager PlaySound()] オーディオ {_AudioName} は見つかりませんでした。");
+            LogHelper.ErrorLog(eClasses.AudioManager, eMethod.PlaySound, eLogTitle.KeyNotFound);
         }
+
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.AudioManager, eMethod.PlaySound, eLogTitle.End);
     }
 
     /// <summary> 音量を設定する関数 </summary>
     /// <param name="audioName"> 再生するオーディオクリップの名前 </param>
     private void SetVolume(eAudioName audioName)
     {
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.AudioManager, eMethod.SetVolume, eLogTitle.Start);
+
         switch (audioName)
         {
             case eAudioName.StartOrRetry:
@@ -126,6 +136,8 @@ public class AudioManager : MonoBehaviour
                 audioSource.volume = MediumVolume;
                 break;
         }
+
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.AudioManager, eMethod.SetVolume, eLogTitle.End);
     }
 }
 

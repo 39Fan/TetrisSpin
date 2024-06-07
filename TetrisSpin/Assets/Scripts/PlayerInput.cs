@@ -20,7 +20,7 @@ public static class PlayerInputStats
     /// <remarks>
     /// 指定されていない引数は現在の値を維持
     /// </remarks>
-    public static void Update(bool? _useHold = null, bool? _firstHold = null)
+    public static void UpdateStats(bool? _useHold = null, bool? _firstHold = null)
     {
         useHold = _useHold ?? useHold;
         firstHold = _firstHold ?? firstHold;
@@ -28,7 +28,7 @@ public static class PlayerInputStats
     }
 
     /// <summary> デフォルトの <see cref="AttackCalculatorStats"/> にリセットする関数 </summary>
-    public static void Reset()
+    public static void ResetStats()
     {
         useHold = false;
         firstHold = true;
@@ -40,7 +40,6 @@ public static class PlayerInputStats
 /// </summary>
 public class PlayerInput : MonoBehaviour
 {
-    GameManager gameManager;
     Board board;
     GameAutoRunner gameAutoRunner;
     Spawner spawner;
@@ -49,7 +48,6 @@ public class PlayerInput : MonoBehaviour
 
     private void Awake()
     {
-        gameManager = FindObjectOfType<GameManager>();
         board = FindObjectOfType<Board>();
         gameAutoRunner = FindObjectOfType<GameAutoRunner>();
         spawner = FindObjectOfType<Spawner>();
@@ -65,46 +63,57 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D))
         {
             MoveRightInput();
+            ConfirmMinoMovement();
         }
         else if (Input.GetKey(KeyCode.D) && (Time.time > Timer.NextKeyLeftRightTimer))
         {
             ContinuousMoveRightInput();
+            ConfirmMinoMovement();
         }
         else if (Input.GetKeyUp(KeyCode.D))
         {
             ReleaseContinuousMoveRightLeftInput();
+            ConfirmMinoMovement();
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
             MoveLeftInput();
+            ConfirmMinoMovement();
         }
         else if (Input.GetKey(KeyCode.A) && (Time.time > Timer.NextKeyLeftRightTimer))
         {
             ContinuousMoveLeftInput();
+            ConfirmMinoMovement();
         }
         else if (Input.GetKeyUp(KeyCode.A))
         {
             ReleaseContinuousMoveRightLeftInput();
+            ConfirmMinoMovement();
         }
         else if (Input.GetKey(KeyCode.S) && (Time.time > Timer.NextKeyDownTimer))
         {
             MoveDownInput();
+            ConfirmMinoMovement();
         }
         else if (Input.GetKeyDown(KeyCode.P) && (Time.time > Timer.NextKeyRotateTimer))
         {
             RotateRightInput();
+            ConfirmMinoMovement();
         }
         else if (Input.GetKeyDown(KeyCode.L) && (Time.time > Timer.NextKeyRotateTimer))
         {
             RotateLeftInput();
+            ConfirmMinoMovement();
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             HardDropInput();
+            ConfirmMinoMovement();
         }
         else if (Input.GetKeyDown(KeyCode.Return))
         {
             HoldInput();
+            ConfirmMinoMovement();
         }
     }
 
@@ -112,7 +121,7 @@ public class PlayerInput : MonoBehaviour
     private void MoveRightInput()
     {
         Timer.ContinuousLRKey = false; // キーの連続入力でない判定を付与
-        Timer.UpdateLeftRightTimer();
+        Timer.UpdateMoveLeftRightTimer();
         spawner.ActiveMino.MoveRight();
 
         if (!board.CheckPosition(spawner.ActiveMino)) // 右に動かせない時
@@ -134,7 +143,7 @@ public class PlayerInput : MonoBehaviour
     private void ContinuousMoveRightInput()
     {
         Timer.ContinuousLRKey = true; // キーの連続入力判定を付与
-        Timer.UpdateLeftRightTimer();
+        Timer.UpdateMoveLeftRightTimer();
         spawner.ActiveMino.MoveRight();
 
         if (!board.CheckPosition(spawner.ActiveMino)) // 右に動かせない時
@@ -156,7 +165,7 @@ public class PlayerInput : MonoBehaviour
     private void MoveLeftInput()
     {
         Timer.ContinuousLRKey = false; // キーの連続入力でない判定を付与
-        Timer.UpdateLeftRightTimer();
+        Timer.UpdateMoveLeftRightTimer();
         spawner.ActiveMino.MoveLeft();
 
         if (!board.CheckPosition(spawner.ActiveMino)) // 左に動かせない時
@@ -178,7 +187,7 @@ public class PlayerInput : MonoBehaviour
     private void ContinuousMoveLeftInput()
     {
         Timer.ContinuousLRKey = true; // キーの連続入力判定を付与
-        Timer.UpdateLeftRightTimer();
+        Timer.UpdateMoveLeftRightTimer();
         spawner.ActiveMino.MoveLeft();
 
         if (!board.CheckPosition(spawner.ActiveMino)) // 左に動かせない時
@@ -205,7 +214,7 @@ public class PlayerInput : MonoBehaviour
     /// <summary> 下移動入力時の処理を行う関数 </summary>
     private void MoveDownInput()
     {
-        Timer.UpdateDownTimer();
+        Timer.UpdateMoveDownTimer();
         spawner.ActiveMino.MoveDown();
 
         if (!board.CheckPosition(spawner.ActiveMino)) // 下に動かせない時
@@ -312,15 +321,15 @@ public class PlayerInput : MonoBehaviour
     {
         if (PlayerInputStats.UseHold == false)
         {
-            PlayerInputStats.Update(_useHold: true);
+            PlayerInputStats.UpdateStats(_useHold: true);
             AudioManager.Instance.PlaySound(eAudioName.Hold);
             gameAutoRunner.ResetRockDown();
 
             if (PlayerInputStats.FirstHold == true) // ゲーム中で最初のHoldだった時
             {
-                GameManagerStats.Update(_minoPopNumber: GameManagerStats.MinoPopNumber + 1);
+                GameManagerStats.UpdateStats(_minoPopNumber: GameManagerStats.MinoPopNumber + 1);
                 spawner.CreateHoldMino(PlayerInputStats.FirstHold, GameManagerStats.MinoPopNumber);
-                PlayerInputStats.Update(_firstHold: false);
+                PlayerInputStats.UpdateStats(_firstHold: false);
             }
             else
             {
@@ -332,7 +341,7 @@ public class PlayerInput : MonoBehaviour
     /// <summary> 回転が成功した時の処理をする関数 </summary>
     private void SuccessRotateAction()
     {
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameManager", "SuccessRotateAction()", "Start");
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.PlayerInput, eMethod.SuccessRotateAction, eLogTitle.Start);
 
         /// <summary> ミノの回転後の向き </summary>
         eMinoDirection minoAngleAfter;
@@ -359,14 +368,27 @@ public class PlayerInput : MonoBehaviour
             AudioManager.Instance.PlaySound(eAudioName.Rotation);
         }
 
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameManager", "SuccessRotateAction()", "End");
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.PlayerInput, eMethod.SuccessRotateAction, eLogTitle.End);
     }
 
     /// <summary> BottomMoveCountを進める関数 </summary>
     private void IncreaseBottomMoveCount()
     {
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameManager", "IncreaseBottomMoveCount()", "Start");
-        GameAutoRunnerStats.Update(_bottomMoveCount: GameAutoRunnerStats.BottomMoveCount + 1);
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameManager", "IncreaseBottomMoveCount()", "End");
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.PlayerInput, eMethod.IncreaseBottomMoveCount, eLogTitle.Start);
+        GameAutoRunnerStats.UpdateStats(_bottomMoveCount: GameAutoRunnerStats.BottomMoveCount + 1);
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.PlayerInput, eMethod.IncreaseBottomMoveCount, eLogTitle.End);
+    }
+
+    /// <summary> 移動後に想定外の挙動をしていないか最終確認を行う関数 </summary>
+    private void ConfirmMinoMovement()
+    {
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.PlayerInput, eMethod.ConfirmMinoMovement, eLogTitle.Start);
+
+        if (!board.CheckPosition(spawner.ActiveMino))
+        {
+            LogHelper.ErrorLog(eClasses.PlayerInput, eMethod.ConfirmMinoMovement, eLogTitle.InvalidMinosPositionDetected);
+        }
+
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.PlayerInput, eMethod.ConfirmMinoMovement, eLogTitle.End);
     }
 }

@@ -33,7 +33,7 @@ public static class SpawnerStats
     /// <remarks>
     /// 指定されていない引数は現在の値を維持
     /// </remarks>
-    public static void Update(eMinoType? _activeMinoName = null, eMinoType? _holdMinoName = null, int? _activeMinoToBaseDistance = null)
+    public static void UpdateStats(eMinoType? _activeMinoName = null, eMinoType? _holdMinoName = null, int? _activeMinoToBaseDistance = null)
     {
         activeMinoName = _activeMinoName ?? activeMinoName;
         holdMinoName = _holdMinoName ?? holdMinoName;
@@ -42,7 +42,7 @@ public static class SpawnerStats
     }
 
     /// <summary> デフォルトの <see cref="AttackCalculatorStats"/> にリセットする関数 </summary>
-    public static void Reset()
+    public static void ResetStats()
     {
         spawnMinoOrders.Clear();
         activeMinoName = default;
@@ -235,7 +235,7 @@ public class Spawner : MonoBehaviour
     /// <summary> ゴーストミノの位置調整を行う関数 </summary>
     public void AdjustGhostMinoPosition()
     {
-        SpawnerStats.Update(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
+        SpawnerStats.UpdateStats(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
 
         // 操作中のミノの各座標を格納する変数を宣言
         int activeMinoPos_x = Mathf.RoundToInt(activeMino.transform.position.x);
@@ -257,17 +257,17 @@ public class Spawner : MonoBehaviour
 
         activeMino = SpawnActiveMino(minoDictionary[SpawnerStats.SpawnMinoOrders[_minoPopNumber]]);
 
-        SpawnerStats.Update(_activeMinoName: SpawnerStats.SpawnMinoOrders[_minoPopNumber]);
+        SpawnerStats.UpdateStats(_activeMinoName: SpawnerStats.SpawnMinoOrders[_minoPopNumber]);
 
         if (ghostMino) // すでにゴーストミノが存在する時
         {
             Destroy(ghostMino.gameObject); // 古いゴーストミノを削除
         }
 
-        SpawnerStats.Update(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
+        SpawnerStats.UpdateStats(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
 
         ghostMino = SpawnGhostMino(ghostMinoDictionary[SpawnerStats.SpawnMinoOrders[_minoPopNumber]], activeMino, SpawnerStats.ActiveMinoToBaseDistance); // ゴーストミノの生成も同時に行う
-        // SpawnerStats.Update(_activeMino: SpawnGhostMino(ghostMinoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber]], activeMino, activeMinoToBaseDistance));
+        // SpawnerStats.UpdateStats(_activeMino: SpawnGhostMino(ghostMinoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber]], activeMino, activeMinoToBaseDistance));
     }
 
     /// <summary>  ネクストミノを生成する関数 </summary>
@@ -305,10 +305,10 @@ public class Spawner : MonoBehaviour
             Destroy(ghostMino.gameObject);
 
             // holdMinoName = activeMinoName; // activeMinoの名前を保存
-            SpawnerStats.Update(_holdMinoName: SpawnerStats.ActiveMinoName);
+            SpawnerStats.UpdateStats(_holdMinoName: SpawnerStats.ActiveMinoName);
 
             holdMino = SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]); // Holdされたミノを画面左上に表示
-            // SpawnerStats.Update(_holdMino: SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]));
+            // SpawnerStats.UpdateStats(_holdMino: SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]));
 
             CreateNewActiveMino(_minoPopNumber);
 
@@ -325,22 +325,22 @@ public class Spawner : MonoBehaviour
             eMinoType temp;
             temp = SpawnerStats.ActiveMinoName;
             // activeMinoName = SpawnerStats.HoldMinoName;
-            SpawnerStats.Update(_activeMinoName: SpawnerStats.HoldMinoName);
+            SpawnerStats.UpdateStats(_activeMinoName: SpawnerStats.HoldMinoName);
             // holdMinoName = temp;
-            SpawnerStats.Update(_holdMinoName: temp);
+            SpawnerStats.UpdateStats(_holdMinoName: temp);
 
             activeMino = SpawnActiveMino(holdMino); // HoldミノをactiveMinoに戻す
-            // SpawnerStats.Update(_activeMino: SpawnActiveMino(SpawnerStats.HoldMino));
+            // SpawnerStats.UpdateStats(_activeMino: SpawnActiveMino(SpawnerStats.HoldMino));
 
-            SpawnerStats.Update(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
+            SpawnerStats.UpdateStats(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
 
             ghostMino = SpawnGhostMino(ghostMinoDictionary[SpawnerStats.ActiveMinoName], activeMino, SpawnerStats.ActiveMinoToBaseDistance);
-            // SpawnerStats.Update(_ghostMino: SpawnGhostMino(ghostMinoDictionary[activeMinoName], activeMino, activeMinoToBaseDistance));
+            // SpawnerStats.UpdateStats(_ghostMino: SpawnGhostMino(ghostMinoDictionary[activeMinoName], activeMino, activeMinoToBaseDistance));
 
             Destroy(holdMino.gameObject); // 以前のホールドミノを削除
 
             holdMino = SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]); // Holdされたミノを画面左上に表示
-            // SpawnerStats.Update(_holdMino: SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]));
+            // SpawnerStats.UpdateStats(_holdMino: SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]));
 
             minoMovement.ResetAngle();
             minoMovement.ResetStepsSRS();
@@ -751,7 +751,7 @@ public class Spawner : MonoBehaviour
 
 //         activeMino = SpawnActiveMino(minoDictionary[SpawnerStats.SpawnMinoOrders[_minoPopNumber]]);
 
-//         SpawnerStats.Update(_activeMinoName: SpawnerStats.SpawnMinoOrders[_minoPopNumber]);
+//         SpawnerStats.UpdateStats(_activeMinoName: SpawnerStats.SpawnMinoOrders[_minoPopNumber]);
 
 //         // if (ghostMino) // すでにゴーストミノが存在する時
 //         // {
@@ -762,16 +762,16 @@ public class Spawner : MonoBehaviour
 //             ReturnGhostMino(ghostMino); // 古いゴーストミノをプールに返す
 //         }
 
-//         SpawnerStats.Update(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
+//         SpawnerStats.UpdateStats(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
 
 //         ghostMino = SpawnGhostMino(ghostMinoDictionary[SpawnerStats.SpawnMinoOrders[_minoPopNumber]], activeMino, SpawnerStats.ActiveMinoToBaseDistance); // ゴーストミノの生成も同時に行う
-//         // SpawnerStats.Update(_activeMino: SpawnGhostMino(ghostMinoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber]], activeMino, activeMinoToBaseDistance));
+//         // SpawnerStats.UpdateStats(_activeMino: SpawnGhostMino(ghostMinoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber]], activeMino, activeMinoToBaseDistance));
 //     }
 
 //     /// <summary> ゴーストミノの位置調整を行う関数 </summary>
 //     public void AdjustGhostMinoPosition()
 //     {
-//         SpawnerStats.Update(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
+//         SpawnerStats.UpdateStats(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
 
 //         // 操作中のミノの各座標を格納する変数を宣言
 //         int activeMinoPos_x = Mathf.RoundToInt(activeMino.transform.position.x);
@@ -819,10 +819,10 @@ public class Spawner : MonoBehaviour
 //             if (ghostMino != null) ReturnGhostMino(ghostMino);
 
 //             // holdMinoName = activeMinoName; // activeMinoの名前を保存
-//             SpawnerStats.Update(_holdMinoName: SpawnerStats.ActiveMinoName);
+//             SpawnerStats.UpdateStats(_holdMinoName: SpawnerStats.ActiveMinoName);
 
 //             holdMino = SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]); // Holdされたミノを画面左上に表示
-//             // SpawnerStats.Update(_holdMino: SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]));
+//             // SpawnerStats.UpdateStats(_holdMino: SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]));
 
 //             CreateNewActiveMino(_minoPopNumber);
 
@@ -841,23 +841,23 @@ public class Spawner : MonoBehaviour
 //             eMinoType temp;
 //             temp = SpawnerStats.ActiveMinoName;
 //             // activeMinoName = SpawnerStats.HoldMinoName;
-//             SpawnerStats.Update(_activeMinoName: SpawnerStats.HoldMinoName);
+//             SpawnerStats.UpdateStats(_activeMinoName: SpawnerStats.HoldMinoName);
 //             // holdMinoName = temp;
-//             SpawnerStats.Update(_holdMinoName: temp);
+//             SpawnerStats.UpdateStats(_holdMinoName: temp);
 
 //             activeMino = SpawnActiveMino(holdMino); // HoldミノをactiveMinoに戻す
-//             // SpawnerStats.Update(_activeMino: SpawnActiveMino(SpawnerStats.HoldMino));
+//             // SpawnerStats.UpdateStats(_activeMino: SpawnActiveMino(SpawnerStats.HoldMino));
 
-//             SpawnerStats.Update(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
+//             SpawnerStats.UpdateStats(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
 
 //             ghostMino = SpawnGhostMino(ghostMinoDictionary[SpawnerStats.ActiveMinoName], activeMino, SpawnerStats.ActiveMinoToBaseDistance);
-//             // SpawnerStats.Update(_ghostMino: SpawnGhostMino(ghostMinoDictionary[activeMinoName], activeMino, activeMinoToBaseDistance));
+//             // SpawnerStats.UpdateStats(_ghostMino: SpawnGhostMino(ghostMinoDictionary[activeMinoName], activeMino, activeMinoToBaseDistance));
 
 //             // Destroy(holdMino.gameObject); // 以前のホールドミノを削除
 //             if (holdMino != null) ReturnMino(holdMino);
 
 //             holdMino = SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]); // Holdされたミノを画面左上に表示
-//             // SpawnerStats.Update(_holdMino: SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]));
+//             // SpawnerStats.UpdateStats(_holdMino: SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]));
 
 //             minoMovement.ResetAngle();
 //             minoMovement.ResetStepsSRS();
