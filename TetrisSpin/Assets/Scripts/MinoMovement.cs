@@ -671,27 +671,6 @@ public class MinoMovement : MonoBehaviour
         LogHelper.DebugLog(eClasses.MinoMovement, eMethod.TrySuperRotation, eLogTitle.End);
         return false;
     }
-
-    /// <summary> MinoAngleAfter の値を返す関数 </summary> // TODO 消せないかチェック
-    /// <returns> MinoAngleAfter(eMinoDirection) </returns>
-    public eMinoDirection GetMinoAngleAfter()
-    {
-        return MinoMovementStats.MinoAngleAfter;
-    }
-
-    /// <summary> MinoAngleBefore の値を返す関数 </summary>
-    /// <returns> MinoAngleBefore(eMinoDirection) </returns>
-    public eMinoDirection GetMinoAngleBefore()
-    {
-        return MinoMovementStats.MinoAngleBefore;
-    }
-
-    /// <summary> StepsSRS の値を返す関数 </summary>
-    /// <returns> StepsSRS(int) </returns>
-    public int GetStepsSRS()
-    {
-        return MinoMovementStats.StepsSRS;
-    }
 }
 
 /////////////////// 旧コード ///////////////////
@@ -1224,9 +1203,29 @@ public class MinoMovement : MonoBehaviour
 //             _minoAngleBefore ?? minoAngleBefore,
 //             _stepsSRS ?? stepsSRS
 //         );
-//         // TODO: ログの記入
 //         return updatedStats;
 //     }
+// }
+
+// /// <summary> MinoAngleAfter の値を返す関数 </summary>
+// /// <returns> MinoAngleAfter(eMinoDirection) </returns>
+// public eMinoDirection GetMinoAngleAfter()
+// {
+//     return MinoMovementStats.MinoAngleAfter;
+// }
+
+// /// <summary> MinoAngleBefore の値を返す関数 </summary>
+// /// <returns> MinoAngleBefore(eMinoDirection) </returns>
+// public eMinoDirection GetMinoAngleBefore()
+// {
+//     return MinoMovementStats.MinoAngleBefore;
+// }
+
+// /// <summary> StepsSRS の値を返す関数 </summary>
+// /// <returns> StepsSRS(int) </returns>
+// public int GetStepsSRS()
+// {
+//     return MinoMovementStats.StepsSRS;
 // }
 
 /////////////////////////////////////////////////////////
