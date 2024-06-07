@@ -153,7 +153,7 @@ public class PlayerInput : MonoBehaviour
             minoMovement.ResetStepsSRS();
         }
 
-        IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
+        IncreaseBottomMoveCount();
 
         LogHelper.DebugLog(eClasses.PlayerInput, eMethod.MoveRightInput, eLogTitle.End);
     }
@@ -179,7 +179,7 @@ public class PlayerInput : MonoBehaviour
             minoMovement.ResetStepsSRS();
         }
 
-        IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
+        // IncreaseBottomMoveCount();
 
         LogHelper.DebugLog(eClasses.PlayerInput, eMethod.ContinuousMoveRightInput, eLogTitle.End);
     }
@@ -205,7 +205,7 @@ public class PlayerInput : MonoBehaviour
             minoMovement.ResetStepsSRS();
         }
 
-        IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
+        IncreaseBottomMoveCount();
 
         LogHelper.DebugLog(eClasses.PlayerInput, eMethod.MoveLeftInput, eLogTitle.End);
     }
@@ -231,7 +231,7 @@ public class PlayerInput : MonoBehaviour
             minoMovement.ResetStepsSRS();
         }
 
-        IncreaseBottomMoveCount(); // BottomMoveCountの値を1増加
+        // IncreaseBottomMoveCount();
 
         LogHelper.DebugLog(eClasses.PlayerInput, eMethod.ContinuousMoveLeftInput, eLogTitle.End);
     }
