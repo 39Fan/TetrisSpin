@@ -250,11 +250,13 @@ public class MinoMovement : MonoBehaviour
         LogHelper.DebugLog(eClasses.MinoMovement, eMethod.RotateLeft, eLogTitle.End);
     }
 
-    /// <summary> Iミノの軸を計算し、Vector3で返す関数 </summary>
+    /// <summary>
+    /// Iミノの軸を計算し、Vector3で返す関数
+    /// </summary>
     /// <param name="Imino_x"> Iミノのx座標</param>
     /// <param name="Imino_y"> Iミノのy座標 </param>
     /// <returns> Iミノの軸となる座標(Vector3) </returns>
-    public Vector3 AxisCheckForI(int Imino_x, int Imino_y) // TODO リファクタリング
+    public Vector3 AxisCheckForI(int Imino_x, int Imino_y)
     {
         LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.Start);
 
@@ -262,42 +264,36 @@ public class MinoMovement : MonoBehaviour
         float xOffset = 0.5f;
         float yOffset = 0.5f;
 
-        // Iミノの回転軸は現在位置から、x軸を xOffset 動かし、y軸を yOffset 動かした座標にある
-        // xOffset と yOffset の正負は回転前の向きによって変化する
+        /// <summary> Iミノの軸となる座標 </summary>
+        Vector3 axisPosition = Vector3.zero;
 
-        // 向きがNorthの時
-        if (MinoMovementStats.MinoAngleAfter == eMinoDirection.North)
+        // 向きによって軸を計算する
+        switch (MinoMovementStats.MinoAngleAfter)
         {
-            logDetail = $"North / Axis : ({Imino_x + xOffset}, {Imino_y - yOffset})";
-            LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End, logDetail);
-            LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End);
-            return new Vector3(Imino_x + xOffset, Imino_y - yOffset, 0);
+            case eMinoDirection.North:
+                axisPosition = new Vector3(Imino_x + xOffset, Imino_y - yOffset, 0);
+                break;
+            case eMinoDirection.East:
+                axisPosition = new Vector3(Imino_x - xOffset, Imino_y - yOffset, 0);
+                break;
+            case eMinoDirection.South:
+                axisPosition = new Vector3(Imino_x - xOffset, Imino_y + yOffset, 0);
+                break;
+            case eMinoDirection.West:
+                axisPosition = new Vector3(Imino_x + xOffset, Imino_y + yOffset, 0);
+                break;
+            default:
+                LogHelper.ErrorLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.UnknownMinoAngleAfter);
+                break;
         }
-        // 向きがEastの時
-        else if (MinoMovementStats.MinoAngleAfter == eMinoDirection.East)
-        {
-            logDetail = $"East / Axis : ({Imino_x - xOffset}, {Imino_y - yOffset})";
-            LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End, logDetail);
-            LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End);
-            return new Vector3(Imino_x - xOffset, Imino_y - yOffset, 0);
-        }
-        // 向きがSouthの時
-        else if (MinoMovementStats.MinoAngleAfter == eMinoDirection.South)
-        {
-            logDetail = $"South / Axis : ({Imino_x - xOffset}, {Imino_y + yOffset})";
-            LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End, logDetail);
-            LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End);
-            return new Vector3(Imino_x - xOffset, Imino_y + yOffset, 0);
-        }
-        // 向きがWestの時
-        else
-        {
-            logDetail = $"West / Axis : ({Imino_x + xOffset}, {Imino_y + yOffset})";
-            LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End, logDetail);
-            LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End);
-            return new Vector3(Imino_x + xOffset, Imino_y + yOffset, 0);
-        }
+
+        logDetail = $"{MinoMovementStats.MinoAngleAfter} / Axis : ({axisPosition.x}, {axisPosition.y})";
+        LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End, logDetail);
+
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End);
+        return axisPosition;
     }
+
 
     /// <summary> MinoAngleAfterの更新をする関数 </summary>
     /// <param name="_rotateDirection"> 回転方向 </param>
@@ -1226,6 +1222,55 @@ public class MinoMovement : MonoBehaviour
 // public int GetStepsSRS()
 // {
 //     return MinoMovementStats.StepsSRS;
+// }
+
+// /// <summary> Iミノの軸を計算し、Vector3で返す関数 </summary>
+// /// <param name="Imino_x"> Iミノのx座標</param>
+// /// <param name="Imino_y"> Iミノのy座標 </param>
+// /// <returns> Iミノの軸となる座標(Vector3) </returns>
+// public Vector3 AxisCheckForI(int Imino_x, int Imino_y)
+// {
+//     LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.Start);
+
+//     // x軸とy軸のオフセットを宣言
+//     float xOffset = 0.5f;
+//     float yOffset = 0.5f;
+
+//     // Iミノの回転軸は現在位置から、x軸を xOffset 動かし、y軸を yOffset 動かした座標にある
+//     // xOffset と yOffset の正負は回転前の向きによって変化する
+
+//     // 向きがNorthの時
+//     if (MinoMovementStats.MinoAngleAfter == eMinoDirection.North)
+//     {
+//         logDetail = $"North / Axis : ({Imino_x + xOffset}, {Imino_y - yOffset})";
+//         LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End, logDetail);
+//         LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End);
+//         return new Vector3(Imino_x + xOffset, Imino_y - yOffset, 0);
+//     }
+//     // 向きがEastの時
+//     else if (MinoMovementStats.MinoAngleAfter == eMinoDirection.East)
+//     {
+//         logDetail = $"East / Axis : ({Imino_x - xOffset}, {Imino_y - yOffset})";
+//         LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End, logDetail);
+//         LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End);
+//         return new Vector3(Imino_x - xOffset, Imino_y - yOffset, 0);
+//     }
+//     // 向きがSouthの時
+//     else if (MinoMovementStats.MinoAngleAfter == eMinoDirection.South)
+//     {
+//         logDetail = $"South / Axis : ({Imino_x - xOffset}, {Imino_y + yOffset})";
+//         LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End, logDetail);
+//         LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End);
+//         return new Vector3(Imino_x - xOffset, Imino_y + yOffset, 0);
+//     }
+//     // 向きがWestの時
+//     else
+//     {
+//         logDetail = $"West / Axis : ({Imino_x + xOffset}, {Imino_y + yOffset})";
+//         LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End, logDetail);
+//         LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End);
+//         return new Vector3(Imino_x + xOffset, Imino_y + yOffset, 0);
+//     }
 // }
 
 /////////////////////////////////////////////////////////
