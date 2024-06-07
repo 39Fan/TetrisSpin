@@ -30,7 +30,7 @@ public static class GameAutoRunnerStats
     /// <remarks>
     /// 指定されていない引数は現在の値を維持
     /// </remarks>
-    public static void Update(int? _bottomMoveCount = null, int? _lowestBlockPositionY = null)
+    public static void UpdateStats(int? _bottomMoveCount = null, int? _lowestBlockPositionY = null)
     {
         bottomMoveCount = _bottomMoveCount ?? bottomMoveCount;
         lowestBlockPositionY = _lowestBlockPositionY ?? lowestBlockPositionY;
@@ -38,7 +38,7 @@ public static class GameAutoRunnerStats
     }
 
     /// <summary> デフォルトの <see cref="AttackCalculatorStats"/> にリセットする関数 </summary>
-    public static void Reset()
+    public static void ResetStats()
     {
         bottomMoveCount = 0;
         lowestBlockPositionY = 20;
@@ -72,7 +72,7 @@ public class GameAutoRunner : MonoBehaviour
     /// <summary> ロックダウンの処理をする関数 </summary>
     public void RockDown()
     {
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "RockDown()", "Start");
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.RockDown, eLogTitle.Start);
 
         int bottomMoveCountLimit = 15;
         int newBottomBlockPositionY = board.CheckActiveMinoBottomBlockPositionY(spawner.ActiveMino);
@@ -93,27 +93,27 @@ public class GameAutoRunner : MonoBehaviour
         }
         else // lowestBlockPositionYが更新された場合
         {
-            GameAutoRunnerStats.Update(_bottomMoveCount: 0);
-            GameAutoRunnerStats.Update(_lowestBlockPositionY: newBottomBlockPositionY); // BottomPositionの更新
+            GameAutoRunnerStats.UpdateStats(_bottomMoveCount: 0);
+            GameAutoRunnerStats.UpdateStats(_lowestBlockPositionY: newBottomBlockPositionY); // BottomPositionの更新
         }
 
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "RockDown()", "End");
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.RockDown, eLogTitle.End);
     }
 
     /// <summary> RockDownに関する変数のリセット </summary>
     public void ResetRockDown()
     {
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "ResetRockDown()", "Start");
-        GameAutoRunnerStats.Update(_bottomMoveCount: 0, _lowestBlockPositionY: 20);
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "ResetRockDown()", "End");
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.ResetRockDown, eLogTitle.Start);
+        GameAutoRunnerStats.UpdateStats(_bottomMoveCount: 0, _lowestBlockPositionY: 20);
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.ResetRockDown, eLogTitle.End);
     }
 
     /// <summary> 自動落下の処理をする関数 </summary>
     public void AutoDown()
     {
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "AutoDown()", "Start");
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.AutoDown, eLogTitle.Start);
 
-        Timer.UpdateDownTimer();
+        Timer.UpdateMoveDownTimer();
         spawner.ActiveMino.MoveDown();
 
         if (!board.CheckPosition(spawner.ActiveMino))
@@ -129,13 +129,13 @@ public class GameAutoRunner : MonoBehaviour
             minoMovement.ResetStepsSRS();
         }
 
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "AutoDown()", "End");
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.AutoDown, eLogTitle.End);
     }
 
     /// <summary> ミノの設置場所が確定した時の処理をする関数 </summary>
     public void SetMinoFixed()
     {
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "SetMinoFixed()", "Start");
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.SetMinoFixed, eLogTitle.Start);
 
         /// <summary> 合計の消去ライン数 </summary>
         int lineClearCount;
@@ -144,7 +144,7 @@ public class GameAutoRunner : MonoBehaviour
         {
             textEffect.StopAnimation();
 
-            GameManagerStats.Update(_gameOver: true);
+            GameManagerStats.UpdateStats(_gameOver: true);
 
             sceneTransition.GameOver();
 
@@ -153,7 +153,7 @@ public class GameAutoRunner : MonoBehaviour
 
         // 各種変数のリセット
         ResetRockDown();
-        Timer.Reset();
+        Timer.ResetTimer();
 
         board.SaveBlockInGrid(spawner.ActiveMino);
         lineClearCount = board.ClearAllRows();
@@ -166,9 +166,9 @@ public class GameAutoRunner : MonoBehaviour
         minoMovement.ResetAngle();
         minoMovement.ResetStepsSRS();
 
-        GameManagerStats.Update(_minoPutNumber: GameManagerStats.MinoPutNumber + 1,
+        GameManagerStats.UpdateStats(_minoPutNumber: GameManagerStats.MinoPutNumber + 1,
             _minoPopNumber: GameManagerStats.MinoPopNumber + 1);
-        PlayerInputStats.Update(_useHold: false);
+        PlayerInputStats.UpdateStats(_useHold: false);
 
         spawner.CreateNewActiveMino(GameManagerStats.MinoPopNumber);
 
@@ -178,13 +178,13 @@ public class GameAutoRunner : MonoBehaviour
         {
             textEffect.StopAnimation();
 
-            GameManagerStats.Update(_gameOver: true);
+            GameManagerStats.UpdateStats(_gameOver: true);
 
             sceneTransition.GameOver();
 
             return;
         }
 
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "GameAutoRunner", "SetMinoFixed()", "End");
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.SetMinoFixed, eLogTitle.End);
     }
 }

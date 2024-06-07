@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// スピン判定一覧
+/// スピン判定 列挙型
 /// </summary>
 public enum SpinTypeNames
 {
@@ -21,7 +21,7 @@ public enum SpinTypeNames
 }
 
 /// <summary>
-/// ブロックの存在判定一覧
+/// ブロックの存在判定 列挙型
 /// </summary>
 public enum Existence
 {
@@ -65,34 +65,22 @@ public class SpinCheck : MonoBehaviour
         switch (SpawnerStats.ActiveMinoName)
         {
             case eMinoType.IMino:
-                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "IspinCheck()", "Start");
                 IspinCheck(_minoAngleAfter);
-                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "IspinCheck()", "End");
                 break;
             case eMinoType.JMino:
-                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "JspinCheck()", "Start");
                 JspinCheck(_minoAngleAfter, _stepsSRS);
-                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "JspinCheck()", "End");
                 break;
             case eMinoType.LMino:
-                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "LspinCheck()", "Start");
                 LspinCheck(_minoAngleAfter, _stepsSRS);
-                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "LspinCheck()", "End");
                 break;
             case eMinoType.SMino:
-                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "SspinCheck()", "Start");
                 SspinCheck(_minoAngleAfter, _stepsSRS);
-                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "SspinCheck()", "End");
                 break;
             case eMinoType.TMino:
-                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "TspinCheck()", "Start");
                 TspinCheck(_minoAngleAfter, _stepsSRS);
-                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "TspinCheck()", "End");
                 break;
             case eMinoType.ZMino:
-                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "ZspinCheck()", "Start");
                 ZspinCheck(_minoAngleAfter, _stepsSRS);
-                LogHelper.Log(LogHelper.eLogLevel.Debug, "SpinCheck", "ZspinCheck()", "End");
                 break;
             default:
                 // TODO Debug.LogError("[SpinCheck CheckSpinType()] activeMinoNameが特定できません。");
@@ -160,8 +148,8 @@ public class SpinCheck : MonoBehaviour
             string checkBlocksAboveInfo = string.Join(", ", checkBlocklistAboveI);
             string checkBlocksBelowInfo = string.Join(", ", checkBlocklistBelowI);
 
-            LogHelper.Log(LogHelper.eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksAboveInfo);
-            LogHelper.Log(LogHelper.eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksBelowInfo); // Infoログ
+            // LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksAboveInfo);
+            // LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksBelowInfo); // Infoログ // TODO
 
             // 条件を満たすか確認
             if (checkBlocklistAboveI.FindAll(block => block == Existence.Exist).Count >= 1 ||
@@ -250,14 +238,14 @@ public class SpinCheck : MonoBehaviour
             }
 
 
-            // ①と②の状態を文字列に変換
-            string checkBlocksRightSideInfo = string.Join(", ", checkBlocklistRightSideI);
-            string checkBlocksLeftSideInfo = string.Join(", ", checkBlocklistLeftSideI);
-            string checkBlocksUpperInfo = string.Join(", ", checkBlocklistUpperI);
+            // // ①と②の状態を文字列に変換
+            // string checkBlocksRightSideInfo = string.Join(", ", checkBlocklistRightSideI);
+            // string checkBlocksLeftSideInfo = string.Join(", ", checkBlocklistLeftSideI);
+            // string checkBlocksUpperInfo = string.Join(", ", checkBlocklistUpperI);
 
-            LogHelper.Log(LogHelper.eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksRightSideInfo);
-            LogHelper.Log(LogHelper.eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksLeftSideInfo);
-            LogHelper.Log(LogHelper.eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksUpperInfo); // Infoログ
+            // LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksRightSideInfo);
+            // LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksLeftSideInfo);
+            // LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksUpperInfo); // Infoログ // TODO
 
             // 条件を満たすか確認
             if (checkBlocklistRightSideI.FindAll(block => block == Existence.Exist).Count >= 3 &&
@@ -444,7 +432,7 @@ public class SpinCheck : MonoBehaviour
     {
         // Sspinの判定をチェックする
         // 条件
-        // ① 以下の図の指定されたマス(▫️)のうち、ブロックや壁でないマスが1つ以内である。
+        // ① 以下の図の指定されたマス(▫️)のうち、ブロックや壁でないマスが2つ以内である。
 
         // SspinMiniの判定をチェックする
         // 条件
@@ -520,7 +508,7 @@ public class SpinCheck : MonoBehaviour
         }
 
         // Sspinの判定をチェックする
-        if (checkBlocklistS.FindAll(block => block == Existence.NotExist).Count <= 1)
+        if (checkBlocklistS.FindAll(block => block == Existence.NotExist).Count <= 2)
         {
             spinTypeName = SpinTypeNames.Sspin;
             return;
@@ -564,9 +552,9 @@ public class SpinCheck : MonoBehaviour
             }
         }
 
-        string checkBlocksInfo = string.Join(", ", checkBlocklistT);
+        // string checkBlocksInfo = string.Join(", ", checkBlocklistT);
 
-        LogHelper.Log(LogHelper.eLogLevel.Info, "SpinCheck", "TspinCheck()", checkBlocksInfo); // Infoログ
+        // LogHelper.Log(eLogLevel.Info, "SpinCheck", "TspinCheck()", checkBlocksInfo); // Infoログ // TODO
 
 
         // Tspinの判定をチェックする
@@ -661,7 +649,7 @@ public class SpinCheck : MonoBehaviour
     {
         // Zspinの判定をチェックする
         // 条件
-        // ① 以下の図の指定されたマス(▫️)のうち、ブロックや壁でないマスが1つ以内である。
+        // ① 以下の図の指定されたマス(▫️)のうち、ブロックや壁でないマスが2つ以内である。
 
         // ZspinMiniの判定をチェックする
         // 条件
@@ -737,7 +725,7 @@ public class SpinCheck : MonoBehaviour
         }
 
         // Zspinの判定をチェックする
-        if (checkBlocklistZ.FindAll(block => block == Existence.NotExist).Count <= 1)
+        if (checkBlocklistZ.FindAll(block => block == Existence.NotExist).Count <= 2)
         {
             spinTypeName = SpinTypeNames.Zspin;
             return;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ミノの種類一覧
+/// ミノの種類 列挙型
 /// </summary>
 public enum eMinoType
 {
@@ -17,7 +17,7 @@ public enum eMinoType
 }
 
 /// <summary>
-/// ミノの向き一覧
+/// ミノの向き 列挙型
 /// </summary>
 public enum eMinoDirection
 {
@@ -28,7 +28,7 @@ public enum eMinoDirection
 }
 
 /// <summary>
-/// ミノの回転方向一覧
+/// ミノの回転方向 列挙型
 /// </summary>
 public enum eMinoRotationDirection
 {
@@ -74,7 +74,7 @@ public static class MinoMovementStats
     /// <remarks>
     /// 指定されていない引数は現在の値を維持
     /// </remarks>
-    public static void Update(eMinoDirection? _minoAngleAfter = null, eMinoDirection? _minoAngleBefore = null, int? _stepsSRS = null)
+    public static void UpdateStats(eMinoDirection? _minoAngleAfter = null, eMinoDirection? _minoAngleBefore = null, int? _stepsSRS = null)
     {
         minoAngleAfter = _minoAngleAfter ?? minoAngleAfter;
         minoAngleBefore = _minoAngleBefore ?? minoAngleBefore;
@@ -83,7 +83,7 @@ public static class MinoMovementStats
     }
 
     /// <summary> デフォルトの <see cref="MinoMovementStats"/> にリセットする関数 </summary>
-    public static void Reset()
+    public static void ResetStats()
     {
         minoAngleAfter = eMinoDirection.North;
         minoAngleBefore = eMinoDirection.North;
@@ -104,6 +104,9 @@ public class MinoMovement : MonoBehaviour
 {
     /// <summary> 回転の可能判定 </summary>
     [SerializeField] private bool CanRotate = true; // Oミノは回転しないので、エディターでfalseに設定
+
+    /// <summary> ログの詳細 </summary>
+    private string logDetail;
 
     // 干渉するスクリプト //
     Board board;
@@ -127,35 +130,35 @@ public class MinoMovement : MonoBehaviour
     /// <summary> ミノを左に移動する関数 </summary>
     public void MoveLeft()
     {
-        // LogHelper.Log("Start", LogHelper.eLogLevel.Debug, "Mino", "MoveLeft()");
+        // LogHelper.Log("Start", eLogLevel.Debug, "Mino", "MoveLeft()");
 
         Move(new Vector3(-1, 0, 0));
     }
     /// <summary> ミノを右に移動する関数 </summary>
     public void MoveRight()
     {
-        // LogHelper.Log("Start", LogHelper.eLogLevel.Debug, "Mino", "MoveRight()");
+        // LogHelper.Log("Start", eLogLevel.Debug, "Mino", "MoveRight()");
 
         Move(new Vector3(1, 0, 0));
     }
     /// <summary> ミノを上に移動する関数 </summary>
     public void MoveUp()
     {
-        // LogHelper.Log("Start", LogHelper.eLogLevel.Debug, "Mino", "MoveUp()");
+        // LogHelper.Log("Start", eLogLevel.Debug, "Mino", "MoveUp()");
 
         Move(new Vector3(0, 1, 0));
     }
     /// <summary> ミノを下に移動する関数 </summary>
     public void MoveDown()
     {
-        // LogHelper.Log("Start", LogHelper.eLogLevel.Debug, "Mino", "MoveDown()");
+        // LogHelper.Log("Start", eLogLevel.Debug, "Mino", "MoveDown()");
         Move(new Vector3(0, -1, 0));
     }
 
     /// <summary> ミノを右回転する関数 </summary>
     public void RotateRight()
     {
-        // LogHelper.Log("Start", LogHelper.eLogLevel.Debug, "Mino", "RotateRight()");
+        // LogHelper.Log("Start", eLogLevel.Debug, "Mino", "RotateRight()");
 
         /// <summary> 右回転のZ軸の回転量 </summary>
         int RotateRightAroundZ = -90;
@@ -172,7 +175,7 @@ public class MinoMovement : MonoBehaviour
         else // Iミノは軸が他のミノと違うため別の処理
         {
             // Iミノの軸を取得する
-            Vector3 IminoAxis = AxisCheck_ForI
+            Vector3 IminoAxis = AxisCheckForI
                 (Mathf.RoundToInt(spawner.ActiveMino.transform.position.x), Mathf.RoundToInt(spawner.ActiveMino.transform.position.y));
 
             // IminoAxis を中心に右回転する
@@ -186,7 +189,7 @@ public class MinoMovement : MonoBehaviour
     /// <summary> ミノを左回転する関数 </summary>
     public void RotateLeft()
     {
-        // LogHelper.Log("Start", LogHelper.eLogLevel.Debug, "Mino", "Rotateleft()");
+        // LogHelper.Log("Start", eLogLevel.Debug, "Mino", "Rotateleft()");
 
         /// <summary> 左回転のZ軸の回転量 </summary>
         int RotateLeftAroundZ = 90;
@@ -206,7 +209,7 @@ public class MinoMovement : MonoBehaviour
         else
         {
             // Iミノの軸を取得する
-            Vector3 IminoAxis = AxisCheck_ForI
+            Vector3 IminoAxis = AxisCheckForI
                 (Mathf.RoundToInt(spawner.ActiveMino.transform.position.x), Mathf.RoundToInt(spawner.ActiveMino.transform.position.y));
 
             // IminoAxisを中心に左回転する
@@ -221,15 +224,13 @@ public class MinoMovement : MonoBehaviour
     /// <param name="Imino_x"> Iミノのx座標</param>
     /// <param name="Imino_y"> Iミノのy座標 </param>
     /// <returns> Iミノの軸となる座標(Vector3) </returns>
-    public Vector3 AxisCheck_ForI(int Imino_x, int Imino_y) // Imino_x と Imino_y はIミノのx, y座標
+    public Vector3 AxisCheckForI(int Imino_x, int Imino_y) // Imino_x と Imino_y はIミノのx, y座標
     {
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "Mino", "AxisCheck()", "Start");
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.Start);
 
         // x軸とy軸のオフセットを宣言
         float xOffset = 0.5f;
         float yOffset = 0.5f;
-
-        string AxisPosition; // Infoログ用
 
         // 回転軸は現在位置から、x軸を xOffset 動かし、y軸を yOffset 動かした座標にある
         // xOffset と yOffset の正負は回転前の向きによって変化する
@@ -237,33 +238,33 @@ public class MinoMovement : MonoBehaviour
         // 向きがNorthの時
         if (MinoMovementStats.MinoAngleAfter == eMinoDirection.North)
         {
-            AxisPosition = $"North: Axis = ({Imino_x + xOffset}, {Imino_y - yOffset})";
-            LogHelper.Log(LogHelper.eLogLevel.Info, "Mino", "AxisCheck_ForI()", AxisPosition);
-            LogHelper.Log(LogHelper.eLogLevel.Debug, "Mino", "AxisCheck()", "End");
+            logDetail = $"North / Axis : ({Imino_x + xOffset}, {Imino_y - yOffset})";
+            LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End, logDetail);
+            LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End);
             return new Vector3(Imino_x + xOffset, Imino_y - yOffset, 0);
         }
         // 向きがEastの時
         else if (MinoMovementStats.MinoAngleAfter == eMinoDirection.East)
         {
-            AxisPosition = $"East: Axis = ({Imino_x - xOffset}, {Imino_y - yOffset})";
-            LogHelper.Log(LogHelper.eLogLevel.Info, "Mino", "AxisCheck_ForI()", AxisPosition);
-            LogHelper.Log(LogHelper.eLogLevel.Debug, "Mino", "AxisCheck()", "End");
+            logDetail = $"East / Axis : ({Imino_x - xOffset}, {Imino_y - yOffset})";
+            LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End, logDetail);
+            LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End);
             return new Vector3(Imino_x - xOffset, Imino_y - yOffset, 0);
         }
         // 向きがSouthの時
         else if (MinoMovementStats.MinoAngleAfter == eMinoDirection.South)
         {
-            AxisPosition = $"South: Axis = ({Imino_x - xOffset}, {Imino_y + yOffset})";
-            LogHelper.Log(LogHelper.eLogLevel.Info, "Mino", "AxisCheck_ForI()", AxisPosition);
-            LogHelper.Log(LogHelper.eLogLevel.Debug, "Mino", "AxisCheck()", "End");
+            logDetail = $"South / Axis : ({Imino_x - xOffset}, {Imino_y + yOffset})";
+            LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End, logDetail);
+            LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End);
             return new Vector3(Imino_x - xOffset, Imino_y + yOffset, 0);
         }
         // 向きがWestの時
         else
         {
-            AxisPosition = $"West: Axis = ({Imino_x + xOffset}, {Imino_y + yOffset})";
-            LogHelper.Log(LogHelper.eLogLevel.Info, "Mino", "AxisCheck_ForI()", AxisPosition);
-            LogHelper.Log(LogHelper.eLogLevel.Debug, "Mino", "AxisCheck()", "End");
+            logDetail = $"West / Axis : ({Imino_x + xOffset}, {Imino_y + yOffset})";
+            LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End, logDetail);
+            LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End);
             return new Vector3(Imino_x + xOffset, Imino_y + yOffset, 0);
         }
     }
@@ -278,16 +279,16 @@ public class MinoMovement : MonoBehaviour
                 switch (MinoMovementStats.MinoAngleAfter)
                 {
                     case eMinoDirection.North:
-                        MinoMovementStats.Update(_minoAngleAfter: eMinoDirection.East);
+                        MinoMovementStats.UpdateStats(_minoAngleAfter: eMinoDirection.East);
                         break;
                     case eMinoDirection.East:
-                        MinoMovementStats.Update(_minoAngleAfter: eMinoDirection.South);
+                        MinoMovementStats.UpdateStats(_minoAngleAfter: eMinoDirection.South);
                         break;
                     case eMinoDirection.South:
-                        MinoMovementStats.Update(_minoAngleAfter: eMinoDirection.West);
+                        MinoMovementStats.UpdateStats(_minoAngleAfter: eMinoDirection.West);
                         break;
                     case eMinoDirection.West:
-                        MinoMovementStats.Update(_minoAngleAfter: eMinoDirection.North);
+                        MinoMovementStats.UpdateStats(_minoAngleAfter: eMinoDirection.North);
                         break;
                 }
                 break;
@@ -295,16 +296,16 @@ public class MinoMovement : MonoBehaviour
                 switch (MinoMovementStats.MinoAngleAfter)
                 {
                     case eMinoDirection.North:
-                        MinoMovementStats.Update(_minoAngleAfter: eMinoDirection.West);
+                        MinoMovementStats.UpdateStats(_minoAngleAfter: eMinoDirection.West);
                         break;
                     case eMinoDirection.East:
-                        MinoMovementStats.Update(_minoAngleAfter: eMinoDirection.North);
+                        MinoMovementStats.UpdateStats(_minoAngleAfter: eMinoDirection.North);
                         break;
                     case eMinoDirection.South:
-                        MinoMovementStats.Update(_minoAngleAfter: eMinoDirection.East);
+                        MinoMovementStats.UpdateStats(_minoAngleAfter: eMinoDirection.East);
                         break;
                     case eMinoDirection.West:
-                        MinoMovementStats.Update(_minoAngleAfter: eMinoDirection.South);
+                        MinoMovementStats.UpdateStats(_minoAngleAfter: eMinoDirection.South);
                         break;
                 }
                 break;
@@ -314,13 +315,13 @@ public class MinoMovement : MonoBehaviour
     /// <summary> MinoAngleAfter の値を MinoAngleBefore に変更する関数 </summary>
     public void UpdateMinoAngleAfterToMinoAngleBefore()
     {
-        MinoMovementStats.Update(_minoAngleAfter: MinoMovementStats.MinoAngleBefore);
+        MinoMovementStats.UpdateStats(_minoAngleAfter: MinoMovementStats.MinoAngleBefore);
     }
 
     /// <summary> MinoAngleBefore の値を MinoAngleAfter に変更する関数 </summary>
     public void UpdateMinoAngleBeforeToMinoAngleAfter()
     {
-        MinoMovementStats.Update(_minoAngleBefore: MinoMovementStats.MinoAngleAfter);
+        MinoMovementStats.UpdateStats(_minoAngleBefore: MinoMovementStats.MinoAngleAfter);
     }
 
     /// <summary> 通常回転のリセットをする関数 </summary>
@@ -343,13 +344,13 @@ public class MinoMovement : MonoBehaviour
     /// <summary> ミノの向きを初期化する関数 </summary>
     public void ResetAngle()
     {
-        MinoMovementStats.Update(_minoAngleAfter: eMinoDirection.North, _minoAngleBefore: eMinoDirection.North);
+        MinoMovementStats.UpdateStats(_minoAngleAfter: eMinoDirection.North, _minoAngleBefore: eMinoDirection.North);
     }
 
     /// <summary> StepsSRSの値をリセットする関数 </summary>
     public void ResetStepsSRS()
     {
-        MinoMovementStats.Update(_stepsSRS: 0);
+        MinoMovementStats.UpdateStats(_stepsSRS: 0);
     }
 
     /// <summary> スーパーローテーションシステム(SRS)の計算をする関数 </summary>
@@ -364,7 +365,7 @@ public class MinoMovement : MonoBehaviour
     /// <returns> 成功したかどうか(true or false) </returns>
     public bool SuperRotationSystem()
     {
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()", "Start");
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.MinoMovement, eMethod.SuperRotationSystem, eLogTitle.Start);
 
         /// <summary> SRSの成功失敗の判定 </summary>
         bool success = false;
@@ -476,7 +477,7 @@ public class MinoMovement : MonoBehaviour
                     spawner.ActiveMino.MoveUp();
                     spawner.ActiveMino.MoveUp(); // 第四法則
                 }
-            }, "NtoE, WtoS, I");
+            }, "NtoE, WtoS");
             }
             else if ((MinoMovementStats.MinoAngleBefore == eMinoDirection.West && MinoMovementStats.MinoAngleAfter == eMinoDirection.North) ||
                 (MinoMovementStats.MinoAngleBefore == eMinoDirection.South && MinoMovementStats.MinoAngleAfter == eMinoDirection.East))   // West から North , South から East に回転する時
@@ -507,7 +508,7 @@ public class MinoMovement : MonoBehaviour
                     spawner.ActiveMino.MoveUp();
                     spawner.ActiveMino.MoveUp(); // 第四法則
                 }
-            }, "WtoN, StoE, I");
+            }, "WtoN, StoE");
             }
             else if ((MinoMovementStats.MinoAngleBefore == eMinoDirection.East && MinoMovementStats.MinoAngleAfter == eMinoDirection.North) ||
                 (MinoMovementStats.MinoAngleBefore == eMinoDirection.South && MinoMovementStats.MinoAngleAfter == eMinoDirection.West))   // East から North , South から West に回転する時
@@ -541,7 +542,7 @@ public class MinoMovement : MonoBehaviour
                     spawner.ActiveMino.MoveDown();
                     spawner.ActiveMino.MoveDown(); // 第四法則
                 }
-            }, "EtoN, StoW, I");
+            }, "EtoN, StoW");
             }
             else if ((MinoMovementStats.MinoAngleBefore == eMinoDirection.North && MinoMovementStats.MinoAngleAfter == eMinoDirection.West) ||
                 (MinoMovementStats.MinoAngleBefore == eMinoDirection.East && MinoMovementStats.MinoAngleAfter == eMinoDirection.South))   // North から West , East から South に回転する時
@@ -572,11 +573,11 @@ public class MinoMovement : MonoBehaviour
                     spawner.ActiveMino.MoveDown();
                     spawner.ActiveMino.MoveDown(); // 第四法則
                 }
-            }, "NtoW, EtoS, I");
+            }, "NtoW, EtoS");
             }
         }
 
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()", "End");
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.MinoMovement, eMethod.SuperRotationSystem, eLogTitle.End);
         return success; // SRSが成功したかどうかを返す
     }
 
@@ -586,17 +587,22 @@ public class MinoMovement : MonoBehaviour
     /// <returns> 成功したかどうか(true or false) </returns>
     private bool TrySuperRotation(List<Action> rotationSteps, string direction)
     {
-        Vector3 originalPosition = spawner.ActiveMino.transform.position; // 現在の位置を保存
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.MinoMovement, eMethod.TrySuperRotation, eLogTitle.Start);
+
+        // 現在の位置を保存
+        Vector3 originalPosition = spawner.ActiveMino.transform.position;
 
         for (int step = 0; step < rotationSteps.Count; step++)
         {
-            MinoMovementStats.Update(_stepsSRS: MinoMovementStats.StepsSRS + 1);
+            MinoMovementStats.UpdateStats(_stepsSRS: MinoMovementStats.StepsSRS + 1);
             rotationSteps[step]();
 
             if (board.CheckPosition(spawner.ActiveMino))
             {
-                LogHelper.Log(LogHelper.eLogLevel.Info, "Mino", "TrySuperRotation()", $"Success SRS = {MinoMovementStats.StepsSRS}, {direction}");
-                LogHelper.Log(LogHelper.eLogLevel.Debug, "Mino", "TrySuperRotation()", "End");
+                logDetail = $"Success / StepsSRS : {MinoMovementStats.StepsSRS}, direction : {direction}, SpawnerStats.ActiveMinoName : {SpawnerStats.ActiveMinoName}";
+                LogHelper.InfoLog(eClasses.MinoMovement, eMethod.TrySuperRotation, eLogTitle.SRSInfo, logDetail);
+
+                if (Application.isEditor) LogHelper.DebugLog(eClasses.MinoMovement, eMethod.TrySuperRotation, eLogTitle.End);
                 return true;
             }
         }
@@ -604,8 +610,11 @@ public class MinoMovement : MonoBehaviour
         // 全てのステップが失敗した場合、回転前の状態に戻す
         spawner.ActiveMino.transform.position = originalPosition;
         ResetRotate();
-        LogHelper.Log(LogHelper.eLogLevel.Info, "Mino", "TrySuperRotation()", $"Failure SRS, {direction}");
-        LogHelper.Log(LogHelper.eLogLevel.Debug, "Mino", "TrySuperRotation()", "End");
+
+        logDetail = $"Failure / direction : {direction}, SpawnerStats.ActiveMinoName : {SpawnerStats.ActiveMinoName}";
+        LogHelper.InfoLog(eClasses.MinoMovement, eMethod.TrySuperRotation, eLogTitle.SRSInfo, logDetail);
+
+        if (Application.isEditor) LogHelper.DebugLog(eClasses.MinoMovement, eMethod.TrySuperRotation, eLogTitle.End);
         return false;
     }
 
@@ -645,7 +654,7 @@ public class MinoMovement : MonoBehaviour
 
 // public bool SuperRotationSystem()
 // {
-//     LogHelper.Log(LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()", "Start");
+//     LogHelper.Log(eLogLevel.Debug, "Mino", "SuperRotationSystem()", "Start");
 
 //     // SRSはIミノとそれ以外のミノとで処理が違うため分けて処理する
 //     // Iミノ以外のSRS
@@ -695,17 +704,17 @@ public class MinoMovement : MonoBehaviour
 
 //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
-//                             LogHelper.Log("Failure SRS, NtoE, StoE", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                             LogHelper.Log("Failure SRS, NtoE, StoE", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 
 //                             return false; // SRSができなかった時、falseを返す
 //                         }
-//                         LogHelper.Log("Success SRS = 4, NtoE, StoE", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                         LogHelper.Log("Success SRS = 4, NtoE, StoE", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //                     }
-//                     LogHelper.Log("Success SRS = 3, NtoE, StoE", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                     LogHelper.Log("Success SRS = 3, NtoE, StoE", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //                 }
-//                 LogHelper.Log("Success SRS = 2, NtoE, StoE", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                 LogHelper.Log("Success SRS = 2, NtoE, StoE", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //             }
-//             LogHelper.Log("Success SRS = 1, NtoE, StoE", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//             LogHelper.Log("Success SRS = 1, NtoE, StoE", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //         }
 //         else if ((MinoMovementStats.MinoAngleBefore == West && MinoMovementStats.MinoAngleAfter == North) ||
 //             (MinoMovementStats.MinoAngleBefore == West && MinoMovementStats.MinoAngleAfter == South))   // West から North , West から South に回転する時
@@ -749,17 +758,17 @@ public class MinoMovement : MonoBehaviour
 
 //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
-//                             LogHelper.Log("Failure SRS, WtoN, WtoS", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                             LogHelper.Log("Failure SRS, WtoN, WtoS", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 
 //                             return false; // SRSができなかった時、falseを返す
 //                         }
-//                         LogHelper.Log("Success SRS = 4, WtoN, WtoS", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                         LogHelper.Log("Success SRS = 4, WtoN, WtoS", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //                     }
-//                     LogHelper.Log("Success SRS = 3, WtoN, WtoS", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                     LogHelper.Log("Success SRS = 3, WtoN, WtoS", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //                 }
-//                 LogHelper.Log("Success SRS = 2, WtoN, WtoS", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                 LogHelper.Log("Success SRS = 2, WtoN, WtoS", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //             }
-//             LogHelper.Log("Success SRS = 1, WtoN, WtoS", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//             LogHelper.Log("Success SRS = 1, WtoN, WtoS", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //         }
 //         else if ((MinoMovementStats.MinoAngleBefore == East && MinoMovementStats.MinoAngleAfter == North) ||
 //             (MinoMovementStats.MinoAngleBefore == East && MinoMovementStats.MinoAngleAfter == South))   // East から North , East から South に回転する時
@@ -803,17 +812,17 @@ public class MinoMovement : MonoBehaviour
 
 //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
-//                             LogHelper.Log("Failure SRS, EtoN, EtoS", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                             LogHelper.Log("Failure SRS, EtoN, EtoS", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 
 //                             return false; // SRSができなかった時、falseを返す
 //                         }
-//                         LogHelper.Log("Success SRS = 4, EtoN, EtoS", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                         LogHelper.Log("Success SRS = 4, EtoN, EtoS", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //                     }
-//                     LogHelper.Log("Success SRS = 3, EtoN, EtoS", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                     LogHelper.Log("Success SRS = 3, EtoN, EtoS", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //                 }
-//                 LogHelper.Log("Success SRS = 2, EtoN, EtoS", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                 LogHelper.Log("Success SRS = 2, EtoN, EtoS", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //             }
-//             LogHelper.Log("Success SRS = 1, EtoN, EtoS", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//             LogHelper.Log("Success SRS = 1, EtoN, EtoS", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //         }
 //         else if ((MinoMovementStats.MinoAngleBefore == North && MinoMovementStats.MinoAngleAfter == West) ||
 //             (MinoMovementStats.MinoAngleBefore == South && MinoMovementStats.MinoAngleAfter == West))   // North から West , South から West に回転する時
@@ -857,17 +866,17 @@ public class MinoMovement : MonoBehaviour
 
 //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
-//                             LogHelper.Log("Failure SRS, NtoW, StoW", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                             LogHelper.Log("Failure SRS, NtoW, StoW", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 
 //                             return false; // SRSができなかった時、falseを返す
 //                         }
-//                         LogHelper.Log("Success SRS = 4, NtoW, StoW", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                         LogHelper.Log("Success SRS = 4, NtoW, StoW", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //                     }
-//                     LogHelper.Log("Success SRS = 3, NtoW, StoW", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                     LogHelper.Log("Success SRS = 3, NtoW, StoW", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //                 }
-//                 LogHelper.Log("Success SRS = 2, NtoW, StoW", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                 LogHelper.Log("Success SRS = 2, NtoW, StoW", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //             }
-//             LogHelper.Log("Success SRS = 1, NtoW, StoW", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//             LogHelper.Log("Success SRS = 1, NtoW, StoW", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //         }
 //     }
 //     // IミノのSRS(かなり複雑)
@@ -916,17 +925,17 @@ public class MinoMovement : MonoBehaviour
 
 //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
-//                             LogHelper.Log("Failure SRS, NtoE, WtoS, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                             LogHelper.Log("Failure SRS, NtoE, WtoS, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 
 //                             return false; // SRSができなかった時、falseを返す
 //                         }
-//                         LogHelper.Log("Success SRS = 4, NtoE, WtoS, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                         LogHelper.Log("Success SRS = 4, NtoE, WtoS, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //                     }
-//                     LogHelper.Log("Success SRS = 3, NtoE, WtoS, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                     LogHelper.Log("Success SRS = 3, NtoE, WtoS, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //                 }
-//                 LogHelper.Log("Success SRS = 2, NtoE, WtoS, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                 LogHelper.Log("Success SRS = 2, NtoE, WtoS, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //             }
-//             LogHelper.Log("Success SRS = 1, NtoE, WtoS, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//             LogHelper.Log("Success SRS = 1, NtoE, WtoS, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //         }
 //         else if ((MinoMovementStats.MinoAngleBefore == West && MinoMovementStats.MinoAngleAfter == North) ||
 //             (MinoMovementStats.MinoAngleBefore == South && MinoMovementStats.MinoAngleAfter == East))   // West から North , South から East に回転する時
@@ -969,17 +978,17 @@ public class MinoMovement : MonoBehaviour
 
 //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
-//                             LogHelper.Log("Failure SRS, WtoN, StoE, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                             LogHelper.Log("Failure SRS, WtoN, StoE, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 
 //                             return false; // SRSができなかった時、falseを返す
 //                         }
-//                         LogHelper.Log("Success SRS = 4, WtoN, StoE, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                         LogHelper.Log("Success SRS = 4, WtoN, StoE, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //                     }
-//                     LogHelper.Log("Success SRS = 3, WtoN, StoE, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                     LogHelper.Log("Success SRS = 3, WtoN, StoE, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //                 }
-//                 LogHelper.Log("Success SRS = 2, WtoN, StoE, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                 LogHelper.Log("Success SRS = 2, WtoN, StoE, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //             }
-//             LogHelper.Log("Success SRS = 1, WtoN, StoE, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//             LogHelper.Log("Success SRS = 1, WtoN, StoE, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //         }
 //         else if ((MinoMovementStats.MinoAngleBefore == East && MinoMovementStats.MinoAngleAfter == North) ||
 //             (MinoMovementStats.MinoAngleBefore == South && MinoMovementStats.MinoAngleAfter == West))   // East から North , South から West に回転する時
@@ -1022,17 +1031,17 @@ public class MinoMovement : MonoBehaviour
 
 //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
-//                             LogHelper.Log("Failure SRS, EtoN, StoW, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                             LogHelper.Log("Failure SRS, EtoN, StoW, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 
 //                             return false; // SRSができなかった時、falseを返す
 //                         }
-//                         LogHelper.Log("Success SRS = 4, EtoN, StoW, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                         LogHelper.Log("Success SRS = 4, EtoN, StoW, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //                     }
-//                     LogHelper.Log("Success SRS = 3, EtoN, StoW, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                     LogHelper.Log("Success SRS = 3, EtoN, StoW, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //                 }
-//                 LogHelper.Log("Success SRS = 2, EtoN, StoW, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//                 LogHelper.Log("Success SRS = 2, EtoN, StoW, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //             }
-//             LogHelper.Log("Success SRS = 1, EtoN, StoW, I", LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()");
+//             LogHelper.Log("Success SRS = 1, EtoN, StoW, I", eLogLevel.Debug, "Mino", "SuperRotationSystem()");
 //         }
 //         else if ((MinoMovementStats.MinoAngleBefore == North && MinoMovementStats.MinoAngleAfter == West) ||
 //             (MinoMovementStats.MinoAngleBefore == East && MinoMovementStats.MinoAngleAfter == South))   // North から West , East から South に回転する時
@@ -1075,20 +1084,20 @@ public class MinoMovement : MonoBehaviour
 
 //                             gameStatus.Reset_Rotate(); // 通常回転のリセット
 
-//                             LogHelper.Log(LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()", "End");
+//                             LogHelper.Log(eLogLevel.Debug, "Mino", "SuperRotationSystem()", "End");
 
 //                             return false; // SRSができなかった時、falseを返す
 //                         }
-//                         LogHelper.Log(LogHelper.eLogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 4, NtoW, EtoS, I");
+//                         LogHelper.Log(eLogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 4, NtoW, EtoS, I");
 //                     }
-//                     LogHelper.Log(LogHelper.eLogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 3, NtoW, EtoS, I");
+//                     LogHelper.Log(eLogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 3, NtoW, EtoS, I");
 //                 }
-//                 LogHelper.Log(LogHelper.eLogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 2, NtoW, EtoS, I");
+//                 LogHelper.Log(eLogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 2, NtoW, EtoS, I");
 //             }
-//             LogHelper.Log(LogHelper.eLogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 1, NtoW, EtoS, I");
+//             LogHelper.Log(eLogLevel.Info, "Mino", "SuperRotationSystem()", "Success SRS = 1, NtoW, EtoS, I");
 //         }
 //     }
-//     LogHelper.Log(LogHelper.eLogLevel.Debug, "Mino", "SuperRotationSystem()", "End");
+//     LogHelper.Log(eLogLevel.Debug, "Mino", "SuperRotationSystem()", "End");
 //     return true; // SRSができた時、trueを返す
 // }
 

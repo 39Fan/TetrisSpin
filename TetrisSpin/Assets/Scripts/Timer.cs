@@ -54,7 +54,7 @@ public static class Timer
     /// <remarks>
     /// ゲームスタート時とミノが設置された時に使用される
     /// </remarks>
-    public static void Reset()
+    public static void ResetTimer()
     {
         nextKeyDownTimer = Time.time;
         nextKeyLeftRightTimer = Time.time;
@@ -66,7 +66,7 @@ public static class Timer
     /// <summary>
     /// 右入力または左入力のタイマーを更新する関数
     /// </summary>
-    public static void UpdateLeftRightTimer()
+    public static void UpdateMoveLeftRightTimer()
     {
         if (continuousLRKey)
         {
@@ -81,21 +81,21 @@ public static class Timer
     }
 
     /// <summary>
+    /// 下入力および自動落下のタイマーを更新する関数
+    /// </summary>
+    public static void UpdateMoveDownTimer()
+    {
+        nextKeyDownTimer = Time.time + nextKeyDownInterval;
+        autoDropTimer = Time.time + autoDropInterval;
+        bottomTimer = Time.time + bottomTimerInterval;
+    }
+
+    /// <summary>
     /// 回転入力のタイマーを更新する関数
     /// </summary>
     public static void UpdateRotateTimer()
     {
         nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
-        bottomTimer = Time.time + bottomTimerInterval;
-    }
-
-    /// <summary>
-    /// 下入力および自動落下のタイマーを更新する関数
-    /// </summary>
-    public static void UpdateDownTimer()
-    {
-        nextKeyDownTimer = Time.time + nextKeyDownInterval;
-        autoDropTimer = Time.time + autoDropInterval;
         bottomTimer = Time.time + bottomTimerInterval;
     }
 }

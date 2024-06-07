@@ -31,7 +31,7 @@ public static class GameManagerStats
     /// <remarks>
     /// 指定されていない引数は現在の値を維持
     /// </remarks>
-    public static void Update(bool? _gameOver = null, int? _minoPopNumber = null, int? _minoPutNumber = null)
+    public static void UpdateStats(bool? _gameOver = null, int? _minoPopNumber = null, int? _minoPutNumber = null)
     {
         gameOver = _gameOver ?? gameOver;
         minoPopNumber = _minoPopNumber ?? minoPopNumber;
@@ -40,7 +40,7 @@ public static class GameManagerStats
     }
 
     /// <summary> デフォルトの <see cref="GameManagerStats"/> にリセットする関数 </summary>
-    public static void Reset()
+    public static void ResetStats()
     {
         gameOver = false;
         minoPopNumber = 0;
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        SpawnerStats.Reset();
+        SpawnerStats.ResetStats();
         spinCheck.ResetSpinTypeName();
 
         // ゲーム開始時余分にミノの順番を決める
