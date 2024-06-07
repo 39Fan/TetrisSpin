@@ -26,6 +26,9 @@ public static class SpawnerStats
     public static eMinoType HoldMinoName => holdMinoName;
     public static int ActiveMinoToBaseDistance => activeMinoToBaseDistance;
 
+    /// <summary> スタッツログの詳細 </summary>
+    private static string logStatsDetail;
+
     /// <summary> 指定されたフィールドの値を更新する関数 </summary>
     /// <param name="_activeMinoName"> 操作中のミノの名前 </param>
     /// <param name="_holdMinoName"> ホールドミノの名前 </param>
@@ -35,27 +38,40 @@ public static class SpawnerStats
     /// </remarks>
     public static void UpdateStats(eMinoType? _activeMinoName = null, eMinoType? _holdMinoName = null, int? _activeMinoToBaseDistance = null)
     {
+        LogHelper.DebugLog(eClasses.SpawnerStats, eMethod.UpdateStats, eLogTitle.Start);
+
         activeMinoName = _activeMinoName ?? activeMinoName;
         holdMinoName = _holdMinoName ?? holdMinoName;
         activeMinoToBaseDistance = _activeMinoToBaseDistance ?? activeMinoToBaseDistance;
-        // TODO: ログの記入
+
+        logStatsDetail = $"activeMinoName : {activeMinoName}, holdMinoName : {holdMinoName}, activeMinoToBaseDistance : {activeMinoToBaseDistance}";
+        LogHelper.InfoLog(eClasses.SpawnerStats, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
+
+        LogHelper.DebugLog(eClasses.SpawnerStats, eMethod.UpdateStats, eLogTitle.End);
     }
 
     /// <summary> デフォルトの <see cref="AttackCalculatorStats"/> にリセットする関数 </summary>
     public static void ResetStats()
     {
+        LogHelper.DebugLog(eClasses.SpawnerStats, eMethod.ResetStats, eLogTitle.Start);
+
         spawnMinoOrders.Clear();
         activeMinoName = default;
         holdMinoName = default;
         activeMinoToBaseDistance = 20;
+
+        LogHelper.DebugLog(eClasses.SpawnerStats, eMethod.ResetStats, eLogTitle.End);
     }
 
     /// <summary> 生成されるミノの順番リストを追加する関数 </summary>
     /// <param name="_addeMinoType"> 追加するミノの種類 </param>
     public static void AddSpawnMinoOrder(eMinoType _addeMinoType)
     {
+        LogHelper.DebugLog(eClasses.SpawnerStats, eMethod.AddSpawnMinoOrder, eLogTitle.Start);
+
         spawnMinoOrders.Add(_addeMinoType);
-        // TODO: ログの記入
+
+        LogHelper.DebugLog(eClasses.SpawnerStats, eMethod.AddSpawnMinoOrder, eLogTitle.End);
     }
 }
 
@@ -84,40 +100,11 @@ public class Spawner : MonoBehaviour
     /// </remarks>
     [SerializeField] private MinoMovement[] ghostMinos;
 
-    // /// <summary> ミノの名前リスト </summary>
-    // private string[] MinoNames = new string[]
-    // {
-    //     "I_Mino", "J_Mino", "L_Mino", "O_Mino", "S_Mino", "T_Mino", "Z_Mino"
-    // };
-
     /// <summary> MinosとMinoNamesのDictionary </summary>
     Dictionary<eMinoType, MinoMovement> minoDictionary = new Dictionary<eMinoType, MinoMovement>();
 
     /// <summary> GhostMinosとMinoNamesのDictionary </summary>
     Dictionary<eMinoType, MinoMovement> ghostMinoDictionary = new Dictionary<eMinoType, MinoMovement>();
-
-    // /// <summary> 生成されるミノの順番リスト </summary>
-    // private List<string> spawnMinoOrders = new List<string>();
-
-    // /// <summary> 操作中のミノ </summary>
-    // private MinoMovement activeMino;
-    // /// <summary> ゴーストミノ </summary>
-    // private MinoMovement ghostMino;
-    // /// <summary> ネクストミノリスト </summary>
-    // private MinoMovement[] nextMinos = new MinoMovement[5];
-    // /// <summary> ホールドミノ </summary>
-    // private MinoMovement holdMino;
-
-    // /// <summary> 操作中のミノの名前 </summary>
-    // private string activeMinoName;
-    // /// <summary> ホールドミノの名前 </summary>
-    // private string holdMinoName;
-
-    // /// <summary> ActiveMinoから底までの距離 </summary>
-    // /// <remarks>
-    // /// ゴーストミノの生成座標の計算で必要
-    // /// </remarks>
-    // private int activeMinoToBaseDistance;
 
     /// <summary> 操作中のミノの生成座標 </summary>
     private Vector3 spawnMinoPosition { get; } = new Vector3(4, 19, 0);
@@ -136,13 +123,13 @@ public class Spawner : MonoBehaviour
     };
 
     // // ゲッタープロパティ //
-    // public MinoMovement ActiveMino => activeMino;
-    // public MinoMovement GhostMino => ghostMino;
-    // public string ActiveMinoName => activeMinoName;
     public MinoMovement ActiveMino => activeMino;
     public MinoMovement GhostMino => ghostMino;
     public MinoMovement[] NextMino => nextMino;
     public MinoMovement HoldMino => holdMino;
+
+    /// <summary> ログの詳細 </summary>
+    private string logDetail;
 
     // 干渉するスクリプト //
     Board board;
@@ -174,6 +161,8 @@ public class Spawner : MonoBehaviour
     /// <summary> 生成されるミノの順番を決める関数 </summary>
     public void DetermineSpawnMinoOrder()
     {
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.DetermineSpawnMinoOrder, eLogTitle.Start);
+
         /// <summary> ミノの種類が入るリスト </summary>
         List<eMinoType> minoNames = new List<eMinoType>();
 
@@ -189,12 +178,16 @@ public class Spawner : MonoBehaviour
             SpawnerStats.AddSpawnMinoOrder(randomeMinoType);
             minoNames.RemoveAt(index);
         }
+
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.DetermineSpawnMinoOrder, eLogTitle.End);
     }
 
     /// <summary> 操作中のミノから底までの距離を計算する関数 </summary>
     /// <returns> 操作中のミノから底までの距離(newActiveMinoToBaseDistance) </returns>
     private int CheckActiveMinoToBaseDistance()
     {
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.CheckActiveMinoToBaseDistance, eLogTitle.Start);
+
         /// <summary> 操作中のミノから底までの距離 </summary>
         int newActiveMinoToBaseDistance;
 
@@ -229,12 +222,15 @@ public class Spawner : MonoBehaviour
                 (activeMino_x, activeMino_y, activeMino_z);
         }
 
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.CheckActiveMinoToBaseDistance, eLogTitle.End);
         return newActiveMinoToBaseDistance;
     }
 
     /// <summary> ゴーストミノの位置調整を行う関数 </summary>
     public void AdjustGhostMinoPosition()
     {
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.AdjustGhostMinoPosition, eLogTitle.Start);
+
         SpawnerStats.UpdateStats(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
 
         // 操作中のミノの各座標を格納する変数を宣言
@@ -244,12 +240,16 @@ public class Spawner : MonoBehaviour
 
         ghostMino.transform.rotation = activeMino.transform.rotation; // 向きの調整
         ghostMino.transform.position = new Vector3(activeMinoPos_x, activeMinoPos_y - SpawnerStats.ActiveMinoToBaseDistance, activeMinoPos_z); // 位置の調整
+
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.AdjustGhostMinoPosition, eLogTitle.End);
     }
 
     /// <summary> 新しい activeMino を生成する際の処理をする関数 </summary>
     /// <param name="_minoPopNumber"> ミノの生成数 </param>
     public void CreateNewActiveMino(int _minoPopNumber)
     {
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.CreateNewActiveMino, eLogTitle.Start);
+
         if (_minoPopNumber % 7 == 0) // 生成数が7の倍数の時
         {
             DetermineSpawnMinoOrder(); // 生成されるミノを補充
@@ -267,13 +267,16 @@ public class Spawner : MonoBehaviour
         SpawnerStats.UpdateStats(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
 
         ghostMino = SpawnGhostMino(ghostMinoDictionary[SpawnerStats.SpawnMinoOrders[_minoPopNumber]], activeMino, SpawnerStats.ActiveMinoToBaseDistance); // ゴーストミノの生成も同時に行う
-        // SpawnerStats.UpdateStats(_activeMino: SpawnGhostMino(ghostMinoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber]], activeMino, activeMinoToBaseDistance));
+
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.CreateNewActiveMino, eLogTitle.End);
     }
 
     /// <summary>  ネクストミノを生成する関数 </summary>
     /// <param name="_minoPopNumber"> ミノの生成数 </param>
     public void CreateNextMinos(int _minoPopNumber)
     {
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.CreateNextMinos, eLogTitle.Start);
+
         for (int nextMinoOrder = 0; nextMinoOrder < nextMino.Length; nextMinoOrder++) // NextMinosの数だけ繰り返す
         {
             if (_minoPopNumber == 0) // ゲームスタート時
@@ -291,6 +294,8 @@ public class Spawner : MonoBehaviour
                 // SpawnerStats.AddNextMinos(_addNextMino: SpawnNextMino(minoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber + nextMinoOrder + 1]], nextMinoOrder), _number: nextMinoOrder);
             }
         }
+
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.CreateNextMinos, eLogTitle.End);
     }
 
     /// <summary> ホールド機能の処理をする関 </summary>
@@ -298,6 +303,8 @@ public class Spawner : MonoBehaviour
     /// <param name="_minoPopNumber"> ミノの生成数 </param>
     public void CreateHoldMino(bool _firstHold, int _minoPopNumber)
     {
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.CreateHoldMino, eLogTitle.Start);
+
         // 1回目のHold
         if (_firstHold == true)
         {
@@ -345,6 +352,8 @@ public class Spawner : MonoBehaviour
             minoMovement.ResetAngle();
             minoMovement.ResetStepsSRS();
         }
+
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.CreateHoldMino, eLogTitle.End);
     }
 
     /// <summary> 新しい activeMino を生成する関数 </summary>
@@ -352,15 +361,19 @@ public class Spawner : MonoBehaviour
     /// <returns> 新しい activeMino (newActiveMino) </returns>
     public MinoMovement SpawnActiveMino(MinoMovement _selectMino)
     {
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnActiveMino, eLogTitle.Start);
+
         MinoMovement newActiveMino = Instantiate(_selectMino,
         spawnMinoPosition, Quaternion.identity); // Quaternion.identityは、向きの回転に関する設定をしないことを表す
 
         if (newActiveMino)
         {
+            LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnActiveMino, eLogTitle.End);
             return newActiveMino;
         }
         else
         {
+            LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnActiveMino, eLogTitle.End);
             return null;
         }
     }
@@ -372,6 +385,8 @@ public class Spawner : MonoBehaviour
     /// <returns> 新しい ghostMino (newGhostMino) </returns>
     public MinoMovement SpawnGhostMino(MinoMovement _selectMino, MinoMovement _activeMino, int _activeMinoToBaseDistance)
     {
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnGhostMino, eLogTitle.Start);
+
         // 操作中のミノの各座標を格納する変数を宣言
         int activeMinoInfo_x = Mathf.RoundToInt(_activeMino.transform.position.x);
         int activeMinoInfo_y = Mathf.RoundToInt(_activeMino.transform.position.y);
@@ -382,10 +397,12 @@ public class Spawner : MonoBehaviour
 
         if (newGhostMino)
         {
+            LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnGhostMino, eLogTitle.End);
             return newGhostMino;
         }
         else
         {
+            LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnGhostMino, eLogTitle.End);
             return null;
         }
     }
@@ -396,9 +413,12 @@ public class Spawner : MonoBehaviour
     /// <returns> 新しい nextMino (newNextMino) </returns>
     public MinoMovement SpawnNextMino(MinoMovement _selectMino, int _nextMinoOrder)
     {
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnNextMino, eLogTitle.Start);
+
         MinoMovement newNextMino = Instantiate(_selectMino,
             nextMinoPositions[_nextMinoOrder], Quaternion.identity);
 
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnNextMino, eLogTitle.End);
         return newNextMino;
     }
 
@@ -407,15 +427,19 @@ public class Spawner : MonoBehaviour
     /// <returns> 新しい holdMino (newHoldMino) </returns>
     public MinoMovement SpawnHoldMino(MinoMovement _selectMino)
     {
+        LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnHoldMino, eLogTitle.Start);
+
         MinoMovement newHoldMino = Instantiate(_selectMino,
         holdMinoPosition, Quaternion.identity);
 
         if (newHoldMino)
         {
+            LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnHoldMino, eLogTitle.End);
             return newHoldMino;
         }
         else
         {
+            LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnHoldMino, eLogTitle.End);
             return null;
         }
     }
@@ -1065,5 +1089,34 @@ public class Spawner : MonoBehaviour
 // // {
 
 // // }
+
+// /// <summary> ミノの名前リスト </summary>
+// private string[] MinoNames = new string[]
+// {
+//     "I_Mino", "J_Mino", "L_Mino", "O_Mino", "S_Mino", "T_Mino", "Z_Mino"
+// };
+
+// /// <summary> 生成されるミノの順番リスト </summary>
+// private List<string> spawnMinoOrders = new List<string>();
+
+// /// <summary> 操作中のミノ </summary>
+// private MinoMovement activeMino;
+// /// <summary> ゴーストミノ </summary>
+// private MinoMovement ghostMino;
+// /// <summary> ネクストミノリスト </summary>
+// private MinoMovement[] nextMinos = new MinoMovement[5];
+// /// <summary> ホールドミノ </summary>
+// private MinoMovement holdMino;
+
+// /// <summary> 操作中のミノの名前 </summary>
+// private string activeMinoName;
+// /// <summary> ホールドミノの名前 </summary>
+// private string holdMinoName;
+
+// /// <summary> ActiveMinoから底までの距離 </summary>
+// /// <remarks>
+// /// ゴーストミノの生成座標の計算で必要
+// /// </remarks>
+// private int activeMinoToBaseDistance;
 
 /////////////////////////////////////////////////////////

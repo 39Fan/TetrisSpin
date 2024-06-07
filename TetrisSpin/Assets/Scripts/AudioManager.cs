@@ -74,7 +74,7 @@ public class AudioManager : MonoBehaviour
     /// <summary> AudioName と AudioClip の辞書を作成する関数 </summary>
     private void BuildAudioClipDictionary()
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AudioManager, eMethod.BuildAudioClipDictionary, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.AudioManager, eMethod.BuildAudioClipDictionary, eLogTitle.Start);
 
         if (Audios.Length != System.Enum.GetValues(typeof(eAudioName)).Length)
         {
@@ -96,14 +96,14 @@ public class AudioManager : MonoBehaviour
             }
         }
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AudioManager, eMethod.BuildAudioClipDictionary, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.AudioManager, eMethod.BuildAudioClipDictionary, eLogTitle.End);
     }
 
     /// <summary> 指定されたオーディオクリップを再生する関数 </summary>
     /// <param name="audioName"> 再生するオーディオクリップの名前 </param>
     public void PlaySound(eAudioName audioName)
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AudioManager, eMethod.PlaySound, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.AudioManager, eMethod.PlaySound, eLogTitle.Start);
 
         if (AudioClipDictionary.TryGetValue(audioName, out AudioClip clip))
         {
@@ -115,14 +115,14 @@ public class AudioManager : MonoBehaviour
             LogHelper.ErrorLog(eClasses.AudioManager, eMethod.PlaySound, eLogTitle.KeyNotFound);
         }
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AudioManager, eMethod.PlaySound, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.AudioManager, eMethod.PlaySound, eLogTitle.End);
     }
 
     /// <summary> 音量を設定する関数 </summary>
     /// <param name="audioName"> 再生するオーディオクリップの名前 </param>
     private void SetVolume(eAudioName audioName)
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AudioManager, eMethod.SetVolume, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.AudioManager, eMethod.SetVolume, eLogTitle.Start);
 
         switch (audioName)
         {
@@ -137,7 +137,7 @@ public class AudioManager : MonoBehaviour
                 break;
         }
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AudioManager, eMethod.SetVolume, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.AudioManager, eMethod.SetVolume, eLogTitle.End);
     }
 }
 

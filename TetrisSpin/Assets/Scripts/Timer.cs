@@ -6,13 +6,19 @@ using UnityEngine;
 public static class Timer
 {
     /// <summary> 次の左右キー入力までの時間 </summary>
-    /// <remarks> 左右キーが押されたときに更新される </remarks>
+    /// <remarks>
+    /// 左右キーが押された時に更新される
+    /// </remarks>
     private static float nextKeyLeftRightTimer;
     /// <summary> 次の回転キー入力までの時間 </summary>
-    /// <remarks> 回転キーが押されたときに更新される </remarks>
+    /// <remarks>
+    /// 回転キーが押された時に更新される
+    /// </remarks>
     private static float nextKeyRotateTimer;
     /// <summary> 次の下キー入力までの時間 </summary>
-    /// <remarks> 下キーが押されたときに更新される </remarks>
+    /// <remarks>
+    /// 下キーが押された時に更新される
+    /// </remarks>
     private static float nextKeyDownTimer;
     /// <summary> 次の自動落下までの時間 </summary>
     private static float autoDropTimer;
@@ -22,7 +28,6 @@ public static class Timer
     /// <summary> 通常の左右キー入力のインターバル </summary>
     private static float nextKeyLeftRightInterval_Normal = 0.20f;
     /// <summary> 連続左右キー入力のインターバル </summary>
-    /// <remarks> 連続左右入力用 </remarks>
     private static float nextKeyLeftRightInterval_Short = 0.05f;
     /// <summary> 回転キー入力のインターバル </summary>
     private static float nextKeyRotateInterval = 0.05f;
@@ -34,6 +39,9 @@ public static class Timer
     private static float bottomTimerInterval = 1f;
 
     /// <summary> 連続左右入力が行われているかどうか </summary>
+    /// <remarks>
+    /// 左右キーの長押しが解除された時に更新される
+    /// </remarks>
     private static bool continuousLRKey = false;
 
     // ゲッタープロパティ
@@ -56,11 +64,15 @@ public static class Timer
     /// </remarks>
     public static void ResetTimer()
     {
+        LogHelper.DebugLog(eClasses.Timer, eMethod.ResetTimer, eLogTitle.Start);
+
         nextKeyDownTimer = Time.time;
         nextKeyLeftRightTimer = Time.time;
         nextKeyRotateTimer = Time.time;
         autoDropTimer = Time.time + autoDropInterval;
         bottomTimer = Time.time + bottomTimerInterval;
+
+        LogHelper.DebugLog(eClasses.Timer, eMethod.ResetTimer, eLogTitle.End);
     }
 
     /// <summary>
@@ -68,6 +80,8 @@ public static class Timer
     /// </summary>
     public static void UpdateMoveLeftRightTimer()
     {
+        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveLeftRightTimer, eLogTitle.Start);
+
         if (continuousLRKey)
         {
             nextKeyLeftRightTimer = Time.time + nextKeyLeftRightInterval_Short;
@@ -78,6 +92,8 @@ public static class Timer
         }
 
         bottomTimer = Time.time + bottomTimerInterval;
+
+        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveLeftRightTimer, eLogTitle.End);
     }
 
     /// <summary>
@@ -85,9 +101,13 @@ public static class Timer
     /// </summary>
     public static void UpdateMoveDownTimer()
     {
+        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveDownTimer, eLogTitle.Start);
+
         nextKeyDownTimer = Time.time + nextKeyDownInterval;
         autoDropTimer = Time.time + autoDropInterval;
         bottomTimer = Time.time + bottomTimerInterval;
+
+        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveDownTimer, eLogTitle.End);
     }
 
     /// <summary>
@@ -95,8 +115,12 @@ public static class Timer
     /// </summary>
     public static void UpdateRotateTimer()
     {
+        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateRotateTimer, eLogTitle.Start);
+
         nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
         bottomTimer = Time.time + bottomTimerInterval;
+
+        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateRotateTimer, eLogTitle.End);
     }
 }
 
@@ -201,13 +225,13 @@ public static class Timer
 // public class Timer : MonoBehaviour
 // {
 //     /// <summary> 次の左右キー入力までの時間 </summary>
-//     /// <remarks> 左右キーが押されたときに更新される </remarks>
+//     /// <remarks> 左右キーが押された時に更新される </remarks>
 //     private float nextKeyLeftRightTimer;
 //     /// <summary> 次の回転キー入力までの時間 </summary>
-//     /// <remarks> 回転キーが押されたときに更新される </remarks>
+//     /// <remarks> 回転キーが押された時に更新される </remarks>
 //     private float nextKeyRotateTimer;
 //     /// <summary> 次の下キー入力までの時間 </summary>
-//     /// <remarks> 下キーが押されたときに更新される </remarks>
+//     /// <remarks> 下キーが押された時に更新される </remarks>
 //     private float nextKeyDownTimer;
 //     /// <summary> 次の自動落下までの時間 </summary>
 //     private float autoDropTimer;

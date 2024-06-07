@@ -28,25 +28,25 @@ public static class BoardStats
     /// <summary> デフォルトの <see cref="BoardStats"/> にリセットする関数 </summary>
     public static void ResetStats()
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.BoardStats, eMethod.ResetStats, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.BoardStats, eMethod.ResetStats, eLogTitle.Start);
 
         lineClearCountHistory.Clear();
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.BoardStats, eMethod.ResetStats, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.BoardStats, eMethod.ResetStats, eLogTitle.End);
     }
 
     /// <summary> ライン消去数の履歴を追加する関数 </summary>
     /// <param name="_lineClearCount"> 消去したライン数 </param>
     public static void AddLineClearCountHistory(int _lineClearCount)
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.BoardStats, eMethod.AddLineClearCountHistory, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.BoardStats, eMethod.AddLineClearCountHistory, eLogTitle.Start);
 
         lineClearCountHistory.Add(_lineClearCount);
 
         logStatsDetail = $"lineClearCountHistory : {lineClearCountHistory}";
         LogHelper.InfoLog(eClasses.BoardStats, eMethod.AddLineClearCountHistory, eLogTitle.StatsInfo, logStatsDetail);
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.BoardStats, eMethod.AddLineClearCountHistory, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.BoardStats, eMethod.AddLineClearCountHistory, eLogTitle.End);
     }
 }
 
@@ -82,6 +82,9 @@ public class Board : MonoBehaviour
     /// <value> [0~ ,0~] </value>
     public Transform[,] grid;
 
+    /// <summary> ログメッセージ </summary>
+    private string logMessage;
+
     /// <summary>
     /// ゲームボードグリッドの定義
     /// </summary>
@@ -101,6 +104,8 @@ public class Board : MonoBehaviour
     /// <summary> ゲームボードの作成 </summary>
     void CreateBoard()
     {
+        LogHelper.DebugLog(eClasses.Board, eMethod.CreateBoard, eLogTitle.Start);
+
         for (int y = 0; y < height - header; y++)
         {
             for (int x = 0; x < width; x++)
@@ -112,6 +117,7 @@ public class Board : MonoBehaviour
             }
         }
 
+        LogHelper.DebugLog(eClasses.Board, eMethod.CreateBoard, eLogTitle.End);
     }
 
     /// <summary> 操作中のミノが存在できる位置か判定する関数を呼ぶ関数 </summary>
@@ -119,6 +125,8 @@ public class Board : MonoBehaviour
     /// <returns> ブロックが存在できる場合 true、それ以外の場合は false </returns>
     public bool CheckPosition(MinoMovement _activeMino)
     {
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckPosition, eLogTitle.Start);
+
         // 操作中のミノを構成するブロック個々に調べる
         foreach (Transform item in _activeMino.transform)
         {
@@ -126,15 +134,18 @@ public class Board : MonoBehaviour
 
             if (!IsWithinBoard((int)pos.x, (int)pos.y)) // ブロックが枠外に出たとき
             {
+                LogHelper.DebugLog(eClasses.Board, eMethod.CheckPosition, eLogTitle.End);
                 return false;
             }
 
             if (CheckMinoCollision((int)pos.x, (int)pos.y, _activeMino)) // 移動先に何かブロックがあるとき
             {
+                LogHelper.DebugLog(eClasses.Board, eMethod.CheckPosition, eLogTitle.End);
                 return false;
             }
         }
 
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckPosition, eLogTitle.End);
         return true;
     }
 
@@ -144,7 +155,18 @@ public class Board : MonoBehaviour
     /// <returns> ブロックが枠内にある場合 true、それ以外の場合は false </returns>
     public bool IsWithinBoard(int _x, int _y)
     {
-        return (_x >= 0 && _x < width && _y >= 0);
+        LogHelper.DebugLog(eClasses.Board, eMethod.IsWithinBoard, eLogTitle.Start);
+
+        if (_x >= 0 && _x < width && _y >= 0)
+        {
+            LogHelper.DebugLog(eClasses.Board, eMethod.IsWithinBoard, eLogTitle.End);
+            return true;
+        }
+        else
+        {
+            LogHelper.DebugLog(eClasses.Board, eMethod.IsWithinBoard, eLogTitle.End);
+            return false;
+        }
     }
 
     /// <summary> 操作中のミノとブロックが重なっているか判定する関数 </summary>
@@ -154,27 +176,43 @@ public class Board : MonoBehaviour
     /// <returns> ブロックが重なっていない場合 true、それ以外の場合は false </returns>
     private bool CheckMinoCollision(int _x, int _y, MinoMovement _activeMino)
     {
-        // 二次元配列が空ではない(他のブロックがある時)
-        // 親が違う
-        return (grid[_x, _y] != null && grid[_x, _y].parent != _activeMino.transform);
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckMinoCollision, eLogTitle.Start);
+
+        // 二次元配列が空ではない(他のブロックがある時)、親が違う
+        if (grid[_x, _y] != null && grid[_x, _y].parent != _activeMino.transform)
+        {
+            LogHelper.DebugLog(eClasses.Board, eMethod.CheckMinoCollision, eLogTitle.End);
+            return true;
+        }
+        else
+        {
+            LogHelper.DebugLog(eClasses.Board, eMethod.CheckMinoCollision, eLogTitle.End);
+            return false;
+        }
     }
 
     /// <summary> ブロックが落ちたポジションを記録する関数 </summary>
     /// <param name="_activeMino"> 操作中のミノ </param>
     public void SaveBlockInGrid(MinoMovement _activeMino)
     {
+        LogHelper.DebugLog(eClasses.Board, eMethod.SaveBlockInGrid, eLogTitle.Start);
+
         foreach (Transform item in _activeMino.transform)
         {
             Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
 
             grid[(int)pos.x, (int)pos.y] = item;
         }
+
+        LogHelper.DebugLog(eClasses.Board, eMethod.SaveBlockInGrid, eLogTitle.End);
     }
 
     /// <summary> 全ての行をチェックして、埋まっていれば削除する関数を呼ぶ関数 </summary>
     /// <returns> 合計の消去ライン数(lineClearCount) </returns>
-    public int ClearAllRows()
+    public int CheckAllRows()
     {
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckAllRows, eLogTitle.Start);
+
         /// <summary> 合計の消去ライン数 </summary>
         int lineClearCount = 0;
 
@@ -192,6 +230,10 @@ public class Board : MonoBehaviour
             }
         }
 
+        logMessage = $"lineClearCount : {lineClearCount}";
+        LogHelper.InfoLog(eClasses.Board, eMethod.CheckAllRows, eLogTitle.LineClearCountValue, logMessage);
+
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckAllRows, eLogTitle.End);
         return lineClearCount;
     }
 
@@ -200,6 +242,8 @@ public class Board : MonoBehaviour
     /// <returns> 指定された行がブロックで埋まっている場合 true、それ以外の場合は false </returns>
     bool IsComplete(int _y)
     {
+        LogHelper.DebugLog(eClasses.Board, eMethod.IsComplete, eLogTitle.Start);
+
         for (int x = 0; x < width; x++)
         {
             if (grid[x, _y] == null) // ブロックがない場合
@@ -208,6 +252,7 @@ public class Board : MonoBehaviour
             }
         }
 
+        LogHelper.DebugLog(eClasses.Board, eMethod.IsComplete, eLogTitle.End);
         return true; // 行が埋まっている場合
     }
 
@@ -215,6 +260,8 @@ public class Board : MonoBehaviour
     /// <param name="_y"> 調べる y 座標 </param>
     private void ClearRow(int _y)
     {
+        LogHelper.DebugLog(eClasses.Board, eMethod.ClearRow, eLogTitle.Start);
+
         for (int x = 0; x < width; x++)
         {
             if (grid[x, _y] != null)
@@ -224,12 +271,16 @@ public class Board : MonoBehaviour
 
             grid[x, _y] = null;
         }
+
+        LogHelper.DebugLog(eClasses.Board, eMethod.ClearRow, eLogTitle.End);
     }
 
     /// <summary> 指定されたy座標より高い位置にある全てのブロックを1段下げる関数 </summary>
     /// <param name="_y"> 下げる y 座標(この y 以上のブロックが1段下がる) </param>
     private void ShiftRowsDown(int _y)
     {
+        LogHelper.DebugLog(eClasses.Board, eMethod.ShiftRowsDown, eLogTitle.Start);
+
         for (int y = _y; y < Height; y++)
         {
             for (int x = 0; x < width; x++)
@@ -242,22 +293,29 @@ public class Board : MonoBehaviour
                 }
             }
         }
+
+        LogHelper.DebugLog(eClasses.Board, eMethod.ShiftRowsDown, eLogTitle.End);
     }
 
     /// <summary> PerfectClear か判別する関数 </summary>
     /// <returns> PerfectClear 判定の場合 true、それ以外の場合は false </returns>
     public bool CheckPerfectClear()
     {
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckPerfectClear, eLogTitle.Start);
+
         for (int y = 0; y < Height; y++)
         {
             for (int x = 0; x < width; x++)
             {
                 if (grid[x, y] != null) // ブロックがある場合
                 {
+                    LogHelper.DebugLog(eClasses.Board, eMethod.CheckPerfectClear, eLogTitle.End);
                     return false;
                 }
             }
         }
+
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckPerfectClear, eLogTitle.End);
         return true;
     }
 
@@ -268,20 +326,27 @@ public class Board : MonoBehaviour
     /// <returns> 指定されたマスがブロック、もしくは壁の場合 true、それ以外の場合は false </returns>
     public bool CheckGrid(int _x, int _y, MinoMovement _activeMino)
     {
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckGrid, eLogTitle.Start);
+
         if (_x < 0 || _y < 0) // gridの座標が負の場合(壁判定)
         {
+            LogHelper.DebugLog(eClasses.Board, eMethod.CheckGrid, eLogTitle.End);
             return true;
         }
         else if (!IsWithinBoard(_x, _y)) // ゲームボード外の場合
         {
+            LogHelper.DebugLog(eClasses.Board, eMethod.CheckGrid, eLogTitle.End);
             return true;
         }
 
         if (CheckMinoCollision(_x, _y, _activeMino)) // ブロックで埋まっている場合
         {
+
+            LogHelper.DebugLog(eClasses.Board, eMethod.CheckGrid, eLogTitle.End);
             return true;
         }
 
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckGrid, eLogTitle.End);
         return false;
     }
 
@@ -290,6 +355,8 @@ public class Board : MonoBehaviour
     /// <returns> 最上部のブロックのy座標(topBlockPositionY) </returns>
     public int CheckActiveMinoTopBlockPositionY(MinoMovement _activeMino)
     {
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckActiveMinoTopBlockPositionY, eLogTitle.Start);
+
         int topBlockPositionY = 0; // 最上部のブロックのY座標(初期値は底の数値)
         int temp; // 一時的な変数
 
@@ -304,6 +371,7 @@ public class Board : MonoBehaviour
             }
         }
 
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckActiveMinoTopBlockPositionY, eLogTitle.End);
         return topBlockPositionY;
     }
 
@@ -312,6 +380,8 @@ public class Board : MonoBehaviour
     /// <returns> 最下部のブロックのy座標(bottomBlockPositionY) </returns>
     public int CheckActiveMinoBottomBlockPositionY(MinoMovement _activeMino)
     {
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckActiveMinoBottomBlockPositionY, eLogTitle.Start);
+
         int bottomBlockPositionY = 21; // 最下部のブロックのY座標(初期値はゲームオーバーになる数値)
         int temp; // 一時的な変数
 
@@ -326,6 +396,7 @@ public class Board : MonoBehaviour
             }
         }
 
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckActiveMinoBottomBlockPositionY, eLogTitle.End);
         return bottomBlockPositionY;
     }
 
@@ -333,7 +404,11 @@ public class Board : MonoBehaviour
     /// <param name="_lineClearCount"> 消去ライン数 </param>
     public void AddLineClearCountHistory(int _lineClearCount)
     {
+        LogHelper.DebugLog(eClasses.Board, eMethod.AddLineClearCountHistory, eLogTitle.Start);
+
         BoardStats.AddLineClearCountHistory(_lineClearCount);
+
+        LogHelper.DebugLog(eClasses.Board, eMethod.AddLineClearCountHistory, eLogTitle.End);
     }
 
     /// <summary> ゲームオーバーか判定する関数 </summary>
@@ -341,13 +416,17 @@ public class Board : MonoBehaviour
     /// <returns> ゲームオーバー判定の場合 true、それ以外の場合は false </returns>
     public bool CheckGameOver(MinoMovement _activeMino)
     {
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckGameOver, eLogTitle.Start);
+
         int bottomBlockPosition_y = CheckActiveMinoBottomBlockPositionY(_activeMino); // ActiveMino の1番下のブロックのy座標
 
         if (bottomBlockPosition_y >= 21) // ミノの1番下のブロックのy座標が21を超えている場合
         {
+            LogHelper.DebugLog(eClasses.Board, eMethod.CheckGameOver, eLogTitle.End);
             return true;
         }
 
+        LogHelper.DebugLog(eClasses.Board, eMethod.CheckGameOver, eLogTitle.End);
         return false;
     }
 }

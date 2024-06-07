@@ -24,6 +24,9 @@ public static class GameAutoRunnerStats
     public static int BottomMoveCount => bottomMoveCount;
     public static int LowestBlockPositionY => lowestBlockPositionY;
 
+    /// <summary> スタッツログの詳細 </summary>
+    private static string logStatsDetail;
+
     /// <summary> 指定されたフィールドの値を更新する関数 </summary>
     /// <param name="_bottomMoveCount"> ロックダウンの移動回数 </param>
     /// <param name="_lowestBlockPositionY"> 操作中のミノを構成するブロックのうち、最も低い y 座標を保持する変数 </param>
@@ -32,16 +35,26 @@ public static class GameAutoRunnerStats
     /// </remarks>
     public static void UpdateStats(int? _bottomMoveCount = null, int? _lowestBlockPositionY = null)
     {
+        LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.UpdateStats, eLogTitle.Start);
+
         bottomMoveCount = _bottomMoveCount ?? bottomMoveCount;
         lowestBlockPositionY = _lowestBlockPositionY ?? lowestBlockPositionY;
-        // TODO: ログの記入
+
+        logStatsDetail = $"bottomMoveCount : {bottomMoveCount}, lowestBlockPositionY : {lowestBlockPositionY}";
+        LogHelper.InfoLog(eClasses.GameAutoRunnerStats, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
+
+        LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.UpdateStats, eLogTitle.End);
     }
 
     /// <summary> デフォルトの <see cref="AttackCalculatorStats"/> にリセットする関数 </summary>
     public static void ResetStats()
     {
+        LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.ResetStats, eLogTitle.Start);
+
         bottomMoveCount = 0;
         lowestBlockPositionY = 20;
+
+        LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.ResetStats, eLogTitle.End);
     }
 }
 
@@ -72,7 +85,7 @@ public class GameAutoRunner : MonoBehaviour
     /// <summary> ロックダウンの処理をする関数 </summary>
     public void RockDown()
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.RockDown, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.RockDown, eLogTitle.UpdateFunctionRunning);
 
         int bottomMoveCountLimit = 15;
         int newBottomBlockPositionY = board.CheckActiveMinoBottomBlockPositionY(spawner.ActiveMino);
@@ -93,25 +106,24 @@ public class GameAutoRunner : MonoBehaviour
         }
         else // lowestBlockPositionYが更新された場合
         {
-            GameAutoRunnerStats.UpdateStats(_bottomMoveCount: 0);
-            GameAutoRunnerStats.UpdateStats(_lowestBlockPositionY: newBottomBlockPositionY); // BottomPositionの更新
+            GameAutoRunnerStats.UpdateStats(_bottomMoveCount: 0, _lowestBlockPositionY: newBottomBlockPositionY);
         }
-
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.RockDown, eLogTitle.End);
     }
 
     /// <summary> RockDownに関する変数のリセット </summary>
     public void ResetRockDown()
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.ResetRockDown, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.ResetRockDown, eLogTitle.Start);
+
         GameAutoRunnerStats.UpdateStats(_bottomMoveCount: 0, _lowestBlockPositionY: 20);
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.ResetRockDown, eLogTitle.End);
+
+        LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.ResetRockDown, eLogTitle.End);
     }
 
     /// <summary> 自動落下の処理をする関数 </summary>
     public void AutoDown()
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.AutoDown, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.AutoDown, eLogTitle.Start);
 
         Timer.UpdateMoveDownTimer();
         spawner.ActiveMino.MoveDown();
@@ -129,13 +141,13 @@ public class GameAutoRunner : MonoBehaviour
             minoMovement.ResetStepsSRS();
         }
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.AutoDown, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.AutoDown, eLogTitle.End);
     }
 
     /// <summary> ミノの設置場所が確定した時の処理をする関数 </summary>
     public void SetMinoFixed()
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.SetMinoFixed, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.SetMinoFixed, eLogTitle.Start);
 
         /// <summary> 合計の消去ライン数 </summary>
         int lineClearCount;
@@ -156,7 +168,7 @@ public class GameAutoRunner : MonoBehaviour
         Timer.ResetTimer();
 
         board.SaveBlockInGrid(spawner.ActiveMino);
-        lineClearCount = board.ClearAllRows();
+        lineClearCount = board.CheckAllRows();
         board.AddLineClearCountHistory(lineClearCount);
         attackCalculator.CalculateAttackLines(spinCheck.SpinTypeName, lineClearCount);
         textEffect.TextDisplay(spinCheck.SpinTypeName, lineClearCount);
@@ -171,7 +183,6 @@ public class GameAutoRunner : MonoBehaviour
         PlayerInputStats.UpdateStats(_useHold: false);
 
         spawner.CreateNewActiveMino(GameManagerStats.MinoPopNumber);
-
         spawner.CreateNextMinos(GameManagerStats.MinoPopNumber);
 
         if (!board.CheckPosition(spawner.ActiveMino)) // ミノを生成した際に、ブロックと重なってしまった場合
@@ -182,9 +193,10 @@ public class GameAutoRunner : MonoBehaviour
 
             sceneTransition.GameOver();
 
+            LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.SetMinoFixed, eLogTitle.End);
             return;
         }
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.SetMinoFixed, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.SetMinoFixed, eLogTitle.End);
     }
 }

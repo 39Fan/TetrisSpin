@@ -67,6 +67,9 @@ public static class MinoMovementStats
     public static eMinoDirection MinoAngleBefore => minoAngleBefore;
     public static int StepsSRS => stepsSRS;
 
+    /// <summary> スタッツログの詳細 </summary>
+    private static string logStatsDetail;
+
     /// <summary> フィールドの値を更新する関数 </summary>
     /// <param name="_minoAngleAfter"> ミノの回転後の向き </param>
     /// <param name="_minoAngleBefore"> ミノの回転前の向き </param>
@@ -76,18 +79,28 @@ public static class MinoMovementStats
     /// </remarks>
     public static void UpdateStats(eMinoDirection? _minoAngleAfter = null, eMinoDirection? _minoAngleBefore = null, int? _stepsSRS = null)
     {
+        LogHelper.DebugLog(eClasses.MinoMovementStats, eMethod.UpdateStats, eLogTitle.Start);
+
         minoAngleAfter = _minoAngleAfter ?? minoAngleAfter;
         minoAngleBefore = _minoAngleBefore ?? minoAngleBefore;
         stepsSRS = _stepsSRS ?? stepsSRS;
-        // TODO: ログの記入
+
+        logStatsDetail = $"minoAngleAfter : {minoAngleAfter}, minoAngleBefore : {minoAngleBefore}, stepsSRS : {stepsSRS}";
+        LogHelper.InfoLog(eClasses.MinoMovementStats, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
+
+        LogHelper.DebugLog(eClasses.MinoMovementStats, eMethod.UpdateStats, eLogTitle.End);
     }
 
     /// <summary> デフォルトの <see cref="MinoMovementStats"/> にリセットする関数 </summary>
     public static void ResetStats()
     {
+        LogHelper.DebugLog(eClasses.MinoMovementStats, eMethod.ResetStats, eLogTitle.Start);
+
         minoAngleAfter = eMinoDirection.North;
         minoAngleBefore = eMinoDirection.North;
         stepsSRS = 0;
+
+        LogHelper.DebugLog(eClasses.MinoMovementStats, eMethod.ResetStats, eLogTitle.End);
     }
 }
 
@@ -124,41 +137,54 @@ public class MinoMovement : MonoBehaviour
     /// <summary> ミノを指定した方向に移動する関数 </summary>
     public void Move(Vector3 _MoveDirection)
     {
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.Move, eLogTitle.Start);
+
         transform.position += _MoveDirection;
+
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.Move, eLogTitle.End);
     }
 
     /// <summary> ミノを左に移動する関数 </summary>
     public void MoveLeft()
     {
-        // LogHelper.Log("Start", eLogLevel.Debug, "Mino", "MoveLeft()");
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.MoveLeft, eLogTitle.Start);
 
         Move(new Vector3(-1, 0, 0));
+
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.MoveLeft, eLogTitle.End);
     }
     /// <summary> ミノを右に移動する関数 </summary>
     public void MoveRight()
     {
-        // LogHelper.Log("Start", eLogLevel.Debug, "Mino", "MoveRight()");
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.MoveRight, eLogTitle.Start);
 
         Move(new Vector3(1, 0, 0));
+
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.MoveRight, eLogTitle.End);
     }
     /// <summary> ミノを上に移動する関数 </summary>
     public void MoveUp()
     {
-        // LogHelper.Log("Start", eLogLevel.Debug, "Mino", "MoveUp()");
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.MoveUp, eLogTitle.Start);
 
         Move(new Vector3(0, 1, 0));
+
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.MoveUp, eLogTitle.End);
     }
     /// <summary> ミノを下に移動する関数 </summary>
     public void MoveDown()
     {
-        // LogHelper.Log("Start", eLogLevel.Debug, "Mino", "MoveDown()");
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.MoveDown, eLogTitle.Start);
+
         Move(new Vector3(0, -1, 0));
+
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.MoveDown, eLogTitle.End);
     }
 
     /// <summary> ミノを右回転する関数 </summary>
     public void RotateRight()
     {
-        // LogHelper.Log("Start", eLogLevel.Debug, "Mino", "RotateRight()");
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.RotateRight, eLogTitle.Start);
 
         /// <summary> 右回転のZ軸の回転量 </summary>
         int RotateRightAroundZ = -90;
@@ -184,12 +210,14 @@ public class MinoMovement : MonoBehaviour
 
         // ミノの角度の調整(右回転)
         UpdateMinoAngleAfter(eMinoRotationDirection.RotateRight);
+
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.RotateRight, eLogTitle.End);
     }
 
     /// <summary> ミノを左回転する関数 </summary>
     public void RotateLeft()
     {
-        // LogHelper.Log("Start", eLogLevel.Debug, "Mino", "Rotateleft()");
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.RotateLeft, eLogTitle.Start);
 
         /// <summary> 左回転のZ軸の回転量 </summary>
         int RotateLeftAroundZ = 90;
@@ -218,13 +246,15 @@ public class MinoMovement : MonoBehaviour
 
         // ミノの角度の調整(左回転)
         UpdateMinoAngleAfter(eMinoRotationDirection.RotateLeft);
+
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.RotateLeft, eLogTitle.End);
     }
 
     /// <summary> Iミノの軸を計算し、Vector3で返す関数 </summary>
     /// <param name="Imino_x"> Iミノのx座標</param>
     /// <param name="Imino_y"> Iミノのy座標 </param>
     /// <returns> Iミノの軸となる座標(Vector3) </returns>
-    public Vector3 AxisCheckForI(int Imino_x, int Imino_y) // Imino_x と Imino_y はIミノのx, y座標
+    public Vector3 AxisCheckForI(int Imino_x, int Imino_y) // TODO リファクタリング
     {
         LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.Start);
 
@@ -232,7 +262,7 @@ public class MinoMovement : MonoBehaviour
         float xOffset = 0.5f;
         float yOffset = 0.5f;
 
-        // 回転軸は現在位置から、x軸を xOffset 動かし、y軸を yOffset 動かした座標にある
+        // Iミノの回転軸は現在位置から、x軸を xOffset 動かし、y軸を yOffset 動かした座標にある
         // xOffset と yOffset の正負は回転前の向きによって変化する
 
         // 向きがNorthの時
@@ -273,6 +303,8 @@ public class MinoMovement : MonoBehaviour
     /// <param name="_rotateDirection"> 回転方向 </param>
     public void UpdateMinoAngleAfter(eMinoRotationDirection _rotateDirection)
     {
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.UpdateMinoAngleAfter, eLogTitle.Start);
+
         switch (_rotateDirection)
         {
             case eMinoRotationDirection.RotateRight:
@@ -310,23 +342,35 @@ public class MinoMovement : MonoBehaviour
                 }
                 break;
         }
+
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.UpdateMinoAngleAfter, eLogTitle.End);
     }
 
     /// <summary> MinoAngleAfter の値を MinoAngleBefore に変更する関数 </summary>
     public void UpdateMinoAngleAfterToMinoAngleBefore()
     {
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.UpdateMinoAngleAfterToMinoAngleBefore, eLogTitle.Start);
+
         MinoMovementStats.UpdateStats(_minoAngleAfter: MinoMovementStats.MinoAngleBefore);
+
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.UpdateMinoAngleAfterToMinoAngleBefore, eLogTitle.End);
     }
 
     /// <summary> MinoAngleBefore の値を MinoAngleAfter に変更する関数 </summary>
     public void UpdateMinoAngleBeforeToMinoAngleAfter()
     {
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.UpdateMinoAngleBeforeToMinoAngleAfter, eLogTitle.Start);
+
         MinoMovementStats.UpdateStats(_minoAngleBefore: MinoMovementStats.MinoAngleAfter);
+
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.UpdateMinoAngleBeforeToMinoAngleAfter, eLogTitle.End);
     }
 
     /// <summary> 通常回転のリセットをする関数 </summary>
     public void ResetRotate()
     {
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.ResetRotate, eLogTitle.Start);
+
         // 通常回転が右回転だった時
         if ((MinoMovementStats.MinoAngleAfter == eMinoDirection.North && MinoMovementStats.MinoAngleAfter == eMinoDirection.East) ||
         (MinoMovementStats.MinoAngleAfter == eMinoDirection.East && MinoMovementStats.MinoAngleAfter == eMinoDirection.South) ||
@@ -339,18 +383,28 @@ public class MinoMovement : MonoBehaviour
         {
             spawner.ActiveMino.RotateRight(); // 右回転で回転前の状態に戻す
         }
+
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.ResetRotate, eLogTitle.End);
     }
 
     /// <summary> ミノの向きを初期化する関数 </summary>
     public void ResetAngle()
     {
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.ResetAngle, eLogTitle.Start);
+
         MinoMovementStats.UpdateStats(_minoAngleAfter: eMinoDirection.North, _minoAngleBefore: eMinoDirection.North);
+
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.ResetAngle, eLogTitle.End);
     }
 
     /// <summary> StepsSRSの値をリセットする関数 </summary>
     public void ResetStepsSRS()
     {
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.ResetStepsSRS, eLogTitle.Start);
+
         MinoMovementStats.UpdateStats(_stepsSRS: 0);
+
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.ResetStepsSRS, eLogTitle.End);
     }
 
     /// <summary> スーパーローテーションシステム(SRS)の計算をする関数 </summary>
@@ -365,7 +419,7 @@ public class MinoMovement : MonoBehaviour
     /// <returns> 成功したかどうか(true or false) </returns>
     public bool SuperRotationSystem()
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.MinoMovement, eMethod.SuperRotationSystem, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.SuperRotationSystem, eLogTitle.Start);
 
         /// <summary> SRSの成功失敗の判定 </summary>
         bool success = false;
@@ -577,7 +631,7 @@ public class MinoMovement : MonoBehaviour
             }
         }
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.MinoMovement, eMethod.SuperRotationSystem, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.SuperRotationSystem, eLogTitle.End);
         return success; // SRSが成功したかどうかを返す
     }
 
@@ -587,7 +641,7 @@ public class MinoMovement : MonoBehaviour
     /// <returns> 成功したかどうか(true or false) </returns>
     private bool TrySuperRotation(List<Action> rotationSteps, string direction)
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.MinoMovement, eMethod.TrySuperRotation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.TrySuperRotation, eLogTitle.Start);
 
         // 現在の位置を保存
         Vector3 originalPosition = spawner.ActiveMino.transform.position;
@@ -602,7 +656,7 @@ public class MinoMovement : MonoBehaviour
                 logDetail = $"Success / StepsSRS : {MinoMovementStats.StepsSRS}, direction : {direction}, SpawnerStats.ActiveMinoName : {SpawnerStats.ActiveMinoName}";
                 LogHelper.InfoLog(eClasses.MinoMovement, eMethod.TrySuperRotation, eLogTitle.SRSInfo, logDetail);
 
-                if (Application.isEditor) LogHelper.DebugLog(eClasses.MinoMovement, eMethod.TrySuperRotation, eLogTitle.End);
+                LogHelper.DebugLog(eClasses.MinoMovement, eMethod.TrySuperRotation, eLogTitle.End);
                 return true;
             }
         }
@@ -614,11 +668,11 @@ public class MinoMovement : MonoBehaviour
         logDetail = $"Failure / direction : {direction}, SpawnerStats.ActiveMinoName : {SpawnerStats.ActiveMinoName}";
         LogHelper.InfoLog(eClasses.MinoMovement, eMethod.TrySuperRotation, eLogTitle.SRSInfo, logDetail);
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.MinoMovement, eMethod.TrySuperRotation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.MinoMovement, eMethod.TrySuperRotation, eLogTitle.End);
         return false;
     }
 
-    /// <summary> MinoAngleAfter の値を返す関数 </summary>
+    /// <summary> MinoAngleAfter の値を返す関数 </summary> // TODO 消せないかチェック
     /// <returns> MinoAngleAfter(eMinoDirection) </returns>
     public eMinoDirection GetMinoAngleAfter()
     {

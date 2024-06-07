@@ -48,7 +48,7 @@ public static class AttackCalculatorStats
     /// </remarks>
     public static void UpdateStats(bool? _backToBack = null, bool? _perfectClear = null, int? _ren = null, int? _attackLines = null)
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.UpdateStats, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.UpdateStats, eLogTitle.Start);
 
         backToBack = _backToBack ?? backToBack;
         perfectClear = _perfectClear ?? perfectClear;
@@ -58,20 +58,20 @@ public static class AttackCalculatorStats
         logStatsDetail = $"backToBack : {backToBack}, perfectClear : {perfectClear}, ren : {ren}, attackLines : {attackLines}";
         LogHelper.InfoLog(eClasses.AttackCalculator, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.UpdateStats, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.UpdateStats, eLogTitle.End);
     }
 
     /// <summary> デフォルトの <see cref="AttackCalculatorStats"/> にリセットする関数 </summary>
     public static void ResetStats()
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.ResetStats, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.ResetStats, eLogTitle.Start);
 
         backToBack = false;
         perfectClear = false;
         ren = -1;
         attackLines = 0;
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.ResetStats, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.ResetStats, eLogTitle.End);
     }
 }
 
@@ -195,7 +195,7 @@ public class AttackCalculator : MonoBehaviour
     /// <param name="_lineClearCount"> 消去ライン数 </param>
     public void CalculateAttackLines(SpinTypeNames _spinType, int _lineClearCount)
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateAttackLines, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateAttackLines, eLogTitle.Start);
 
         // Spin判定と消去ライン数に対応した攻撃力を加算する
         AttackCalculatorStats.UpdateStats(_attackLines: AttackCalculatorStats.AttackLines + spinTypeAttackMapping[_spinType][_lineClearCount]);
@@ -207,7 +207,7 @@ public class AttackCalculator : MonoBehaviour
         logDetail = $"{AttackCalculatorStats.AttackLines}";
         LogHelper.InfoLog(eClasses.AttackCalculator, eMethod.CalculateAttackLines, eLogTitle.AttackLinesValue, logDetail);
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateAttackLines, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateAttackLines, eLogTitle.End);
     }
 
     /// <summary> BackToBackの判定と攻撃力ボーナスを計算する関数 </summary>
@@ -215,7 +215,7 @@ public class AttackCalculator : MonoBehaviour
     /// <param name="_lineClearCount"> 消去ライン数 </param>
     private void CalculateBackToBack(SpinTypeNames _spinType, int _lineClearCount)
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateBackToBack, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateBackToBack, eLogTitle.Start);
 
         /// <summary> BackToBackの攻撃力ボーナス </summary>
         int backToBackBonus = 1;
@@ -240,13 +240,13 @@ public class AttackCalculator : MonoBehaviour
             }
         }
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateBackToBack, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateBackToBack, eLogTitle.End);
     }
 
     /// <summary> PerfectClearの判定と攻撃力ボーナスを計算する関数 </summary>
     private void CalculatePerfectClear()
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculatePerfectClear, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculatePerfectClear, eLogTitle.Start);
 
         /// <summary> PerfectClearの攻撃力ボーナス </summary>
         int perfectClearBonus = 10;
@@ -263,14 +263,14 @@ public class AttackCalculator : MonoBehaviour
             AttackCalculatorStats.UpdateStats(_perfectClear: false);
         }
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculatePerfectClear, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculatePerfectClear, eLogTitle.End);
     }
 
     /// <summary> Renの判定と攻撃力ボーナスを計算する関数 </summary>
     /// <param name="_lineClearCount"> 消去ライン数 </param>
     private void CalculateRen(int _lineClearCount)
     {
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateRen, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateRen, eLogTitle.Start);
 
         /// <summary> RENの攻撃力ボーナス </summary>
         int[] renBonus = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 5 };
@@ -288,7 +288,7 @@ public class AttackCalculator : MonoBehaviour
             AttackCalculatorStats.UpdateStats(_ren: -1);
         }
 
-        if (Application.isEditor) LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateRen, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateRen, eLogTitle.End);
     }
 }
 
