@@ -178,7 +178,7 @@ public class Board : MonoBehaviour
     {
         LogHelper.DebugLog(eClasses.Board, eMethod.CheckMinoCollision, eLogTitle.Start);
 
-        // 二次元配列が空ではない(他のブロックがある時)、親が違う
+        // ミノが存在できない範囲にない、二次元配列が空ではない(他のブロックがある時)、親が違う
         if (grid[_x, _y] != null && grid[_x, _y].parent != _activeMino.transform)
         {
             LogHelper.DebugLog(eClasses.Board, eMethod.CheckMinoCollision, eLogTitle.End);
