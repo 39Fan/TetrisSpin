@@ -388,7 +388,6 @@ public class GameManager : MonoBehaviour
 //             _useHold ?? useHold,
 //             _firstHold ?? firstHold
 //         );
-//         // TODO: ログの記入
 //         return updatedStats;
 //     }
 // }

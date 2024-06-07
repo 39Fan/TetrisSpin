@@ -369,7 +369,6 @@ public class AttackCalculator : MonoBehaviour
 //             _ren ?? ren,
 //             _attackLines ?? attackLines
 //         );
-//         // TODO: ログの記入
 //         return updatedStats;
 //     }
 // }
