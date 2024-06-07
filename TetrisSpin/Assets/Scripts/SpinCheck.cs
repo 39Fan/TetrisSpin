@@ -40,6 +40,9 @@ public class SpinCheck : MonoBehaviour
     // ゲッタープロパティ //
     public SpinTypeNames SpinTypeName => spinTypeName;
 
+    /// <summary> ログの詳細 </summary>
+    private string logDetail;
+
     // 干渉するスクリプト //
     Board board;
     Spawner spawner;
@@ -54,7 +57,14 @@ public class SpinCheck : MonoBehaviour
     }
 
     /// <summary> Spin判定をリセットする関数 </summary>
-    public void ResetSpinTypeName() => spinTypeName = SpinTypeNames.None;
+    public void ResetSpinTypeName()
+    {
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.ResetSpinTypeName, eLogTitle.Start);
+
+        spinTypeName = SpinTypeNames.None;
+
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.ResetSpinTypeName, eLogTitle.End);
+    }
 
     /// <summary> 各ミノのスピン判定をチェックする関数 </summary>
     /// <remarks>
@@ -62,6 +72,8 @@ public class SpinCheck : MonoBehaviour
     /// </remarks>
     public void CheckSpinType(eMinoDirection _minoAngleAfter, int _stepsSRS)
     {
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.CheckSpinType, eLogTitle.Start);
+
         switch (SpawnerStats.ActiveMinoName)
         {
             case eMinoType.IMino:
@@ -83,9 +95,11 @@ public class SpinCheck : MonoBehaviour
                 ZspinCheck(_minoAngleAfter, _stepsSRS);
                 break;
             default:
-                // TODO Debug.LogError("[SpinCheck CheckSpinType()] activeMinoNameが特定できません。");
+                LogHelper.WarningLog(eClasses.SpinCheck, eMethod.ResetSpinTypeName, eLogTitle.MinosIdentificationFailed);
                 break;
         }
+
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.CheckSpinType, eLogTitle.End);
     }
 
     /// <summary> Ispinの判定をする関数 </summary>
@@ -94,6 +108,8 @@ public class SpinCheck : MonoBehaviour
     /// </remarks>
     private void IspinCheck(eMinoDirection _minoAngleAfter)
     {
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.IspinCheck, eLogTitle.Start);
+
         if (_minoAngleAfter == eMinoDirection.North || _minoAngleAfter == eMinoDirection.South) // Iミノが横向きの場合
         {
             // IspinMiniの判定をチェックする
@@ -255,11 +271,15 @@ public class SpinCheck : MonoBehaviour
                 spinTypeName = SpinTypeNames.Ispin;
             }
         }
+
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.IspinCheck, eLogTitle.End);
     }
 
     /// <summary> Jspinの判定をする関数 </summary>
     private void JspinCheck(eMinoDirection _minoAngleAfter, int _stepsSRS)
     {
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.JspinCheck, eLogTitle.Start);
+
         // Jspinの判定をチェックする
 
         // 条件
@@ -338,11 +358,15 @@ public class SpinCheck : MonoBehaviour
         {
             spinTypeName = SpinTypeNames.Jspin;
         }
+
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.JspinCheck, eLogTitle.End);
     }
 
     /// <summary> Lspinの判定をする関数 </summary>
     private void LspinCheck(eMinoDirection _minoAngleAfter, int _stepsSRS)
     {
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.LspinCheck, eLogTitle.Start);
+
         // Lspinの判定をチェックする
 
         // 条件
@@ -422,6 +446,8 @@ public class SpinCheck : MonoBehaviour
         {
             spinTypeName = SpinTypeNames.Lspin;
         }
+
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.LspinCheck, eLogTitle.End);
     }
 
     /// <summary> Sspinの判定をする関数 </summary>
@@ -430,6 +456,8 @@ public class SpinCheck : MonoBehaviour
     /// </remarks>
     private void SspinCheck(eMinoDirection _minoAngleAfter, int _stepsSRS)
     {
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.SspinCheck, eLogTitle.Start);
+
         // Sspinの判定をチェックする
         // 条件
         // ① 以下の図の指定されたマス(▫️)のうち、ブロックや壁でないマスが2つ以内である。
@@ -511,12 +539,16 @@ public class SpinCheck : MonoBehaviour
         if (checkBlocklistS.FindAll(block => block == Existence.NotExist).Count <= 2)
         {
             spinTypeName = SpinTypeNames.Sspin;
+
+            LogHelper.DebugLog(eClasses.SpinCheck, eMethod.SspinCheck, eLogTitle.End);
             return;
         }
         // SspinMiniの判定をチェックする
         if (checkBlocklistS.FindAll(block => block == Existence.NotExist).Count <= 3 && _stepsSRS >= 1)
         {
             spinTypeName = SpinTypeNames.SspinMini;
+
+            LogHelper.DebugLog(eClasses.SpinCheck, eMethod.SspinCheck, eLogTitle.End);
             return;
         }
     }
@@ -527,6 +559,8 @@ public class SpinCheck : MonoBehaviour
     /// </remarks>
     private void TspinCheck(eMinoDirection _minoAngleAfter, int _stepsSRS)
     {
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.TspinCheck, eLogTitle.Start);
+
         // Tミノの中心から順番に[1, 1]、[1, -1]、[-1, 1]、[-1, -1]の分だけ移動した座標にブロックや壁がないか確認する
         // ブロックや壁があった時は Exist ない時は Not Exist で_ActiveMinoCountのリストに追加されていく
         // 例: checkBlocksT["Exist", "Exist", Existence.NotExist, "Exist"]
@@ -639,6 +673,8 @@ public class SpinCheck : MonoBehaviour
                 }
             }
         }
+
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.TspinCheck, eLogTitle.End);
     }
 
     /// <summary> Zspinの判定をする関数 </summary>
@@ -647,6 +683,8 @@ public class SpinCheck : MonoBehaviour
     /// </remarks>
     private void ZspinCheck(eMinoDirection _minoAngleAfter, int _stepsSRS)
     {
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.ZspinCheck, eLogTitle.Start);
+
         // Zspinの判定をチェックする
         // 条件
         // ① 以下の図の指定されたマス(▫️)のうち、ブロックや壁でないマスが2つ以内である。
@@ -728,12 +766,16 @@ public class SpinCheck : MonoBehaviour
         if (checkBlocklistZ.FindAll(block => block == Existence.NotExist).Count <= 2)
         {
             spinTypeName = SpinTypeNames.Zspin;
+
+            LogHelper.DebugLog(eClasses.SpinCheck, eMethod.ZspinCheck, eLogTitle.End);
             return;
         }
         // ZspinMiniの判定をチェックする
         if (checkBlocklistZ.FindAll(block => block == Existence.NotExist).Count <= 3 && _stepsSRS >= 1)
         {
             spinTypeName = SpinTypeNames.ZspinMini;
+
+            LogHelper.DebugLog(eClasses.SpinCheck, eMethod.ZspinCheck, eLogTitle.End);
             return;
         }
     }

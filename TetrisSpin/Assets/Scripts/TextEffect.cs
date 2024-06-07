@@ -72,6 +72,8 @@ public class TextEffect : MonoBehaviour
     /// <param name="_lineClearCount"> 消去ライン数 </param>
     public void TextDisplay(SpinTypeNames _spinType, int _lineClearCount)
     {
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextDisplay, eLogTitle.Start);
+
         TextAnimation(DetermineTextToDisplay(_spinType, _lineClearCount));
 
         // 鳴らすサウンドの決定も行う
@@ -97,6 +99,8 @@ public class TextEffect : MonoBehaviour
                 AudioManager.Instance.PlaySound(eAudioName.NormalDrop);
             }
         }
+
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextDisplay, eLogTitle.End);
     }
 
     /// <summary> 表示するテキストを特定する関数 </summary>
@@ -105,6 +109,8 @@ public class TextEffect : MonoBehaviour
     /// <returns> 表示するテキスト </returns>
     private TextMeshProUGUI DetermineTextToDisplay(SpinTypeNames _spinType, int _lineClearCount)
     {
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.DetermineTextToDisplay, eLogTitle.Start);
+
         // スピンタイプと消去ライン数に対応するテキストをマッピングするディクショナリ
         Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>> spinTypeTextMapping = new Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>>
     {
@@ -188,6 +194,7 @@ public class TextEffect : MonoBehaviour
         },
         { SpinTypeNames.None, new Dictionary<int, TextMeshProUGUI>
             {
+                { 0, null},
                 { 1, OneLineClearText },
                 { 2, TwoLineClearText },
                 { 3, ThreeLineClearText },
@@ -206,16 +213,19 @@ public class TextEffect : MonoBehaviour
         }
         else
         {
-            // TODO: エラー
+            LogHelper.ErrorLog(eClasses.TextEffect, eMethod.DetermineTextToDisplay, eLogTitle.KeyNotFound);
         }
 
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.DetermineTextToDisplay, eLogTitle.End);
         return displayText;
     }
 
     /// <summary> テキストのアニメーションを行う関数 </summary>
-    /// <param name="_displayText">表示するテキスト</param>
+    /// <param name="_displayText"> 表示するテキスト </param>
     private void TextAnimation(TextMeshProUGUI _displayText)
     {
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextAnimation, eLogTitle.Start);
+
         // 表示するテキストが存在しない場合、処理をスキップする
         if (_displayText != null)
         {
@@ -223,30 +233,38 @@ public class TextEffect : MonoBehaviour
             TextFadeInAndOut(instantiatedText);
             TextMove(instantiatedText.transform);
         }
+
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextAnimation, eLogTitle.End);
     }
 
     /// <summary> テキストのフェードインとフェードアウトを行う関数 </summary>
-    /// <param name="_displayText">表示するテキスト</param>
+    /// <param name="_displayText"> 表示するテキスト </param>
     private void TextFadeInAndOut(TextMeshProUGUI _displayText)
     {
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextFadeInAndOut, eLogTitle.Start);
+
         float fadeInInterval = 0.3f;
         float fadeOutInterval = 1f;
-        float waitInterval = 2f;
+        float waitInterval = 2f; // TODO 拡張性を広げる
 
         var sequence = DOTween.Sequence();
         sequence
             .Append(_displayText.DOFade(Alpha_1, fadeInInterval))
             .AppendInterval(waitInterval)
             .Append(_displayText.DOFade(Alpha_0, fadeOutInterval));
+
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextFadeInAndOut, eLogTitle.End);
     }
 
     /// <summary> テキストの移動を行う関数 </summary>
-    /// <param name="_displayText">表示するテキストのトランスフォーム</param>
+    /// <param name="_displayText"> 表示するテキストのトランスフォーム </param>
     private void TextMove(Transform _displayText)
     {
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextMove, eLogTitle.Start);
+
         float moveInterval_x = 2f;
         float moveInterval_y = 1.2f;
-        float moveDistance = 600f;
+        float moveDistance = 600f; // TODO 拡張性を広げる
 
         float displayText_x = Mathf.RoundToInt(_displayText.transform.position.x);
         float displayText_y = Mathf.RoundToInt(_displayText.transform.position.y);
@@ -260,25 +278,37 @@ public class TextEffect : MonoBehaviour
             {
                 _displayText.position = new Vector3(displayText_x, displayText_y, displayText_z);
             });
+
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextMove, eLogTitle.End);
     }
 
     /// <summary> BackToBackアニメーションを行う関数 </summary>
     public void BackToBackAnimation()
     {
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.BackToBackAnimation, eLogTitle.Start);
+
         TextMeshProUGUI instantiatedText = Instantiate(BackToBackText, Canvas);
         TextFadeInAndOut(instantiatedText);
+
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.BackToBackAnimation, eLogTitle.End);
     }
 
     /// <summary> PerfectClearアニメーションを行う関数 </summary>
     public void PerfectClearAnimation()
     {
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.PerfectClearAnimation, eLogTitle.Start);
+
         TextMeshProUGUI instantiatedText = Instantiate(PerfectClearText, Canvas);
         TextFadeInAndOut(instantiatedText);
+
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.PerfectClearAnimation, eLogTitle.End);
     }
 
     /// <summary> ReadyGoアニメーションを行う関数 </summary>
     public void ReadyGoAnimation()
     {
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.ReadyGoAnimation, eLogTitle.Start);
+
         float fadeInInterval = 0.3f;
         float fadeOutInterval = 0f;
         float waitInterval_ready = 3f;
@@ -301,10 +331,19 @@ public class TextEffect : MonoBehaviour
                     .AppendInterval(waitInterval_go)
                     .Append(go.DOFade(Alpha_0, fadeOutInterval));
             });
+
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.ReadyGoAnimation, eLogTitle.End);
     }
 
     /// <summary> すべてのアニメーションを停止させる関数 </summary>
-    public void StopAnimation() => DOTween.KillAll();
+    public void StopAnimation()
+    {
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.StopAnimation, eLogTitle.Start);
+
+        DOTween.KillAll();
+
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.StopAnimation, eLogTitle.End);
+    }
 }
 
 /////////////////// 旧コード ///////////////////

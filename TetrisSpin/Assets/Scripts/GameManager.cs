@@ -24,6 +24,9 @@ public static class GameManagerStats
     public static int MinoPopNumber => minoPopNumber;
     public static int MinoPutNumber => minoPutNumber;
 
+    /// <summary> スタッツログの詳細 </summary>
+    private static string logStatsDetail;
+
     /// <summary> 指定されたフィールドの値を更新する関数 </summary>
     /// <param name="_gameOver"> ゲームオーバー判定 </param>
     /// <param name="_minoPopNumber"> ミノの生成数 </param>
@@ -33,18 +36,28 @@ public static class GameManagerStats
     /// </remarks>
     public static void UpdateStats(bool? _gameOver = null, int? _minoPopNumber = null, int? _minoPutNumber = null)
     {
+        LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.UpdateStats, eLogTitle.Start);
+
         gameOver = _gameOver ?? gameOver;
         minoPopNumber = _minoPopNumber ?? minoPopNumber;
         minoPutNumber = _minoPutNumber ?? minoPutNumber;
-        // TODO: ログの記入
+
+        logStatsDetail = $"gameOver : {gameOver}, minoPopNumber : {minoPopNumber}, minoPutNumber : {minoPutNumber}";
+        LogHelper.InfoLog(eClasses.GameAutoRunnerStats, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
+
+        LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.UpdateStats, eLogTitle.End);
     }
 
     /// <summary> デフォルトの <see cref="GameManagerStats"/> にリセットする関数 </summary>
     public static void ResetStats()
     {
+        LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.ResetStats, eLogTitle.Start);
+
         gameOver = false;
         minoPopNumber = 0;
         minoPutNumber = 0;
+
+        LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.ResetStats, eLogTitle.End);
     }
 }
 

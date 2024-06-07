@@ -18,7 +18,7 @@ public enum eLogLevel
 public enum eLogTitle
 {
     // 共通タイトル //
-    Start, End, KeyNotFound,
+    Start, End, KeyNotFound, UpdateFunctionRunning,
     // 各種 Stats クラス //
     StatsInfo,
     // AttackCalculator クラス //
@@ -28,7 +28,7 @@ public enum eLogTitle
     // BoardStats クラス //
 
     // Board クラス //
-
+    LineClearCountValue,
     // GameAutoRunner クラス //
 
     // LogHelper クラス //
@@ -44,7 +44,7 @@ public enum eLogTitle
     // Spawner クラス //
 
     // SpinCheck クラス //
-
+    MinosIdentificationFailed,
     // TextEffect クラス //
 
     // Timer クラス //
@@ -115,7 +115,7 @@ public enum eMethod
     // BoardStats クラス //
     AddLineClearCountHistory,
     // Board クラス //
-    CheckPosition, IsWithinBoard, CheckMinoCollision, SaveBlockInGrid, ClearAllRows, IsComplete, ClearRow, ShiftRowsDown,
+    CreateBoard, CheckPosition, IsWithinBoard, CheckMinoCollision, SaveBlockInGrid, CheckAllRows, IsComplete, ClearRow, ShiftRowsDown,
     CheckPerfectClear, CheckGrid, CheckActiveMinoTopBlockPositionY, CheckActiveMinoBottomBlockPositionY, CheckGameOver,
     // GameAutoRunner クラス //
     RockDown, ResetRockDown, AutoDown, SetMinoFixed,
@@ -169,8 +169,10 @@ public static class LogHelper
         DebugMessages[eLogTitle.Start] = "関数の開始";
         DebugMessages[eLogTitle.End] = "関数の終了";
         DebugMessages[eLogTitle.KeyNotFound] = "辞書のキーが見つかりませんでした。";
+        DebugMessages[eLogTitle.UpdateFunctionRunning] = "Update関数は正常に作動しています。";
         DebugMessages[eLogTitle.MismatchBetweenAudioAndAudioNameCount] = "Audios の数と eAudioName の数が一致していません。";
         DebugMessages[eLogTitle.AudioNameAlreadyExists] = "すでに登録されている AudioName が存在します。";
+
         // DebugMessages["MoveRightFailure"] = "Move right failed: Cannot move to the right - Reverting to original position";
 
         // DebugMessages["StartLeftMoveInput"] = "Starting LeftMoveInput";
@@ -187,15 +189,18 @@ public static class LogHelper
     /// <param name="_title"> タイトル </param>
     public static void DebugLog(eClasses _class, eMethod _method, eLogTitle _title)
     {
-        if (DebugMessages.TryGetValue(_title, out string message)) // Keyの照合を行う
+        if (Application.isEditor)
         {
-            string logMessage = FormatLogMessage(eLogLevel.Debug, _class, _method, _title, message);
-            Debug.Log(logMessage);
-        }
-        else // Keyが照合しなかった場合
-        {
-            string logMessage = FormatLogMessage(eLogLevel.Error, eClasses.LogHelper, eMethod.DebugLog, eLogTitle.KeyNotFound, DebugMessages[eLogTitle.KeyNotFound]);
-            Debug.Log(logMessage);
+            if (DebugMessages.TryGetValue(_title, out string message)) // Keyの照合を行う
+            {
+                string logMessage = FormatLogMessage(eLogLevel.Debug, _class, _method, _title, message);
+                Debug.Log(logMessage);
+            }
+            else // Keyが照合しなかった場合
+            {
+                string logMessage = FormatLogMessage(eLogLevel.Error, eClasses.LogHelper, eMethod.DebugLog, eLogTitle.KeyNotFound, DebugMessages[eLogTitle.KeyNotFound]);
+                Debug.Log(logMessage);
+            }
         }
     }
 

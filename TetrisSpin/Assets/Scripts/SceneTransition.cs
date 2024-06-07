@@ -17,24 +17,40 @@ public class SceneTransition : MonoBehaviour
     /// <summary> MenuScene の Start ボタンが押された時の処理をする関数 </summary>
     public void SelectStartButton()
     {
+        LogHelper.DebugLog(eClasses.SceneTransition, eMethod.SelectStartButton, eLogTitle.Start);
+
         SceneManager.LoadScene("Play", LoadSceneMode.Single); // 他のシーンはアンロードする
+
+        LogHelper.DebugLog(eClasses.SceneTransition, eMethod.SelectStartButton, eLogTitle.End);
     }
 
     /// <summary> GameOverScene の Retry ボタンが押された時の処理をする関数 </summary>
     public void SelectRetry()
     {
-        SceneManager.LoadScene("Play", LoadSceneMode.Single); // 他のシーンはアンロードする
+        LogHelper.DebugLog(eClasses.SceneTransition, eMethod.SelectRetry, eLogTitle.Start);
+
+        SceneManager.LoadScene("Play", LoadSceneMode.Single);
+
+        LogHelper.DebugLog(eClasses.SceneTransition, eMethod.SelectRetry, eLogTitle.End);
     }
 
     /// <summary> GameOverScene の Menu ボタン、MainScene の Menu ボタンが押された時の処理をする関数 </summary>
     public void SelectMenu()
     {
-        SceneManager.LoadScene("Menu", LoadSceneMode.Single); // 他のシーンはアンロードする
+        LogHelper.DebugLog(eClasses.SceneTransition, eMethod.SelectMenu, eLogTitle.Start);
+
+        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+
+        LogHelper.DebugLog(eClasses.SceneTransition, eMethod.SelectMenu, eLogTitle.End);
     }
 
     /// <summary> PlayScene でゲームオーバーになった時の処理をする関数 </summary>
     public void GameOver()
     {
-        SceneManager.LoadScene("GameOver", LoadSceneMode.Single); // 他のシーンはアンロードする
+        LogHelper.DebugLog(eClasses.SceneTransition, eMethod.GameOver, eLogTitle.Start);
+
+        SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
+
+        LogHelper.DebugLog(eClasses.SceneTransition, eMethod.GameOver, eLogTitle.End);
     }
 }
