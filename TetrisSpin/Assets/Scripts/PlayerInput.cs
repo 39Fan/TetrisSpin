@@ -398,21 +398,9 @@ public class PlayerInput : MonoBehaviour
     {
         LogHelper.DebugLog(eClasses.PlayerInput, eMethod.SuccessRotateAction, eLogTitle.Start);
 
-        /// <summary> ミノの回転後の向き </summary>
-        eMinoDirection minoAngleAfter;
-        // /// <summary> ミノの回転前の向き </summary>
-        // MinoDirections minoAngleBefore;
-        /// <summary> スーパーローテーションシステム(SRS)の段階 </summary>
-        int stepsSRS;
-
-        spawner.AdjustGhostMinoPosition(); // ゴーストミノの位置調整
-
+        spawner.AdjustGhostMinoPosition();
         minoMovement.UpdateMinoAngleBeforeToMinoAngleAfter();
-
-        minoAngleAfter = minoMovement.GetMinoAngleAfter();
-        // minoAngleBefore = mino.GetMinoAngleBefore();
-        stepsSRS = minoMovement.GetStepsSRS();
-        spinCheck.CheckSpinType(minoAngleAfter, stepsSRS); // TODO 直接代入できるかチェック
+        spinCheck.CheckSpinType(MinoMovementStats.MinoAngleAfter, MinoMovementStats.StepsSRS);
 
         if (spinCheck.SpinTypeName != SpinTypeNames.None) // スピン判定がない場合
         {
