@@ -288,7 +288,7 @@ public class MinoMovement : MonoBehaviour
         }
 
         logDetail = $"{MinoMovementStats.MinoAngleAfter} / Axis : ({axisPosition.x}, {axisPosition.y})";
-        LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End, logDetail);
+        LogHelper.InfoLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.MinoAngleAndAxisData, logDetail);
 
         LogHelper.DebugLog(eClasses.MinoMovement, eMethod.AxisCheckForI, eLogTitle.End);
         return axisPosition;

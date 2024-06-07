@@ -34,7 +34,7 @@ public enum eLogTitle
     // LogHelper クラス //
 
     // MinoMovement クラス //
-    SRSInfo, UnknownMinoAngleAfter,
+    SRSInfo, UnknownMinoAngleAfter, MinoAngleAndAxisData,
     // PlayerInput クラス //
     InvalidMinosPositionDetected,
     // SceneTransition クラス //
