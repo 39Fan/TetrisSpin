@@ -44,7 +44,7 @@ public enum eLogTitle
     // Spawner クラス //
 
     // SpinCheck クラス //
-    MinosIdentificationFailed,
+    MinosIdentificationFailed, CheckBlockList,
     // TextEffect クラス //
 
     // Timer クラス //
@@ -173,6 +173,9 @@ public static class LogHelper
         DebugMessages[eLogTitle.MismatchBetweenAudioAndAudioNameCount] = "Audios の数と eAudioName の数が一致していません。";
         DebugMessages[eLogTitle.AudioNameAlreadyExists] = "すでに登録されている AudioName が存在します。";
         DebugMessages[eLogTitle.UnknownMinoAngleAfter] = "MinoAngleAfter の値が不明です。";
+        DebugMessages[eLogTitle.InvalidMinosPositionDetected] = "存在できない場所にミノが移動しています。";
+        DebugMessages[eLogTitle.MinosIdentificationFailed] = "ミノの種類が特定できません。";
+
 
         // DebugMessages["MoveRightFailure"] = "Move right failed: Cannot move to the right - Reverting to original position";
 
