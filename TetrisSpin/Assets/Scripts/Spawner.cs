@@ -488,7 +488,6 @@ public class Spawner : MonoBehaviour
 //         activeMinoName = _activeMinoName ?? activeMinoName;
 //         holdMinoName = _holdMinoName ?? holdMinoName;
 //         activeMinoToBaseDistance = _activeMinoToBaseDistance ?? activeMinoToBaseDistance;
-//         // TODO: ログの記入
 //     }
 
 //     /// <summary> デフォルトの <see cref="AttackCalculatorStats"/> にリセットする関数 </summary>
@@ -505,7 +504,6 @@ public class Spawner : MonoBehaviour
 //     public static void AddSpawnMinoOrder(eMinoType _addeMinoType)
 //     {
 //         spawnMinoOrders.Add(_addeMinoType);
-//         // TODO: ログの記入
 //     }
 
 //     // /// <summary> ネクストリストを追加する関数 </summary>
@@ -514,7 +512,6 @@ public class Spawner : MonoBehaviour
 //     // public static void AddNextMinos(MinoMovement _addNextMino, int _number)
 //     // {
 //     //     nextMinos[_number] = _addNextMino;
-//     //     // TODO: ログの記入
 //     // }
 // }
 

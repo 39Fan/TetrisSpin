@@ -473,7 +473,6 @@ public class Board : MonoBehaviour
 //         var updatedStats = new BoardStats(
 //             _lineClearCountHistory ?? new List<int>(lineClearCountHistory)
 //         );
-//         // TODO: ログの記入
 //         return updatedStats;
 //     }
 
