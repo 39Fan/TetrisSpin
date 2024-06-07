@@ -34,9 +34,9 @@ public enum eLogTitle
     // LogHelper クラス //
 
     // MinoMovement クラス //
-    SRSInfo, InvalidMinosPositionDetected,
+    SRSInfo, UnknownMinoAngleAfter,
     // PlayerInput クラス //
-
+    InvalidMinosPositionDetected,
     // SceneTransition クラス //
 
     // SpawnerStats クラス //
@@ -172,6 +172,7 @@ public static class LogHelper
         DebugMessages[eLogTitle.UpdateFunctionRunning] = "Update関数は正常に作動しています。";
         DebugMessages[eLogTitle.MismatchBetweenAudioAndAudioNameCount] = "Audios の数と eAudioName の数が一致していません。";
         DebugMessages[eLogTitle.AudioNameAlreadyExists] = "すでに登録されている AudioName が存在します。";
+        DebugMessages[eLogTitle.UnknownMinoAngleAfter] = "MinoAngleAfter の値が不明です。";
 
         // DebugMessages["MoveRightFailure"] = "Move right failed: Cannot move to the right - Reverting to original position";
 
