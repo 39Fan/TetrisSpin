@@ -237,7 +237,7 @@ public class SpinCheck : MonoBehaviour
             for (int ii = IminoTopPositionY; ii < IminoTopPositionY + 3; ii++)
             {
                 // Iミノの上部にブロックが存在するか1マスずつ調べていく
-                if (board.CheckGrid(Mathf.RoundToInt(spawner.ActiveMino.transform.position.x), IminoTopPositionY + ii, spawner.ActiveMino))
+                if (board.CheckGrid(Mathf.RoundToInt(spawner.ActiveMino.transform.position.x), ii, spawner.ActiveMino))
                 {
                     checkBlocklistUpperI.Add(Existence.Exist);
                 }
