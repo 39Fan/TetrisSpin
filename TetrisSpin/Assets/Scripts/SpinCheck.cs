@@ -115,8 +115,8 @@ public class SpinCheck : MonoBehaviour
             // IspinMiniの判定をチェックする
 
             // 条件
-            // ① Iミノを構成する各ブロックの1マス上に少なくともブロックが1つ以上存在すること
-            // ② Iミノを構成する各ブロックの1マス下に少なくともブロックが3つ以上存在すること
+            // ① Iミノを構成する各ブロックの1マス上に少なくともブロックが1つ以上存在すること。
+            // ② Iミノを構成する各ブロックの1マス下に少なくともブロックが3つ以上存在すること。
             // ▫️▫️▫️▫️ ←①
             // ▪️▪️▪️▪️
             // ▫️▫️▫️▫️ ←②
@@ -177,15 +177,12 @@ public class SpinCheck : MonoBehaviour
         else // Iミノが縦向きの場合
         {
             // Ispinの判定をチェックする
-
             // 条件
-            // ① Iミノを構成する各ブロックの1マス横側にブロックが存在するか確認し、それぞれの側面で3つ以上ブロックが存在する
-            // ② Iミノの上部にブロックが存在する
+            // ① Iミノを構成する各ブロックの1マス横面で、それぞれ3つ以上ブロックまたは壁が存在する。
+            // ② Iミノの上部3マス以内にブロックが存在する。
 
             //  ↓②
-            //  .
-            //  .
-            //  .
+            //  ▫️
             //  ▫️
             //  ▫️
             // ▫️▪️▫️
@@ -200,12 +197,11 @@ public class SpinCheck : MonoBehaviour
             List<Existence> checkBlocklistLeftSideI = new List<Existence>();
             List<Existence> checkBlocklistUpperI = new List<Existence>();
 
-            // Iミノの上部にブロックがあるか調べるために必要な変数
+            /// <summary> Iミノの最もY座標が高いブロックのY座標 </summary>
             int IminoTopPositionY = board.CheckActiveMinoTopBlockPositionY(spawner.ActiveMino); // Iミノの最上部のy座標
 
             // Ispinの判定に必要なオフセット
             int xOffset = 1;
-            int yOffset = 1;
 
             // ①を調べる
             foreach (Transform item in spawner.ActiveMino.transform) // Iミノを構成するブロックそれぞれを確認する
@@ -238,10 +234,10 @@ public class SpinCheck : MonoBehaviour
             }
 
             // ②を調べる
-            while (IminoTopPositionY + yOffset < 20) // ゲームボードの上部からはみ出すまで調べる
+            for (int ii = IminoTopPositionY; ii < IminoTopPositionY + 3; ii++)
             {
                 // Iミノの上部にブロックが存在するか1マスずつ調べていく
-                if (board.CheckGrid(Mathf.RoundToInt(spawner.ActiveMino.transform.position.x), IminoTopPositionY + yOffset, spawner.ActiveMino))
+                if (board.CheckGrid(Mathf.RoundToInt(spawner.ActiveMino.transform.position.x), IminoTopPositionY + ii, spawner.ActiveMino))
                 {
                     checkBlocklistUpperI.Add(Existence.Exist);
                 }
@@ -249,10 +245,7 @@ public class SpinCheck : MonoBehaviour
                 {
                     checkBlocklistUpperI.Add(Existence.NotExist);
                 }
-
-                yOffset++;
             }
-
 
             // // ①と②の状態を文字列に変換
             // string checkBlocksRightSideInfo = string.Join(", ", checkBlocklistRightSideI);
@@ -281,10 +274,9 @@ public class SpinCheck : MonoBehaviour
         LogHelper.DebugLog(eClasses.SpinCheck, eMethod.JspinCheck, eLogTitle.Start);
 
         // Jspinの判定をチェックする
-
         // 条件
-        // ① 以下の図の指定されたマス(▫️)のうち3つ以上がブロックや壁である
-        // ② SRSを使用している(SRSの段階が1以上)
+        // ① 以下の図の指定されたマス(▫️)のうち3つ以上がブロックまたは壁である。
+        // ② SRSを使用している。(SRSの段階が1以上)
 
         // North    // East    // South    // West
         //
@@ -368,10 +360,9 @@ public class SpinCheck : MonoBehaviour
         LogHelper.DebugLog(eClasses.SpinCheck, eMethod.LspinCheck, eLogTitle.Start);
 
         // Lspinの判定をチェックする
-
         // 条件
-        // ① 以下の図の指定されたマス(▫️)のうち3つ以上がブロックや壁である
-        // ② SRSを使用している(SRSの段階が1以上)
+        // ① 以下の図の指定されたマス(▫️)のうち3つ以上がブロックまたは壁である。
+        // ② SRSを使用している。(SRSの段階が1以上)
 
         // North    // East    // South    // West
         //
@@ -460,12 +451,12 @@ public class SpinCheck : MonoBehaviour
 
         // Sspinの判定をチェックする
         // 条件
-        // ① 以下の図の指定されたマス(▫️)のうち、ブロックや壁でないマスが2つ以内である。
+        // ① 以下の図の指定されたマス(▫️)のうち、ブロックまたは壁でないマスが2つ以内である。
 
         // SspinMiniの判定をチェックする
         // 条件
-        // ① 以下の図の指定されたマス(▫️)のうち、ブロックや壁でないマスが3つ以内である。
-        // ② SRSを使用している(SRSの段階が1以上)
+        // ① 以下の図の指定されたマス(▫️)のうち、ブロックまたは壁でないマスが3つ以内である。
+        // ② SRSを使用している。(SRSの段階が1以上)
 
         // North    // East    // South    // West
         //
@@ -553,7 +544,7 @@ public class SpinCheck : MonoBehaviour
         }
     }
 
-    /// <summary> Tspinの判定をする関数 </summary> // TODO 条件のところをもう少し詳しく書く
+    /// <summary> Tspinの判定をする関数 </summary>
     /// <remarks>
     /// Mini判定も確認する
     /// </remarks>
@@ -561,14 +552,28 @@ public class SpinCheck : MonoBehaviour
     {
         LogHelper.DebugLog(eClasses.SpinCheck, eMethod.TspinCheck, eLogTitle.Start);
 
-        // Tミノの中心から順番に[1, 1]、[1, -1]、[-1, 1]、[-1, -1]の分だけ移動した座標にブロックや壁がないか確認する
-        // ブロックや壁があった時は Exist ない時は Not Exist で_ActiveMinoCountのリストに追加されていく
-        // 例: checkBlocksT["Exist", "Exist", Existence.NotExist, "Exist"]
-        // ▫️▪️▫️
-        // ▪️▪️▪️
-        // ▫️ ▫️  ←四隅を調べる
+        // Tspinの判定をチェックする
+        // 条件
+        // ① 以下の図の指定されたマス(▫️ または ○)のうち、3つ以上がブロックまたは壁である。
 
-        // 指定マスのブロックの有無情報を格納するリスト
+        // TspinMiniの判定をチェックする
+        // 条件
+        // ① Tspinの条件を満たす。
+        // ② SRSの段階が4以外である。
+        // ③ 以下の図の ○ のどちらかがブロックまたは壁でないこと。
+
+        // North    // East    // South    // West
+        //
+        //  ○▪️○         ▫️▪️○        ▫️ ▫️        ○▪️▫️
+        //  ▪️◆▪️          ◆▪️        ▪️◆▪️        ▪️◆
+        //  ▫️ ▫️         ▫️▪️○        ○▪️○        ○▪️▫️      // ◆はTミノの軸
+
+
+        /// <summary> 指定マスのブロックの有無情報を格納するリスト </summary>
+        /// <remarks>
+        /// Tミノの中心から順番に[1, 1]、[1, -1]、[-1, 1]、[-1, -1]の分だけ移動した座標にブロックまたは壁がないか確認する <br/>
+        /// ブロックまたは壁があった時は Exist ない時は Not Exist となる
+        /// </remarks>
         List<Existence> checkBlocklistT = new List<Existence>();
 
         for (int x = 1; x >= -1; x -= 2)
@@ -591,23 +596,7 @@ public class SpinCheck : MonoBehaviour
         // LogHelper.Log(eLogLevel.Info, "SpinCheck", "TspinCheck()", checkBlocksInfo); // Infoログ // TODO
 
 
-        // Tspinの判定をチェックする
-
-        // 条件
-        // checkBlocksTにExistが3つ以上含まれる
-
-
-        // 同時にTspinMiniの判定もチェックする
-
-        // 条件
-        // Tspinの条件を満たす
-        // SRSの段階が4以外
-        // Tミノの突起側が Not Exist の場合
-        // ▫️▪️▫️ ←この隅のどちらかが Not Exist の場合
-        // ▪️▪️▪️
-        // ▫️ ▫️
-
-        if (checkBlocklistT.FindAll(block => block == Existence.Exist).Count >= 3) // 3マス以上ブロックや壁に埋まっている場合
+        if (checkBlocklistT.FindAll(block => block == Existence.Exist).Count >= 3) // 3マス以上ブロックまたは壁に埋まっている場合
         {
             if (_stepsSRS == 4) // SRSが4段階の時は T-Spin 判定になる
             {
@@ -687,11 +676,11 @@ public class SpinCheck : MonoBehaviour
 
         // Zspinの判定をチェックする
         // 条件
-        // ① 以下の図の指定されたマス(▫️)のうち、ブロックや壁でないマスが2つ以内である。
+        // ① 以下の図の指定されたマス(▫️)のうち、ブロックまたは壁でないマスが2つ以内である。
 
         // ZspinMiniの判定をチェックする
         // 条件
-        // ① 以下の図の指定されたマス(▫️)のうち、ブロックや壁でないマスが3つ以内である。
+        // ① 以下の図の指定されたマス(▫️)のうち、ブロックまたは壁でないマスが3つ以内である。
         // ② SRSを使用している(SRSの段階が1以上)
 
         // North    // East    // South    // West
@@ -833,7 +822,7 @@ public class SpinCheck : MonoBehaviour
 
 //     //////////////////////
 //     // 条件
-//     // ①以下の図の指定されたマス(▫️)のうち3つ以上がブロックや壁である
+//     // ①以下の図の指定されたマス(▫️)のうち3つ以上がブロックまたは壁である
 //     // ②SRSを使用している(SRSの段階が1以上)
 
 //     // North    // East    // South    // West
