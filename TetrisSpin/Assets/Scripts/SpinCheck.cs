@@ -160,12 +160,8 @@ public class SpinCheck : MonoBehaviour
                 }
             }
 
-            // ①と②の状態を文字列に変換
-            string checkBlocksAboveInfo = string.Join(", ", checkBlocklistAboveI);
-            string checkBlocksBelowInfo = string.Join(", ", checkBlocklistBelowI);
-
-            // LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksAboveInfo);
-            // LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksBelowInfo); // Infoログ // TODO
+            logDetail = $"checkBlocklistAboveI : {string.Join(", ", checkBlocklistAboveI)}, checkBlocklistBelowI : {string.Join(", ", checkBlocklistBelowI)}";
+            LogHelper.InfoLog(eClasses.SpinCheck, eMethod.IspinCheck, eLogTitle.CheckBlockList, logDetail);
 
             // 条件を満たすか確認
             if (checkBlocklistAboveI.FindAll(block => block == Existence.Exist).Count >= 1 ||
@@ -247,14 +243,8 @@ public class SpinCheck : MonoBehaviour
                 }
             }
 
-            // // ①と②の状態を文字列に変換
-            // string checkBlocksRightSideInfo = string.Join(", ", checkBlocklistRightSideI);
-            // string checkBlocksLeftSideInfo = string.Join(", ", checkBlocklistLeftSideI);
-            // string checkBlocksUpperInfo = string.Join(", ", checkBlocklistUpperI);
-
-            // LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksRightSideInfo);
-            // LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksLeftSideInfo);
-            // LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksUpperInfo); // Infoログ // TODO
+            logDetail = $"checkBlocklistRightSideI : {string.Join(", ", checkBlocklistRightSideI)}, checkBlocklistLeftSideI : {string.Join(", ", checkBlocklistLeftSideI)}, checkBlocklistUpperI : {string.Join(", ", checkBlocklistUpperI)}";
+            LogHelper.InfoLog(eClasses.SpinCheck, eMethod.IspinCheck, eLogTitle.CheckBlockList, logDetail);
 
             // 条件を満たすか確認
             if (checkBlocklistRightSideI.FindAll(block => block == Existence.Exist).Count >= 3 &&
@@ -591,10 +581,8 @@ public class SpinCheck : MonoBehaviour
             }
         }
 
-        // string checkBlocksInfo = string.Join(", ", checkBlocklistT);
-
-        // LogHelper.Log(eLogLevel.Info, "SpinCheck", "TspinCheck()", checkBlocksInfo); // Infoログ // TODO
-
+        logDetail = $"checkBlocklistT : {string.Join(", ", checkBlocklistT)}";
+        LogHelper.InfoLog(eClasses.SpinCheck, eMethod.TspinCheck, eLogTitle.CheckBlockList, logDetail);
 
         if (checkBlocklistT.FindAll(block => block == Existence.Exist).Count >= 3) // 3マス以上ブロックまたは壁に埋まっている場合
         {
@@ -918,5 +906,24 @@ public class SpinCheck : MonoBehaviour
 //         }
 //     }
 // }
+
+// // ①と②の状態を文字列に変換
+// string checkBlocksAboveInfo = string.Join(", ", checkBlocklistAboveI);
+// string checkBlocksBelowInfo = string.Join(", ", checkBlocklistBelowI);
+
+// LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksAboveInfo);
+// LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksBelowInfo); // Infoログ
+
+// // ①と②の状態を文字列に変換
+// string checkBlocksRightSideInfo = string.Join(", ", checkBlocklistRightSideI);
+// string checkBlocksLeftSideInfo = string.Join(", ", checkBlocklistLeftSideI);
+// string checkBlocksUpperInfo = string.Join(", ", checkBlocklistUpperI);
+
+// LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksRightSideInfo);
+// LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksLeftSideInfo);
+// LogHelper.Log(eLogLevel.Info, "SpinCheck", "IspinCheck()", checkBlocksUpperInfo); // Infoログ
+
+// string checkBlocksInfo = string.Join(", ", checkBlocklistT);
+// LogHelper.Log(eLogLevel.Info, "SpinCheck", "TspinCheck()", checkBlocksInfo); // Infoログ
 
 /////////////////////////////////////////////////////////
