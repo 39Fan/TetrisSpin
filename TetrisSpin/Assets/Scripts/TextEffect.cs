@@ -4,6 +4,45 @@ using TMPro;
 using DG.Tweening;
 
 /// <summary>
+/// TextEffectのテキストの表示に関する時間情報を保持する静的クラス
+/// </summary>
+internal static class TextEffectSettings
+{
+    // Ready テキストの設定値 //
+    public static float READY_FADE_IN_INTERVAL { get; set; } = 0.3f;
+    public static float READY_FADE_OUT_INTERVAL { get; set; } = 1f;
+    public static float READY_WAIT_INTERVAL { get; set; } = 1.5f;
+
+    // Go テキストの設定値 //
+    public static float GO_FADE_IN_INTERVAL { get; set; } = 0.3f;
+    public static float GO_FADE_OUT_INTERVAL { get; set; } = 0.5f;
+    public static float GO_WAIT_INTERVAL { get; set; } = 1f;
+
+    // Spin, LineClear テキストの設定値 //
+    public static float SPIN_AND_LINE_CLEAR_FADE_IN_INTERVAL { get; set; } = 0.3f;
+    public static float SPIN_AND_LINE_CLEAR_FADE_OUT_INTERVAL { get; set; } = 0.5f;
+    public static float SPIN_AND_LINE_CLEAR_WAIT_INTERVAL_1 { get; set; } = 2f;
+    public static float SPIN_AND_LINE_CLEAR_WAIT_INTERVAL_2 { get; set; } = 2f;
+    public static float SPIN_AND_LINE_CLEAR_MOVE_INTERVAL_X { get; set; } = 2f;
+    public static float SPIN_AND_LINE_CLEAR_MOVE_INTERVAL_Y { get; set; } = 1.2f;
+    public static float SPIN_AND_LINE_CLEAR_MOVE_DISTANCE { get; set; } = 600f;
+
+    // BackToBack テキストの設定値 //
+    public static float BACK_TO_BACK_FADE_IN_INTERVAL { get; set; } = 0.3f;
+    public static float BACK_TO_BACK_FADE_OUT_INTERVAL { get; set; } = 1f;
+    public static float BACK_TO_BACK_WAIT_INTERVAL { get; set; } = 2f;
+
+    // PerfectClear テキストの設定値 //
+    public static float PERFECT_CLEAR_FADE_IN_INTERVAL { get; set; } = 0.3f;
+    public static float PERFECT_CLEAR_FADE_OUT_INTERVAL { get; set; } = 1f;
+    public static float PERFECT_CLEAR_WAIT_INTERVAL { get; set; } = 2f;
+
+    // 透明度 //
+    public static int ALPHA0 { get; set; } = 0; // 0の時は透明
+    public static int ALPHA1 { get; set; } = 1; // 1の時は不透明
+}
+
+/// <summary>
 /// ゲーム画面のテキストを管理するクラス
 /// </summary>
 public class TextEffect : MonoBehaviour
@@ -64,17 +103,13 @@ public class TextEffect : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ZspinDoubleMiniText;
     [SerializeField] private TextMeshProUGUI ZspinTripleMiniText;
 
-    // 透明度 //
-    private int Alpha_0 = 0; // 0の時は透明
-    private int Alpha_1 = 1; // 1の時は不透明
-
-    /// <summary> 表示するテキストを判別する関数 </summary>
+    /// <summary> 表示するスピンまたは列消去のテキストを判別する関数 </summary>
     /// <param name="_lineClearCount"> 消去ライン数 </param>
-    public void TextDisplay(SpinTypeNames _spinType, int _lineClearCount)
+    public void SpinAndLineClearTextDisplay(SpinTypeNames _spinType, int _lineClearCount)
     {
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextDisplay, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextDisplay, eLogTitle.Start);
 
-        TextAnimation(DetermineTextToDisplay(_spinType, _lineClearCount));
+        SpinAndLineClearTextAnimation(DetermineTextToDisplay(_spinType, _lineClearCount));
 
         // 鳴らすサウンドの決定も行う
         if (_spinType != SpinTypeNames.None)
@@ -100,10 +135,10 @@ public class TextEffect : MonoBehaviour
             }
         }
 
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextDisplay, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextDisplay, eLogTitle.End);
     }
 
-    /// <summary> 表示するテキストを特定する関数 </summary>
+    /// <summary> 表示するスピンまたは列消去のテキストを特定する関数 </summary>
     /// <param name="_spinType"> スピンタイプ </param>
     /// <param name="_lineClearCount"> 消去ライン数 </param>
     /// <returns> 表示するテキスト </returns>
@@ -206,7 +241,7 @@ public class TextEffect : MonoBehaviour
         // 初期化
         TextMeshProUGUI displayText = null;
 
-        // スピンタイプと消去ライン数に対応したテキストを選択
+        // スピンタイプまたは消去ライン数に対応したテキストを選択
         if (spinTypeTextMapping.ContainsKey(_spinType) && spinTypeTextMapping[_spinType].ContainsKey(_lineClearCount))
         {
             displayText = spinTypeTextMapping[_spinType][_lineClearCount]; // 対応したテキストを実際に表示させる
@@ -220,66 +255,59 @@ public class TextEffect : MonoBehaviour
         return displayText;
     }
 
-    /// <summary> テキストのアニメーションを行う関数 </summary>
+    /// <summary> スピンまたは列消去のテキストのアニメーションを行う関数を呼ぶ関数 </summary>
     /// <param name="_displayText"> 表示するテキスト </param>
-    private void TextAnimation(TextMeshProUGUI _displayText)
+    private void SpinAndLineClearTextAnimation(TextMeshProUGUI _displayText)
     {
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextAnimation, eLogTitle.Start);
 
         // 表示するテキストが存在しない場合、処理をスキップする
         if (_displayText != null)
         {
             TextMeshProUGUI instantiatedText = Instantiate(_displayText, Canvas);
-            TextFadeInAndOut(instantiatedText);
-            TextMove(instantiatedText.transform);
+            SpinAndLineClearTextFadeInAndOut(instantiatedText);
+            SpinAndLineClearTextMove(instantiatedText.transform);
         }
 
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextAnimation, eLogTitle.End);
     }
 
-    /// <summary> テキストのフェードインとフェードアウトを行う関数 </summary>
+    /// <summary> スピンまたは列消去のテキストのフェードインとフェードアウトを行う関数 </summary>
     /// <param name="_displayText"> 表示するテキスト </param>
-    private void TextFadeInAndOut(TextMeshProUGUI _displayText)
+    private void SpinAndLineClearTextFadeInAndOut(TextMeshProUGUI _displayText)
     {
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextFadeInAndOut, eLogTitle.Start);
-
-        float fadeInInterval = 0.3f;
-        float fadeOutInterval = 1f;
-        float waitInterval = 2f; // TODO 拡張性を広げる
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextFadeInAndOut, eLogTitle.Start);
 
         var sequence = DOTween.Sequence();
         sequence
-            .Append(_displayText.DOFade(Alpha_1, fadeInInterval))
-            .AppendInterval(waitInterval)
-            .Append(_displayText.DOFade(Alpha_0, fadeOutInterval));
+            .Append(_displayText.DOFade(TextEffectSettings.ALPHA1, TextEffectSettings.SPIN_AND_LINE_CLEAR_FADE_IN_INTERVAL))
+            .AppendInterval(TextEffectSettings.SPIN_AND_LINE_CLEAR_WAIT_INTERVAL_1)
+            .Append(_displayText.DOFade(TextEffectSettings.ALPHA0, TextEffectSettings.SPIN_AND_LINE_CLEAR_FADE_OUT_INTERVAL));
 
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextFadeInAndOut, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextFadeInAndOut, eLogTitle.End);
     }
 
-    /// <summary> テキストの移動を行う関数 </summary>
+    /// <summary> スピンまたは列消去のテキストの移動を行う関数 </summary>
     /// <param name="_displayText"> 表示するテキストのトランスフォーム </param>
-    private void TextMove(Transform _displayText)
+    private void SpinAndLineClearTextMove(Transform _displayText)
     {
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextMove, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextMove, eLogTitle.Start);
 
-        float moveInterval_x = 2f;
-        float moveInterval_y = 1.2f;
-        float moveDistance = 600f; // TODO 拡張性を広げる
-
-        float displayText_x = Mathf.RoundToInt(_displayText.transform.position.x);
-        float displayText_y = Mathf.RoundToInt(_displayText.transform.position.y);
-        float displayText_z = Mathf.RoundToInt(_displayText.transform.position.z);
+        // 元の表示するテキストの座標 //
+        float displayTextX = Mathf.RoundToInt(_displayText.transform.position.x);
+        float displayTextY = Mathf.RoundToInt(_displayText.transform.position.y);
+        float displayTextZ = Mathf.RoundToInt(_displayText.transform.position.z);
 
         var sequence = DOTween.Sequence();
         sequence
-            .Append(_displayText.DOMoveY(displayText_y + moveDistance, moveInterval_x).SetEase(Ease.OutSine))
-            .Append(_displayText.DOMoveX(displayText_x - moveDistance, moveInterval_y).SetEase(Ease.InQuint))
+            .Append(_displayText.DOMoveY(displayTextY + TextEffectSettings.SPIN_AND_LINE_CLEAR_MOVE_DISTANCE, TextEffectSettings.SPIN_AND_LINE_CLEAR_MOVE_INTERVAL_X).SetEase(Ease.OutSine))
+            .Append(_displayText.DOMoveX(displayTextX - TextEffectSettings.SPIN_AND_LINE_CLEAR_MOVE_DISTANCE, TextEffectSettings.SPIN_AND_LINE_CLEAR_MOVE_INTERVAL_Y).SetEase(Ease.InQuint))
             .OnComplete(() =>
             {
-                _displayText.position = new Vector3(displayText_x, displayText_y, displayText_z);
+                _displayText.position = new Vector3(displayTextX, displayTextY, displayTextZ);
             });
 
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.TextMove, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextMove, eLogTitle.End);
     }
 
     /// <summary> BackToBackアニメーションを行う関数 </summary>
@@ -288,7 +316,7 @@ public class TextEffect : MonoBehaviour
         LogHelper.DebugLog(eClasses.TextEffect, eMethod.BackToBackAnimation, eLogTitle.Start);
 
         TextMeshProUGUI instantiatedText = Instantiate(BackToBackText, Canvas);
-        TextFadeInAndOut(instantiatedText);
+        SpinAndLineClearTextFadeInAndOut(instantiatedText);
 
         LogHelper.DebugLog(eClasses.TextEffect, eMethod.BackToBackAnimation, eLogTitle.End);
     }
@@ -299,7 +327,7 @@ public class TextEffect : MonoBehaviour
         LogHelper.DebugLog(eClasses.TextEffect, eMethod.PerfectClearAnimation, eLogTitle.Start);
 
         TextMeshProUGUI instantiatedText = Instantiate(PerfectClearText, Canvas);
-        TextFadeInAndOut(instantiatedText);
+        SpinAndLineClearTextFadeInAndOut(instantiatedText);
 
         LogHelper.DebugLog(eClasses.TextEffect, eMethod.PerfectClearAnimation, eLogTitle.End);
     }
@@ -309,11 +337,6 @@ public class TextEffect : MonoBehaviour
     {
         LogHelper.DebugLog(eClasses.TextEffect, eMethod.ReadyGoAnimation, eLogTitle.Start);
 
-        float fadeInInterval = 0.3f;
-        float fadeOutInterval = 0f;
-        float waitInterval_ready = 3f;
-        float waitInterval_go = 2f;
-
         TextMeshProUGUI ready = Instantiate(ReadyText, Canvas);
         TextMeshProUGUI go = Instantiate(GoText, Canvas);
 
@@ -321,15 +344,15 @@ public class TextEffect : MonoBehaviour
         Sequence sequence_go = DOTween.Sequence();
 
         sequence_ready
-            .Append(ready.DOFade(Alpha_1, fadeInInterval))
-            .AppendInterval(waitInterval_ready)
-            .Append(ready.DOFade(Alpha_0, fadeOutInterval))
+            .Append(ready.DOFade(TextEffectSettings.ALPHA1, TextEffectSettings.READY_FADE_IN_INTERVAL))
+            .AppendInterval(TextEffectSettings.READY_WAIT_INTERVAL)
+            .Append(ready.DOFade(TextEffectSettings.ALPHA0, TextEffectSettings.READY_FADE_OUT_INTERVAL))
             .OnComplete(() =>
             {
                 sequence_go
-                    .Append(go.DOFade(Alpha_1, fadeInInterval))
-                    .AppendInterval(waitInterval_go)
-                    .Append(go.DOFade(Alpha_0, fadeOutInterval));
+                    .Append(go.DOFade(TextEffectSettings.ALPHA1, TextEffectSettings.GO_FADE_IN_INTERVAL))
+                    .AppendInterval(TextEffectSettings.GO_WAIT_INTERVAL)
+                    .Append(go.DOFade(TextEffectSettings.ALPHA0, TextEffectSettings.GO_FADE_OUT_INTERVAL));
             });
 
         LogHelper.DebugLog(eClasses.TextEffect, eMethod.ReadyGoAnimation, eLogTitle.End);
@@ -414,7 +437,7 @@ public class TextEffect : MonoBehaviour
 
 //     // 透明度 //
 //     int Alpha_0 = 0; // 0の時は透明
-//     int Alpha_1 = 1; // 1の時は不透明
+//     int ALPHA1 = 1; // 1の時は不透明
 
 //     // 攻撃ラインの値 //
 //     int TwoLineClearAttack = 1;
@@ -876,7 +899,7 @@ public class TextEffect : MonoBehaviour
 //         // その後、2秒表示
 //         // 最後に、1秒かけてアルファ値を0(=透明)に変化させる
 //         sequence
-//             .Append(displayText.DOFade(Alpha_1, fadeInInterval))
+//             .Append(displayText.DOFade(ALPHA1, fadeInInterval))
 //             .AppendInterval(waitInterval)
 //             .Append(displayText.DOFade(Alpha_0, fadeOutInterval));
 //     }
@@ -953,14 +976,14 @@ public class TextEffect : MonoBehaviour
 //         Sequence sequence_go = DOTween.Sequence(); // Sequenceの作成
 
 //         sequence_ready
-//             .Append(ready.DOFade(Alpha_1, fadeInInterval))
+//             .Append(ready.DOFade(ALPHA1, fadeInInterval))
 //             .AppendInterval(waitInterval_ready)
 //             .Append(ready.DOFade(Alpha_0, fadeOutInterval))
 //             .OnComplete(() =>
 //             {
 //                 // Readyアニメーションが完了したらGoアニメーションを開始
 //                 sequence_go
-//                     .Append(go.DOFade(Alpha_1, fadeInInterval))
+//                     .Append(go.DOFade(ALPHA1, fadeInInterval))
 //                     // .Join(go.DOScale(Vector3.one, 0.2f))
 //                     .AppendInterval(waitInterval_go)
 //                     .Append(go.DOFade(Alpha_0, fadeOutInterval));

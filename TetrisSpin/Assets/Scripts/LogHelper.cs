@@ -139,7 +139,7 @@ public enum eMethod
     // SpinCheck クラス //
     CheckSpinType, ResetSpinTypeName, IspinCheck, JspinCheck, LspinCheck, SspinCheck, TspinCheck, ZspinCheck,
     // TextEffect クラス //
-    TextDisplay, DetermineTextToDisplay, TextAnimation, TextFadeInAndOut, TextMove,
+    SpinAndLineClearTextDisplay, DetermineTextToDisplay, SpinAndLineClearTextAnimation, SpinAndLineClearTextFadeInAndOut, SpinAndLineClearTextMove,
     BackToBackAnimation, PerfectClearAnimation, ReadyGoAnimation, StopAnimation,
     // Timer クラス //
     ResetTimer, UpdateMoveLeftRightTimer, UpdateMoveDownTimer, UpdateRotateTimer
