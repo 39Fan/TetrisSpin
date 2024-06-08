@@ -71,6 +71,9 @@ public class GameAutoRunner : MonoBehaviour
     SpinCheck spinCheck;
     TextEffect textEffect;
 
+    /// <summary>
+    /// インスタンス化
+    /// </summary>
     private void Awake()
     {
         attackCalculator = FindObjectOfType<AttackCalculator>();
