@@ -182,7 +182,7 @@ public class AttackCalculator : MonoBehaviour
     TextEffect textEffect;
 
     /// <summary>
-    /// AttackCalculatorStatsの初期化を行う
+    /// インスタンス化
     /// </summary>
     private void Awake()
     {

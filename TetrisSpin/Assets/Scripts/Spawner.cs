@@ -136,7 +136,7 @@ public class Spawner : MonoBehaviour
     MinoMovement minoMovement;
 
     /// <summary>
-    /// インスタンス化時の処理
+    /// インスタンス化
     /// </summary>
     /// <remarks>
     /// 辞書の作成も行う

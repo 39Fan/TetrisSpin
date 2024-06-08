@@ -103,6 +103,17 @@ public class TextEffect : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ZspinDoubleMiniText;
     [SerializeField] private TextMeshProUGUI ZspinTripleMiniText;
 
+    // 干渉するコンポーネント
+    Animator animator;
+
+    /// <summary>
+    /// インスタンス化
+    /// </summary>
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     /// <summary> 表示するスピンまたは列消去のテキストを判別する関数 </summary>
     /// <param name="_lineClearCount"> 消去ライン数 </param>
     public void SpinAndLineClearTextDisplay(SpinTypeNames _spinType, int _lineClearCount)
@@ -244,7 +255,7 @@ public class TextEffect : MonoBehaviour
         // スピンタイプまたは消去ライン数に対応したテキストを選択
         if (spinTypeTextMapping.ContainsKey(_spinType) && spinTypeTextMapping[_spinType].ContainsKey(_lineClearCount))
         {
-            displayText = spinTypeTextMapping[_spinType][_lineClearCount]; // 対応したテキストを実際に表示させる
+            displayText = spinTypeTextMapping[_spinType][_lineClearCount];
         }
         else
         {
@@ -267,6 +278,12 @@ public class TextEffect : MonoBehaviour
             TextMeshProUGUI instantiatedText = Instantiate(_displayText, Canvas);
             SpinAndLineClearTextFadeInAndOut(instantiatedText);
             SpinAndLineClearTextMove(instantiatedText.transform);
+            // animator.SetBool("SpinOrLineClear", true);
+            // animator.SetBool("SpinOrLineClear", false);
+        }
+        else
+        {
+            LogHelper.ErrorLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextAnimation, eLogTitle.NullDisplayText);
         }
 
         LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextAnimation, eLogTitle.End);

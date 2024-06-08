@@ -59,6 +59,9 @@ public class PlayerInput : MonoBehaviour
     SpinCheck spinCheck;
     MinoMovement minoMovement;
 
+    /// <summary>
+    /// インスタンス化
+    /// </summary>
     private void Awake()
     {
         board = FindObjectOfType<Board>();

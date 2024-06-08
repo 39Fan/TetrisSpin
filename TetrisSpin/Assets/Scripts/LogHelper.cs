@@ -46,7 +46,7 @@ public enum eLogTitle
     // SpinCheck クラス //
     MinosIdentificationFailed, CheckBlockList,
     // TextEffect クラス //
-
+    NullDisplayText,
     // Timer クラス //
 }
 
@@ -175,7 +175,7 @@ public static class LogHelper
         DebugMessages[eLogTitle.UnknownMinoAngleAfter] = "MinoAngleAfter の値が不明です。";
         DebugMessages[eLogTitle.InvalidMinosPositionDetected] = "存在できない場所にミノが移動しています。";
         DebugMessages[eLogTitle.MinosIdentificationFailed] = "ミノの種類が特定できません。";
-
+        DebugMessages[eLogTitle.NullDisplayText] = "表示するテキストの種類が特定できません。";
 
         // DebugMessages["MoveRightFailure"] = "Move right failed: Cannot move to the right - Reverting to original position";
 
@@ -193,6 +193,8 @@ public static class LogHelper
     /// <param name="_title"> タイトル </param>
     public static void DebugLog(eClasses _class, eMethod _method, eLogTitle _title)
     {
+        return;
+
         if (Application.isEditor)
         {
             if (DebugMessages.TryGetValue(_title, out string message)) // Keyの照合を行う
@@ -215,6 +217,8 @@ public static class LogHelper
     /// <param name="_info"> 情報 </param>
     public static void InfoLog(eClasses _class, eMethod _method, eLogTitle _title, string _info)
     {
+        return;
+
         string logMessage = FormatLogMessage(eLogLevel.Info, _class, _method, _title, _info);
         Debug.Log(logMessage);
     }
