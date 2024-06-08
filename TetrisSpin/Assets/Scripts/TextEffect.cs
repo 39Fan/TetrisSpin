@@ -256,6 +256,7 @@ public class TextEffect : MonoBehaviour
         if (spinTypeTextMapping.ContainsKey(_spinType) && spinTypeTextMapping[_spinType].ContainsKey(_lineClearCount))
         {
             displayText = spinTypeTextMapping[_spinType][_lineClearCount];
+            Debug.Log("TEST: ");
         }
         else
         {
