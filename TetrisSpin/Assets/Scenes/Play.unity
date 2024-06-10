@@ -191,13 +191,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 366646445}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.16418262, y: -0.6060437, z: 0.036543813}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1207193975}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1865245058}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519060628
 GameObject:
@@ -645,7 +645,6 @@ GameObject:
   - component: {fileID: 1207193978}
   - component: {fileID: 1207193977}
   - component: {fileID: 1207193980}
-  - component: {fileID: 1207193979}
   m_Layer: 0
   m_Name: Hit-5 Animation
   m_TagString: Untagged
@@ -705,68 +704,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &1207193979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1207193974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81cfb93d62ffd4497ac92736e9b20e26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Canvas: {fileID: 0}
-  ReadyText: {fileID: 0}
-  GoText: {fileID: 0}
-  BackToBackText: {fileID: 0}
-  PerfectClearText: {fileID: 0}
-  RensText: {fileID: 0}
-  OneLineClearText: {fileID: 0}
-  TwoLineClearText: {fileID: 0}
-  ThreeLineClearText: {fileID: 0}
-  TetrisText: {fileID: 0}
-  IspinText: {fileID: 0}
-  IspinSingleText: {fileID: 0}
-  IspinDoubleText: {fileID: 0}
-  IspinTripleText: {fileID: 0}
-  IspinQuattroText: {fileID: 0}
-  IspinMiniText: {fileID: 0}
-  JspinText: {fileID: 0}
-  JspinSingleText: {fileID: 0}
-  JspinDoubleText: {fileID: 0}
-  JspinTripleText: {fileID: 0}
-  JpinMiniText: {fileID: 0}
-  JspinDoubleMiniText: {fileID: 0}
-  JspinTripleMiniText: {fileID: 0}
-  LspinText: {fileID: 0}
-  LspinSingleText: {fileID: 0}
-  LspinDoubleText: {fileID: 0}
-  LspinTripleText: {fileID: 0}
-  LspinMiniText: {fileID: 0}
-  LspinDoubleMiniText: {fileID: 0}
-  LspinTripleMiniText: {fileID: 0}
-  SspinText: {fileID: 0}
-  SspinSingleText: {fileID: 0}
-  SspinDoubleText: {fileID: 0}
-  SspinTripleText: {fileID: 0}
-  SspinMiniText: {fileID: 0}
-  SspinDoubleMiniText: {fileID: 0}
-  SspinTripleMiniText: {fileID: 0}
-  TspinText: {fileID: 0}
-  TspinSingleText: {fileID: 0}
-  TspinDoubleText: {fileID: 0}
-  TspinTripleText: {fileID: 0}
-  TspinMiniText: {fileID: 0}
-  TspinDoubleMiniText: {fileID: 0}
-  ZspinText: {fileID: 0}
-  ZspinSingleText: {fileID: 0}
-  ZspinDoubleText: {fileID: 0}
-  ZspinTripleText: {fileID: 0}
-  ZspinMiniText: {fileID: 0}
-  ZspinDoubleMiniText: {fileID: 0}
-  ZspinTripleMiniText: {fileID: 0}
 --- !u!212 &1207193980
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -874,6 +811,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1865245058}
   - component: {fileID: 1865245059}
+  - component: {fileID: 1865245060}
   m_Layer: 0
   m_Name: TextEffect
   m_TagString: Untagged
@@ -893,7 +831,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 366646446}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1865245059
@@ -958,6 +897,27 @@ MonoBehaviour:
   ZspinMiniText: {fileID: 1633818741928931802, guid: 5e4cdef47082c49489478a425d50dcd4, type: 3}
   ZspinDoubleMiniText: {fileID: 1633818741928931802, guid: fe5126d7973a7408e83bc606e20a1b3c, type: 3}
   ZspinTripleMiniText: {fileID: 1633818741928931802, guid: 885e83c5252b549f7b6f83a83fc69886, type: 3}
+--- !u!95 &1865245060
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865245056}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1f400d976d69942abb5c955b6302c1b0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2011930346
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,7 +1128,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
-  - {fileID: 366646446}
   - {fileID: 927954895}
   - {fileID: 1832803216}
   - {fileID: 2107780354}

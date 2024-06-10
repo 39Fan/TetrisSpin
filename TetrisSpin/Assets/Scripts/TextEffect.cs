@@ -6,7 +6,7 @@ using DG.Tweening;
 /// <summary>
 /// TextEffectのテキストの表示に関する時間情報を保持する静的クラス
 /// </summary>
-internal static class TextEffectSettings
+public static class TextEffectSettings
 {
     // Ready テキストの設定値 //
     public static float READY_FADE_IN_INTERVAL { get; set; } = 0.3f;
@@ -104,14 +104,15 @@ public class TextEffect : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ZspinTripleMiniText;
 
     // 干渉するコンポーネント
-    Animator animator;
+    // Animator animator;
 
     /// <summary>
     /// インスタンス化
     /// </summary>
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        // animator = GetComponent<Animator>();
+        Debug.Log($"TEST: {BackToBackText}");
     }
 
     /// <summary> 表示するスピンまたは列消去のテキストを判別する関数 </summary>
@@ -256,7 +257,6 @@ public class TextEffect : MonoBehaviour
         if (spinTypeTextMapping.ContainsKey(_spinType) && spinTypeTextMapping[_spinType].ContainsKey(_lineClearCount))
         {
             displayText = spinTypeTextMapping[_spinType][_lineClearCount];
-            Debug.Log("TEST: ");
         }
         else
         {
@@ -284,7 +284,7 @@ public class TextEffect : MonoBehaviour
         }
         else
         {
-            LogHelper.ErrorLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextAnimation, eLogTitle.NullDisplayText);
+            // LogHelper.ErrorLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextAnimation, eLogTitle.NullDisplayText);
         }
 
         LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextAnimation, eLogTitle.End);
