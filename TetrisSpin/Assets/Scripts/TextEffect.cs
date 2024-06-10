@@ -104,15 +104,14 @@ public class TextEffect : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ZspinTripleMiniText;
 
     // 干渉するコンポーネント
-    // Animator animator;
+    Animator animator;
 
     /// <summary>
     /// インスタンス化
     /// </summary>
     private void Awake()
     {
-        // animator = GetComponent<Animator>();
-        Debug.Log($"TEST: {BackToBackText}");
+        animator = GetComponent<Animator>();
     }
 
     /// <summary> 表示するスピンまたは列消去のテキストを判別する関数 </summary>

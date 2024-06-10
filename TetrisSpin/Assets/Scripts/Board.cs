@@ -130,7 +130,7 @@ public class Board : MonoBehaviour
         // 操作中のミノを構成するブロック個々に調べる
         foreach (Transform item in _activeMino.transform)
         {
-            Vector2 pos = Rounding.Round(item.position);
+            Vector2 pos = new Vector2(Mathf.Round(item.position.x), Mathf.Round(item.position.y));
 
             if (!IsWithinBoard((int)pos.x, (int)pos.y)) // ブロックが枠外に出たとき
             {
@@ -199,7 +199,7 @@ public class Board : MonoBehaviour
 
         foreach (Transform item in _activeMino.transform)
         {
-            Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
+            Vector2 pos = new Vector2(Mathf.Round(item.position.x), Mathf.Round(item.position.y));
 
             grid[(int)pos.x, (int)pos.y] = item;
         }

@@ -131,7 +131,7 @@ public class SpinCheck : MonoBehaviour
             // ①を調べる
             foreach (Transform item in spawner.ActiveMino.transform) // Iミノを構成するブロックそれぞれを確認する
             {
-                Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
+                Vector2 pos = new Vector2(Mathf.Round(item.position.x), Mathf.Round(item.position.y));
 
                 // 1マス上部にブロックがあるか調べる
                 if (board.CheckGrid(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y + yOffset), spawner.ActiveMino))
@@ -147,7 +147,7 @@ public class SpinCheck : MonoBehaviour
             // ②を調べる
             foreach (Transform item in spawner.ActiveMino.transform) // Iミノを構成するブロックそれぞれを確認する
             {
-                Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
+                Vector2 pos = new Vector2(Mathf.Round(item.position.x), Mathf.Round(item.position.y));
 
                 // 1マス上部にブロックがあるか調べる
                 if (board.CheckGrid(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y - yOffset), spawner.ActiveMino))
@@ -202,7 +202,7 @@ public class SpinCheck : MonoBehaviour
             // ①を調べる
             foreach (Transform item in spawner.ActiveMino.transform) // Iミノを構成するブロックそれぞれを確認する
             {
-                Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
+                Vector2 pos = new Vector2(Mathf.Round(item.position.x), Mathf.Round(item.position.y));
 
                 // 1マス右側にブロックがあるか調べる
                 if (board.CheckGrid(Mathf.RoundToInt(pos.x + xOffset), Mathf.RoundToInt(pos.y), spawner.ActiveMino))
@@ -216,7 +216,7 @@ public class SpinCheck : MonoBehaviour
             }
             foreach (Transform item in spawner.ActiveMino.transform) // Iミノを構成するブロックそれぞれを確認する
             {
-                Vector2 pos = Rounding.Round(item.position); // floatからintに値を丸める
+                Vector2 pos = new Vector2(Mathf.Round(item.position.x), Mathf.Round(item.position.y));
 
                 // 1マス左側にブロックがあるか調べる
                 if (board.CheckGrid(Mathf.RoundToInt(pos.x - xOffset), Mathf.RoundToInt(pos.y), spawner.ActiveMino))
