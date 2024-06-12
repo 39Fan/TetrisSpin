@@ -43,7 +43,7 @@ public class SpinCheck : MonoBehaviour
     /// <summary> ログの詳細 </summary>
     private string logDetail;
 
-    // 干渉するスクリプト //
+    // 干渉するクラス //
     Board board;
     Spawner spawner;
 

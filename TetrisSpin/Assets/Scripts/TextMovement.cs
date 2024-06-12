@@ -6,7 +6,7 @@ using DG.Tweening;
 /// <summary>
 /// TextEffectのテキストの表示に関する時間情報を保持する静的クラス
 /// </summary>
-public static class TextEffectSettings
+internal static class TextMovementSettings
 {
     // Ready テキストの設定値 //
     public static float READY_FADE_IN_INTERVAL { get; set; } = 0.3f;
@@ -45,7 +45,7 @@ public static class TextEffectSettings
 /// <summary>
 /// ゲーム画面のテキストを管理するクラス
 /// </summary>
-public class TextEffect : MonoBehaviour
+public class TextMovement : MonoBehaviour
 {
     // Canvas //
     [SerializeField] private RectTransform Canvas;
@@ -103,15 +103,15 @@ public class TextEffect : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ZspinDoubleMiniText;
     [SerializeField] private TextMeshProUGUI ZspinTripleMiniText;
 
-    // 干渉するコンポーネント
-    Animator animator;
+    // 干渉するクラス
+    Effect effect;
 
     /// <summary>
     /// インスタンス化
     /// </summary>
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        effect = FindObjectOfType<Effect>();
     }
 
     /// <summary> 表示するスピンまたは列消去のテキストを判別する関数 </summary>
@@ -278,7 +278,14 @@ public class TextEffect : MonoBehaviour
             TextMeshProUGUI instantiatedText = Instantiate(_displayText, Canvas);
             SpinAndLineClearTextFadeInAndOut(instantiatedText);
             SpinAndLineClearTextMove(instantiatedText.transform);
-            animator.SetTrigger("SpinOrLineClear");
+            if (_displayText == OneLineClearText || _displayText == TwoLineClearText || _displayText == ThreeLineClearText)
+            {
+                effect.LineClearEffect();
+            }
+            else
+            {
+                effect.SpinEffect();
+            }
         }
         else
         {
@@ -296,9 +303,9 @@ public class TextEffect : MonoBehaviour
 
         var sequence = DOTween.Sequence();
         sequence
-            .Append(_displayText.DOFade(TextEffectSettings.ALPHA1, TextEffectSettings.SPIN_AND_LINE_CLEAR_FADE_IN_INTERVAL))
-            .AppendInterval(TextEffectSettings.SPIN_AND_LINE_CLEAR_WAIT_INTERVAL_1)
-            .Append(_displayText.DOFade(TextEffectSettings.ALPHA0, TextEffectSettings.SPIN_AND_LINE_CLEAR_FADE_OUT_INTERVAL));
+            .Append(_displayText.DOFade(TextMovementSettings.ALPHA1, TextMovementSettings.SPIN_AND_LINE_CLEAR_FADE_IN_INTERVAL))
+            .AppendInterval(TextMovementSettings.SPIN_AND_LINE_CLEAR_WAIT_INTERVAL_1)
+            .Append(_displayText.DOFade(TextMovementSettings.ALPHA0, TextMovementSettings.SPIN_AND_LINE_CLEAR_FADE_OUT_INTERVAL));
 
         LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextFadeInAndOut, eLogTitle.End);
     }
@@ -316,8 +323,8 @@ public class TextEffect : MonoBehaviour
 
         var sequence = DOTween.Sequence();
         sequence
-            .Append(_displayText.DOMoveY(displayTextY + TextEffectSettings.SPIN_AND_LINE_CLEAR_MOVE_DISTANCE, TextEffectSettings.SPIN_AND_LINE_CLEAR_MOVE_INTERVAL_X).SetEase(Ease.OutSine))
-            .Append(_displayText.DOMoveX(displayTextX - TextEffectSettings.SPIN_AND_LINE_CLEAR_MOVE_DISTANCE, TextEffectSettings.SPIN_AND_LINE_CLEAR_MOVE_INTERVAL_Y).SetEase(Ease.InQuint))
+            .Append(_displayText.DOMoveY(displayTextY + TextMovementSettings.SPIN_AND_LINE_CLEAR_MOVE_DISTANCE, TextMovementSettings.SPIN_AND_LINE_CLEAR_MOVE_INTERVAL_X).SetEase(Ease.OutSine))
+            .Append(_displayText.DOMoveX(displayTextX - TextMovementSettings.SPIN_AND_LINE_CLEAR_MOVE_DISTANCE, TextMovementSettings.SPIN_AND_LINE_CLEAR_MOVE_INTERVAL_Y).SetEase(Ease.InQuint))
             .OnComplete(() =>
             {
                 _displayText.position = new Vector3(displayTextX, displayTextY, displayTextZ);
@@ -360,15 +367,15 @@ public class TextEffect : MonoBehaviour
         Sequence sequence_go = DOTween.Sequence();
 
         sequence_ready
-            .Append(ready.DOFade(TextEffectSettings.ALPHA1, TextEffectSettings.READY_FADE_IN_INTERVAL))
-            .AppendInterval(TextEffectSettings.READY_WAIT_INTERVAL)
-            .Append(ready.DOFade(TextEffectSettings.ALPHA0, TextEffectSettings.READY_FADE_OUT_INTERVAL))
+            .Append(ready.DOFade(TextMovementSettings.ALPHA1, TextMovementSettings.READY_FADE_IN_INTERVAL))
+            .AppendInterval(TextMovementSettings.READY_WAIT_INTERVAL)
+            .Append(ready.DOFade(TextMovementSettings.ALPHA0, TextMovementSettings.READY_FADE_OUT_INTERVAL))
             .OnComplete(() =>
             {
                 sequence_go
-                    .Append(go.DOFade(TextEffectSettings.ALPHA1, TextEffectSettings.GO_FADE_IN_INTERVAL))
-                    .AppendInterval(TextEffectSettings.GO_WAIT_INTERVAL)
-                    .Append(go.DOFade(TextEffectSettings.ALPHA0, TextEffectSettings.GO_FADE_OUT_INTERVAL));
+                    .Append(go.DOFade(TextMovementSettings.ALPHA1, TextMovementSettings.GO_FADE_IN_INTERVAL))
+                    .AppendInterval(TextMovementSettings.GO_WAIT_INTERVAL)
+                    .Append(go.DOFade(TextMovementSettings.ALPHA0, TextMovementSettings.GO_FADE_OUT_INTERVAL));
             });
 
         LogHelper.DebugLog(eClasses.TextEffect, eMethod.ReadyGoAnimation, eLogTitle.End);

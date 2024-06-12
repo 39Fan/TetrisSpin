@@ -179,7 +179,7 @@ public class AttackCalculator : MonoBehaviour
 
     // 干渉するスクリプト //
     Board board;
-    TextEffect textEffect;
+    TextMovement textMoveTextMovement;
 
     /// <summary>
     /// インスタンス化
@@ -187,7 +187,7 @@ public class AttackCalculator : MonoBehaviour
     private void Awake()
     {
         board = FindObjectOfType<Board>();
-        textEffect = FindObjectOfType<TextEffect>();
+        textMoveTextMovement = FindObjectOfType<TextMovement>();
     }
 
     /// <summary> 合計攻撃力を計算する関数 </summary>
@@ -225,7 +225,7 @@ public class AttackCalculator : MonoBehaviour
         {
             AttackCalculatorStats.UpdateStats(_attackLines: AttackCalculatorStats.AttackLines + backToBackBonus);
 
-            textEffect.BackToBackAnimation();
+            textMoveTextMovement.BackToBackAnimation();
         }
 
         if (_lineClearCount == 4 || _spinType != SpinTypeNames.None)
@@ -256,7 +256,7 @@ public class AttackCalculator : MonoBehaviour
             AttackCalculatorStats.UpdateStats(_perfectClear: true);
             AttackCalculatorStats.UpdateStats(_attackLines: AttackCalculatorStats.AttackLines + perfectClearBonus);
 
-            textEffect.PerfectClearAnimation();
+            textMoveTextMovement.PerfectClearAnimation();
         }
         else
         {
@@ -281,7 +281,7 @@ public class AttackCalculator : MonoBehaviour
             AttackCalculatorStats.UpdateStats(_attackLines:
                 AttackCalculatorStats.AttackLines + renBonus[AttackCalculatorStats.Ren]);
 
-            // TODO TextEffectでRENのテキスト表示をする
+            // TODO TextMovementでRENのテキスト表示をする
         }
         else
         {
