@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         playerInput.InputInGame();
 
         // 自動落下
-        if (Time.time > Timer.AutoDropTimer)
+        if (Time.time > CoolDownTimer.AutoDropCoolDownTimer)
         {
             gameAutoRunner.AutoDown();
         }

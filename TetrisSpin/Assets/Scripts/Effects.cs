@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// エフェクトを管理するクラス
 /// </summary>
-public class Effect : MonoBehaviour
+public class Effects : MonoBehaviour
 {
     // 干渉するコンポーネント
     Animator animator;

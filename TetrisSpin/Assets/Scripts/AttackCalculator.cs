@@ -177,8 +177,9 @@ public class AttackCalculator : MonoBehaviour
     /// <summary> ログの詳細 </summary>
     private string logDetail;
 
-    // 干渉するスクリプト //
+    // 干渉するクラス //
     Board board;
+    DisplayNumber displayNumber;
     TextMovement textMoveTextMovement;
 
     /// <summary>
@@ -187,6 +188,7 @@ public class AttackCalculator : MonoBehaviour
     private void Awake()
     {
         board = FindObjectOfType<Board>();
+        displayNumber = FindObjectOfType<DisplayNumber>();
         textMoveTextMovement = FindObjectOfType<TextMovement>();
     }
 
@@ -203,6 +205,8 @@ public class AttackCalculator : MonoBehaviour
         CalculateBackToBack(_spinType, _lineClearCount);
         CalculatePerfectClear();
         CalculateRen(_lineClearCount);
+
+        displayNumber.DisplayAttackLines();
 
         logDetail = $"{AttackCalculatorStats.AttackLines}";
         LogHelper.InfoLog(eClasses.AttackCalculator, eMethod.CalculateAttackLines, eLogTitle.AttackLinesValue, logDetail);

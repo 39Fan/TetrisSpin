@@ -97,7 +97,7 @@ public class GameAutoRunner : MonoBehaviour
         {
             spawner.ActiveMino.MoveDown();
 
-            if (!board.CheckPosition(spawner.ActiveMino) && (Time.time >= Timer.BottomTimer || GameAutoRunnerStats.BottomMoveCount >= bottomMoveCountLimit))
+            if (!board.CheckPosition(spawner.ActiveMino) && (Time.time >= CoolDownTimer.BottomCoolDownTimer || GameAutoRunnerStats.BottomMoveCount >= bottomMoveCountLimit))
             {
                 spawner.ActiveMino.MoveUp(); // 元の位置に戻す
                 SetMinoFixed(); // ミノの設置判定
@@ -128,7 +128,7 @@ public class GameAutoRunner : MonoBehaviour
     {
         LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.AutoDown, eLogTitle.Start);
 
-        Timer.UpdateMoveDownTimer();
+        CoolDownTimer.UpdateMoveDownCoolDownTimer();
         spawner.ActiveMino.MoveDown();
 
         if (!board.CheckPosition(spawner.ActiveMino))
@@ -168,7 +168,7 @@ public class GameAutoRunner : MonoBehaviour
 
         // 各種変数のリセット
         ResetRockDown();
-        Timer.ResetTimer();
+        CoolDownTimer.ResetCoolDownTimer();
 
         board.SaveBlockInGrid(spawner.ActiveMino);
         lineClearCount = board.CheckAllRows();

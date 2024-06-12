@@ -104,14 +104,14 @@ public class TextMovement : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ZspinTripleMiniText;
 
     // 干渉するクラス
-    Effect effect;
+    Effects effects;
 
     /// <summary>
     /// インスタンス化
     /// </summary>
     private void Awake()
     {
-        effect = FindObjectOfType<Effect>();
+        effects = FindObjectOfType<Effects>();
     }
 
     /// <summary> 表示するスピンまたは列消去のテキストを判別する関数 </summary>
@@ -280,11 +280,11 @@ public class TextMovement : MonoBehaviour
             SpinAndLineClearTextMove(instantiatedText.transform);
             if (_displayText == OneLineClearText || _displayText == TwoLineClearText || _displayText == ThreeLineClearText)
             {
-                effect.LineClearEffect();
+                effects.LineClearEffect();
             }
             else
             {
-                effect.SpinEffect();
+                effects.SpinEffect();
             }
         }
         else

@@ -1,34 +1,35 @@
+using TMPro;
 using UnityEngine;
 
 /// <summary>
 /// タイマーを管理する静的クラス
 /// </summary>
-public static class Timer
+public static class CoolDownTimer
 {
-    /// <summary> 次の左右キー入力までの時間 </summary>
+    /// <summary> 左右キー入力のクールダウンタイマー </summary>
     /// <remarks>
     /// 左右キーが押された時に更新される
     /// </remarks>
-    private static float nextKeyLeftRightTimer;
-    /// <summary> 次の回転キー入力までの時間 </summary>
+    private static float nextKeyLeftRightCoolDownTimer;
+    /// <summary> 回転キー入力のクールダウンタイマー </summary>
     /// <remarks>
     /// 回転キーが押された時に更新される
     /// </remarks>
-    private static float nextKeyRotateTimer;
-    /// <summary> 次の下キー入力までの時間 </summary>
+    private static float nextKeyRotateCoolDownTimer;
+    /// <summary> 下キー入力のクールダウンタイマー </summary>
     /// <remarks>
     /// 下キーが押された時に更新される
     /// </remarks>
-    private static float nextKeyDownTimer;
-    /// <summary> 次の自動落下までの時間 </summary>
-    private static float autoDropTimer;
-    /// <summary> 次のロックダウンまでの時間 </summary>
-    private static float bottomTimer;
+    private static float nextKeyDownCoolDownTimer;
+    /// <summary> 自動落下のクールダウンタイマー </summary>
+    private static float autoDropCoolDownTimer;
+    /// <summary> ロックダウンのクールダウンタイマー </summary>
+    private static float bottomCoolDownTimer;
 
     /// <summary> 通常の左右キー入力のインターバル </summary>
-    private static float nextKeyLeftRightInterval_Normal = 0.20f;
+    private static float nextKeyLeftRightIntervalNormal = 0.20f;
     /// <summary> 連続左右キー入力のインターバル </summary>
-    private static float nextKeyLeftRightInterval_Short = 0.05f;
+    private static float nextKeyLeftRightIntervalShort = 0.05f;
     /// <summary> 回転キー入力のインターバル </summary>
     private static float nextKeyRotateInterval = 0.05f;
     /// <summary> 下キー入力のインターバル </summary>
@@ -45,11 +46,11 @@ public static class Timer
     private static bool continuousLRKey = false;
 
     // ゲッタープロパティ
-    public static float NextKeyLeftRightTimer => nextKeyLeftRightTimer;
-    public static float NextKeyRotateTimer => nextKeyRotateTimer;
-    public static float NextKeyDownTimer => nextKeyDownTimer;
-    public static float AutoDropTimer => autoDropTimer;
-    public static float BottomTimer => bottomTimer;
+    public static float NextKeyLeftRightCoolDownTimer => nextKeyLeftRightCoolDownTimer;
+    public static float NextKeyRotateCoolDownTimer => nextKeyRotateCoolDownTimer;
+    public static float NextKeyDownCoolDownTimer => nextKeyDownCoolDownTimer;
+    public static float AutoDropCoolDownTimer => autoDropCoolDownTimer;
+    public static float BottomCoolDownTimer => bottomCoolDownTimer;
     public static bool ContinuousLRKey
     {
         get => continuousLRKey;
@@ -57,68 +58,68 @@ public static class Timer
     }
 
     /// <summary>
-    /// タイマーを初期化する関数
+    /// クールダウンタイマーを初期化する関数
     /// </summary>
     /// <remarks>
     /// ゲームスタート時とミノが設置された時に使用される
     /// </remarks>
-    public static void ResetTimer()
+    public static void ResetCoolDownTimer()
     {
         LogHelper.DebugLog(eClasses.Timer, eMethod.ResetTimer, eLogTitle.Start);
 
-        nextKeyDownTimer = Time.time;
-        nextKeyLeftRightTimer = Time.time;
-        nextKeyRotateTimer = Time.time;
-        autoDropTimer = Time.time + autoDropInterval;
-        bottomTimer = Time.time + bottomTimerInterval;
+        nextKeyDownCoolDownTimer = Time.time;
+        nextKeyLeftRightCoolDownTimer = Time.time;
+        nextKeyRotateCoolDownTimer = Time.time;
+        autoDropCoolDownTimer = Time.time + autoDropInterval;
+        bottomCoolDownTimer = Time.time + bottomTimerInterval;
 
         LogHelper.DebugLog(eClasses.Timer, eMethod.ResetTimer, eLogTitle.End);
     }
 
     /// <summary>
-    /// 右入力または左入力のタイマーを更新する関数
+    /// 右入力または左入力のクールダウンタイマーを更新する関数
     /// </summary>
-    public static void UpdateMoveLeftRightTimer()
+    public static void UpdateMoveLeftRightCoolDownTimer()
     {
         LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveLeftRightTimer, eLogTitle.Start);
 
         if (continuousLRKey)
         {
-            nextKeyLeftRightTimer = Time.time + nextKeyLeftRightInterval_Short;
+            nextKeyLeftRightCoolDownTimer = Time.time + nextKeyLeftRightIntervalShort;
         }
         else
         {
-            nextKeyLeftRightTimer = Time.time + nextKeyLeftRightInterval_Normal;
+            nextKeyLeftRightCoolDownTimer = Time.time + nextKeyLeftRightIntervalNormal;
         }
 
-        bottomTimer = Time.time + bottomTimerInterval;
+        bottomCoolDownTimer = Time.time + bottomTimerInterval;
 
         LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveLeftRightTimer, eLogTitle.End);
     }
 
     /// <summary>
-    /// 下入力および自動落下のタイマーを更新する関数
+    /// 下入力および自動落下のクールダウンタイマーを更新する関数
     /// </summary>
-    public static void UpdateMoveDownTimer()
+    public static void UpdateMoveDownCoolDownTimer()
     {
         LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveDownTimer, eLogTitle.Start);
 
-        nextKeyDownTimer = Time.time + nextKeyDownInterval;
-        autoDropTimer = Time.time + autoDropInterval;
-        bottomTimer = Time.time + bottomTimerInterval;
+        nextKeyDownCoolDownTimer = Time.time + nextKeyDownInterval;
+        autoDropCoolDownTimer = Time.time + autoDropInterval;
+        bottomCoolDownTimer = Time.time + bottomTimerInterval;
 
         LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveDownTimer, eLogTitle.End);
     }
 
     /// <summary>
-    /// 回転入力のタイマーを更新する関数
+    /// 回転入力のクールダウンタイマーを更新する関数
     /// </summary>
-    public static void UpdateRotateTimer()
+    public static void UpdateRotateCoolDownTimer()
     {
         LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateRotateTimer, eLogTitle.Start);
 
-        nextKeyRotateTimer = Time.time + nextKeyRotateInterval;
-        bottomTimer = Time.time + bottomTimerInterval;
+        nextKeyRotateCoolDownTimer = Time.time + nextKeyRotateInterval;
+        bottomCoolDownTimer = Time.time + bottomTimerInterval;
 
         LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateRotateTimer, eLogTitle.End);
     }
@@ -148,7 +149,7 @@ public static class Timer
 
 // // ↓このスクリプトで可能なこと↓ //
 
-// // キー入力の受付時間の管理
+// // キー入力の受付タイマーの管理
 
 // public class Timer : MonoBehaviour
 // {
@@ -163,7 +164,7 @@ public static class Timer
 //     public float NextKeyRotateInterval { get; private set; } = 0.05f;
 //     public float NextKeyDownInterval { get; private set; } = 0.05f;
 
-//     // 自動でミノが落ちるまでの時間とそのインターバル
+//     // 自動でミノが落ちるまでのタイマーとそのインターバル
 //     public float AutoDropTimer { get; private set; }
 //     public float AutoDropInteaval { get; private set; } = 1f;
 
@@ -224,18 +225,18 @@ public static class Timer
 // /// </summary>
 // public class Timer : MonoBehaviour
 // {
-//     /// <summary> 次の左右キー入力までの時間 </summary>
+//     /// <summary> 次の左右キー入力までのタイマー </summary>
 //     /// <remarks> 左右キーが押された時に更新される </remarks>
 //     private float nextKeyLeftRightTimer;
-//     /// <summary> 次の回転キー入力までの時間 </summary>
+//     /// <summary> 次の回転キー入力までのタイマー </summary>
 //     /// <remarks> 回転キーが押された時に更新される </remarks>
 //     private float nextKeyRotateTimer;
-//     /// <summary> 次の下キー入力までの時間 </summary>
+//     /// <summary> 次の下キー入力までのタイマー </summary>
 //     /// <remarks> 下キーが押された時に更新される </remarks>
 //     private float nextKeyDownTimer;
-//     /// <summary> 次の自動落下までの時間 </summary>
+//     /// <summary> 次の自動落下までのタイマー </summary>
 //     private float autoDropTimer;
-//     /// <summary> 次のロックダウンまでの時間 </summary>
+//     /// <summary> 次のロックダウンまでのタイマー </summary>
 //     private float bottomTimer;
 
 //     /// <summary> 通常の左右キー入力のインターバル </summary>
