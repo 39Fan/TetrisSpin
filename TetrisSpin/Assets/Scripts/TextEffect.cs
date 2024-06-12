@@ -278,8 +278,7 @@ public class TextEffect : MonoBehaviour
             TextMeshProUGUI instantiatedText = Instantiate(_displayText, Canvas);
             SpinAndLineClearTextFadeInAndOut(instantiatedText);
             SpinAndLineClearTextMove(instantiatedText.transform);
-            // animator.SetBool("SpinOrLineClear", true);
-            // animator.SetBool("SpinOrLineClear", false);
+            animator.SetTrigger("SpinOrLineClear");
         }
         else
         {
