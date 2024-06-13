@@ -206,6 +206,12 @@ public class AttackCalculator : MonoBehaviour
         CalculatePerfectClear();
         CalculateRen(_lineClearCount);
 
+        // 100を超えたら100に戻す
+        if (AttackCalculatorStats.AttackLines > 100)
+        {
+            AttackCalculatorStats.UpdateStats(_attackLines: 100);
+        }
+
         displayNumber.DisplayAttackLines();
 
         logDetail = $"{AttackCalculatorStats.AttackLines}";
