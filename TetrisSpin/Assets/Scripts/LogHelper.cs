@@ -22,7 +22,7 @@ public enum eLogTitle
     // 各種 Stats クラス //
     StatsInfo,
     // AttackCalculator クラス //
-    AttackLinesValue,
+    SumAttackLinesValue,
     // AudioManager クラス //
     MismatchBetweenAudioAndAudioNameCount, AudioNameAlreadyExists,
     // BoardStats クラス //
@@ -109,7 +109,7 @@ public enum eMethod
     // 各種 Stats クラス //
     UpdateStats, ResetStats,
     // AttackCalculator クラス //
-    CalculateAttackLines, CalculateBackToBack, CalculatePerfectClear, CalculateRen,
+    CalculateSumAttackLines, CalculateBackToBack, CalculatePerfectClear, CalculateRen,
     // AudioManager クラス //
     PlaySound, SetVolume, BuildAudioClipDictionary,
     // BoardStats クラス //
@@ -142,7 +142,7 @@ public enum eMethod
     SpinAndLineClearTextDisplay, DetermineTextToDisplay, SpinAndLineClearTextAnimation, SpinAndLineClearTextFadeInAndOut, SpinAndLineClearTextMove,
     BackToBackAnimation, PerfectClearAnimation, ReadyGoAnimation, StopAnimation,
     // Timer クラス //
-    ResetTimer, UpdateMoveLeftRightTimer, UpdateMoveDownTimer, UpdateRotateTimer
+    ResetCoolDownTimer, UpdateMoveLeftRightCoolDownTimer, UpdateMoveDownCoolDownTimer, UpdateRotateCoolDownTimer
 
 }
 

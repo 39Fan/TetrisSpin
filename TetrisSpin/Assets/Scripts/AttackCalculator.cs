@@ -27,13 +27,13 @@ public static class AttackCalculatorStats
     /// ゲームスタート時に攻撃ラインは存在しないので、初期値は0
     /// </remarks>
     /// <value> 0~ </value>
-    private static int attackLines = 0;
+    private static int sumAttackLines = 0;
 
     // ゲッタープロパティ //
     public static bool BackToBack => backToBack;
     public static bool PerfectClear => perfectClear;
     public static int Ren => ren;
-    public static int AttackLines => attackLines;
+    public static int SumAttackLines => sumAttackLines;
 
     /// <summary> スタッツログの詳細 </summary>
     private static string logStatsDetail;
@@ -42,20 +42,20 @@ public static class AttackCalculatorStats
     /// <param name="_backToBack"> BackToBackの判定 </param>
     /// <param name="_perfectClear"> PerfectClearの判定 </param>
     /// <param name="_ren"> Renの判定 </param>
-    /// <param name="_attackLines"> 攻撃ライン数 </param>
+    /// <param name="_sumAttackLines"> 攻撃ライン数 </param>
     /// <remarks>
     /// 指定されていない引数は現在の値を維持
     /// </remarks>
-    public static void UpdateStats(bool? _backToBack = null, bool? _perfectClear = null, int? _ren = null, int? _attackLines = null)
+    public static void UpdateStats(bool? _backToBack = null, bool? _perfectClear = null, int? _ren = null, int? _sumAttackLines = null)
     {
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.UpdateStats, eLogTitle.Start);
 
         backToBack = _backToBack ?? backToBack;
         perfectClear = _perfectClear ?? perfectClear;
         ren = _ren ?? ren;
-        attackLines = _attackLines ?? attackLines;
+        sumAttackLines = _sumAttackLines ?? sumAttackLines;
 
-        logStatsDetail = $"backToBack : {backToBack}, perfectClear : {perfectClear}, ren : {ren}, attackLines : {attackLines}";
+        logStatsDetail = $"backToBack : {backToBack}, perfectClear : {perfectClear}, ren : {ren}, sumAttackLines : {sumAttackLines}";
         LogHelper.InfoLog(eClasses.AttackCalculator, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
 
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.UpdateStats, eLogTitle.End);
@@ -69,7 +69,7 @@ public static class AttackCalculatorStats
         backToBack = false;
         perfectClear = false;
         ren = -1;
-        attackLines = 0;
+        sumAttackLines = 0;
 
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.ResetStats, eLogTitle.End);
     }
@@ -195,29 +195,29 @@ public class AttackCalculator : MonoBehaviour
     /// <summary> 合計攻撃力を計算する関数 </summary>
     /// <param name="_spinType"> スピンタイプ </param>
     /// <param name="_lineClearCount"> 消去ライン数 </param>
-    public void CalculateAttackLines(SpinTypeNames _spinType, int _lineClearCount)
+    public void CalculateSumAttackLines(SpinTypeNames _spinType, int _lineClearCount)
     {
-        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateAttackLines, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateSumAttackLines, eLogTitle.Start);
 
         // Spin判定と消去ライン数に対応した攻撃力を加算する
-        AttackCalculatorStats.UpdateStats(_attackLines: AttackCalculatorStats.AttackLines + spinTypeAttackMapping[_spinType][_lineClearCount]);
+        AttackCalculatorStats.UpdateStats(_sumAttackLines: AttackCalculatorStats.SumAttackLines + spinTypeAttackMapping[_spinType][_lineClearCount]);
 
         CalculateBackToBack(_spinType, _lineClearCount);
         CalculatePerfectClear();
         CalculateRen(_lineClearCount);
 
         // 100を超えたら100に戻す
-        if (AttackCalculatorStats.AttackLines > 100)
+        if (AttackCalculatorStats.SumAttackLines > 100)
         {
-            AttackCalculatorStats.UpdateStats(_attackLines: 100);
+            AttackCalculatorStats.UpdateStats(_sumAttackLines: 100);
         }
 
-        displayNumber.DisplayAttackLines();
+        displayNumber.DisplaySumAttackLines();
 
-        logDetail = $"{AttackCalculatorStats.AttackLines}";
-        LogHelper.InfoLog(eClasses.AttackCalculator, eMethod.CalculateAttackLines, eLogTitle.AttackLinesValue, logDetail);
+        logDetail = $"{AttackCalculatorStats.SumAttackLines}";
+        LogHelper.InfoLog(eClasses.AttackCalculator, eMethod.CalculateSumAttackLines, eLogTitle.SumAttackLinesValue, logDetail);
 
-        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateAttackLines, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateSumAttackLines, eLogTitle.End);
     }
 
     /// <summary> BackToBackの判定と攻撃力ボーナスを計算する関数 </summary>
@@ -233,7 +233,7 @@ public class AttackCalculator : MonoBehaviour
         if (AttackCalculatorStats.BackToBack == true &&
             (_lineClearCount == 4 || (_spinType != SpinTypeNames.None && _lineClearCount >= 1)))
         {
-            AttackCalculatorStats.UpdateStats(_attackLines: AttackCalculatorStats.AttackLines + backToBackBonus);
+            AttackCalculatorStats.UpdateStats(_sumAttackLines: AttackCalculatorStats.SumAttackLines + backToBackBonus);
 
             textMoveTextMovement.BackToBackAnimation();
         }
@@ -264,7 +264,7 @@ public class AttackCalculator : MonoBehaviour
         if (board.CheckPerfectClear())
         {
             AttackCalculatorStats.UpdateStats(_perfectClear: true);
-            AttackCalculatorStats.UpdateStats(_attackLines: AttackCalculatorStats.AttackLines + perfectClearBonus);
+            AttackCalculatorStats.UpdateStats(_sumAttackLines: AttackCalculatorStats.SumAttackLines + perfectClearBonus);
 
             textMoveTextMovement.PerfectClearAnimation();
         }
@@ -283,19 +283,24 @@ public class AttackCalculator : MonoBehaviour
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateRen, eLogTitle.Start);
 
         /// <summary> RENの攻撃力ボーナス </summary>
-        int[] renBonus = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 5 };
+        int[] renBonus = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
 
         if (_lineClearCount >= 1)
         {
             AttackCalculatorStats.UpdateStats(_ren: AttackCalculatorStats.Ren + 1);
-            AttackCalculatorStats.UpdateStats(_attackLines:
-                AttackCalculatorStats.AttackLines + renBonus[AttackCalculatorStats.Ren]);
+            AttackCalculatorStats.UpdateStats(_sumAttackLines:
+                AttackCalculatorStats.SumAttackLines + renBonus[AttackCalculatorStats.Ren]);
 
-            // TODO TextMovementでRENのテキスト表示をする
+            // 2REN以上で表示する
+            if (AttackCalculatorStats.Ren >= 2)
+            {
+                displayNumber.DisplayRen();
+            }
         }
         else
         {
             AttackCalculatorStats.UpdateStats(_ren: -1);
+            displayNumber.ResetDisplayRen();
         }
 
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateRen, eLogTitle.End);
@@ -330,21 +335,21 @@ public class AttackCalculator : MonoBehaviour
 //     /// ゲームスタート時に攻撃ラインは存在しないので、初期値は0
 //     /// </remarks>
 //     /// <value> 0~ </value>
-//     [SerializeField] private int attackLines;
+//     [SerializeField] private int sumAttackLines;
 
 //     // ゲッタープロパティ //
 //     public bool BackToBack => backToBack;
 //     public bool PerfectClear => perfectClear;
 //     public int Ren => ren;
-//     public int AttackLines => attackLines;
+//     public int sumAttackLines => sumAttackLines;
 
 //     /// <summary> デフォルトコンストラクタ </summary>
-//     public AttackCalculatorStats(bool _backToBack, bool _perfectClear, int _ren, int _attackLines)
+//     public AttackCalculatorStats(bool _backToBack, bool _perfectClear, int _ren, int _sumAttackLines)
 //     {
 //         backToBack = _backToBack;
 //         perfectClear = _perfectClear;
 //         ren = _ren;
-//         attackLines = _attackLines;
+//         sumAttackLines = _sumAttackLines;
 //     }
 
 //     /// <summary> デフォルトの <see cref="AttackCalculatorStats"/> を作成する関数 </summary>
@@ -358,7 +363,7 @@ public class AttackCalculator : MonoBehaviour
 //             backToBack = false,
 //             perfectClear = false,
 //             ren = -1,
-//             attackLines = 0
+//             sumAttackLines = 0
 //         };
 //     }
 
@@ -366,18 +371,18 @@ public class AttackCalculator : MonoBehaviour
 //     /// <param name="_backToBack"> BackToBackの判定 </param>
 //     /// <param name="_perfectClear"> PerfectClearの判定 </param>
 //     /// <param name="_ren"> Renの判定 </param>
-//     /// <param name="_attackLines"> 攻撃ライン数 </param>
+//     /// <param name="_sumAttackLines"> 攻撃ライン数 </param>
 //     /// <returns> 更新された <see cref="AttackCalculatorStats"/> の新しいインスタンス </returns>
 //     /// <remarks>
 //     /// 指定されていない引数は現在の値を維持
 //     /// </remarks>
-//     public AttackCalculatorStats Update(bool? _backToBack = null, bool? _perfectClear = null, int? _ren = null, int? _attackLines = null)
+//     public AttackCalculatorStats Update(bool? _backToBack = null, bool? _perfectClear = null, int? _ren = null, int? _sumAttackLines = null)
 //     {
 //         var updatedStats = new AttackCalculatorStats(
 //             _backToBack ?? backToBack,
 //             _perfectClear ?? perfectClear,
 //             _ren ?? ren,
-//             _attackLines ?? attackLines
+//             _sumAttackLines ?? sumAttackLines
 //         );
 //         return updatedStats;
 //     }

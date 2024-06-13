@@ -65,7 +65,7 @@ public static class CoolDownTimer
     /// </remarks>
     public static void ResetCoolDownTimer()
     {
-        LogHelper.DebugLog(eClasses.Timer, eMethod.ResetTimer, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.Timer, eMethod.ResetCoolDownTimer, eLogTitle.Start);
 
         nextKeyDownCoolDownTimer = Time.time;
         nextKeyLeftRightCoolDownTimer = Time.time;
@@ -73,7 +73,7 @@ public static class CoolDownTimer
         autoDropCoolDownTimer = Time.time + autoDropInterval;
         bottomCoolDownTimer = Time.time + bottomTimerInterval;
 
-        LogHelper.DebugLog(eClasses.Timer, eMethod.ResetTimer, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.Timer, eMethod.ResetCoolDownTimer, eLogTitle.End);
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public static class CoolDownTimer
     /// </summary>
     public static void UpdateMoveLeftRightCoolDownTimer()
     {
-        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveLeftRightTimer, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveLeftRightCoolDownTimer, eLogTitle.Start);
 
         if (continuousLRKey)
         {
@@ -94,7 +94,7 @@ public static class CoolDownTimer
 
         bottomCoolDownTimer = Time.time + bottomTimerInterval;
 
-        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveLeftRightTimer, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveLeftRightCoolDownTimer, eLogTitle.End);
     }
 
     /// <summary>
@@ -102,13 +102,13 @@ public static class CoolDownTimer
     /// </summary>
     public static void UpdateMoveDownCoolDownTimer()
     {
-        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveDownTimer, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveDownCoolDownTimer, eLogTitle.Start);
 
         nextKeyDownCoolDownTimer = Time.time + nextKeyDownInterval;
         autoDropCoolDownTimer = Time.time + autoDropInterval;
         bottomCoolDownTimer = Time.time + bottomTimerInterval;
 
-        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveDownTimer, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateMoveDownCoolDownTimer, eLogTitle.End);
     }
 
     /// <summary>
@@ -116,12 +116,12 @@ public static class CoolDownTimer
     /// </summary>
     public static void UpdateRotateCoolDownTimer()
     {
-        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateRotateTimer, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateRotateCoolDownTimer, eLogTitle.Start);
 
         nextKeyRotateCoolDownTimer = Time.time + nextKeyRotateInterval;
         bottomCoolDownTimer = Time.time + bottomTimerInterval;
 
-        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateRotateTimer, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.Timer, eMethod.UpdateRotateCoolDownTimer, eLogTitle.End);
     }
 }
 
