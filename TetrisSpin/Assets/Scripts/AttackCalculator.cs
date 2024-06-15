@@ -199,12 +199,15 @@ public class AttackCalculator : MonoBehaviour
     {
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateSumAttackLines, eLogTitle.Start);
 
-        // Spin判定と消去ライン数に対応した攻撃力を加算する
-        AttackCalculatorStats.UpdateStats(_sumAttackLines: AttackCalculatorStats.SumAttackLines + spinTypeAttackMapping[_spinType][_lineClearCount]);
+        // 今回の攻撃値
+        int attackLines = 0;
 
-        CalculateBackToBack(_spinType, _lineClearCount);
-        CalculatePerfectClear();
-        CalculateRen(_lineClearCount);
+        attackLines += spinTypeAttackMapping[_spinType][_lineClearCount];
+        attackLines += CalculateBackToBack(_spinType, _lineClearCount);
+        attackLines += CalculatePerfectClear();
+        attackLines += CalculateRen(_lineClearCount);
+
+        AttackCalculatorStats.UpdateStats(_sumAttackLines: AttackCalculatorStats.SumAttackLines + attackLines);
 
         // 100を超えたら100に戻す
         if (AttackCalculatorStats.SumAttackLines > 100)
@@ -212,7 +215,11 @@ public class AttackCalculator : MonoBehaviour
             AttackCalculatorStats.UpdateStats(_sumAttackLines: 100);
         }
 
-        displayNumber.DisplaySumAttackLines();
+        if (attackLines > 0)
+        {
+            displayNumber.DisplayAttackLines(attackLines);
+            displayNumber.DisplaySumAttackLines();
+        }
 
         logDetail = $"{AttackCalculatorStats.SumAttackLines}";
         LogHelper.InfoLog(eClasses.AttackCalculator, eMethod.CalculateSumAttackLines, eLogTitle.SumAttackLinesValue, logDetail);
@@ -223,9 +230,13 @@ public class AttackCalculator : MonoBehaviour
     /// <summary> BackToBackの判定と攻撃力ボーナスを計算する関数 </summary>
     /// <param name="_spinType"> スピンタイプ </param>
     /// <param name="_lineClearCount"> 消去ライン数 </param>
-    private void CalculateBackToBack(SpinTypeNames _spinType, int _lineClearCount)
+    /// <returns> 攻撃力ボーナスの値(bonus) </returns>
+    private int CalculateBackToBack(SpinTypeNames _spinType, int _lineClearCount)
     {
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateBackToBack, eLogTitle.Start);
+
+        /// <summary> 攻撃力ボーナス </summary>
+        int bonus = 0;
 
         /// <summary> BackToBackの攻撃力ボーナス </summary>
         int backToBackBonus = 1;
@@ -233,8 +244,7 @@ public class AttackCalculator : MonoBehaviour
         if (AttackCalculatorStats.BackToBack == true &&
             (_lineClearCount == 4 || (_spinType != SpinTypeNames.None && _lineClearCount >= 1)))
         {
-            AttackCalculatorStats.UpdateStats(_sumAttackLines: AttackCalculatorStats.SumAttackLines + backToBackBonus);
-
+            bonus = backToBackBonus;
             textMoveTextMovement.BackToBackAnimation();
         }
 
@@ -251,12 +261,17 @@ public class AttackCalculator : MonoBehaviour
         }
 
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateBackToBack, eLogTitle.End);
+        return bonus;
     }
 
     /// <summary> PerfectClearの判定と攻撃力ボーナスを計算する関数 </summary>
-    private void CalculatePerfectClear()
+    /// <returns> 攻撃力ボーナスの値(bonus) </returns>
+    private int CalculatePerfectClear()
     {
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculatePerfectClear, eLogTitle.Start);
+
+        /// <summary> 攻撃力ボーナス </summary>
+        int bonus = 0;
 
         /// <summary> PerfectClearの攻撃力ボーナス </summary>
         int perfectClearBonus = 10;
@@ -264,8 +279,7 @@ public class AttackCalculator : MonoBehaviour
         if (board.CheckPerfectClear())
         {
             AttackCalculatorStats.UpdateStats(_perfectClear: true);
-            AttackCalculatorStats.UpdateStats(_sumAttackLines: AttackCalculatorStats.SumAttackLines + perfectClearBonus);
-
+            bonus = perfectClearBonus;
             textMoveTextMovement.PerfectClearAnimation();
         }
         else
@@ -274,13 +288,18 @@ public class AttackCalculator : MonoBehaviour
         }
 
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculatePerfectClear, eLogTitle.End);
+        return bonus;
     }
 
     /// <summary> Renの判定と攻撃力ボーナスを計算する関数 </summary>
     /// <param name="_lineClearCount"> 消去ライン数 </param>
-    private void CalculateRen(int _lineClearCount)
+    /// <returns> 攻撃力ボーナスの値(bonus) </returns>
+    private int CalculateRen(int _lineClearCount)
     {
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateRen, eLogTitle.Start);
+
+        /// <summary> 攻撃力ボーナス </summary>
+        int bonus = 0;
 
         /// <summary> RENの攻撃力ボーナス </summary>
         int[] renBonus = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
@@ -288,8 +307,7 @@ public class AttackCalculator : MonoBehaviour
         if (_lineClearCount >= 1)
         {
             AttackCalculatorStats.UpdateStats(_ren: AttackCalculatorStats.Ren + 1);
-            AttackCalculatorStats.UpdateStats(_sumAttackLines:
-                AttackCalculatorStats.SumAttackLines + renBonus[AttackCalculatorStats.Ren]);
+            bonus = renBonus[AttackCalculatorStats.Ren];
 
             // 2REN以上で表示する
             if (AttackCalculatorStats.Ren >= 2)
@@ -304,6 +322,7 @@ public class AttackCalculator : MonoBehaviour
         }
 
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateRen, eLogTitle.End);
+        return bonus;
     }
 }
 

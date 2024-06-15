@@ -76,6 +76,49 @@ public static class SpawnerStats
 }
 
 /// <summary>
+/// Spawnerのミノ表示に関する座標情報を保持する静的クラス
+/// </summary>
+internal static class SpawnerSettings
+{
+    /// <summary> 操作中のミノの生成座標 </summary>
+    public static readonly Vector3 SPAWN_MINO_POSITION = new Vector3(4, 19, 0);
+
+    /// <summary> ホールドミノの生成座標 </summary>
+    public static readonly Vector3 HOLD_MINO_POSITION = new Vector3(-2.95f, 17.7f, 0);
+
+    /// <summary> ネクストミノの生成座標リスト </summary>
+    public static readonly Vector3[] NEXT_MINO_POSITIONS = new Vector3[5] // NextMinos
+    {
+    new Vector3(11.85f, 17.7f, 0),
+    new Vector3(11.95f, 14, 0),
+    new Vector3(11.95f, 10.9f, 0),
+    new Vector3(11.95f, 7.8f, 0),
+    new Vector3(11.95f, 4.7f, 0)
+    };
+
+    /// <summary> ネクスト0ミノのスケール </summary>
+    public static readonly Vector3 NEXT0_MINO_SCALE = new Vector3(0.9f, 0.9f, 0.9f);
+    /// <summary> ネクストミノのスケール </summary>
+    public static readonly Vector3 NEXT_MINO_SCALE = new Vector3(0.7f, 0.7f, 0.7f);
+    /// <summary> ホールドミノのスケール </summary>
+    public static readonly Vector3 HOLD_MINO_SCALE = new Vector3(0.9f, 0.9f, 0.9f);
+    /// <summary> ミノのデフォルトスケール </summary>
+    public static readonly Vector3 MINO_DEFAULT_SCALE = new Vector3(1, 1, 1);
+
+    /// <summary> 各ミノの中心座標を保持する辞書 </summary>
+    public static readonly Dictionary<eMinoType, Vector3> MINO_CENTER_POSITIONS_DICTIONARY = new Dictionary<eMinoType, Vector3>
+    {
+        { eMinoType.IMino, new Vector3(0.375f, 0, 0) },
+        { eMinoType.JMino, new Vector3(0, 0.375f, 0) },
+        { eMinoType.LMino, new Vector3(0, 0.375f, 0) },
+        { eMinoType.OMino, new Vector3(0.375f, 0.375f, 0) },
+        { eMinoType.SMino, new Vector3(0, 0.25f, 0) },
+        { eMinoType.TMino, new Vector3(0, 0.25f, 0) },
+        { eMinoType.ZMino, new Vector3(0, 0.25f, 0) }
+    };
+}
+
+/// <summary>
 /// ミノの出現に関するスクリプト
 /// </summary>
 public class Spawner : MonoBehaviour
@@ -106,21 +149,21 @@ public class Spawner : MonoBehaviour
     /// <summary> GhostMinosとMinoNamesのDictionary </summary>
     Dictionary<eMinoType, MinoMovement> ghostMinoDictionary = new Dictionary<eMinoType, MinoMovement>();
 
-    /// <summary> 操作中のミノの生成座標 </summary>
-    private Vector3 spawnMinoPosition { get; } = new Vector3(4, 19, 0);
+    // /// <summary> 操作中のミノの生成座標 </summary>
+    // private Vector3 spawnMinoPosition { get; } = new Vector3(4, 20, 0);
 
-    /// <summary> ホールドミノの生成座標 </summary>
-    private Vector3 holdMinoPosition { get; } = new Vector3(-3, 17, 0);
+    // /// <summary> ホールドミノの生成座標 </summary>
+    // private Vector3 holdMinoPosition { get; } = new Vector3(-2.9f, 17.7f, 0);
 
-    /// <summary> ネクストミノの生成座標リスト </summary>
-    private Vector3[] nextMinoPositions = new Vector3[5] // NextMinos
-    {
-        new Vector3(12, 17, 0),
-        new Vector3(12, 14, 0),
-        new Vector3(12, 11, 0),
-        new Vector3(12, 8, 0),
-        new Vector3(12, 5, 0)
-    };
+    // /// <summary> ネクストミノの生成座標リスト </summary>
+    // private Vector3[] nextMinoPositions = new Vector3[5] // NextMinos
+    // {
+    //     new Vector3(12, 17.7f, 0),
+    //     new Vector3(11.95f, 14.2f, 0),
+    //     new Vector3(11.95f, 11, 0),
+    //     new Vector3(11.95f, 7.8f, 0),
+    //     new Vector3(11.95f, 4.6f, 0)
+    // };
 
     // // ゲッタープロパティ //
     public MinoMovement ActiveMino => activeMino;
@@ -282,7 +325,7 @@ public class Spawner : MonoBehaviour
             if (_minoPopNumber == 0) // ゲームスタート時
             {
                 // Nextミノを一個ずつ生成していく
-                nextMino[nextMinoOrder] = SpawnNextMino(minoDictionary[SpawnerStats.SpawnMinoOrders[_minoPopNumber + nextMinoOrder + 1]], nextMinoOrder);
+                nextMino[nextMinoOrder] = SpawnNextMino(minoDictionary[SpawnerStats.SpawnMinoOrders[_minoPopNumber + nextMinoOrder + 1]], SpawnerStats.SpawnMinoOrders[_minoPopNumber + nextMinoOrder + 1], nextMinoOrder);
                 // SpawnerStats.AddNextMinos(_addNextMino: SpawnNextMino(minoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber + nextMinoOrder + 1]], nextMinoOrder), _number: nextMinoOrder);
             }
             else // 2回目以降
@@ -290,7 +333,7 @@ public class Spawner : MonoBehaviour
                 //以前のNextMinoを消去
                 Destroy(nextMino[nextMinoOrder].gameObject);
 
-                nextMino[nextMinoOrder] = SpawnNextMino(minoDictionary[SpawnerStats.SpawnMinoOrders[_minoPopNumber + nextMinoOrder + 1]], nextMinoOrder);
+                nextMino[nextMinoOrder] = SpawnNextMino(minoDictionary[SpawnerStats.SpawnMinoOrders[_minoPopNumber + nextMinoOrder + 1]], SpawnerStats.SpawnMinoOrders[_minoPopNumber + nextMinoOrder + 1], nextMinoOrder);
                 // SpawnerStats.AddNextMinos(_addNextMino: SpawnNextMino(minoDictionary[SpawnerStats.SpawnMinoOrders[_MinoPopNumber + nextMinoOrder + 1]], nextMinoOrder), _number: nextMinoOrder);
             }
         }
@@ -314,7 +357,7 @@ public class Spawner : MonoBehaviour
             // holdMinoName = activeMinoName; // activeMinoの名前を保存
             SpawnerStats.UpdateStats(_holdMinoName: SpawnerStats.ActiveMinoName);
 
-            holdMino = SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]); // Holdされたミノを画面左上に表示
+            holdMino = SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName], SpawnerStats.HoldMinoName); // Holdされたミノを画面左上に表示
             // SpawnerStats.UpdateStats(_holdMino: SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]));
 
             CreateNewActiveMino(_minoPopNumber);
@@ -331,23 +374,20 @@ public class Spawner : MonoBehaviour
             // activeMinoName と holdMinoName の名前を交換する
             eMinoType temp;
             temp = SpawnerStats.ActiveMinoName;
-            // activeMinoName = SpawnerStats.HoldMinoName;
             SpawnerStats.UpdateStats(_activeMinoName: SpawnerStats.HoldMinoName);
-            // holdMinoName = temp;
             SpawnerStats.UpdateStats(_holdMinoName: temp);
 
             activeMino = SpawnActiveMino(holdMino); // HoldミノをactiveMinoに戻す
-            // SpawnerStats.UpdateStats(_activeMino: SpawnActiveMino(SpawnerStats.HoldMino));
+            activeMino.transform.localScale = SpawnerSettings.MINO_DEFAULT_SCALE;
 
             SpawnerStats.UpdateStats(_activeMinoToBaseDistance: CheckActiveMinoToBaseDistance());
 
             ghostMino = SpawnGhostMino(ghostMinoDictionary[SpawnerStats.ActiveMinoName], activeMino, SpawnerStats.ActiveMinoToBaseDistance);
-            // SpawnerStats.UpdateStats(_ghostMino: SpawnGhostMino(ghostMinoDictionary[activeMinoName], activeMino, activeMinoToBaseDistance));
 
             Destroy(holdMino.gameObject); // 以前のホールドミノを削除
 
-            holdMino = SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]); // Holdされたミノを画面左上に表示
-            // SpawnerStats.UpdateStats(_holdMino: SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName]));
+            holdMino = SpawnHoldMino(minoDictionary[SpawnerStats.HoldMinoName], SpawnerStats.HoldMinoName); // Holdされたミノを画面左上に表示
+            holdMino.transform.localScale = SpawnerSettings.HOLD_MINO_SCALE;
 
             minoMovement.ResetAngle();
             minoMovement.ResetStepsSRS();
@@ -364,7 +404,8 @@ public class Spawner : MonoBehaviour
         LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnActiveMino, eLogTitle.Start);
 
         MinoMovement newActiveMino = Instantiate(_selectMino,
-        spawnMinoPosition, Quaternion.identity); // Quaternion.identityは、向きの回転に関する設定をしないことを表す
+        SpawnerSettings.SPAWN_MINO_POSITION, Quaternion.identity); // Quaternion.identityは、向きの回転に関する設定をしないことを表す
+        newActiveMino.transform.localScale = SpawnerSettings.MINO_DEFAULT_SCALE;
 
         if (newActiveMino)
         {
@@ -411,12 +452,21 @@ public class Spawner : MonoBehaviour
     /// <param name="_selectMino"> 生成するミノの種類 </param>
     /// <param name="_nextMinoOrder"> 何番目のネクストか </param>
     /// <returns> 新しい nextMino (newNextMino) </returns>
-    public MinoMovement SpawnNextMino(MinoMovement _selectMino, int _nextMinoOrder)
+    public MinoMovement SpawnNextMino(MinoMovement _selectMino, eMinoType _selecyMinoType, int _nextMinoOrder)
     {
         LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnNextMino, eLogTitle.Start);
 
         MinoMovement newNextMino = Instantiate(_selectMino,
-            nextMinoPositions[_nextMinoOrder], Quaternion.identity);
+            SpawnerSettings.NEXT_MINO_POSITIONS[_nextMinoOrder] - SpawnerSettings.MINO_CENTER_POSITIONS_DICTIONARY[_selecyMinoType], Quaternion.identity);
+
+        if (_nextMinoOrder == 0)
+        {
+            newNextMino.transform.localScale = SpawnerSettings.NEXT0_MINO_SCALE;
+        }
+        else
+        {
+            newNextMino.transform.localScale = SpawnerSettings.NEXT_MINO_SCALE;
+        }
 
         LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnNextMino, eLogTitle.End);
         return newNextMino;
@@ -425,12 +475,13 @@ public class Spawner : MonoBehaviour
     /// <summary> 新しい holdMino を生成する関数 </summary>
     /// <param name="_selectMino"> 生成するミノの種類 </param>
     /// <returns> 新しい holdMino (newHoldMino) </returns>
-    public MinoMovement SpawnHoldMino(MinoMovement _selectMino)
+    public MinoMovement SpawnHoldMino(MinoMovement _selectMino, eMinoType _selecyMinoType)
     {
         LogHelper.DebugLog(eClasses.Spawner, eMethod.SpawnHoldMino, eLogTitle.Start);
 
         MinoMovement newHoldMino = Instantiate(_selectMino,
-        holdMinoPosition, Quaternion.identity);
+            SpawnerSettings.HOLD_MINO_POSITION - SpawnerSettings.MINO_CENTER_POSITIONS_DICTIONARY[_selecyMinoType], Quaternion.identity);
+        newHoldMino.transform.localScale = SpawnerSettings.HOLD_MINO_SCALE;
 
         if (newHoldMino)
         {
