@@ -97,21 +97,21 @@ internal static class SpawnerSettings
     };
 
     /// <summary> ネクスト0ミノのスケール </summary>
-    public static readonly Vector3 NEXT0_MINO_SCALE = new Vector3(0.9f, 0.9f, 0.9f);
+    public static readonly Vector3 NEXT0_MINO_SCALE = new Vector3(0.8f, 0.8f, 0.8f);
     /// <summary> ネクストミノのスケール </summary>
-    public static readonly Vector3 NEXT_MINO_SCALE = new Vector3(0.7f, 0.7f, 0.7f);
+    public static readonly Vector3 NEXT_MINO_SCALE = new Vector3(0.6f, 0.6f, 0.6f);
     /// <summary> ホールドミノのスケール </summary>
-    public static readonly Vector3 HOLD_MINO_SCALE = new Vector3(0.9f, 0.9f, 0.9f);
+    public static readonly Vector3 HOLD_MINO_SCALE = new Vector3(0.8f, 0.8f, 0.8f);
     /// <summary> ミノのデフォルトスケール </summary>
     public static readonly Vector3 MINO_DEFAULT_SCALE = new Vector3(1, 1, 1);
 
     /// <summary> 各ミノの中心座標を保持する辞書 </summary>
     public static readonly Dictionary<eMinoType, Vector3> MINO_CENTER_POSITIONS_DICTIONARY = new Dictionary<eMinoType, Vector3>
     {
-        { eMinoType.IMino, new Vector3(0.375f, 0, 0) },
+        { eMinoType.IMino, new Vector3(0.3125f, 0, 0) },
         { eMinoType.JMino, new Vector3(0, 0.375f, 0) },
         { eMinoType.LMino, new Vector3(0, 0.375f, 0) },
-        { eMinoType.OMino, new Vector3(0.375f, 0.375f, 0) },
+        { eMinoType.OMino, new Vector3(0.3125f, 0.3125f, 0) },
         { eMinoType.SMino, new Vector3(0, 0.25f, 0) },
         { eMinoType.TMino, new Vector3(0, 0.25f, 0) },
         { eMinoType.ZMino, new Vector3(0, 0.25f, 0) }

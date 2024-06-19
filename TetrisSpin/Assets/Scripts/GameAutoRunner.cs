@@ -69,7 +69,7 @@ public class GameAutoRunner : MonoBehaviour
     SceneTransition sceneTransition;
     Spawner spawner;
     SpinCheck spinCheck;
-    TextMovement textMovement;
+    DisplayManager displayManager;
 
     /// <summary>
     /// インスタンス化
@@ -82,7 +82,7 @@ public class GameAutoRunner : MonoBehaviour
         sceneTransition = FindObjectOfType<SceneTransition>();
         spawner = FindObjectOfType<Spawner>();
         spinCheck = FindObjectOfType<SpinCheck>();
-        textMovement = FindObjectOfType<TextMovement>();
+        displayManager = FindObjectOfType<DisplayManager>();
     }
 
     /// <summary> ロックダウンの処理をする関数 </summary>
@@ -157,7 +157,7 @@ public class GameAutoRunner : MonoBehaviour
 
         if (board.CheckGameOver(spawner.ActiveMino)) // ミノの設置時にゲームオーバーの条件を満たした場合
         {
-            textMovement.StopAnimation();
+            displayManager.StopAnimation();
 
             GameManagerStats.UpdateStats(_gameOver: true);
 
@@ -174,7 +174,7 @@ public class GameAutoRunner : MonoBehaviour
         lineClearCount = board.CheckAllRows();
         board.AddLineClearCountHistory(lineClearCount);
         attackCalculator.CalculateSumAttackLines(spinCheck.SpinTypeName, lineClearCount);
-        textMovement.SpinAndLineClearTextDisplay(spinCheck.SpinTypeName, lineClearCount);
+        displayManager.SpinTextDisplay(spinCheck.SpinTypeName, lineClearCount);
 
         // 各種変数のリセット
         spinCheck.ResetSpinTypeName();
@@ -190,7 +190,7 @@ public class GameAutoRunner : MonoBehaviour
 
         if (!board.CheckPosition(spawner.ActiveMino)) // ミノを生成した際に、ブロックと重なってしまった場合
         {
-            textMovement.StopAnimation();
+            displayManager.StopAnimation();
 
             GameManagerStats.UpdateStats(_gameOver: true);
 

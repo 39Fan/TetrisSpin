@@ -179,8 +179,7 @@ public class AttackCalculator : MonoBehaviour
 
     // 干渉するクラス //
     Board board;
-    DisplayNumber displayNumber;
-    TextMovement textMoveTextMovement;
+    DisplayManager displayManager;
 
     /// <summary>
     /// インスタンス化
@@ -188,8 +187,7 @@ public class AttackCalculator : MonoBehaviour
     private void Awake()
     {
         board = FindObjectOfType<Board>();
-        displayNumber = FindObjectOfType<DisplayNumber>();
-        textMoveTextMovement = FindObjectOfType<TextMovement>();
+        displayManager = FindObjectOfType<DisplayManager>();
     }
 
     /// <summary> 合計攻撃力を計算する関数 </summary>
@@ -217,8 +215,8 @@ public class AttackCalculator : MonoBehaviour
 
         if (attackLines > 0)
         {
-            displayNumber.DisplayAttackLines(attackLines);
-            displayNumber.DisplaySumAttackLines();
+            displayManager.DisplayAttackLines(attackLines);
+            displayManager.DisplaySumAttackLines();
         }
 
         logDetail = $"{AttackCalculatorStats.SumAttackLines}";
@@ -245,7 +243,7 @@ public class AttackCalculator : MonoBehaviour
             (_lineClearCount == 4 || (_spinType != SpinTypeNames.None && _lineClearCount >= 1)))
         {
             bonus = backToBackBonus;
-            textMoveTextMovement.BackToBackAnimation();
+            displayManager.BackToBackAnimation();
         }
 
         if (_lineClearCount == 4 || _spinType != SpinTypeNames.None)
@@ -280,7 +278,7 @@ public class AttackCalculator : MonoBehaviour
         {
             AttackCalculatorStats.UpdateStats(_perfectClear: true);
             bonus = perfectClearBonus;
-            textMoveTextMovement.PerfectClearAnimation();
+            displayManager.PerfectClearAnimation();
         }
         else
         {
@@ -312,13 +310,13 @@ public class AttackCalculator : MonoBehaviour
             // 2REN以上で表示する
             if (AttackCalculatorStats.Ren >= 2)
             {
-                displayNumber.DisplayRen();
+                displayManager.DisplayRen();
             }
         }
         else
         {
             AttackCalculatorStats.UpdateStats(_ren: -1);
-            displayNumber.ResetDisplayRen();
+            displayManager.ResetDisplayRen();
         }
 
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateRen, eLogTitle.End);
