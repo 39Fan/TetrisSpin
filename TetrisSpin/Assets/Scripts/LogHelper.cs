@@ -81,6 +81,8 @@ public enum eClasses
     AudioManager,
     Board,
     BoardStats,
+    DisplayManager,
+    DisplayManagerStats,
     GameAutoRunner,
     GameAutoRunnerStats,
     GameManager,
@@ -117,6 +119,11 @@ public enum eMethod
     // Board クラス //
     CreateBoard, CheckPosition, IsWithinBoard, CheckMinoCollision, SaveBlockInGrid, CheckAllRows, IsComplete, ClearRow, ShiftRowsDown,
     CheckPerfectClear, CheckGrid, CheckActiveMinoTopBlockPositionY, CheckActiveMinoBottomBlockPositionY, CheckGameOver,
+    // DisplayManager クラス //
+    SpinAnimation, DetermineTextToDisplay, SpinTextAnimation, SpinColorAnimation, TextFadeInAndOutType1,
+    ImageFadeInAndOutType1, ImageFadeInAndOutType2, ImageFadeInAndOutType3, SpinTextMove,
+    TetrisAnimation, BackToBackAnimation, PerfectClearAnimation, ReadyGoAnimation,
+    SumAttackLinesAnimation, AttackLinesAnimation, RenAnimation, EndingRenAnimation, SpinCompleteAnimation, SpinCompleteTextAnimation, StopAnimation,
     // GameAutoRunner クラス //
     RockDown, ResetRockDown, AutoDown, SetMinoFixed,
     // LogHelper クラス //
@@ -138,9 +145,6 @@ public enum eMethod
     CreateNewActiveMino, CreateNextMinos, CreateHoldMino, SpawnActiveMino, SpawnGhostMino, SpawnNextMino, SpawnHoldMino,
     // SpinCheck クラス //
     CheckSpinType, ResetSpinTypeName, IspinCheck, JspinCheck, LspinCheck, SspinCheck, TspinCheck, ZspinCheck,
-    // TextEffect クラス //
-    SpinAndLineClearTextDisplay, DetermineTextToDisplay, SpinTextAnimation, SpinAndLineClearTextFadeInAndOut, SpinAndLineClearTextMove,
-    BackToBackAnimation, PerfectClearAnimation, ReadyGoAnimation, StopAnimation,
     // Timer クラス //
     ResetCoolDownTimer, UpdateMoveLeftRightCoolDownTimer, UpdateMoveDownCoolDownTimer, UpdateRotateCoolDownTimer
 

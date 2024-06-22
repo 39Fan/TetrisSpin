@@ -59,14 +59,14 @@ public static class BoardStats
 public class Board : MonoBehaviour
 {
     /// <summary> ゲームボードのヘッダー(20) </summary>
-    private int header = 19;
+    private readonly int header = 19;
     /// <summary> ゲームボードの高さ(40) </summary>
     /// <remarks>
     /// Height - Header (20)がゲームボードの縦幅となる
     /// </remarks>
-    private int height = 40;
+    private readonly int height = 40;
     /// <summary> ゲームボードの横幅(10) </summary>
-    private int width = 10;
+    private readonly int width = 10;
 
     // ゲッタープロパティ //
     public int Header => header;

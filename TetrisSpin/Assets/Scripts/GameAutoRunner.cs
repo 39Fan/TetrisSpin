@@ -174,7 +174,7 @@ public class GameAutoRunner : MonoBehaviour
         lineClearCount = board.CheckAllRows();
         board.AddLineClearCountHistory(lineClearCount);
         attackCalculator.CalculateSumAttackLines(spinCheck.SpinTypeName, lineClearCount);
-        displayManager.SpinTextDisplay(spinCheck.SpinTypeName, lineClearCount);
+        displayManager.SpinAnimation(spinCheck.SpinTypeName, lineClearCount);
 
         // 各種変数のリセット
         spinCheck.ResetSpinTypeName();

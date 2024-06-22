@@ -22,9 +22,9 @@ public class Effects : MonoBehaviour
         animator.SetTrigger("SpinEffect");
     }
 
-    /// <summary> 列消去のエフェクトを表示する関数 </summary>
-    public void LineClearEffect()
-    {
-        animator.SetTrigger("LineClearEffect");
-    }
+    // /// <summary> 列消去のエフェクトを表示する関数 </summary>
+    // public void LineClearEffect()
+    // {
+    //     animator.SetTrigger("LineClearEffect");
+    // }
 }

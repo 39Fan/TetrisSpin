@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,48 +6,124 @@ using TMPro;
 using DG.Tweening;
 
 /// <summary>
-/// テキストおよび数値の表示に関する時間情報を保持する静的クラス
+/// DisplayManagerの統計情報を保持する静的クラス
 /// </summary>
-internal static class DisplaySettings
+internal static class DisplayManagerStats
 {
-    // Ready テキストの設定値 //
-    public static float READY_FADE_IN_INTERVAL { get; set; } = 0.3f;
-    public static float READY_FADE_OUT_INTERVAL { get; set; } = 1f;
-    public static float READY_WAIT_INTERVAL { get; set; } = 1.5f;
+    // SpinIconの判定 //
+    private static bool i_spinIcon = false;
+    private static bool j_spinIcon = false;
+    private static bool l_spinIcon = false;
+    private static bool s_spinIcon = false;
+    private static bool t_spinIcon = false;
+    private static bool z_spinIcon = false;
 
-    // Go テキストの設定値 //
-    public static float GO_FADE_IN_INTERVAL { get; set; } = 0.3f;
-    public static float GO_FADE_OUT_INTERVAL { get; set; } = 0.5f;
-    public static float GO_WAIT_INTERVAL { get; set; } = 1f;
+    // SpinCompleteのリーチ判定 //
+    private static bool spinCompleteReach = false;
 
-    // Spinテキストの設定値 //
-    public static float SPIN_FADE_IN_INTERVAL { get; set; } = 0.3f;
-    public static float SPIN_FADE_OUT_INTERVAL { get; set; } = 0.5f;
-    public static float SPIN_WAIT_INTERVAL_1 { get; set; } = 2f;
-    public static float SPIN_WAIT_INTERVAL_2 { get; set; } = 2f;
-    public static float SPIN_MOVE_INTERVAL_X { get; set; } = 2f;
-    public static float SPIN_MOVE_INTERVAL_Y { get; set; } = 1.2f;
-    public static float SPIN_MOVE_DISTANCE { get; set; } = 600f;
+    // SpinCompleteがリーチの際に点滅させる色 //
+    private static Color reachColor;
 
-    // BackToBack テキストの設定値 //
-    public static float BACK_TO_BACK_FADE_IN_INTERVAL { get; set; } = 0.3f;
-    public static float BACK_TO_BACK_FADE_OUT_INTERVAL { get; set; } = 1f;
-    public static float BACK_TO_BACK_WAIT_INTERVAL { get; set; } = 2f;
+    // ゲッタープロパティ //
+    public static bool I_spinIcon => i_spinIcon;
+    public static bool J_spinIcon => j_spinIcon;
+    public static bool L_spinIcon => l_spinIcon;
+    public static bool S_spinIcon => s_spinIcon;
+    public static bool T_spinIcon => t_spinIcon;
+    public static bool Z_spinIcon => z_spinIcon;
+    public static bool SpinCompleteReach => spinCompleteReach;
+    public static Color ReachColor => reachColor;
 
-    // PerfectClear テキストの設定値 //
-    public static float PERFECT_CLEAR_FADE_IN_INTERVAL { get; set; } = 0.3f;
-    public static float PERFECT_CLEAR_FADE_OUT_INTERVAL { get; set; } = 1f;
-    public static float PERFECT_CLEAR_WAIT_INTERVAL { get; set; } = 2f;
+    /// <summary> スタッツログの詳細 </summary>
+    private static string logStatsDetail;
 
-    // AttackLines の設定値 //
-    public static float ATTACK_LINES_FADE_IN_INTERVAL { get; set; } = 0.3f;
-    public static float ATTACK_LINES_FADE_OUT_INTERVAL { get; set; } = 1f;
-    public static float ATTACK_LINES_WAIT_INTERVAL { get; set; } = 1.5f;
+    /// <summary> 指定されたフィールドの値を更新する関数 </summary>
+    /// <remarks>
+    /// 指定されていない引数は現在の値を維持
+    /// </remarks>
+    public static void UpdateStats(
+        bool? _i_spinIcon = null, bool? _j_spinIcon = null, bool? _l_spinIcon = null, bool? _s_spinIcon = null,
+        bool? _t_spinIcon = null, bool? _z_spinIcon = null, bool? _spinCompleteReach = null, Color? _reachColor = null)
+    {
+        LogHelper.DebugLog(eClasses.DisplayManagerStats, eMethod.UpdateStats, eLogTitle.Start);
 
-    // 透明度 //
-    public static int ALPHA0 { get; set; } = 0; // 0の時は透明
-    public static int ALPHA1 { get; set; } = 1; // 1の時は不透明
+        i_spinIcon = _i_spinIcon ?? i_spinIcon;
+        j_spinIcon = _j_spinIcon ?? j_spinIcon;
+        l_spinIcon = _l_spinIcon ?? l_spinIcon;
+        s_spinIcon = _s_spinIcon ?? s_spinIcon;
+        t_spinIcon = _t_spinIcon ?? t_spinIcon;
+        z_spinIcon = _z_spinIcon ?? z_spinIcon;
+        spinCompleteReach = _spinCompleteReach ?? spinCompleteReach;
+        reachColor = _reachColor ?? reachColor;
+
+        logStatsDetail = $"i_spinIcon : {i_spinIcon}, j_spinIcon : {j_spinIcon}, l_spinIcon : {l_spinIcon}, s_spinIcon : {s_spinIcon}, t_spinIcon : {t_spinIcon}, z_spinIcon : {z_spinIcon}, _spinCompleteReach : {spinCompleteReach}, _reachColor : {reachColor}";
+        LogHelper.InfoLog(eClasses.DisplayManagerStats, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
+
+        LogHelper.DebugLog(eClasses.DisplayManagerStats, eMethod.UpdateStats, eLogTitle.End);
+    }
+
+    /// <summary> false状態のスピンアイコンを確認する関数 </summary>
+    /// <remarks>
+    /// false状態のSpinIconのImageをoutする。
+    /// </remarks>
+    /// <returns> falseの数(int) </returns>
+    public static int CheckFalseSpinIconCount(Dictionary<SpinTypeNames, Image> spinIconImages, out Image falseIconImage)
+    {
+        falseIconImage = null;
+        int falseCount = 0;
+
+        if (!i_spinIcon)
+        {
+            falseCount++;
+            falseIconImage = spinIconImages[SpinTypeNames.Ispin];
+        }
+        if (!j_spinIcon)
+        {
+            falseCount++;
+            falseIconImage = spinIconImages[SpinTypeNames.Jspin];
+        }
+        if (!l_spinIcon)
+        {
+            falseCount++;
+            falseIconImage = spinIconImages[SpinTypeNames.Lspin];
+        }
+        if (!s_spinIcon)
+        {
+            falseCount++;
+            falseIconImage = spinIconImages[SpinTypeNames.Sspin];
+        }
+        if (!t_spinIcon)
+        {
+            falseCount++;
+            falseIconImage = spinIconImages[SpinTypeNames.Tspin];
+        }
+        if (!z_spinIcon)
+        {
+            falseCount++;
+            falseIconImage = spinIconImages[SpinTypeNames.Zspin];
+        }
+
+        return falseCount;
+    }
+
+    /// <summary> デフォルトの <see cref="DisplayManagerStats"/> にリセットする関数 </summary>
+    public static void ResetStats()
+    {
+        LogHelper.DebugLog(eClasses.DisplayManagerStats, eMethod.ResetStats, eLogTitle.Start);
+
+        i_spinIcon = false;
+        j_spinIcon = false;
+        l_spinIcon = false;
+        s_spinIcon = false;
+        t_spinIcon = false;
+        z_spinIcon = false;
+        spinCompleteReach = false;
+        reachColor = Color.clear; // Color.clear で透明な色に初期化
+
+        LogHelper.DebugLog(eClasses.DisplayManagerStats, eMethod.ResetStats, eLogTitle.End);
+    }
 }
+
 
 /// <summary>
 /// ゲーム画面のテキストおよび数値を管理するクラス
@@ -56,14 +133,25 @@ public class DisplayManager : MonoBehaviour
     // Canvas //
     [SerializeField] private RectTransform canvas;
 
-    // Panels //
-    //[SerializeField] private RectTransform gameBoardFramePanel;
+    // Panel //
+    [SerializeField] private RectTransform gameBoardPanel;
     [SerializeField] private RectTransform spinTextsPanel;
 
     // フレームのImage //
     [SerializeField] private Image gameFrameImage;
     [SerializeField] private Image spinTextsFrameImage1;
     [SerializeField] private Image spinTextsFrameImage2;
+
+    // SpinIconのImage //
+    [SerializeField] private Image i_spinIconImage;
+    [SerializeField] private Image j_spinIconImage;
+    [SerializeField] private Image l_spinIconImage;
+    [SerializeField] private Image s_spinIconImage;
+    [SerializeField] private Image t_spinIconImage;
+    [SerializeField] private Image z_spinIconImage;
+
+    /// <summary> SpinIconのリスト </summary>
+    List<Image> spinIconImages;
 
     // 数値のテキスト //
     [SerializeField] private TextMeshProUGUI timerText;
@@ -77,6 +165,7 @@ public class DisplayManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI backToBackText;
     [SerializeField] private TextMeshProUGUI perfectClearText;
     [SerializeField] private TextMeshProUGUI tetrisText;
+    [SerializeField] private TextMeshProUGUI spinCompleteText;
     [SerializeField] private TextMeshProUGUI i_spinText;
     [SerializeField] private TextMeshProUGUI i_spinSingleText;
     [SerializeField] private TextMeshProUGUI i_spinDoubleText;
@@ -114,25 +203,115 @@ public class DisplayManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI z_spinMiniText;
     [SerializeField] private TextMeshProUGUI z_spinDoubleMiniText;
 
+    // 各ミノに対応する色 //
+    private readonly Color i_Color = new Color(0f, 0.97f, 1f); // #00F7FF
+    private readonly Color j_Color = new Color(0f, 0.02f, 1f); // #0005FF
+    private readonly Color l_Color = new Color(1f, 0.47f, 0f); // #FF7900
+    private readonly Color s_Color = new Color(0.24f, 1f, 0f); // #3EFF00
+    private readonly Color t_Color = new Color(0.52f, 0f, 1f); // #8500FF
+    private readonly Color z_Color = new Color(1f, 0f, 0.07f); // #FF0011
+
+    /// <summary> ミノの色のリスト </summary>
+    private Color[] colors;
+
+    /// <summary> SpinTypeNamesからColorに対応した辞書 </summary>
+    private Dictionary<SpinTypeNames, Color> spinTypeNamesToColorDictionary;
+    /// <summary> SpinTypeNamesからImageに対応した辞書 </summary>
+    private Dictionary<SpinTypeNames, Image> spinTypeNamesToImageDictionary;
+    /// <summary> imageからSpinTypeNamesに対応した辞書 </summary>
+    private Dictionary<Image, SpinTypeNames> imageToSpinTypeNamesDictionary;
+
+    /// <summary> 点滅させるspinIcon </summary>
+    private Image falseIconImage;
+
     /// <summary> 攻撃ライン数テキストのTween </summary>
     private Tween attackLinesTextTween;
 
-    // タイマーの開始時刻 //
+    /// <summary> タイマーの開始時刻 </summary>
     private float startTime;
+
+    /// <summary> 乱数 </summary>
+    private System.Random random;
 
     // 干渉するクラス
     private Effects effects;
 
+    /// <summary>
+    /// インスタンス化
+    /// </summary>
     private void Awake()
     {
         effects = FindObjectOfType<Effects>();
+
+        colors = new Color[]
+        {
+            i_Color,
+            j_Color,
+            l_Color,
+            s_Color,
+            t_Color,
+            z_Color
+        };
+
+        spinTypeNamesToColorDictionary = new Dictionary<SpinTypeNames, Color>
+        {
+            { SpinTypeNames.Ispin, i_Color },
+            { SpinTypeNames.IspinMini, i_Color },
+            { SpinTypeNames.Jspin, j_Color },
+            { SpinTypeNames.Lspin, l_Color },
+            { SpinTypeNames.Sspin, s_Color },
+            { SpinTypeNames.SspinMini, s_Color },
+            { SpinTypeNames.Tspin, t_Color },
+            { SpinTypeNames.TspinMini, t_Color },
+            { SpinTypeNames.Zspin, z_Color },
+            { SpinTypeNames.ZspinMini, z_Color }
+        };
+
+        spinTypeNamesToImageDictionary = new Dictionary<SpinTypeNames, Image>
+        {
+            { SpinTypeNames.Ispin, i_spinIconImage },
+            { SpinTypeNames.IspinMini, i_spinIconImage },
+            { SpinTypeNames.Jspin, j_spinIconImage },
+            { SpinTypeNames.Lspin, l_spinIconImage },
+            { SpinTypeNames.Sspin, s_spinIconImage },
+            { SpinTypeNames.SspinMini, s_spinIconImage },
+            { SpinTypeNames.Tspin, t_spinIconImage },
+            { SpinTypeNames.TspinMini, t_spinIconImage },
+            { SpinTypeNames.Zspin, z_spinIconImage },
+            { SpinTypeNames.ZspinMini, z_spinIconImage }
+        };
+
+        spinIconImages = new List<Image>
+        {
+            i_spinIconImage,
+            j_spinIconImage,
+            l_spinIconImage,
+            s_spinIconImage,
+            t_spinIconImage,
+            z_spinIconImage
+        };
+
+        // ImageからSpinTypeNamesを取得するための逆引き辞書を初期化
+        imageToSpinTypeNamesDictionary = new Dictionary<Image, SpinTypeNames>();
+        foreach (var pair in spinTypeNamesToImageDictionary)
+        {
+            imageToSpinTypeNamesDictionary[pair.Value] = pair.Key;
+        }
+
+        random = new System.Random();
     }
 
+    /// <summary>
+    /// 現在時刻を取得
+    /// </summary>
     private void Start()
     {
         startTime = Time.time;
     }
 
+    /// <summary>
+    /// タイマーとSpinIconEffectを表示
+    /// </summary>
     private void Update()
     {
         if (!GameManagerStats.GameOver)
@@ -154,129 +333,17 @@ public class DisplayManager : MonoBehaviour
         timerText.text = $"{minutes}:{seconds}";
     }
 
-    /// <summary> 合計攻撃ライン数を実際に表示する関数 </summary>
-    /// <remarks>
-    /// 攻撃ライン数によって色の変化も行う。 <br/>
-    /// ゲームフレームの色も同時に変化させる。
-    /// </remarks>
-    public void DisplaySumAttackLines()
-    {
-        int sumAttackLines = AttackCalculatorStats.SumAttackLines;
-
-        Color targetColor = Color.white;
-
-        if (sumAttackLines >= 0 && sumAttackLines < 20)
-        {
-            targetColor = Color.Lerp(Color.white, Color.green, (float)sumAttackLines / 20);
-        }
-        else if (sumAttackLines >= 20 && sumAttackLines < 40)
-        {
-            targetColor = Color.Lerp(Color.green, Color.yellow, (float)(sumAttackLines - 20) / 20);
-        }
-        else if (sumAttackLines >= 40 && sumAttackLines < 60)
-        {
-            targetColor = Color.Lerp(Color.yellow, new Color(1.0f, 0.65f, 0.0f), (float)(sumAttackLines - 40) / 20);
-        }
-        else if (sumAttackLines >= 60 && sumAttackLines < 80)
-        {
-            targetColor = Color.Lerp(new Color(1.0f, 0.65f, 0.0f), Color.red, (float)(sumAttackLines - 60) / 20);
-        }
-        else if (sumAttackLines >= 80 && sumAttackLines <= 99)
-        {
-            targetColor = Color.Lerp(Color.red, new Color(0.5f, 0.0f, 0.0f), (float)(sumAttackLines - 80) / 20);
-        }
-        else if (sumAttackLines == 100)
-        {
-            targetColor = Color.red;
-        }
-
-        sumAttackLinesText.color = targetColor;
-        gameFrameImage.color = targetColor;
-        sumAttackLinesText.text = $"{sumAttackLines}";
-    }
-
-    /// <summary> 攻撃ライン数を実際に表示する関数 </summary>
-    /// <param name="_attackLines"> 今回の攻撃値 </param>
-    public void DisplayAttackLines(int attackLines)
-    {
-        if (attackLinesTextTween != null && attackLinesTextTween.IsActive())
-        {
-            attackLinesTextTween.Kill();
-        }
-
-        string attackLinesTextString = "";
-
-        if (attackLines >= 0 && attackLines < 10)
-        {
-            attackLinesText.color = Color.Lerp(Color.white, Color.red, (float)attackLines / 10);
-            float fontSize = Mathf.Lerp(30, 40, (float)attackLines / 10);
-            attackLinesTextString = $"+<size={fontSize}>{attackLines}</size>";
-        }
-        else if (attackLines >= 10)
-        {
-            attackLinesText.color = Color.red;
-            attackLinesTextString = $"+<size=50>{attackLines}</size>";
-        }
-
-        attackLinesText.text = attackLinesTextString;
-        attackLinesText.alpha = 0;
-
-        var sequence = DOTween.Sequence();
-        sequence
-            .Append(attackLinesText.DOFade(DisplaySettings.ALPHA1, DisplaySettings.ATTACK_LINES_FADE_IN_INTERVAL))
-            .AppendInterval(DisplaySettings.ATTACK_LINES_WAIT_INTERVAL)
-            .Append(attackLinesText.DOFade(DisplaySettings.ALPHA0, DisplaySettings.ATTACK_LINES_FADE_OUT_INTERVAL))
-            .OnComplete(() => attackLinesText.text = "");
-
-        sequence.Play();
-    }
-
-    /// <summary> RENを実際に表示する関数 </summary>
-    public void DisplayRen()
-    {
-        int ren = AttackCalculatorStats.Ren;
-        string renTextString = "";
-
-        if (ren >= 2 && ren < 5)
-        {
-            renText.color = Color.Lerp(Color.white, Color.green, (float)(ren - 2) / 3);
-            renTextString = $"<size={Mathf.Lerp(30, 35, (float)(ren - 2) / 3)}>{ren}</size><size=30><color=white>REN!</color></size>";
-        }
-        else if (ren >= 5 && ren < 10)
-        {
-            renText.color = Color.Lerp(Color.green, Color.yellow, (float)(ren - 5) / 5);
-            renTextString = $"<size={Mathf.Lerp(35, 40, (float)(ren - 5) / 5)}>{ren}</size><size=30><color=white>REN!</color></size>";
-        }
-        else if (ren >= 10 && ren < 15)
-        {
-            renText.color = Color.Lerp(Color.yellow, Color.red, (float)(ren - 10) / 5);
-            renTextString = $"<size={Mathf.Lerp(40, 45, (float)(ren - 10) / 5)}>{ren}</size><size=30><color=white>REN!</color></size>";
-        }
-        else if (ren >= 15 && ren <= 21)
-        {
-            renText.color = Color.red;
-            renTextString = $"<size=45>{ren}</size><size=30><color=white>REN!</color></size>";
-        }
-
-        renText.text = renTextString;
-    }
-
-    /// <summary> RENを非表示にする関数 </summary>
-    public void ResetDisplayRen()
-    {
-        renText.DOFade(0, 1f).OnComplete(() => renText.text = "");
-    }
-
-    /// <summary> スピンテキストを表示する関数 </summary>
-    /// <param name="spinType"> スピンタイプ </param>
+    /// <summary> スピンに関するアニメーションを呼ぶ関数 </summary>
+    /// <param name="spinTypeName"> スピンタイプ </param>
     /// <param name="lineClearCount"> 消去ライン数 </param>
-    public void SpinTextDisplay(SpinTypeNames spinType, int lineClearCount)
+    public void SpinAnimation(SpinTypeNames spinTypeName, int lineClearCount)
     {
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextDisplay, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.SpinAnimation, eLogTitle.Start);
 
-        SpinTextAnimation(DetermineTextToDisplay(spinType, lineClearCount), lineClearCount);
+        SpinTextAnimation(DetermineTextToDisplay(spinTypeName, lineClearCount));
+        SpinColorAnimation(spinTypeName);
 
-        if (spinType != SpinTypeNames.None)
+        if (spinTypeName != SpinTypeNames.None)
         {
             if (lineClearCount >= 1)
             {
@@ -297,18 +364,34 @@ public class DisplayManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySound(eAudioName.NormalDrop);
             }
+            switch (lineClearCount)
+            {
+                case 0:
+                    AudioManager.Instance.PlaySound(eAudioName.NormalDrop);
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                    AudioManager.Instance.PlaySound(eAudioName.NormalDestroy);
+                    break;
+                case 4:
+                    AudioManager.Instance.PlaySound(eAudioName.Tetris);
+                    break;
+            }
         }
 
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextDisplay, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.SpinAnimation, eLogTitle.End);
     }
 
-    /// <summary> スピンタイプおよび消去ライン数に応じて表示するテキストを決定する関数 </summary>
-    /// <param name="spinType"> スピンタイプ </param>
+
+
+    /// <summary> スピンタイプに応じて表示するテキストを決定する関数 </summary>
+    /// <param name="spinTypeName"> スピンタイプ </param>
     /// <param name="lineClearCount"> 消去ライン数 </param>
     /// <returns> 表示するテキスト </returns>
-    private TextMeshProUGUI DetermineTextToDisplay(SpinTypeNames spinType, int lineClearCount)
+    private TextMeshProUGUI DetermineTextToDisplay(SpinTypeNames spinTypeName, int lineClearCount)
     {
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.DetermineTextToDisplay, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.DetermineTextToDisplay, eLogTitle.Start);
 
         Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>> spinTypeTextMapping = new Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>>
         {
@@ -415,117 +498,495 @@ public class DisplayManager : MonoBehaviour
 
         TextMeshProUGUI displayText = null;
 
-        if (spinTypeTextMapping.ContainsKey(spinType) && spinTypeTextMapping[spinType].ContainsKey(lineClearCount))
+        if (spinTypeTextMapping.ContainsKey(spinTypeName) && spinTypeTextMapping[spinTypeName].ContainsKey(lineClearCount))
         {
-            displayText = spinTypeTextMapping[spinType][lineClearCount];
+            if (spinTypeTextMapping[spinTypeName][lineClearCount] == tetrisText)
+            {
+                TetrisAnimation();
+            }
+            else
+            {
+                displayText = spinTypeTextMapping[spinTypeName][lineClearCount];
+            }
         }
         else
         {
-            LogHelper.ErrorLog(eClasses.TextEffect, eMethod.DetermineTextToDisplay, eLogTitle.KeyNotFound);
+            LogHelper.ErrorLog(eClasses.DisplayManager, eMethod.DetermineTextToDisplay, eLogTitle.KeyNotFound);
         }
 
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.DetermineTextToDisplay, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.DetermineTextToDisplay, eLogTitle.End);
         return displayText;
     }
 
-    /// <summary> スピンまたは列消去のテキストのアニメーションを行う関数 </summary>
+    /// <summary> スピンテキストのアニメーションを決定する関数 </summary>
     /// <param name="displayText"> 表示するテキスト </param>
-    private void SpinTextAnimation(TextMeshProUGUI displayText, int lineClearCount)
+    private void SpinTextAnimation(TextMeshProUGUI displayText)
     {
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinTextAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.SpinTextAnimation, eLogTitle.Start);
 
         if (displayText != null)
         {
             TextMeshProUGUI instantiatedText = Instantiate(displayText, spinTextsPanel);
-            SpinAndLineClearTextFadeInAndOut(instantiatedText);
-
-            if (displayText == null && lineClearCount != 0)
-            {
-                effects.LineClearEffect();
-            }
-            else
-            {
-                effects.SpinEffect();
-            }
+            TextFadeInAndOutType1(instantiatedText);
+            effects.SpinEffect();
         }
 
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinTextAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.SpinTextAnimation, eLogTitle.End);
     }
 
-    /// <summary> スピンまたは列消去のテキストのフェードインとフェードアウトを行う関数 </summary>
-    /// <param name="displayText"> 表示するテキスト </param>
-    private void SpinAndLineClearTextFadeInAndOut(TextMeshProUGUI displayText)
+    /// <summary> スピンの色表示に関するアニメーションを決定する関数 </summary>
+    /// <param name="spinTypeName"> スピンタイプ </param>
+    /// <returns> 表示するテキスト </returns>
+    private void SpinColorAnimation(SpinTypeNames spinTypeName)
     {
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextFadeInAndOut, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.SpinColorAnimation, eLogTitle.Start);
+
+        Image spinIconImage = null;
+
+        switch (spinTypeName)
+        {
+            case SpinTypeNames.Ispin:
+            case SpinTypeNames.IspinMini:
+                DisplayManagerStats.UpdateStats(_i_spinIcon: true);
+                spinIconImage = i_spinIconImage;
+                break;
+            case SpinTypeNames.Jspin:
+                DisplayManagerStats.UpdateStats(_j_spinIcon: true);
+                spinIconImage = j_spinIconImage;
+                break;
+            case SpinTypeNames.Lspin:
+                DisplayManagerStats.UpdateStats(_l_spinIcon: true);
+                spinIconImage = l_spinIconImage;
+                break;
+            case SpinTypeNames.Sspin:
+            case SpinTypeNames.SspinMini:
+                DisplayManagerStats.UpdateStats(_s_spinIcon: true);
+                spinIconImage = s_spinIconImage;
+                break;
+            case SpinTypeNames.Tspin:
+            case SpinTypeNames.TspinMini:
+                DisplayManagerStats.UpdateStats(_t_spinIcon: true);
+                spinIconImage = t_spinIconImage;
+                break;
+            case SpinTypeNames.Zspin:
+            case SpinTypeNames.ZspinMini:
+                DisplayManagerStats.UpdateStats(_z_spinIcon: true);
+                spinIconImage = z_spinIconImage;
+                break;
+            default:
+                return; // Spin判定がない場合、何もしない
+        }
+
+        if (spinIconImage != null)
+        {
+            ImageFadeInAndOutType1(spinTypeName);
+            ImageFadeInAndOutType2(spinTypeName, spinIconImage);
+        }
+
+        int falseSpinIconImageCount = DisplayManagerStats.CheckFalseSpinIconCount(spinTypeNamesToImageDictionary, out Image _falseIconImage);
+        switch (falseSpinIconImageCount)
+        {
+            case 1:
+                if (DisplayManagerStats.SpinCompleteReach == false)
+                {
+                    DisplayManagerStats.UpdateStats(_spinCompleteReach: true, _reachColor: spinTypeNamesToColorDictionary[imageToSpinTypeNamesDictionary[_falseIconImage]]);
+                    falseIconImage = _falseIconImage;
+                    ImageFadeInAndOutType3(spinTypeNamesToColorDictionary[imageToSpinTypeNamesDictionary[_falseIconImage]]);
+                }
+                break;
+            case 0:
+                DisplayManagerStats.ResetStats();
+                DOTween.Kill(falseIconImage); // 点滅しているspinIconのアニメーションを停止
+                falseIconImage.color = DisplayManagerStats.ReachColor; // 点滅しているspinIconに色を加える
+                foreach (var _spinIconImage in spinIconImages)
+                {
+                    SpinCompleteImageAnimation(_spinIconImage);
+                }
+                StartCoroutine(SpinCompleteTextAnimation());
+                break;
+            default:
+                break;
+        }
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.SpinColorAnimation, eLogTitle.End);
+    }
+
+    /// <summary> フェードインとフェードアウトのアニメーションタイプ1(TextMeshProUGUI) </summary>
+    /// <param name="displayText"> 表示するテキスト </param>
+    private void TextFadeInAndOutType1(TextMeshProUGUI displayText)
+    {
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.TextFadeInAndOutType1, eLogTitle.Start);
+
+        // 現在のアニメーションを停止
+        DOTween.Kill(displayText);
 
         displayText.gameObject.SetActive(true);
         var sequence = DOTween.Sequence();
         sequence
+            .Append(displayText.DOFade(1, 0))
             .Append(displayText.DOFade(0, 0.02f).SetLoops(20, LoopType.Yoyo))
             .AppendInterval(1f)
             .Append(displayText.DOFade(0, 0.5f))
             .OnComplete(() => displayText.gameObject.SetActive(false));
+
         sequence.Play();
 
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextFadeInAndOut, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.TextFadeInAndOutType1, eLogTitle.End);
+    }
+
+    /// <summary> フェードインとフェードアウトのアニメーションタイプ1(Image) </summary>
+    /// <param name="spinTypeName"> スピンタイプ </param>
+    private void ImageFadeInAndOutType1(SpinTypeNames spinTypeName)
+    {
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.ImageFadeInAndOutType1, eLogTitle.Start);
+
+        // 現在のアニメーションを停止
+        DOTween.Kill(spinTextsFrameImage1);
+        DOTween.Kill(spinTextsFrameImage2);
+
+        // 色と透明度を初期化
+        spinTextsFrameImage1.color = new Color(spinTextsFrameImage1.color.r, spinTextsFrameImage1.color.g, spinTextsFrameImage1.color.b, 1f);
+        spinTextsFrameImage2.color = new Color(spinTextsFrameImage2.color.r, spinTextsFrameImage2.color.g, spinTextsFrameImage2.color.b, 1f);
+
+        spinTextsFrameImage1.gameObject.SetActive(true);
+        spinTextsFrameImage2.gameObject.SetActive(true);
+        var sequence1 = DOTween.Sequence();
+        var sequence2 = DOTween.Sequence();
+        sequence1
+            .Append(spinTextsFrameImage1.DOColor(spinTypeNamesToColorDictionary[spinTypeName], 0.3f))
+            .Append(spinTextsFrameImage1.DOFade(0, 0.02f).SetLoops(20, LoopType.Yoyo))
+            .AppendInterval(1f)
+            .Append(spinTextsFrameImage1.DOFade(0, 1.1f))
+            .OnComplete(() => spinTextsFrameImage1.gameObject.SetActive(false));
+
+        sequence2
+            .Append(spinTextsFrameImage2.DOColor(spinTypeNamesToColorDictionary[spinTypeName], 0.3f))
+            .Append(spinTextsFrameImage2.DOFade(0, 0.02f).SetLoops(20, LoopType.Yoyo))
+            .AppendInterval(1f)
+            .Append(spinTextsFrameImage2.DOFade(0, 0.8f))
+            .OnComplete(() => spinTextsFrameImage2.gameObject.SetActive(false));
+
+        sequence1.Play();
+        sequence2.Play();
+
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.ImageFadeInAndOutType1, eLogTitle.End);
+    }
+
+    /// <summary> フェードインとフェードアウトのアニメーションタイプ2(Image) </summary>
+    /// <param name="spinTypeName"> スピンタイプ </param>
+    /// <param name="spinIconImage"> 表示する画像 </param>
+    private void ImageFadeInAndOutType2(SpinTypeNames spinTypeName, Image spinIconImage)
+    {
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.ImageFadeInAndOutType2, eLogTitle.Start);
+
+        var sequence1 = DOTween.Sequence();
+        sequence1.Append(spinIconImage.DOColor(spinTypeNamesToColorDictionary[spinTypeName], 0.3f));
+
+        sequence1.Play();
+
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.ImageFadeInAndOutType2, eLogTitle.End);
+    }
+
+    /// <summary> フェードインとフェードアウトのアニメーションタイプ3(Image) </summary>
+    /// <param name="color"> 表示する色 </param>
+    private void ImageFadeInAndOutType3(Color color)
+    {
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.ImageFadeInAndOutType3, eLogTitle.Start);
+
+        falseIconImage.DOColor(color, 0.2f).SetLoops(-1, LoopType.Yoyo);
+
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.ImageFadeInAndOutType3, eLogTitle.End);
+    }
+
+    /// <summary> Tetrisアニメーションを行う関数 </summary>
+    public void TetrisAnimation()
+    {
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.TetrisAnimation, eLogTitle.Start);
+
+        TextMeshProUGUI instantiatedText = Instantiate(tetrisText, gameBoardPanel);
+        TextFadeInAndOutType1(instantiatedText);
+
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.TetrisAnimation, eLogTitle.End);
     }
 
     /// <summary> BackToBackアニメーションを行う関数 </summary>
     public void BackToBackAnimation()
     {
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.BackToBackAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.BackToBackAnimation, eLogTitle.Start);
 
-        TextMeshProUGUI instantiatedText = Instantiate(backToBackText, canvas);
-        SpinAndLineClearTextFadeInAndOut(instantiatedText);
+        TextMeshProUGUI instantiatedText = Instantiate(backToBackText, gameBoardPanel);
+        TextFadeInAndOutType1(instantiatedText);
 
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.BackToBackAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.BackToBackAnimation, eLogTitle.End);
     }
 
     /// <summary> PerfectClearアニメーションを行う関数 </summary>
     public void PerfectClearAnimation()
     {
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.PerfectClearAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.PerfectClearAnimation, eLogTitle.Start);
 
-        TextMeshProUGUI instantiatedText = Instantiate(perfectClearText, canvas);
-        SpinAndLineClearTextFadeInAndOut(instantiatedText);
+        TextMeshProUGUI instantiatedText = Instantiate(perfectClearText, gameBoardPanel);
+        TextFadeInAndOutType1(instantiatedText);
 
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.PerfectClearAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.PerfectClearAnimation, eLogTitle.End);
     }
 
     /// <summary> ReadyGoアニメーションを行う関数 </summary>
     public void ReadyGoAnimation()
     {
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.ReadyGoAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.ReadyGoAnimation, eLogTitle.Start);
 
-        TextMeshProUGUI ready = Instantiate(readyText, canvas);
-        TextMeshProUGUI go = Instantiate(goText, canvas);
+        TextMeshProUGUI ready = Instantiate(readyText, gameBoardPanel);
+        TextMeshProUGUI go = Instantiate(goText, gameBoardPanel);
 
         Sequence sequenceReady = DOTween.Sequence();
         Sequence sequenceGo = DOTween.Sequence();
 
         sequenceReady
-            .Append(ready.DOFade(1, DisplaySettings.READY_FADE_IN_INTERVAL))
-            .AppendInterval(DisplaySettings.READY_WAIT_INTERVAL)
-            .Append(ready.DOFade(0, DisplaySettings.READY_FADE_OUT_INTERVAL))
+            .Append(ready.DOFade(1, 0.3f))
+            .AppendInterval(1.5f)
+            .Append(ready.DOFade(0, 1))
             .OnComplete(() =>
             {
                 sequenceGo
-                    .Append(go.DOFade(1, DisplaySettings.GO_FADE_IN_INTERVAL))
-                    .AppendInterval(DisplaySettings.GO_WAIT_INTERVAL)
-                    .Append(go.DOFade(0, DisplaySettings.GO_FADE_OUT_INTERVAL));
+                    .Append(go.DOFade(1, 0.3f))
+                    .AppendInterval(1)
+                    .Append(go.DOFade(0, 0.5f));
             });
 
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.ReadyGoAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.ReadyGoAnimation, eLogTitle.End);
     }
+
+    /// <summary> 合計攻撃ライン数のアニメーションを行う関数 </summary>
+    /// <remarks>
+    /// 攻撃ライン数によって色の変化も行う。 <br/>
+    /// ゲームフレームの色も同時に変化させる。
+    /// </remarks>
+    public void SumAttackLinesAnimation()
+    {
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.SumAttackLinesAnimation, eLogTitle.Start);
+
+        int sumAttackLines = AttackCalculatorStats.SumAttackLines;
+
+        Color targetColor = Color.white;
+
+        if (sumAttackLines >= 0 && sumAttackLines < 20)
+        {
+            targetColor = Color.Lerp(Color.white, Color.green, (float)sumAttackLines / 20);
+        }
+        else if (sumAttackLines >= 20 && sumAttackLines < 40)
+        {
+            targetColor = Color.Lerp(Color.green, Color.yellow, (float)(sumAttackLines - 20) / 20);
+        }
+        else if (sumAttackLines >= 40 && sumAttackLines < 60)
+        {
+            targetColor = Color.Lerp(Color.yellow, new Color(1.0f, 0.65f, 0.0f), (float)(sumAttackLines - 40) / 20);
+        }
+        else if (sumAttackLines >= 60 && sumAttackLines < 80)
+        {
+            targetColor = Color.Lerp(new Color(1.0f, 0.65f, 0.0f), Color.red, (float)(sumAttackLines - 60) / 20);
+        }
+        else if (sumAttackLines >= 80 && sumAttackLines <= 99)
+        {
+            targetColor = Color.Lerp(Color.red, new Color(0.5f, 0.0f, 0.0f), (float)(sumAttackLines - 80) / 20);
+        }
+        else if (sumAttackLines == 100)
+        {
+            targetColor = Color.red;
+        }
+
+        sumAttackLinesText.color = targetColor;
+        gameFrameImage.color = targetColor;
+        sumAttackLinesText.text = $"{sumAttackLines}";
+
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.SumAttackLinesAnimation, eLogTitle.End);
+    }
+
+    /// <summary> 攻撃ライン数のアニメーションを行う関数 </summary>
+    /// <param name="_attackLines"> 今回の攻撃値 </param>
+    public void AttackLinesAnimation(int attackLines)
+    {
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.AttackLinesAnimation, eLogTitle.Start);
+
+        if (attackLinesTextTween != null && attackLinesTextTween.IsActive())
+        {
+            attackLinesTextTween.Kill();
+        }
+
+        string attackLinesTextString = "";
+
+        if (attackLines >= 0 && attackLines < 10)
+        {
+            attackLinesText.color = Color.Lerp(Color.white, Color.red, (float)attackLines / 10);
+            float fontSize = Mathf.Lerp(30, 40, (float)attackLines / 10);
+            attackLinesTextString = $"+<size={fontSize}>{attackLines}</size>";
+        }
+        else if (attackLines >= 10)
+        {
+            attackLinesText.color = Color.red;
+            attackLinesTextString = $"+<size=50>{attackLines}</size>";
+        }
+
+        attackLinesText.text = attackLinesTextString;
+        attackLinesText.alpha = 0;
+
+        var sequence = DOTween.Sequence();
+        sequence
+            .Append(attackLinesText.DOFade(1, 0.3f))
+            .AppendInterval(2)
+            .Append(attackLinesText.DOFade(0, 1))
+            .OnComplete(() => attackLinesText.text = "");
+
+        sequence.Play();
+
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.AttackLinesAnimation, eLogTitle.End);
+    }
+
+    /// <summary> RENのアニメーションをする関数 </summary>
+    public void RenAnimation()
+    {
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.RenAnimation, eLogTitle.Start);
+
+        int ren = AttackCalculatorStats.Ren;
+        string renTextString = "";
+
+        if (ren >= 2 && ren < 5)
+        {
+            renText.color = Color.Lerp(Color.white, Color.green, (float)(ren - 2) / 3);
+            renTextString = $"<size={Mathf.Lerp(60, 70, (float)(ren - 2) / 3)}>{ren}</size><size=50><color=white>REN!</color></size>";
+        }
+        else if (ren >= 5 && ren < 10)
+        {
+            renText.color = Color.Lerp(Color.green, Color.yellow, (float)(ren - 5) / 5);
+            renTextString = $"<size={Mathf.Lerp(70, 80, (float)(ren - 5) / 5)}>{ren}</size><size=50><color=white>REN!</color></size>";
+        }
+        else if (ren >= 10 && ren < 15)
+        {
+            renText.color = Color.Lerp(Color.yellow, Color.red, (float)(ren - 10) / 5);
+            renTextString = $"<size={Mathf.Lerp(80, 90, (float)(ren - 10) / 5)}>{ren}</size><size=50><color=white>REN!</color></size>";
+        }
+        else if (ren >= 15 && ren <= 21)
+        {
+            renText.color = Color.red;
+            renTextString = $"<size=45>{ren}</size><size=30><color=white>REN!</color></size>";
+        }
+
+        renText.text = renTextString;
+
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.RenAnimation, eLogTitle.End);
+    }
+
+    /// <summary> REN表示の終了アニメーションを行う関数 </summary>
+    public void EndingRenAnimation()
+    {
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.EndingRenAnimation, eLogTitle.Start);
+
+        var originalPosition = renText.transform.localPosition;
+
+        var sequence = DOTween.Sequence();
+        sequence
+            .Append(renText.DOFade(0, 1f))
+            .Join(renText.transform.DOLocalMoveX(-1000, 1f).SetRelative().SetEase(Ease.InCubic))
+            .OnComplete(() =>
+            {
+                renText.text = "";
+                renText.transform.localPosition = originalPosition;
+            });
+
+        sequence.Play();
+
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.EndingRenAnimation, eLogTitle.End);
+    }
+
+    /// <summary> SpinCompleteアニメーションを行う関数(Image) </summary>
+    /// <param name="spinIconImage"> 表示する画像 </param>
+    public void SpinCompleteImageAnimation(Image spinIconImage)
+    {
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.SpinCompleteAnimation, eLogTitle.Start);
+
+        var sequence = DOTween.Sequence();
+        sequence
+            .Append(spinIconImage.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 0.1f).SetLoops(30, LoopType.Yoyo))
+            .OnComplete(() => spinIconImage.DOColor(Color.white, 0.5f));
+
+        sequence.Play();
+
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.SpinCompleteAnimation, eLogTitle.End);
+    }
+
+    /// <summary> SpinCompleteアニメーションを行う関数(Text) </summary>
+    private IEnumerator SpinCompleteTextAnimation()
+    {
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.SpinCompleteTextAnimation, eLogTitle.Start);
+
+        spinCompleteText.gameObject.SetActive(true);
+        spinCompleteText.alpha = 0;
+        spinCompleteText.ForceMeshUpdate();
+        TMP_TextInfo spinCompleteTextInfo = spinCompleteText.textInfo;
+        int totalCharacters = spinCompleteTextInfo.characterCount;
+
+        for (int i = 0; i < totalCharacters; i++)
+        {
+            var charInfo = spinCompleteTextInfo.characterInfo[i];
+            if (!charInfo.isVisible)
+                continue;
+
+            int materialIndex = charInfo.materialReferenceIndex;
+            int vertexIndex = charInfo.vertexIndex;
+            Color32[] vertexColors = spinCompleteTextInfo.meshInfo[materialIndex].colors32;
+
+            // 最初は透明にする
+            for (int jj = 0; jj < 4; jj++)
+            {
+                vertexColors[vertexIndex + jj].a = 0;
+            }
+
+            spinCompleteText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+
+            // フェードインのアニメーション
+            float fadeDuration = 0.02f;
+            Sequence sequence1 = DOTween.Sequence();
+            sequence1
+                .Append(DOTween.ToAlpha(() => vertexColors[vertexIndex + 0], x => { vertexColors[vertexIndex + 0] = x; spinCompleteText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32); }, 1f, fadeDuration))
+                .Join(DOTween.ToAlpha(() => vertexColors[vertexIndex + 1], x => { vertexColors[vertexIndex + 1] = x; spinCompleteText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32); }, 1f, fadeDuration))
+                .Join(DOTween.ToAlpha(() => vertexColors[vertexIndex + 2], x => { vertexColors[vertexIndex + 2] = x; spinCompleteText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32); }, 1f, fadeDuration))
+                .Join(DOTween.ToAlpha(() => vertexColors[vertexIndex + 3], x => { vertexColors[vertexIndex + 3] = x; spinCompleteText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32); }, 1f, fadeDuration));
+
+            sequence1.Play();
+
+            yield return sequence1.WaitForCompletion();
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        yield return new WaitForSeconds(0.02f);
+
+        int randomIndex = random.Next(0, 6); // 0から5までのランダムな数字を生成
+        Sequence sequence2 = DOTween.Sequence();
+        sequence2
+            .Append(spinCompleteText.DOFade(1, 0))
+            .Join(spinCompleteText.DOColor(colors[randomIndex], 0.3f))
+            .AppendInterval(2)
+            .Append(spinCompleteText.DOFade(0, 0.5f))
+            .OnComplete(() =>
+            {
+                spinCompleteText.color = Color.white;
+                spinCompleteText.gameObject.SetActive(false);
+            });
+
+        sequence2.Play();
+        yield return sequence2.WaitForCompletion();
+
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.SpinCompleteTextAnimation, eLogTitle.End);
+    }
+
 
     /// <summary> すべてのアニメーションを停止させる関数 </summary>
     public void StopAnimation()
     {
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.StopAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.StopAnimation, eLogTitle.Start);
 
         DOTween.KillAll();
 
-        LogHelper.DebugLog(eClasses.TextEffect, eMethod.StopAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.StopAnimation, eLogTitle.End);
     }
 }
 
@@ -1038,13 +1499,13 @@ public class DisplayManager : MonoBehaviour
 //         TextMeshProUGUI displayTextText = InstantiatedText.GetComponent<TextMeshProUGUI>();
 //         Transform displayText_Transform = InstantiatedText.GetComponent<Transform>();
 
-//         TextFadeInAndOut(displayTextText); // 選ばれたテキストのフェードインとフェードアウトを行う
+//         TextFadeInAndOutType1(displayTextText); // 選ばれたテキストのフェードインとフェードアウトを行う
 
 //         TextMove(displayText_Transform); // 選ばれたテキストの移動アニメーションを行う
 //     }
 
 //     //選ばれたテキストのフェードインとフェードアウトを行う関数
-//     private void TextFadeInAndOut(TextMeshProUGUI displayText)
+//     private void TextFadeInAndOutType1(TextMeshProUGUI displayText)
 //     {
 //         // フェードインとフェードアウトする時間 //
 //         float fadeInInterval = 0.3f;
@@ -1106,7 +1567,7 @@ public class DisplayManager : MonoBehaviour
 
 //         TextMeshProUGUI displayTextText = InstantiatedText.GetComponent<TextMeshProUGUI>();
 
-//         TextFadeInAndOut(displayTextText); // 選ばれたテキストのフェードインとフェードアウトを行う
+//         TextFadeInAndOutType1(displayTextText); // 選ばれたテキストのフェードインとフェードアウトを行う
 //     }
 
 //     // PerfectClearの表示をする関数を呼ぶ関数 //
@@ -1116,7 +1577,7 @@ public class DisplayManager : MonoBehaviour
 
 //         TextMeshProUGUI displayTextText = InstantiatedText.GetComponent<TextMeshProUGUI>();
 
-//         TextFadeInAndOut(displayTextText); // 選ばれたテキストのフェードインとフェードアウトを行う
+//         TextFadeInAndOutType1(displayTextText); // 選ばれたテキストのフェードインとフェードアウトを行う
 //     }
 
 //     // Ready Go の表示をする関数 //
@@ -1690,9 +2151,9 @@ public class DisplayManager : MonoBehaviour
 
 //     /// <summary> 表示するスピンまたは列消去のテキストを判別する関数 </summary>
 //     /// <param name="_lineClearCount"> 消去ライン数 </param>
-//     public void SpinAndLineClearTextDisplay(SpinTypeNames _spinType, int _lineClearCount)
+//     public void SpinTextDisplay(SpinTypeNames _spinType, int _lineClearCount)
 //     {
-//         LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextDisplay, eLogTitle.Start);
+//         LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinTextDisplay, eLogTitle.Start);
 
 //         SpinTextAnimation(DetermineTextToDisplay(_spinType, _lineClearCount), _lineClearCount);
 
@@ -1720,7 +2181,7 @@ public class DisplayManager : MonoBehaviour
 //             }
 //         }
 
-//         LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextDisplay, eLogTitle.End);
+//         LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinTextDisplay, eLogTitle.End);
 //     }
 
 //     /// <summary> 表示するスピンまたは列消去のテキストを特定する関数 </summary>
@@ -1850,8 +2311,8 @@ public class DisplayManager : MonoBehaviour
 //         if (_displayText != null)
 //         {
 //             TextMeshProUGUI instantiatedText = Instantiate(_displayText, SpinTextsPanel);
-//             SpinAndLineClearTextFadeInAndOut(instantiatedText);
-//             // SpinAndLineClearTextMove(instantiatedText.transform);
+//             FadeInAndOutType1(instantiatedText);
+//             // SpinTextMove(instantiatedText.transform);
 //             if (_displayText == null && __LineClearCount != 0)
 //             {
 //                 effects.LineClearEffect();
@@ -1863,7 +2324,7 @@ public class DisplayManager : MonoBehaviour
 //         }
 //         else
 //         {
-//             // LogHelper.ErrorLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextAnimation, eLogTitle.NullDisplayText);
+//             // LogHelper.ErrorLog(eClasses.TextEffect, eMethod.SpinTextAnimation, eLogTitle.NullDisplayText);
 //         }
 
 //         LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinTextAnimation, eLogTitle.End);
@@ -1871,9 +2332,9 @@ public class DisplayManager : MonoBehaviour
 
 //     /// <summary> スピンまたは列消去のテキストのフェードインとフェードアウトを行う関数 </summary>
 //     /// <param name="_displayText"> 表示するテキスト </param>
-//     private void SpinAndLineClearTextFadeInAndOut(TextMeshProUGUI _displayText)
+//     private void FadeInAndOutType1(TextMeshProUGUI _displayText)
 //     {
-//         LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextFadeInAndOut, eLogTitle.Start);
+//         LogHelper.DebugLog(eClasses.TextEffect, eMethod.FadeInAndOutType1, eLogTitle.Start);
 
 //         _displayText.gameObject.SetActive(true);
 //         var sequence = DOTween.Sequence();
@@ -1887,14 +2348,14 @@ public class DisplayManager : MonoBehaviour
 //             });
 //         sequence.Play();
 
-//         LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextFadeInAndOut, eLogTitle.End);
+//         LogHelper.DebugLog(eClasses.TextEffect, eMethod.FadeInAndOutType1, eLogTitle.End);
 //     }
 
 //     // /// <summary> スピンまたは列消去のテキストの移動を行う関数 </summary>
 //     // /// <param name="_displayText"> 表示するテキストのトランスフォーム </param>
-//     // private void SpinAndLineClearTextMove(Transform _displayText)
+//     // private void SpinTextMove(Transform _displayText)
 //     // {
-//     //     LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextMove, eLogTitle.Start);
+//     //     LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinTextMove, eLogTitle.Start);
 
 //     //     // 元の表示するテキストの座標 //
 //     //     float displayTextX = Mathf.RoundToInt(_displayText.transform.position.x);
@@ -1910,7 +2371,7 @@ public class DisplayManager : MonoBehaviour
 //     //             _displayText.position = new Vector3(displayTextX, displayTextY, displayTextZ);
 //     //         });
 
-//     //     LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinAndLineClearTextMove, eLogTitle.End);
+//     //     LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinTextMove, eLogTitle.End);
 //     // }
 
 //     /// <summary> BackToBackアニメーションを行う関数 </summary>
@@ -1919,7 +2380,7 @@ public class DisplayManager : MonoBehaviour
 //         LogHelper.DebugLog(eClasses.TextEffect, eMethod.BackToBackAnimation, eLogTitle.Start);
 
 //         TextMeshProUGUI instantiatedText = Instantiate(BackToBackText, Canvas);
-//         SpinAndLineClearTextFadeInAndOut(instantiatedText);
+//         FadeInAndOutType1(instantiatedText);
 
 //         LogHelper.DebugLog(eClasses.TextEffect, eMethod.BackToBackAnimation, eLogTitle.End);
 //     }
@@ -1930,7 +2391,7 @@ public class DisplayManager : MonoBehaviour
 //         LogHelper.DebugLog(eClasses.TextEffect, eMethod.PerfectClearAnimation, eLogTitle.Start);
 
 //         TextMeshProUGUI instantiatedText = Instantiate(PerfectClearText, Canvas);
-//         SpinAndLineClearTextFadeInAndOut(instantiatedText);
+//         FadeInAndOutType1(instantiatedText);
 
 //         LogHelper.DebugLog(eClasses.TextEffect, eMethod.PerfectClearAnimation, eLogTitle.End);
 //     }

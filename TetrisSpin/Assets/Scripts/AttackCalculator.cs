@@ -48,7 +48,7 @@ public static class AttackCalculatorStats
     /// </remarks>
     public static void UpdateStats(bool? _backToBack = null, bool? _perfectClear = null, int? _ren = null, int? _sumAttackLines = null)
     {
-        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.UpdateStats, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.AttackCalculatorStats, eMethod.UpdateStats, eLogTitle.Start);
 
         backToBack = _backToBack ?? backToBack;
         perfectClear = _perfectClear ?? perfectClear;
@@ -58,20 +58,20 @@ public static class AttackCalculatorStats
         logStatsDetail = $"backToBack : {backToBack}, perfectClear : {perfectClear}, ren : {ren}, sumAttackLines : {sumAttackLines}";
         LogHelper.InfoLog(eClasses.AttackCalculator, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
 
-        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.UpdateStats, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.AttackCalculatorStats, eMethod.UpdateStats, eLogTitle.End);
     }
 
     /// <summary> デフォルトの <see cref="AttackCalculatorStats"/> にリセットする関数 </summary>
     public static void ResetStats()
     {
-        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.ResetStats, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.AttackCalculatorStats, eMethod.ResetStats, eLogTitle.Start);
 
         backToBack = false;
         perfectClear = false;
         ren = -1;
         sumAttackLines = 0;
 
-        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.ResetStats, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.AttackCalculatorStats, eMethod.ResetStats, eLogTitle.End);
     }
 }
 
@@ -215,8 +215,8 @@ public class AttackCalculator : MonoBehaviour
 
         if (attackLines > 0)
         {
-            displayManager.DisplayAttackLines(attackLines);
-            displayManager.DisplaySumAttackLines();
+            displayManager.AttackLinesAnimation(attackLines);
+            displayManager.SumAttackLinesAnimation();
         }
 
         logDetail = $"{AttackCalculatorStats.SumAttackLines}";
@@ -310,13 +310,16 @@ public class AttackCalculator : MonoBehaviour
             // 2REN以上で表示する
             if (AttackCalculatorStats.Ren >= 2)
             {
-                displayManager.DisplayRen();
+                displayManager.RenAnimation();
             }
         }
         else
         {
+            if (AttackCalculatorStats.Ren >= 2)
+            {
+                displayManager.EndingRenAnimation();
+            }
             AttackCalculatorStats.UpdateStats(_ren: -1);
-            displayManager.ResetDisplayRen();
         }
 
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateRen, eLogTitle.End);
