@@ -86,8 +86,6 @@ public static class MinoMovementStats
         stepsSRS = _stepsSRS ?? stepsSRS;
 
         logStatsDetail = $"minoAngleAfter : {minoAngleAfter}, minoAngleBefore : {minoAngleBefore}, stepsSRS : {stepsSRS}";
-        Debug.Log($"minoangleBefore: {minoAngleBefore}");
-        Debug.Log($"minoangleAfter: {minoAngleAfter}");
         LogHelper.InfoLog(eClasses.MinoMovementStats, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
 
         LogHelper.DebugLog(eClasses.MinoMovementStats, eMethod.UpdateStats, eLogTitle.End);

@@ -111,7 +111,7 @@ public enum eMethod
     // 各種 Stats クラス //
     UpdateStats, ResetStats,
     // AttackCalculator クラス //
-    CalculateSumAttackLines, CalculateBackToBack, CalculatePerfectClear, CalculateRen,
+    CalculateSumAttackLines, CalculateBackToBack, CalculatePerfectClear, CalculateRen, CalculateSpinComplete,
     // AudioManager クラス //
     PlaySound, SetVolume, BuildAudioClipDictionary,
     // BoardStats クラス //

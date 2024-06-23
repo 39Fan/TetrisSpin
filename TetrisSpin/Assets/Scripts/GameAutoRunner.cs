@@ -173,8 +173,8 @@ public class GameAutoRunner : MonoBehaviour
         board.SaveBlockInGrid(spawner.ActiveMino);
         lineClearCount = board.CheckAllRows();
         board.AddLineClearCountHistory(lineClearCount);
-        attackCalculator.CalculateSumAttackLines(spinCheck.SpinTypeName, lineClearCount);
         displayManager.SpinAnimation(spinCheck.SpinTypeName, lineClearCount);
+        attackCalculator.CalculateSumAttackLines(spinCheck.SpinTypeName, lineClearCount);
 
         // 各種変数のリセット
         spinCheck.ResetSpinTypeName();

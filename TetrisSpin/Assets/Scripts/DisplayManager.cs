@@ -24,6 +24,9 @@ internal static class DisplayManagerStats
     // SpinCompleteがリーチの際に点滅させる色 //
     private static Color reachColor;
 
+    // SpinComplete判定 //
+    private static bool spinComplete = false;
+
     // ゲッタープロパティ //
     public static bool I_spinIcon => i_spinIcon;
     public static bool J_spinIcon => j_spinIcon;
@@ -33,6 +36,7 @@ internal static class DisplayManagerStats
     public static bool Z_spinIcon => z_spinIcon;
     public static bool SpinCompleteReach => spinCompleteReach;
     public static Color ReachColor => reachColor;
+    public static bool SpinComplete => spinComplete;
 
     /// <summary> スタッツログの詳細 </summary>
     private static string logStatsDetail;
@@ -43,7 +47,8 @@ internal static class DisplayManagerStats
     /// </remarks>
     public static void UpdateStats(
         bool? _i_spinIcon = null, bool? _j_spinIcon = null, bool? _l_spinIcon = null, bool? _s_spinIcon = null,
-        bool? _t_spinIcon = null, bool? _z_spinIcon = null, bool? _spinCompleteReach = null, Color? _reachColor = null)
+        bool? _t_spinIcon = null, bool? _z_spinIcon = null, bool? _spinCompleteReach = null, Color? _reachColor = null,
+        bool? _spinComplete = null)
     {
         LogHelper.DebugLog(eClasses.DisplayManagerStats, eMethod.UpdateStats, eLogTitle.Start);
 
@@ -55,8 +60,9 @@ internal static class DisplayManagerStats
         z_spinIcon = _z_spinIcon ?? z_spinIcon;
         spinCompleteReach = _spinCompleteReach ?? spinCompleteReach;
         reachColor = _reachColor ?? reachColor;
+        spinComplete = _spinComplete ?? spinComplete;
 
-        logStatsDetail = $"i_spinIcon : {i_spinIcon}, j_spinIcon : {j_spinIcon}, l_spinIcon : {l_spinIcon}, s_spinIcon : {s_spinIcon}, t_spinIcon : {t_spinIcon}, z_spinIcon : {z_spinIcon}, _spinCompleteReach : {spinCompleteReach}, _reachColor : {reachColor}";
+        logStatsDetail = $"i_spinIcon : {i_spinIcon}, j_spinIcon : {j_spinIcon}, l_spinIcon : {l_spinIcon}, s_spinIcon : {s_spinIcon}, t_spinIcon : {t_spinIcon}, z_spinIcon : {z_spinIcon}, spinCompleteReach : {spinCompleteReach}, reachColor : {reachColor}, spinComplete : {spinComplete}";
         LogHelper.InfoLog(eClasses.DisplayManagerStats, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
 
         LogHelper.DebugLog(eClasses.DisplayManagerStats, eMethod.UpdateStats, eLogTitle.End);
@@ -119,10 +125,12 @@ internal static class DisplayManagerStats
         z_spinIcon = false;
         spinCompleteReach = false;
         reachColor = Color.clear; // Color.clear で透明な色に初期化
+        spinComplete = false;
 
         LogHelper.DebugLog(eClasses.DisplayManagerStats, eMethod.ResetStats, eLogTitle.End);
     }
 }
+
 
 
 /// <summary>
@@ -595,7 +603,7 @@ public class DisplayManager : MonoBehaviour
                 }
                 break;
             case 0:
-                DisplayManagerStats.ResetStats();
+                DisplayManagerStats.UpdateStats(_spinComplete: true);
                 DOTween.Kill(falseIconImage); // 点滅しているspinIconのアニメーションを停止
                 falseIconImage.color = DisplayManagerStats.ReachColor; // 点滅しているspinIconに色を加える
                 foreach (var _spinIconImage in spinIconImages)
@@ -771,26 +779,37 @@ public class DisplayManager : MonoBehaviour
 
         if (sumAttackLines >= 0 && sumAttackLines < 20)
         {
+            // 白から緑へのグラデーション
             targetColor = Color.Lerp(Color.white, Color.green, (float)sumAttackLines / 20);
         }
         else if (sumAttackLines >= 20 && sumAttackLines < 40)
         {
+            // 緑から黄色へのグラデーション
             targetColor = Color.Lerp(Color.green, Color.yellow, (float)(sumAttackLines - 20) / 20);
         }
         else if (sumAttackLines >= 40 && sumAttackLines < 60)
         {
+            // 黄色からオレンジへのグラデーション
             targetColor = Color.Lerp(Color.yellow, new Color(1.0f, 0.65f, 0.0f), (float)(sumAttackLines - 40) / 20);
         }
         else if (sumAttackLines >= 60 && sumAttackLines < 80)
         {
-            targetColor = Color.Lerp(new Color(1.0f, 0.65f, 0.0f), Color.red, (float)(sumAttackLines - 60) / 20);
+            // オレンジから濃いオレンジへのグラデーション
+            targetColor = Color.Lerp(new Color(1.0f, 0.65f, 0.0f), new Color(1.0f, 0.3f, 0.0f), (float)(sumAttackLines - 60) / 20);
         }
-        else if (sumAttackLines >= 80 && sumAttackLines <= 99)
+        else if (sumAttackLines >= 80 && sumAttackLines < 99)
         {
-            targetColor = Color.Lerp(Color.red, new Color(0.5f, 0.0f, 0.0f), (float)(sumAttackLines - 80) / 20);
+            // 濃いオレンジから薄い赤へのグラデーション
+            targetColor = Color.Lerp(new Color(1.0f, 0.3f, 0.0f), new Color(1.0f, 0.4f, 0.4f), (float)(sumAttackLines - 80) / 19);
+        }
+        else if (sumAttackLines == 99)
+        {
+            // 薄い赤
+            targetColor = new Color(1.0f, 0.4f, 0.4f);
         }
         else if (sumAttackLines == 100)
         {
+            // 真っ赤（Color.red）
             targetColor = Color.red;
         }
 
@@ -800,6 +819,8 @@ public class DisplayManager : MonoBehaviour
 
         LogHelper.DebugLog(eClasses.DisplayManager, eMethod.SumAttackLinesAnimation, eLogTitle.End);
     }
+
+
 
     /// <summary> 攻撃ライン数のアニメーションを行う関数 </summary>
     /// <param name="_attackLines"> 今回の攻撃値 </param>

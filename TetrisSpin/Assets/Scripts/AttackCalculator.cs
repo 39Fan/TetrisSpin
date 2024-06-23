@@ -27,7 +27,7 @@ public static class AttackCalculatorStats
     /// ゲームスタート時に攻撃ラインは存在しないので、初期値は0
     /// </remarks>
     /// <value> 0~ </value>
-    private static int sumAttackLines = 0;
+    private static int sumAttackLines = 70;
 
     // ゲッタープロパティ //
     public static bool BackToBack => backToBack;
@@ -204,6 +204,7 @@ public class AttackCalculator : MonoBehaviour
         attackLines += CalculateBackToBack(_spinType, _lineClearCount);
         attackLines += CalculatePerfectClear();
         attackLines += CalculateRen(_lineClearCount);
+        attackLines += CalculateSpinComplete();
 
         AttackCalculatorStats.UpdateStats(_sumAttackLines: AttackCalculatorStats.SumAttackLines + attackLines);
 
@@ -323,6 +324,28 @@ public class AttackCalculator : MonoBehaviour
         }
 
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateRen, eLogTitle.End);
+        return bonus;
+    }
+
+    /// <summary> SpinCompleteの攻撃力ボーナスを計算する関数 </summary>
+    /// <returns> 攻撃力ボーナスの値(bonus) </returns>
+    private int CalculateSpinComplete()
+    {
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateSpinComplete, eLogTitle.Start);
+
+        /// <summary> 攻撃力ボーナス </summary>
+        int bonus = 0;
+
+        /// <summary> SpinCompleteの攻撃力ボーナス </summary>
+        int spinCompleteBonus = 10;
+
+        if (DisplayManagerStats.SpinComplete == true)
+        {
+            bonus = spinCompleteBonus;
+            DisplayManagerStats.ResetStats();
+        }
+
+        LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateSpinComplete, eLogTitle.End);
         return bonus;
     }
 }
