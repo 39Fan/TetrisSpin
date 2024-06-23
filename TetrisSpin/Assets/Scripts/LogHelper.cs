@@ -34,7 +34,7 @@ public enum eLogTitle
     // LogHelper クラス //
 
     // MinoMovement クラス //
-    SRSInfo, UnknownMinoAngleAfter, MinoAngleAndAxisData,
+    SRSInfo, UnknownMinoAngleAfter, MinoAngleAndAxisData, AngleError,
     // PlayerInput クラス //
     InvalidMinosPositionDetected,
     // SceneTransition クラス //
@@ -177,6 +177,7 @@ public static class LogHelper
         DebugMessages[eLogTitle.MismatchBetweenAudioAndAudioNameCount] = "Audios の数と eAudioName の数が一致していません。";
         DebugMessages[eLogTitle.AudioNameAlreadyExists] = "すでに登録されている AudioName が存在します。";
         DebugMessages[eLogTitle.UnknownMinoAngleAfter] = "MinoAngleAfter の値が不明です。";
+        DebugMessages[eLogTitle.AngleError] = "予期せぬMinoAngleAfterとMinoAngleBeforeの値の組み合わせです。";
         DebugMessages[eLogTitle.InvalidMinosPositionDetected] = "存在できない場所にミノが移動しています。";
         DebugMessages[eLogTitle.MinosIdentificationFailed] = "ミノの種類が特定できません。";
         DebugMessages[eLogTitle.NullDisplayText] = "表示するテキストの種類が特定できません。";

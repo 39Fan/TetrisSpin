@@ -86,6 +86,8 @@ public static class MinoMovementStats
         stepsSRS = _stepsSRS ?? stepsSRS;
 
         logStatsDetail = $"minoAngleAfter : {minoAngleAfter}, minoAngleBefore : {minoAngleBefore}, stepsSRS : {stepsSRS}";
+        Debug.Log($"minoangleBefore: {minoAngleBefore}");
+        Debug.Log($"minoangleAfter: {minoAngleAfter}");
         LogHelper.InfoLog(eClasses.MinoMovementStats, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
 
         LogHelper.DebugLog(eClasses.MinoMovementStats, eMethod.UpdateStats, eLogTitle.End);
@@ -368,16 +370,24 @@ public class MinoMovement : MonoBehaviour
         LogHelper.DebugLog(eClasses.MinoMovement, eMethod.ResetRotate, eLogTitle.Start);
 
         // 通常回転が右回転だった時
-        if ((MinoMovementStats.MinoAngleAfter == eMinoDirection.North && MinoMovementStats.MinoAngleAfter == eMinoDirection.East) ||
-        (MinoMovementStats.MinoAngleAfter == eMinoDirection.East && MinoMovementStats.MinoAngleAfter == eMinoDirection.South) ||
-        (MinoMovementStats.MinoAngleAfter == eMinoDirection.South && MinoMovementStats.MinoAngleAfter == eMinoDirection.West) ||
-        (MinoMovementStats.MinoAngleAfter == eMinoDirection.West && MinoMovementStats.MinoAngleAfter == eMinoDirection.North))
+        if ((MinoMovementStats.MinoAngleBefore == eMinoDirection.North && MinoMovementStats.MinoAngleAfter == eMinoDirection.East) ||
+        (MinoMovementStats.MinoAngleBefore == eMinoDirection.East && MinoMovementStats.MinoAngleAfter == eMinoDirection.South) ||
+        (MinoMovementStats.MinoAngleBefore == eMinoDirection.South && MinoMovementStats.MinoAngleAfter == eMinoDirection.West) ||
+        (MinoMovementStats.MinoAngleBefore == eMinoDirection.West && MinoMovementStats.MinoAngleAfter == eMinoDirection.North))
         {
             spawner.ActiveMino.RotateLeft(); // 左回転で回転前の状態に戻す
         }
-        else // 通常回転が左回転だった時
+        // 通常回転が左回転だった時
+        else if ((MinoMovementStats.MinoAngleBefore == eMinoDirection.North && MinoMovementStats.MinoAngleAfter == eMinoDirection.West) ||
+        (MinoMovementStats.MinoAngleBefore == eMinoDirection.East && MinoMovementStats.MinoAngleAfter == eMinoDirection.North) ||
+        (MinoMovementStats.MinoAngleBefore == eMinoDirection.South && MinoMovementStats.MinoAngleAfter == eMinoDirection.East) ||
+        (MinoMovementStats.MinoAngleBefore == eMinoDirection.West && MinoMovementStats.MinoAngleAfter == eMinoDirection.South))
         {
             spawner.ActiveMino.RotateRight(); // 右回転で回転前の状態に戻す
+        }
+        else
+        {
+            LogHelper.ErrorLog(eClasses.MinoMovement, eMethod.ResetRotate, eLogTitle.AngleError);
         }
 
         LogHelper.DebugLog(eClasses.MinoMovement, eMethod.ResetRotate, eLogTitle.End);
