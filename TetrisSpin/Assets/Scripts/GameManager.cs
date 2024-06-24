@@ -7,11 +7,16 @@ public static class GameManagerStats
 {
     /// <summary> ゲームオーバーの判定 </summary>
     private static bool gameOver = false;
+
+    /// <summary> ゲームクリアの判定 </summary>
+    private static bool gameClear = false;
+
     /// <summary> ミノの生成数 </summary>
     /// <remarks>
     /// 新しいミノが生成されるたびに1ずつ増加する
     /// </remarks>
     private static int minoPopNumber = 0;
+
     /// <summary> ミノの設置数 </summary>
     /// <remarks>
     /// ミノが設置されると1ずつ増加する <br/>
@@ -21,6 +26,7 @@ public static class GameManagerStats
 
     // ゲッタープロパティ //
     public static bool GameOver => gameOver;
+    public static bool GameClear => gameClear;
     public static int MinoPopNumber => minoPopNumber;
     public static int MinoPutNumber => minoPutNumber;
 
@@ -29,20 +35,22 @@ public static class GameManagerStats
 
     /// <summary> 指定されたフィールドの値を更新する関数 </summary>
     /// <param name="_gameOver"> ゲームオーバー判定 </param>
+    /// <param name="_gameClear"> ゲームクリア判定 </param>
     /// <param name="_minoPopNumber"> ミノの生成数 </param>
     /// <param name="_minoPutNumber"> ミノの設置数 </param>
     /// <remarks>
     /// 指定されていない引数は現在の値を維持
     /// </remarks>
-    public static void UpdateStats(bool? _gameOver = null, int? _minoPopNumber = null, int? _minoPutNumber = null)
+    public static void UpdateStats(bool? _gameOver = null, bool? _gameClear = null, int? _minoPopNumber = null, int? _minoPutNumber = null)
     {
         LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.UpdateStats, eLogTitle.Start);
 
         gameOver = _gameOver ?? gameOver;
+        gameClear = _gameClear ?? gameClear;
         minoPopNumber = _minoPopNumber ?? minoPopNumber;
         minoPutNumber = _minoPutNumber ?? minoPutNumber;
 
-        logStatsDetail = $"gameOver : {gameOver}, minoPopNumber : {minoPopNumber}, minoPutNumber : {minoPutNumber}";
+        logStatsDetail = $"gameOver : {gameOver}, gameClear: {gameClear}, minoPopNumber : {minoPopNumber}, minoPutNumber : {minoPutNumber}";
         LogHelper.InfoLog(eClasses.GameAutoRunnerStats, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
 
         LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.UpdateStats, eLogTitle.End);
@@ -54,6 +62,7 @@ public static class GameManagerStats
         LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.ResetStats, eLogTitle.Start);
 
         gameOver = false;
+        gameClear = false;
         minoPopNumber = 0;
         minoPutNumber = 0;
 
@@ -66,6 +75,9 @@ public static class GameManagerStats
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    /// <summary> シングルトンインスタンス </summary>
+    public static GameManager Instance { get; private set; }
+
     // 干渉するスクリプト //
     GameAutoRunner gameAutoRunner;
     PlayerInput playerInput;
@@ -77,6 +89,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
         gameAutoRunner = FindObjectOfType<GameAutoRunner>();
         playerInput = FindObjectOfType<PlayerInput>();
         spawner = FindObjectOfType<Spawner>();

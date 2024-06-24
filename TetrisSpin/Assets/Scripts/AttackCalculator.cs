@@ -27,7 +27,7 @@ public static class AttackCalculatorStats
     /// ゲームスタート時に攻撃ラインは存在しないので、初期値は0
     /// </remarks>
     /// <value> 0~ </value>
-    private static int sumAttackLines = 70;
+    private static int sumAttackLines = 0;
 
     // ゲッタープロパティ //
     public static bool BackToBack => backToBack;
