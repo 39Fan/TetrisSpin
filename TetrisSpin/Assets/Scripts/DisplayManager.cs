@@ -322,7 +322,7 @@ public class DisplayManager : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (!GameManagerStats.GameOver)
+        if (!GameStateManager.GameOver)
         {
             DisplayTimer();
         }

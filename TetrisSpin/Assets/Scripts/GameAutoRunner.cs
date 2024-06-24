@@ -159,7 +159,7 @@ public class GameAutoRunner : MonoBehaviour
         {
             displayManager.StopAnimation();
 
-            GameManagerStats.UpdateStats(_gameOver: true);
+            GameStateManager.UpdateState(_gameOver: true);
 
             sceneTransition.GameOver();
 
@@ -192,7 +192,7 @@ public class GameAutoRunner : MonoBehaviour
         {
             displayManager.StopAnimation();
 
-            GameManagerStats.UpdateStats(_gameOver: true);
+            GameStateManager.UpdateState(_gameOver: true);
 
             sceneTransition.GameOver();
 
