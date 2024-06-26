@@ -25,16 +25,16 @@ public class BackGroundManager : MonoBehaviour
 
     void Update()
     {
-        if (GameStateManager.GameClear == true)
+        if (GameSceneManagerStats.GameClearScene == true)
         {
             GameClearScroll();
         }
-        if (Time.time >= nextShakeTime && GameStateManager.GameOver)
+        if (Time.time >= nextShakeTime && GameSceneManagerStats.GameOverScene)
         {
             StartCoroutine(GameOverShake());
             nextShakeTime = Time.time + Random.Range(3, 7); // 次の揺れまでの間隔を3秒から7秒のランダムで設定
         }
-        if (GameStateManager.Score == true)
+        if (GameSceneManagerStats.ScoreScene == true)
         {
             ScoreScroll();
         }
