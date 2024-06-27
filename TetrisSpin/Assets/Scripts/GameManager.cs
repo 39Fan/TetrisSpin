@@ -1,20 +1,80 @@
 using UnityEngine;
 
-/// <summary> ゲームモード 列挙型 </summary>
-public enum eGameMode
+/// <summary>
+/// ゲームの状態を管理するクラス
+/// </summary>
+public static class GameStateManager
 {
-    TimeAttack_100,
-    SpinMaster,
-    Practice,
+    /// <summary> ゲームオーバーの状態 </summary>
+    private static bool gameOver = false;
+    /// <summary> ゲームクリアの状態 </summary>
+    private static bool gameClear = false;
+    /// <summary> スコア画面の状態 </summary>
+    private static bool score = false;
+    /// <summary> オプション画面の状態 </summary>
+    private static bool option = false;
+    /// <summary> メニュー画面の状態 </summary>
+    private static bool menu = true;
+
+    // ゲッタープロパティ //
+    public static bool GameOver => gameOver;
+    public static bool GameClear => gameClear;
+    public static bool Score => score;
+    public static bool Option => option;
+    public static bool Menu => menu;
+
+    /// <summary> 指定されたフィールドの値を更新する関数 </summary>
+    /// <param name="_gameOver"> ゲームオーバーの状態 </param>
+    /// <param name="_gameClear"> ゲームクリアの状態 </param>
+    /// <param name="_score"> スコア画面の状態 </param>
+    /// <param name="_option"> オプション画面の状態 </param>
+    /// <param name="_menu"> メニュー画面の状態 </param>
+    /// <remarks>
+    /// 指定された状態を true に設定し、他のすべての状態を false に設定する。
+    /// </remarks>
+    public static void UpdateState(bool? _gameOver = null, bool? _gameClear = null, bool? _score = null, bool? _option = null, bool? _menu = null)
+    {
+        // 最初にすべての状態を false に設定
+        gameOver = false;
+        gameClear = false;
+        score = false;
+        option = false;
+        menu = false;
+
+        // 引数で true が指定された状態のみを true に設定
+        if (_gameOver == true)
+        {
+            gameOver = true;
+        }
+        else if (_gameClear == true)
+        {
+            gameClear = true;
+        }
+        else if (_score == true)
+        {
+            score = true;
+        }
+        else if (_option == true)
+        {
+            option = true;
+        }
+        else if (_menu == true)
+        {
+            menu = true;
+        }
+    }
+
+    /// <summary> デフォルトの <see cref="GameStateManager"/> にリセットする関数 </summary>
+    public static void ResetStates()
+    {
+        gameOver = false;
+        gameClear = false;
+        score = false;
+        option = false;
+        menu = true;
+    }
 }
 
-/// <summary> 難易度 列挙型 </summary>
-public enum eDifficultyLevel
-{
-    Easy,
-    Normal,
-    Hard
-}
 
 /// <summary>
 /// ゲームマネージャーの統計情報を保持する静的クラス
@@ -69,6 +129,9 @@ public static class GameManagerStats
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    /// <summary> シングルトンインスタンス </summary>
+    public static GameManager Instance { get; private set; }
+
     // 干渉するスクリプト //
     GameAutoRunner gameAutoRunner;
     PlayerInput playerInput;
@@ -80,6 +143,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
         gameAutoRunner = FindObjectOfType<GameAutoRunner>();
         playerInput = FindObjectOfType<PlayerInput>();
         spawner = FindObjectOfType<Spawner>();
@@ -106,7 +178,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (GameSceneManagerStats.GameOverScene || GameSceneManagerStats.GameClearScene || GameSceneManagerStats.PoseState)
+        if (GameStateManager.GameOver == true)
         {
             return;
         }
@@ -122,7 +194,6 @@ public class GameManager : MonoBehaviour
         }
     }
 }
-
 
 /////////////////// 旧コード ///////////////////
 

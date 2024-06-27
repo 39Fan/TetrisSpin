@@ -66,7 +66,7 @@ public class GameAutoRunner : MonoBehaviour
     AttackCalculator attackCalculator;
     Board board;
     MinoMovement minoMovement;
-    GameSceneManager gameSceneManager;
+    SceneTransition sceneTransition;
     Spawner spawner;
     SpinCheck spinCheck;
     DisplayManager displayManager;
@@ -79,7 +79,7 @@ public class GameAutoRunner : MonoBehaviour
         attackCalculator = FindObjectOfType<AttackCalculator>();
         board = FindObjectOfType<Board>();
         minoMovement = FindObjectOfType<MinoMovement>();
-        gameSceneManager = FindObjectOfType<GameSceneManager>();
+        sceneTransition = FindObjectOfType<SceneTransition>();
         spawner = FindObjectOfType<Spawner>();
         spinCheck = FindObjectOfType<SpinCheck>();
         displayManager = FindObjectOfType<DisplayManager>();
@@ -159,9 +159,9 @@ public class GameAutoRunner : MonoBehaviour
         {
             displayManager.StopAnimation();
 
-            GameSceneManagerStats.UpdateStats(_gameOverScene: true);
+            GameStateManager.UpdateState(_gameOver: true);
 
-            gameSceneManager.GameOver();
+            sceneTransition.GameOver();
 
             return;
         }
@@ -192,9 +192,9 @@ public class GameAutoRunner : MonoBehaviour
         {
             displayManager.StopAnimation();
 
-            GameSceneManagerStats.UpdateStats(_gameOverScene: true);
+            GameStateManager.UpdateState(_gameOver: true);
 
-            gameSceneManager.GameOver();
+            sceneTransition.GameOver();
 
             LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.SetMinoFixed, eLogTitle.End);
             return;

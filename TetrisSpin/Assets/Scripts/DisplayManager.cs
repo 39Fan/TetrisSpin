@@ -138,12 +138,8 @@ internal static class DisplayManagerStats
 /// </summary>
 public class DisplayManager : MonoBehaviour
 {
-    // Canvas //TODO
+    // Canvas //
     [SerializeField] private RectTransform canvas;
-    /// <summary> PoseIconが押された時に表示するCanvas </summary>
-    [SerializeField] private Canvas poseCanvas;
-    /// <summary> PoseIconが押された時に表示するImage </summary>
-    [SerializeField] private Image poseBackGround;
 
     // Panel //
     [SerializeField] private RectTransform gameBoardPanel;
@@ -241,10 +237,6 @@ public class DisplayManager : MonoBehaviour
 
     /// <summary> タイマーの開始時刻 </summary>
     private float startTime;
-    /// <summary> ポーズ時のタイマーの時間を記録する変数 </summary>
-    private float pauseTime;
-    /// <summary> 累積のポーズ時間 </summary>
-    private float totalPauseDuration;
 
     /// <summary> 乱数 </summary>
     private System.Random random;
@@ -330,26 +322,9 @@ public class DisplayManager : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (!GameSceneManagerStats.GameOverScene && !GameSceneManagerStats.GameClearScene)
+        if (!GameStateManager.GameOver)
         {
-            if (GameSceneManagerStats.PoseState)
-            {
-                // ポーズが開始されたとき
-                if (pauseTime == 0f)
-                {
-                    pauseTime = Time.time; // ポーズ開始時の時間を記録
-                }
-            }
-            else
-            {
-                // ポーズが解除されたとき
-                if (pauseTime > 0f)
-                {
-                    totalPauseDuration += Time.time - pauseTime; // ポーズ期間を累積
-                    pauseTime = 0f; // ポーズ時間をリセット
-                }
-                DisplayTimer();
-            }
+            DisplayTimer();
         }
     }
 
@@ -358,7 +333,7 @@ public class DisplayManager : MonoBehaviour
     /// </summary>
     private void DisplayTimer()
     {
-        float t = Time.time - startTime - totalPauseDuration; // 累積ポーズ時間を引く
+        float t = Time.time - startTime;
 
         string minutes = ((int)t / 60).ToString();
         string seconds = (t % 60).ToString("f2");
@@ -1033,40 +1008,6 @@ public class DisplayManager : MonoBehaviour
         DOTween.KillAll();
 
         LogHelper.DebugLog(eClasses.DisplayManager, eMethod.StopAnimation, eLogTitle.End);
-    }
-
-
-    /// <summary> PoseIconが押された時の処理をする関数 </summary>
-    public void PressedPoseIcon()
-    {
-        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.PressedPoseIcon, eLogTitle.Start);
-
-        GameSceneManagerStats.LoadPoseState();
-        poseCanvas.gameObject.SetActive(true);
-        //audio
-        poseBackGround.DOFade(1, 0.3f);
-
-        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.PressedPoseIcon, eLogTitle.End);
-    }
-
-    /// <summary> BackToGameが押された時の子ルーチン処理を呼ぶ関数 </summary>
-    public void PressedBackToGame()
-    {
-        StartCoroutine(PressedBackToGameCoroutine());
-    }
-
-    /// <summary> BackToGameが押された時の処理をする関数 </summary>
-    private IEnumerator PressedBackToGameCoroutine()
-    {
-        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.PressedBackToGame, eLogTitle.Start);
-
-        poseBackGround.DOFade(0, 0.3f);
-        //audio
-        yield return new WaitForSeconds(0.6f); // 短い待機
-        poseCanvas.gameObject.SetActive(false);
-        GameSceneManagerStats.UpdateStats(_poseState: false);
-
-        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.PressedBackToGame, eLogTitle.End);
     }
 }
 

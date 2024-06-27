@@ -87,14 +87,13 @@ public enum eClasses
     GameAutoRunnerStats,
     GameManager,
     GameManagerStats,
-    GameSceneManager,
-    GameSceneManagerStats,
     LogHelper,
     MinoMovement,
     MinoMovementStats,
     PlayerInput,
     PlayerInputStats,
     Rounding,
+    SceneTransition,
     Spawner,
     SpawnerStats,
     SpinCheck,
@@ -124,8 +123,7 @@ public enum eMethod
     SpinAnimation, DetermineTextToDisplay, SpinTextAnimation, SpinColorAnimation, TextFadeInAndOutType1,
     ImageFadeInAndOutType1, ImageFadeInAndOutType2, ImageFadeInAndOutType3, SpinTextMove,
     TetrisAnimation, BackToBackAnimation, PerfectClearAnimation, ReadyGoAnimation,
-    SumAttackLinesAnimation, AttackLinesAnimation, RenAnimation, EndingRenAnimation, SpinCompleteAnimation, SpinCompleteTextAnimation,
-    StopAnimation, PressedPoseIcon, PressedBackToGame,
+    SumAttackLinesAnimation, AttackLinesAnimation, RenAnimation, EndingRenAnimation, SpinCompleteAnimation, SpinCompleteTextAnimation, StopAnimation,
     // GameAutoRunner クラス //
     RockDown, ResetRockDown, AutoDown, SetMinoFixed,
     // LogHelper クラス //
@@ -138,10 +136,8 @@ public enum eMethod
     InputInGame, MoveRightInput, ContinuousMoveRightInput, MoveLeftInput, ContinuousMoveLeftInput,
     ReleaseContinuousMoveRightLeftInput, MoveDownInput, RotateRightInput, RotateLeftInput,
     HardDropInput, HoldInput, SuccessRotateAction, IncreaseBottomMoveCount, ConfirmMinoMovement,
-    // GameSceneManagerStats クラス //
-    LoadPoseState,
-    // GameSceneManager クラス //
-    LoadPlayScene, SelectRetry, SelectMenu, GameOver,
+    // SceneTransition クラス //
+    SelectStartButton, SelectRetry, SelectMenu, GameOver,
     // SpawnerStats クラス //
     AddSpawnMinoOrder,
     // Spawner クラス //
