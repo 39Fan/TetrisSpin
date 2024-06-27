@@ -377,8 +377,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: TetrisSpin
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 53c41e1d31f0849ea8b9a0d776296144, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 53d9f2f9bd461401d8c02dc433aabed9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: cd665e3de3b6349ec925a5e894ebcd65, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 0e54a4f32a69b4f25b2abe54b4114df0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -532,8 +532,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Check Score
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 53c41e1d31f0849ea8b9a0d776296144, type: 2}
-  m_sharedMaterial: {fileID: 6214407514305054370, guid: 53c41e1d31f0849ea8b9a0d776296144, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: cd665e3de3b6349ec925a5e894ebcd65, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 0e54a4f32a69b4f25b2abe54b4114df0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -664,10 +664,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Start
+  m_text: Play
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 53c41e1d31f0849ea8b9a0d776296144, type: 2}
-  m_sharedMaterial: {fileID: 6214407514305054370, guid: 53c41e1d31f0849ea8b9a0d776296144, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: cd665e3de3b6349ec925a5e894ebcd65, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 0e54a4f32a69b4f25b2abe54b4114df0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
