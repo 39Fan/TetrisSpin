@@ -52,6 +52,8 @@ public class SpinCheck : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        spinTypeName = SpinTypeNames.None;
+
         board = FindObjectOfType<Board>();
         spawner = FindObjectOfType<Spawner>();
     }

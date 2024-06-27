@@ -138,8 +138,12 @@ internal static class DisplayManagerStats
 /// </summary>
 public class DisplayManager : MonoBehaviour
 {
-    // Canvas //
+    // Canvas //TODO
     [SerializeField] private RectTransform canvas;
+    /// <summary> PoseIconが押された時に表示するCanvas </summary>
+    [SerializeField] private Canvas poseCanvas;
+    /// <summary> PoseIconが押された時に表示するImage </summary>
+    [SerializeField] private Image poseBackGround;
 
     // Panel //
     [SerializeField] private RectTransform gameBoardPanel;
@@ -237,6 +241,10 @@ public class DisplayManager : MonoBehaviour
 
     /// <summary> タイマーの開始時刻 </summary>
     private float startTime;
+    /// <summary> ポーズ時のタイマーの時間を記録する変数 </summary>
+    private float pauseTime;
+    /// <summary> 累積のポーズ時間 </summary>
+    private float totalPauseDuration;
 
     /// <summary> 乱数 </summary>
     private System.Random random;
@@ -322,9 +330,27 @@ public class DisplayManager : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (!GameStateManager.GameOver)
+        if (!GameSceneManagerStats.GameOverScene && !GameSceneManagerStats.GameClearScene)
         {
             DisplayTimer();
+            if (GameSceneManagerStats.PoseState)
+            {
+                // ポーズが開始されたとき
+                if (pauseTime == 0f)
+                {
+                    pauseTime = Time.time; // ポーズ開始時の時間を記録
+                }
+            }
+            else
+            {
+                // ポーズが解除されたとき
+                if (pauseTime > 0f)
+                {
+                    totalPauseDuration += Time.time - pauseTime; // ポーズ期間を累積
+                    pauseTime = 0f; // ポーズ時間をリセット
+                }
+                DisplayTimer();
+            }
         }
     }
 
@@ -1008,6 +1034,33 @@ public class DisplayManager : MonoBehaviour
         DOTween.KillAll();
 
         LogHelper.DebugLog(eClasses.DisplayManager, eMethod.StopAnimation, eLogTitle.End);
+    }
+
+    /// <summary> PoseIconが押された時の処理をする関数 </summary>
+    public void PressedPoseIcon()
+    {
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.PressedPoseIcon, eLogTitle.Start);
+
+        GameSceneManagerStats.LoadPoseState();
+        poseCanvas.gameObject.SetActive(true);
+        //audio
+        poseBackGround.DOFade(1, 0.3f);
+
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.PressedPoseIcon, eLogTitle.End);
+    }
+
+    /// <summary> BackToGameが押された時の処理をする関数 </summary>
+    public IEnumerator PressedBackToGame()
+    {
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.PressedBackToGame, eLogTitle.Start);
+
+        poseBackGround.DOFade(0, 0.3f);
+        //audio
+        yield return new WaitForSeconds(0.6f); // 短い待機
+        poseCanvas.gameObject.SetActive(false);
+        GameSceneManagerStats.UpdateStats(_poseState: false);
+
+        LogHelper.DebugLog(eClasses.DisplayManager, eMethod.PressedBackToGame, eLogTitle.End);
     }
 }
 

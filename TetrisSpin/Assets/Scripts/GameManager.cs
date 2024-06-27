@@ -1,5 +1,21 @@
 using UnityEngine;
 
+/// <summary> ゲームモード 列挙型 </summary>
+public enum eGameMode
+{
+    TimeAttack_100,
+    SpinMaster,
+    Practice,
+}
+
+/// <summary> 難易度 列挙型 </summary>
+public enum eDifficultyLevel
+{
+    Easy,
+    Normal,
+    Hard
+}
+
 /// <summary>
 /// ゲームの状態を管理するクラス
 /// </summary>
@@ -129,33 +145,19 @@ public static class GameManagerStats
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    /// <summary> シングルトンインスタンス </summary>
-    public static GameManager Instance { get; private set; }
-
     // 干渉するスクリプト //
     GameAutoRunner gameAutoRunner;
     PlayerInput playerInput;
     Spawner spawner;
-    SpinCheck spinCheck;
 
     /// <summary>
     /// インスタンス化
     /// </summary>
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-
         gameAutoRunner = FindObjectOfType<GameAutoRunner>();
         playerInput = FindObjectOfType<PlayerInput>();
         spawner = FindObjectOfType<Spawner>();
-        spinCheck = FindObjectOfType<SpinCheck>();
     }
 
     /// <summary>
@@ -164,7 +166,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SpawnerStats.ResetStats();
-        spinCheck.ResetSpinTypeName();
 
         // ゲーム開始時余分にミノの順番を決める
         spawner.DetermineSpawnMinoOrder();
@@ -178,7 +179,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (GameStateManager.GameOver == true)
+        if (GameSceneManagerStats.GameOverScene || GameSceneManagerStats.GameClearScene || GameSceneManagerStats.PoseState)
         {
             return;
         }
