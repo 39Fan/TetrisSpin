@@ -81,8 +81,8 @@ public enum eClasses
     AudioManager,
     Board,
     BoardStats,
-    DisplayManager,
-    DisplayManagerStats,
+    GameDisplayManager,
+    GameDisplayManagerStats,
     GameAutoRunner,
     GameAutoRunnerStats,
     GameManager,
@@ -130,7 +130,7 @@ public enum eMethod
     // GameSceneManagerStats クラス //
     LoadPoseState,
     // GameSceneManager クラス //
-    LoadPlayScene, SelectRetry, SelectMenu, GameOver,
+    LoadMenuScene, LoadPlayScene, LoadGameClearScene, LoadGameOverScene, LoadOptionScene, LoadScoreScene,
     // LogHelper クラス //
     Log, DebugLog, InfoLog, WarningLog, ErrorLog, FormatLogMessage, FormatInfoLogMessage, GetColorByLevel,
     // MinoMovement クラス //

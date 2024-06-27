@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -135,6 +134,16 @@ public static class GameSceneManagerStats
 /// </summary>
 public class GameSceneManager : MonoBehaviour
 {
+    /// <summary> Menuシーンに遷移する関数 </summary>
+    public void LoadMenuScene()
+    {
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadMenuScene, eLogTitle.Start);
+
+        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadMenuScene, eLogTitle.End);
+    }
+
     /// <summary> Playシーンに遷移する関数 </summary>
     public void LoadPlayScene()
     {
@@ -145,33 +154,43 @@ public class GameSceneManager : MonoBehaviour
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadPlayScene, eLogTitle.End);
     }
 
-    /// <summary> GameOverScene の Retry ボタンが押された時の処理をする関数 </summary>
-    public void SelectRetry()
+    /// <summary> GameClearシーンに遷移する関数 </summary>
+    public void LoadGameClearScene()
     {
-        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.SelectRetry, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadGameClearScene, eLogTitle.Start);
 
-        SceneManager.LoadScene("Play", LoadSceneMode.Single);
+        SceneManager.LoadScene("GameClear", LoadSceneMode.Single);
 
-        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.SelectRetry, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadGameClearScene, eLogTitle.End);
     }
 
-    /// <summary> GameOverScene の Menu ボタン、MainScene の Menu ボタンが押された時の処理をする関数 </summary>
-    public void SelectMenu()
+    /// <summary> GameOverシーンに遷移する関数 </summary>
+    public void LoadGameOverScene()
     {
-        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.SelectMenu, eLogTitle.Start);
-
-        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
-
-        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.SelectMenu, eLogTitle.End);
-    }
-
-    /// <summary> PlayScene でゲームオーバーになった時の処理をする関数 </summary>
-    public void GameOver()
-    {
-        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.GameOver, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadGameOverScene, eLogTitle.Start);
 
         SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
 
-        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.GameOver, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadGameOverScene, eLogTitle.End);
+    }
+
+    /// <summary> Optionシーンに遷移する関数 </summary>
+    public void LoadOptionScene()
+    {
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadOptionScene, eLogTitle.Start);
+
+        SceneManager.LoadScene("Option", LoadSceneMode.Single);
+
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadOptionScene, eLogTitle.End);
+    }
+
+    /// <summary> Scoreシーンに遷移する関数 </summary>
+    public void LoadScoreScene()
+    {
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadScoreScene, eLogTitle.Start);
+
+        SceneManager.LoadScene("Score", LoadSceneMode.Single);
+
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadScoreScene, eLogTitle.End);
     }
 }

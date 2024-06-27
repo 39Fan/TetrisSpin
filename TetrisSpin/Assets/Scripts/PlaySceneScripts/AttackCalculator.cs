@@ -179,7 +179,7 @@ public class AttackCalculator : MonoBehaviour
 
     // 干渉するクラス //
     Board board;
-    DisplayManager displayManager;
+    GameDisplayManager gameDisplayManager;
 
     /// <summary>
     /// インスタンス化
@@ -187,7 +187,7 @@ public class AttackCalculator : MonoBehaviour
     private void Awake()
     {
         board = FindObjectOfType<Board>();
-        displayManager = FindObjectOfType<DisplayManager>();
+        gameDisplayManager = FindObjectOfType<GameDisplayManager>();
     }
 
     /// <summary> 合計攻撃力を計算する関数 </summary>
@@ -216,8 +216,8 @@ public class AttackCalculator : MonoBehaviour
 
         if (attackLines > 0)
         {
-            displayManager.AttackLinesAnimation(attackLines);
-            displayManager.SumAttackLinesAnimation();
+            gameDisplayManager.AttackLinesAnimation(attackLines);
+            gameDisplayManager.SumAttackLinesAnimation();
         }
 
         logDetail = $"{AttackCalculatorStats.SumAttackLines}";
@@ -244,7 +244,7 @@ public class AttackCalculator : MonoBehaviour
             (_lineClearCount == 4 || (_spinType != SpinTypeNames.None && _lineClearCount >= 1)))
         {
             bonus = backToBackBonus;
-            displayManager.BackToBackAnimation();
+            gameDisplayManager.BackToBackAnimation();
         }
 
         if (_lineClearCount == 4 || _spinType != SpinTypeNames.None)
@@ -279,7 +279,7 @@ public class AttackCalculator : MonoBehaviour
         {
             AttackCalculatorStats.UpdateStats(_perfectClear: true);
             bonus = perfectClearBonus;
-            displayManager.PerfectClearAnimation();
+            gameDisplayManager.PerfectClearAnimation();
         }
         else
         {
@@ -311,14 +311,14 @@ public class AttackCalculator : MonoBehaviour
             // 2REN以上で表示する
             if (AttackCalculatorStats.Ren >= 2)
             {
-                displayManager.RenAnimation();
+                gameDisplayManager.RenAnimation();
             }
         }
         else
         {
             if (AttackCalculatorStats.Ren >= 2)
             {
-                displayManager.EndingRenAnimation();
+                gameDisplayManager.EndingRenAnimation();
             }
             AttackCalculatorStats.UpdateStats(_ren: -1);
         }
@@ -339,10 +339,10 @@ public class AttackCalculator : MonoBehaviour
         /// <summary> SpinCompleteの攻撃力ボーナス </summary>
         int spinCompleteBonus = 10;
 
-        if (DisplayManagerStats.SpinComplete == true)
+        if (GameDisplayManagerStats.SpinComplete == true)
         {
             bonus = spinCompleteBonus;
-            DisplayManagerStats.ResetStats();
+            GameDisplayManagerStats.ResetStats();
         }
 
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateSpinComplete, eLogTitle.End);

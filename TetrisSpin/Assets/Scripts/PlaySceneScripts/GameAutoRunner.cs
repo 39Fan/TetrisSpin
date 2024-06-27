@@ -69,7 +69,7 @@ public class GameAutoRunner : MonoBehaviour
     GameSceneManager gameSceneManager;
     Spawner spawner;
     SpinCheck spinCheck;
-    DisplayManager displayManager;
+    GameDisplayManager gameDisplayManager;
 
     /// <summary>
     /// インスタンス化
@@ -82,7 +82,7 @@ public class GameAutoRunner : MonoBehaviour
         gameSceneManager = FindObjectOfType<GameSceneManager>();
         spawner = FindObjectOfType<Spawner>();
         spinCheck = FindObjectOfType<SpinCheck>();
-        displayManager = FindObjectOfType<DisplayManager>();
+        gameDisplayManager = FindObjectOfType<GameDisplayManager>();
     }
 
     /// <summary> ロックダウンの処理をする関数 </summary>
@@ -157,11 +157,11 @@ public class GameAutoRunner : MonoBehaviour
 
         if (board.CheckGameOver(spawner.ActiveMino)) // ミノの設置時にゲームオーバーの条件を満たした場合
         {
-            displayManager.StopAnimation();
+            gameDisplayManager.StopAnimation();
 
             GameStateManager.UpdateState(_gameOver: true);
 
-            gameSceneManager.GameOver();
+            gameSceneManager.LoadGameOverScene();
 
             return;
         }
@@ -173,7 +173,7 @@ public class GameAutoRunner : MonoBehaviour
         board.SaveBlockInGrid(spawner.ActiveMino);
         lineClearCount = board.CheckAllRows();
         board.AddLineClearCountHistory(lineClearCount);
-        displayManager.SpinAnimation(spinCheck.SpinTypeName, lineClearCount);
+        gameDisplayManager.SpinAnimation(spinCheck.SpinTypeName, lineClearCount);
         attackCalculator.CalculateSumAttackLines(spinCheck.SpinTypeName, lineClearCount);
 
         // 各種変数のリセット
@@ -190,11 +190,11 @@ public class GameAutoRunner : MonoBehaviour
 
         if (!board.CheckPosition(spawner.ActiveMino)) // ミノを生成した際に、ブロックと重なってしまった場合
         {
-            displayManager.StopAnimation();
+            gameDisplayManager.StopAnimation();
 
             GameStateManager.UpdateState(_gameOver: true);
 
-            gameSceneManager.GameOver();
+            gameSceneManager.LoadGameOverScene();
 
             LogHelper.DebugLog(eClasses.GameAutoRunner, eMethod.SetMinoFixed, eLogTitle.End);
             return;
