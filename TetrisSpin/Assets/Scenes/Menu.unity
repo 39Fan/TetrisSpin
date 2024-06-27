@@ -420,6 +420,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1571145379}
+  - {fileID: 788817558}
+  - {fileID: 1700594469}
+  - {fileID: 1707026123}
+  - {fileID: 1840827155}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -550,7 +554,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1571145379}
+  m_Father: {fileID: 636913377}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -973,11 +977,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 788817558}
-  - {fileID: 1700594469}
-  - {fileID: 1707026123}
-  - {fileID: 1840827155}
+  m_Children: []
   m_Father: {fileID: 636913377}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1059,7 +1059,7 @@ GameObject:
   - component: {fileID: 1700594473}
   - component: {fileID: 1700594474}
   m_Layer: 5
-  m_Name: PlayBottun
+  m_Name: PlayButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1078,7 +1078,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1396894023}
-  m_Father: {fileID: 1571145379}
+  m_Father: {fileID: 636913377}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1227,7 +1227,7 @@ GameObject:
   - component: {fileID: 1707026124}
   - component: {fileID: 1707026128}
   m_Layer: 5
-  m_Name: CheckScoreBottun
+  m_Name: CheckScoreButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1246,7 +1246,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 923820867}
-  m_Father: {fileID: 1571145379}
+  m_Father: {fileID: 636913377}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1395,7 +1395,7 @@ GameObject:
   - component: {fileID: 1840827157}
   - component: {fileID: 1840827156}
   m_Layer: 5
-  m_Name: OptionBottun
+  m_Name: OptionButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1414,7 +1414,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 432578331}
-  m_Father: {fileID: 1571145379}
+  m_Father: {fileID: 636913377}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

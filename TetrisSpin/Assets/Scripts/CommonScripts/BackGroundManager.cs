@@ -38,6 +38,7 @@ public class BackGroundManager : MonoBehaviour
         {
             ScoreScroll();
         }
+        GameClearScroll();
     }
 
     /// <summary> ゲームクリア画面のスクロールをする関数 </summary>

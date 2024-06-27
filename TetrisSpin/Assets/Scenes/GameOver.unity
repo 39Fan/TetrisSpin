@@ -490,7 +490,7 @@ MonoBehaviour:
   m_text: GameOver
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cd665e3de3b6349ec925a5e894ebcd65, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 26aa27488889d4a38a2f436856240cad, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 0e54a4f32a69b4f25b2abe54b4114df0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -670,8 +670,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameClearBackGroundRect1: {fileID: 0}
   gameClearBackGroundRect2: {fileID: 0}
-  gameOverBackGroundRect1: {fileID: 0}
-  gameOverBackGroundImage1: {fileID: 0}
+  gameOverBackGroundRect1: {fileID: 1782145983}
+  gameOverBackGroundImage1: {fileID: 1782145985}
   scoreBackGroundRect1: {fileID: 0}
   scoreBackGroundRect2: {fileID: 0}
 --- !u!4 &1936607690

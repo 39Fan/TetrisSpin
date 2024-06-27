@@ -4685,7 +4685,7 @@ GameObject:
   - component: {fileID: 1103134414}
   - component: {fileID: 1103134416}
   m_Layer: 5
-  m_Name: PoseIcon
+  m_Name: PoseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
