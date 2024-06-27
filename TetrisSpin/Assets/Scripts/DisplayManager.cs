@@ -1049,8 +1049,14 @@ public class DisplayManager : MonoBehaviour
         LogHelper.DebugLog(eClasses.DisplayManager, eMethod.PressedPoseIcon, eLogTitle.End);
     }
 
+    /// <summary> BackToGameが押された時の子ルーチン処理を呼ぶ関数 </summary>
+    public void PressedBackToGame()
+    {
+        StartCoroutine(PressedBackToGameCoroutine());
+    }
+
     /// <summary> BackToGameが押された時の処理をする関数 </summary>
-    public IEnumerator PressedBackToGame()
+    private IEnumerator PressedBackToGameCoroutine()
     {
         LogHelper.DebugLog(eClasses.DisplayManager, eMethod.PressedBackToGame, eLogTitle.Start);
 
