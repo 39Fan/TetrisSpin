@@ -179,7 +179,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (GameSceneManagerStats.GameOverScene || GameSceneManagerStats.GameClearScene || GameSceneManagerStats.PoseState)
+        if (!GameSceneManagerStats.PlayScene || GameSceneManagerStats.PoseState)
         {
             return;
         }

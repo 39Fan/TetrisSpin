@@ -40,11 +40,10 @@ public static class GameSceneManagerStats
     /// <param name="_playScene"> プレイシーンの状態 </param>
     /// <param name="_gameOverScene"> ゲームオーバーの状態 </param>
     /// <param name="_gameClearScene"> ゲームクリアの状態 </param>
-    /// <param name="_poseState"> ポーズシーンの状態 </param>
     /// <remarks>
     /// 指定されたシーン状態を true に設定し、他のすべてのシーン状態を false に設定する。
     /// </remarks>
-    public static void UpdateStats(bool? _menuScene = null, bool? _scoreScene = null, bool? _optionScene = null, bool? _playScene = null, bool? _gameOverScene = null, bool? _gameClearScene = null, bool? _poseState = null)
+    public static void UpdateStats(bool? _menuScene = null, bool? _scoreScene = null, bool? _optionScene = null, bool? _playScene = null, bool? _gameOverScene = null, bool? _gameClearScene = null)
     {
         LogHelper.DebugLog(eClasses.GameSceneManagerStats, eMethod.UpdateStats, eLogTitle.Start);
 
@@ -55,7 +54,6 @@ public static class GameSceneManagerStats
         playScene = false;
         gameOverScene = false;
         gameClearScene = false;
-        poseState = false;
 
         string loadScene = "NoScene";
 
@@ -90,11 +88,6 @@ public static class GameSceneManagerStats
             gameClearScene = true;
             loadScene = "gameClearScene";
         }
-        else if (_poseState == true)
-        {
-            poseState = true;
-            loadScene = "poseState";
-        }
 
         logStatsDetail = $"LoadScene = {loadScene}";
         LogHelper.InfoLog(eClasses.GameSceneManagerStats, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
@@ -110,6 +103,16 @@ public static class GameSceneManagerStats
         poseState = true;
 
         LogHelper.DebugLog(eClasses.GameSceneManagerStats, eMethod.LoadPoseState, eLogTitle.End);
+    }
+
+    /// <summary> poseStateを false にする関数 </summary>
+    public static void UnLoadPoseState()
+    {
+        LogHelper.DebugLog(eClasses.GameSceneManagerStats, eMethod.UnLoadPoseState, eLogTitle.Start);
+
+        poseState = false;
+
+        LogHelper.DebugLog(eClasses.GameSceneManagerStats, eMethod.UnLoadPoseState, eLogTitle.End);
     }
 
     /// <summary> デフォルトの <see cref="GameStateManager"/> にリセットする関数 </summary>
@@ -139,6 +142,7 @@ public class GameSceneManager : MonoBehaviour
     {
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadMenuScene, eLogTitle.Start);
 
+        GameSceneManagerStats.UpdateStats(_menuScene: true);
         SceneManager.LoadScene("Menu", LoadSceneMode.Single);
 
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadMenuScene, eLogTitle.End);
@@ -149,7 +153,8 @@ public class GameSceneManager : MonoBehaviour
     {
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadPlayScene, eLogTitle.Start);
 
-        SceneManager.LoadScene("Play", LoadSceneMode.Single); // 他のシーンはアンロードする
+        GameSceneManagerStats.UpdateStats(_playScene: true);
+        SceneManager.LoadScene("Play", LoadSceneMode.Single);
 
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadPlayScene, eLogTitle.End);
     }
@@ -159,6 +164,7 @@ public class GameSceneManager : MonoBehaviour
     {
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadGameClearScene, eLogTitle.Start);
 
+        GameSceneManagerStats.UpdateStats(_gameClearScene: true);
         SceneManager.LoadScene("GameClear", LoadSceneMode.Single);
 
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadGameClearScene, eLogTitle.End);
@@ -169,6 +175,7 @@ public class GameSceneManager : MonoBehaviour
     {
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadGameOverScene, eLogTitle.Start);
 
+        GameSceneManagerStats.UpdateStats(_gameOverScene: true);
         SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
 
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadGameOverScene, eLogTitle.End);
@@ -179,6 +186,7 @@ public class GameSceneManager : MonoBehaviour
     {
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadOptionScene, eLogTitle.Start);
 
+        GameSceneManagerStats.UpdateStats(_optionScene: true);
         SceneManager.LoadScene("Option", LoadSceneMode.Single);
 
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadOptionScene, eLogTitle.End);
@@ -189,6 +197,7 @@ public class GameSceneManager : MonoBehaviour
     {
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadScoreScene, eLogTitle.Start);
 
+        GameSceneManagerStats.UpdateStats(_scoreScene: true);
         SceneManager.LoadScene("Score", LoadSceneMode.Single);
 
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadScoreScene, eLogTitle.End);

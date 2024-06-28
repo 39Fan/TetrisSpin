@@ -144,6 +144,8 @@ public class GameDisplayManager : MonoBehaviour
     [SerializeField] private Canvas poseCanvas;
     /// <summary> PoseIconが押された時に表示するImage </summary>
     [SerializeField] private Image poseBackGround;
+    /// <summary> PoseIconが押された時に表示するButtonPanel </summary>
+    [SerializeField] private GameObject poseButtonPanel;
 
     // Panel //
     [SerializeField] private RectTransform gameBoardPanel;
@@ -429,6 +431,15 @@ public class GameDisplayManager : MonoBehaviour
 
         Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>> spinTypeTextMapping = new Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>>
         {
+            { SpinTypeNames.None, new Dictionary<int, TextMeshProUGUI>
+                {
+                    { 0, null },
+                    { 1, null },
+                    { 2, null },
+                    { 3, null },
+                    { 4, tetrisText }
+                }
+            },
             { SpinTypeNames.Ispin, new Dictionary<int, TextMeshProUGUI>
                 {
                     { 0, i_spinText },
@@ -518,16 +529,48 @@ public class GameDisplayManager : MonoBehaviour
                     { 1, z_spinMiniText },
                     { 2, z_spinDoubleMiniText },
                 }
-            },
-            { SpinTypeNames.None, new Dictionary<int, TextMeshProUGUI>
-                {
-                    { 0, null },
-                    { 1, null },
-                    { 2, null },
-                    { 3, null },
-                    { 4, tetrisText }
-                }
             }
+        };
+
+        Dictionary<TextMeshProUGUI, SaveDataTypes> spinTypeToSaveDataTypeMapping = new Dictionary<TextMeshProUGUI, SaveDataTypes>
+        {
+            { tetrisText, SaveDataTypes.Tetris },
+            { i_spinText, SaveDataTypes.I_Spin },
+            { i_spinSingleText, SaveDataTypes.I_SpinSingle },
+            { i_spinDoubleText, SaveDataTypes.I_SpinDouble },
+            { i_spinTripleText, SaveDataTypes.I_SpinTriple },
+            { i_spinQuattroText, SaveDataTypes.I_SpinQuattro },
+            { i_spinMiniText, SaveDataTypes.I_SpinMini },
+            { j_spinText, SaveDataTypes.J_Spin },
+            { j_spinSingleText, SaveDataTypes.J_SpinSingle },
+            { j_spinDoubleText, SaveDataTypes.J_SpinDouble },
+            { j_spinTripleText, SaveDataTypes.J_SpinTriple },
+            // { j_spinMiniText, SaveDataTypes.J_SpinMini }, // Uncomment if needed
+            // { j_spinDoubleMiniText, SaveDataTypes.J_SpinDoubleMini }, // Uncomment if needed
+            { l_spinText, SaveDataTypes.L_Spin },
+            { l_spinSingleText, SaveDataTypes.L_SpinSingle },
+            { l_spinDoubleText, SaveDataTypes.L_SpinDouble },
+            { l_spinTripleText, SaveDataTypes.L_SpinTriple },
+            // { l_spinMiniText, SaveDataTypes.L_SpinMini }, // Uncomment if needed
+            // { l_spinDoubleMiniText, SaveDataTypes.L_SpinDoubleMini }, // Uncomment if needed
+            { s_spinText, SaveDataTypes.S_Spin },
+            { s_spinSingleText, SaveDataTypes.S_SpinSingle },
+            { s_spinDoubleText, SaveDataTypes.S_SpinDouble },
+            { s_spinTripleText, SaveDataTypes.S_SpinTriple },
+            { s_spinMiniText, SaveDataTypes.S_SpinMini },
+            { s_spinDoubleMiniText, SaveDataTypes.S_SpinDoubleMini },
+            { t_spinText, SaveDataTypes.T_Spin },
+            { t_spinSingleText, SaveDataTypes.T_SpinSingle },
+            { t_spinDoubleText, SaveDataTypes.T_SpinDouble },
+            { t_spinTripleText, SaveDataTypes.T_SpinTriple },
+            { t_spinMiniText, SaveDataTypes.T_SpinMini },
+            { t_spinDoubleMiniText, SaveDataTypes.T_SpinDoubleMini },
+            { z_spinText, SaveDataTypes.Z_Spin },
+            { z_spinSingleText, SaveDataTypes.Z_SpinSingle },
+            { z_spinDoubleText, SaveDataTypes.Z_SpinDouble },
+            { z_spinTripleText, SaveDataTypes.Z_SpinTriple },
+            { z_spinMiniText, SaveDataTypes.Z_SpinMini },
+            { z_spinDoubleMiniText, SaveDataTypes.Z_SpinDoubleMini }
         };
 
         TextMeshProUGUI displayText = null;
@@ -1036,37 +1079,54 @@ public class GameDisplayManager : MonoBehaviour
         LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.StopAnimation, eLogTitle.End);
     }
 
-    /// <summary> PoseIconが押された時の処理をする関数 </summary>
+    /// <summary> PoseIconが押された時のコルーチン処理を呼ぶ関数 </summary>
     public void PressedPoseIcon()
     {
         LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PressedPoseIcon, eLogTitle.Start);
+
+        StartCoroutine(PoseIconCoroutine());
+
+        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PressedPoseIcon, eLogTitle.End);
+    }
+
+    /// <summary> PoseIconが押された時の処理をする関数 </summary>
+    private IEnumerator PoseIconCoroutine()
+    {
+        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PoseIconCoroutine, eLogTitle.Start);
 
         GameSceneManagerStats.LoadPoseState();
         poseCanvas.gameObject.SetActive(true);
         //audio
         poseBackGround.DOFade(1, 0.3f);
+        yield return new WaitForSeconds(0.3f);
+        poseButtonPanel.SetActive(true);
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PressedPoseIcon, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PoseIconCoroutine, eLogTitle.End);
     }
 
-    /// <summary> BackToGameが押された時のコルーチン処理を呼ぶ関数 </summary>
-    public void PressedBackToGame()
+    /// <summary> Continueが押された時のコルーチン処理を呼ぶ関数 </summary>
+    public void PressedContinue()
     {
-        StartCoroutine(BackToGameCoroutine());
+        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PressedContinue, eLogTitle.Start);
+
+        StartCoroutine(ContinueCoroutine());
+
+        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PressedContinue, eLogTitle.End);
     }
 
-    /// <summary> BackToGameが押された時の処理をする関数 </summary>
-    private IEnumerator BackToGameCoroutine()
+    /// <summary> Continueが押された時の処理をする関数 </summary>
+    private IEnumerator ContinueCoroutine()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PressedBackToGame, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.ContinueCoroutine, eLogTitle.Start);
 
+        poseButtonPanel.SetActive(false);
         poseBackGround.DOFade(0, 0.3f);
         //audio
-        yield return new WaitForSeconds(0.5f); // 短い待機
+        yield return new WaitForSeconds(0.5f);
         poseCanvas.gameObject.SetActive(false);
-        GameSceneManagerStats.UpdateStats(_poseState: false);
+        GameSceneManagerStats.UnLoadPoseState();
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PressedBackToGame, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.ContinueCoroutine, eLogTitle.End);
     }
 }
 

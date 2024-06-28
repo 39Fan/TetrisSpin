@@ -124,11 +124,11 @@ public enum eMethod
     ImageFadeInAndOutType1, ImageFadeInAndOutType2, ImageFadeInAndOutType3, SpinTextMove,
     TetrisAnimation, BackToBackAnimation, PerfectClearAnimation, ReadyGoAnimation,
     SumAttackLinesAnimation, AttackLinesAnimation, RenAnimation, EndingRenAnimation, SpinCompleteAnimation, SpinCompleteTextAnimation,
-    StopAnimation, PressedPoseIcon, PressedBackToGame,
+    StopAnimation, PressedPoseIcon, PoseIconCoroutine, PressedContinue, ContinueCoroutine,
     // GameAutoRunner クラス //
     RockDown, ResetRockDown, AutoDown, SetMinoFixed,
     // GameSceneManagerStats クラス //
-    LoadPoseState,
+    LoadPoseState, UnLoadPoseState,
     // GameSceneManager クラス //
     LoadMenuScene, LoadPlayScene, LoadGameClearScene, LoadGameOverScene, LoadOptionScene, LoadScoreScene,
     // LogHelper クラス //
