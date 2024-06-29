@@ -69,7 +69,7 @@ public class GameAutoRunner : MonoBehaviour
     GameSceneManager gameSceneManager;
     Spawner spawner;
     SpinCheck spinCheck;
-    GameDisplayManager gameDisplayManager;
+    PlayDisplayManager playDisplayManager;
 
     /// <summary>
     /// インスタンス化
@@ -82,7 +82,7 @@ public class GameAutoRunner : MonoBehaviour
         gameSceneManager = FindObjectOfType<GameSceneManager>();
         spawner = FindObjectOfType<Spawner>();
         spinCheck = FindObjectOfType<SpinCheck>();
-        gameDisplayManager = FindObjectOfType<GameDisplayManager>();
+        playDisplayManager = FindObjectOfType<PlayDisplayManager>();
     }
 
     /// <summary> ロックダウンの処理をする関数 </summary>
@@ -137,9 +137,9 @@ public class GameAutoRunner : MonoBehaviour
         }
         else
         {
-            if (spinCheck.SpinTypeName != SpinTypeNames.Ispin)
+            if (spinCheck.SpinType != SpinTypes.Ispin)
             {
-                spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
+                spinCheck.ResetSpinType(); // 移動したため、スピン判定をリセット
             }
             minoMovement.ResetStepsSRS();
         }
@@ -154,10 +154,12 @@ public class GameAutoRunner : MonoBehaviour
 
         /// <summary> 合計の消去ライン数 </summary>
         int lineClearCount;
+        /// <summary> 詳細なSpinType </summary>
+        DetailedSpinTypes detailedSpinType;
 
         if (board.CheckGameOver(spawner.ActiveMino)) // ミノの設置時にゲームオーバーの条件を満たした場合
         {
-            gameDisplayManager.StopAnimation();
+            playDisplayManager.StopAnimation();
 
             GameStateManager.UpdateState(_gameOver: true);
 
@@ -166,18 +168,22 @@ public class GameAutoRunner : MonoBehaviour
             return;
         }
 
-        // 各種変数のリセット
-        ResetRockDown();
-        CoolDownTimer.ResetCoolDownTimer();
-
+        // 列消去と消去数の記録
         board.SaveBlockInGrid(spawner.ActiveMino);
         lineClearCount = board.CheckAllRows();
         board.AddLineClearCountHistory(lineClearCount);
-        gameDisplayManager.SpinAnimation(spinCheck.SpinTypeName, lineClearCount);
-        attackCalculator.CalculateSumAttackLines(spinCheck.SpinTypeName, lineClearCount);
+
+        // Spin判定のチェック(Tetris判定も含む)
+        detailedSpinType = spinCheck.DetermineDetailedSpinType(lineClearCount);
+        playDisplayManager.SpinAnimation(spinCheck.SpinType, detailedSpinType);
+
+        // 攻撃ライン数を計算
+        attackCalculator.CalculateSumAttackLines(spinCheck.SpinType, detailedSpinType, lineClearCount);
 
         // 各種変数のリセット
-        spinCheck.ResetSpinTypeName();
+        ResetRockDown();
+        CoolDownTimer.ResetCoolDownTimer();
+        spinCheck.ResetSpinType();
         minoMovement.ResetAngle();
         minoMovement.ResetStepsSRS();
 
@@ -190,7 +196,7 @@ public class GameAutoRunner : MonoBehaviour
 
         if (!board.CheckPosition(spawner.ActiveMino)) // ミノを生成した際に、ブロックと重なってしまった場合
         {
-            gameDisplayManager.StopAnimation();
+            playDisplayManager.StopAnimation();
 
             GameStateManager.UpdateState(_gameOver: true);
 

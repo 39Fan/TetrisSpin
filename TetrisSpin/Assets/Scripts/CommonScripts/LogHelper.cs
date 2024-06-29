@@ -81,8 +81,8 @@ public enum eClasses
     AudioManager,
     Board,
     BoardStats,
-    GameDisplayManager,
-    GameDisplayManagerStats,
+    PlayDisplayManager,
+    PlayDisplayManagerStats,
     GameAutoRunner,
     GameAutoRunnerStats,
     GameManager,
@@ -92,6 +92,7 @@ public enum eClasses
     LogHelper,
     MinoMovement,
     MinoMovementStats,
+    ModeSelectDisplayManager,
     PlayerInput,
     PlayerInputStats,
     Rounding,
@@ -119,8 +120,8 @@ public enum eMethod
     // Board クラス //
     CreateBoard, CheckPosition, IsWithinBoard, CheckMinoCollision, SaveBlockInGrid, CheckAllRows, IsComplete, ClearRow, ShiftRowsDown,
     CheckPerfectClear, CheckGrid, CheckActiveMinoTopBlockPositionY, CheckActiveMinoBottomBlockPositionY, CheckGameOver,
-    // DisplayManager クラス //
-    SpinAnimation, DetermineTextToDisplay, SpinTextAnimation, SpinColorAnimation, TextFadeInAndOutType1,
+    // PlayDisplayManager クラス //
+    SpinAnimation, SpinTextAnimation, SpinColorAnimation, TextFadeInAndOutType1,
     ImageFadeInAndOutType1, ImageFadeInAndOutType2, ImageFadeInAndOutType3, SpinTextMove,
     TetrisAnimation, BackToBackAnimation, PerfectClearAnimation, ReadyGoAnimation,
     SumAttackLinesAnimation, AttackLinesAnimation, RenAnimation, EndingRenAnimation, SpinCompleteAnimation, SpinCompleteTextAnimation,
@@ -137,6 +138,8 @@ public enum eMethod
     Move, MoveLeft, MoveRight, MoveUp, MoveDown, RotateRight, RotateLeft, AxisCheckForI,
     UpdateMinoAngleAfter, UpdateMinoAngleAfterToMinoAngleBefore, UpdateMinoAngleBeforeToMinoAngleAfter,
     ResetRotate, ResetAngle, ResetStepsSRS, SuperRotationSystem, TrySuperRotation, GetMinoAngleAfter, GetMinoAngleBefore, GetStepsSRS,
+    // ModeSelectDisplayManager クラス //
+    PressedTimeAttack_100, TimeAttack_100Coroutine,
     // PlayerInput クラス //
     InputInGame, MoveRightInput, ContinuousMoveRightInput, MoveLeftInput, ContinuousMoveLeftInput,
     ReleaseContinuousMoveRightLeftInput, MoveDownInput, RotateRightInput, RotateLeftInput,
@@ -147,7 +150,7 @@ public enum eMethod
     DetermineSpawnMinoOrder, CheckActiveMinoToBaseDistance, AdjustGhostMinoPosition,
     CreateNewActiveMino, CreateNextMinos, CreateHoldMino, SpawnActiveMino, SpawnGhostMino, SpawnNextMino, SpawnHoldMino,
     // SpinCheck クラス //
-    CheckSpinType, ResetSpinTypeName, IspinCheck, JspinCheck, LspinCheck, SspinCheck, TspinCheck, ZspinCheck,
+    CheckSpinType, ResetSpinType, IspinCheck, JspinCheck, LspinCheck, SspinCheck, TspinCheck, ZspinCheck, DetermineDetailedSpinType,
     // Timer クラス //
     ResetCoolDownTimer, UpdateMoveLeftRightCoolDownTimer, UpdateMoveDownCoolDownTimer, UpdateRotateCoolDownTimer
 

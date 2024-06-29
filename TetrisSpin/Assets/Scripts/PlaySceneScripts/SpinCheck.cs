@@ -4,12 +4,14 @@ using UnityEngine;
 /// <summary>
 /// スピン判定 列挙型
 /// </summary>
-public enum SpinTypeNames
+public enum SpinTypes
 {
     Ispin,
     IspinMini,
     Jspin,
+    JspinMini,
     Lspin,
+    LspinMini,
     Ospin,
     Sspin,
     SspinMini,
@@ -18,6 +20,20 @@ public enum SpinTypeNames
     Zspin,
     ZspinMini,
     None
+}
+
+/// <summary>
+/// 詳細なスピンタイプ 列挙型
+/// </summary>
+public enum DetailedSpinTypes
+{
+    I_Spin, I_SpinSingle, I_SpinDouble, I_SpinTriple, I_SpinQuattro, I_SpinMini,
+    J_Spin, J_SpinSingle, J_SpinDouble, J_SpinTriple, J_SpinMini, J_SpinDoubleMini,
+    L_Spin, L_SpinSingle, L_SpinDouble, L_SpinTriple, L_SpinMini, L_SpinDoubleMini,
+    S_Spin, S_SpinSingle, S_SpinDouble, S_SpinTriple, S_SpinMini, S_SpinDoubleMini,
+    T_Spin, T_SpinSingle, T_SpinDouble, T_SpinTriple, T_SpinMini, T_SpinDoubleMini,
+    Z_Spin, Z_SpinSingle, Z_SpinDouble, Z_SpinTriple, Z_SpinMini, Z_SpinDoubleMini,
+    Tetris, None
 }
 
 /// <summary>
@@ -35,10 +51,10 @@ public enum Existence
 public class SpinCheck : MonoBehaviour
 {
     /// <summary> Spinの種類 </summary>
-    private SpinTypeNames spinTypeName;
+    private SpinTypes spinType;
 
     // ゲッタープロパティ //
-    public SpinTypeNames SpinTypeName => spinTypeName;
+    public SpinTypes SpinType => spinType;
 
     /// <summary> ログの詳細 </summary>
     private string logDetail;
@@ -52,20 +68,20 @@ public class SpinCheck : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        spinTypeName = SpinTypeNames.None;
+        spinType = SpinTypes.None;
 
         board = FindObjectOfType<Board>();
         spawner = FindObjectOfType<Spawner>();
     }
 
     /// <summary> Spin判定をリセットする関数 </summary>
-    public void ResetSpinTypeName()
+    public void ResetSpinType()
     {
-        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.ResetSpinTypeName, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.ResetSpinType, eLogTitle.Start);
 
-        spinTypeName = SpinTypeNames.None;
+        spinType = SpinTypes.None;
 
-        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.ResetSpinTypeName, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.ResetSpinType, eLogTitle.End);
     }
 
     /// <summary> 各ミノのスピン判定をチェックする関数 </summary>
@@ -97,7 +113,7 @@ public class SpinCheck : MonoBehaviour
                 ZspinCheck(_minoAngleAfter, _stepsSRS);
                 break;
             default:
-                LogHelper.WarningLog(eClasses.SpinCheck, eMethod.ResetSpinTypeName, eLogTitle.MinosIdentificationFailed);
+                LogHelper.WarningLog(eClasses.SpinCheck, eMethod.ResetSpinType, eLogTitle.MinosIdentificationFailed);
                 break;
         }
 
@@ -169,7 +185,7 @@ public class SpinCheck : MonoBehaviour
             if (checkBlocklistAboveI.FindAll(block => block == Existence.Exist).Count >= 1 ||
                 checkBlocklistBelowI.FindAll(block => block == Existence.Exist).Count >= 3)
             {
-                spinTypeName = SpinTypeNames.IspinMini;
+                spinType = SpinTypes.IspinMini;
             }
         }
         else // Iミノが縦向きの場合
@@ -253,7 +269,7 @@ public class SpinCheck : MonoBehaviour
                 checkBlocklistLeftSideI.FindAll(block => block == Existence.Exist).Count >= 3 &&
                 checkBlocklistUpperI.FindAll(block => block == Existence.Exist).Count >= 1)
             {
-                spinTypeName = SpinTypeNames.Ispin;
+                spinType = SpinTypes.Ispin;
             }
         }
 
@@ -340,7 +356,7 @@ public class SpinCheck : MonoBehaviour
         // 条件を満たすか確認(②の確認込み)
         if (checkBlocklistJ.FindAll(block => block == Existence.Exist).Count >= 3 && _stepsSRS >= 1)
         {
-            spinTypeName = SpinTypeNames.Jspin;
+            spinType = SpinTypes.Jspin;
         }
 
         LogHelper.DebugLog(eClasses.SpinCheck, eMethod.JspinCheck, eLogTitle.End);
@@ -427,7 +443,7 @@ public class SpinCheck : MonoBehaviour
         // Lspinの判定をチェックする
         if (checkBlocklistL.FindAll(block => block == Existence.Exist).Count >= 3 && _stepsSRS >= 1)
         {
-            spinTypeName = SpinTypeNames.Lspin;
+            spinType = SpinTypes.Lspin;
         }
 
         LogHelper.DebugLog(eClasses.SpinCheck, eMethod.LspinCheck, eLogTitle.End);
@@ -521,19 +537,15 @@ public class SpinCheck : MonoBehaviour
         // Sspinの判定をチェックする
         if (checkBlocklistS.FindAll(block => block == Existence.NotExist).Count <= 2)
         {
-            spinTypeName = SpinTypeNames.Sspin;
-
-            LogHelper.DebugLog(eClasses.SpinCheck, eMethod.SspinCheck, eLogTitle.End);
-            return;
+            spinType = SpinTypes.Sspin;
         }
         // SspinMiniの判定をチェックする
         if (checkBlocklistS.FindAll(block => block == Existence.NotExist).Count <= 3 && _stepsSRS >= 1)
         {
-            spinTypeName = SpinTypeNames.SspinMini;
-
-            LogHelper.DebugLog(eClasses.SpinCheck, eMethod.SspinCheck, eLogTitle.End);
-            return;
+            spinType = SpinTypes.SspinMini;
         }
+
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.SspinCheck, eLogTitle.End);
     }
 
     /// <summary> Tspinの判定をする関数 </summary>
@@ -590,7 +602,7 @@ public class SpinCheck : MonoBehaviour
         {
             if (_stepsSRS == 4) // SRSが4段階の時は T-Spin 判定になる
             {
-                spinTypeName = SpinTypeNames.Tspin;
+                spinType = SpinTypes.Tspin;
             }
             else // SRSが4段階でない時
             {
@@ -605,11 +617,11 @@ public class SpinCheck : MonoBehaviour
                     case eMinoDirection.North: // Tミノが北向きの時、右上と左上を確認する
                         if (checkBlocklistT[right_up] == Existence.NotExist || checkBlocklistT[left_up] == Existence.NotExist)
                         {
-                            spinTypeName = SpinTypeNames.TspinMini;
+                            spinType = SpinTypes.TspinMini;
                         }
                         else
                         {
-                            spinTypeName = SpinTypeNames.Tspin; // Tミノの底側のブロックが空白の時は T-Spin 判定になる
+                            spinType = SpinTypes.Tspin; // Tミノの底側のブロックが空白の時は T-Spin 判定になる
                         }
 
                         break;
@@ -617,11 +629,11 @@ public class SpinCheck : MonoBehaviour
                     case eMinoDirection.East: // 右上と右下
                         if (checkBlocklistT[right_up] == Existence.NotExist || checkBlocklistT[right_down] == Existence.NotExist)
                         {
-                            spinTypeName = SpinTypeNames.TspinMini;
+                            spinType = SpinTypes.TspinMini;
                         }
                         else
                         {
-                            spinTypeName = SpinTypeNames.Tspin;
+                            spinType = SpinTypes.Tspin;
                         }
 
                         break;
@@ -629,11 +641,11 @@ public class SpinCheck : MonoBehaviour
                     case eMinoDirection.South: // 右下と左下
                         if (checkBlocklistT[right_down] == Existence.NotExist || checkBlocklistT[left_down] == Existence.NotExist)
                         {
-                            spinTypeName = SpinTypeNames.TspinMini;
+                            spinType = SpinTypes.TspinMini;
                         }
                         else
                         {
-                            spinTypeName = SpinTypeNames.Tspin;
+                            spinType = SpinTypes.Tspin;
                         }
 
                         break;
@@ -641,11 +653,11 @@ public class SpinCheck : MonoBehaviour
                     case eMinoDirection.West: // 左上と左下
                         if (checkBlocklistT[left_up] == Existence.NotExist || checkBlocklistT[left_down] == Existence.NotExist)
                         {
-                            spinTypeName = SpinTypeNames.TspinMini;
+                            spinType = SpinTypes.TspinMini;
                         }
                         else
                         {
-                            spinTypeName = SpinTypeNames.Tspin;
+                            spinType = SpinTypes.Tspin;
                         }
 
                         break;
@@ -744,19 +756,175 @@ public class SpinCheck : MonoBehaviour
         // Zspinの判定をチェックする
         if (checkBlocklistZ.FindAll(block => block == Existence.NotExist).Count <= 2)
         {
-            spinTypeName = SpinTypeNames.Zspin;
-
-            LogHelper.DebugLog(eClasses.SpinCheck, eMethod.ZspinCheck, eLogTitle.End);
-            return;
+            spinType = SpinTypes.Zspin;
         }
         // ZspinMiniの判定をチェックする
-        if (checkBlocklistZ.FindAll(block => block == Existence.NotExist).Count <= 3 && _stepsSRS >= 1)
+        else if (checkBlocklistZ.FindAll(block => block == Existence.NotExist).Count <= 3 && _stepsSRS >= 1)
         {
-            spinTypeName = SpinTypeNames.ZspinMini;
-
-            LogHelper.DebugLog(eClasses.SpinCheck, eMethod.ZspinCheck, eLogTitle.End);
-            return;
+            spinType = SpinTypes.ZspinMini;
         }
+
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.ZspinCheck, eLogTitle.End);
+    }
+
+    /// <summary> スピンタイプと列消去数から詳細なスピンタイプを決定する関数 </summary>
+    /// <param name="_lineClearCount"> 消去ライン数 </param>
+    /// <remarks>
+    /// 再生するSEの決定も行う
+    /// </remarks>
+    /// <returns> 詳細なスピンタイプ(DetailedSpinTypes) </returns>
+    public DetailedSpinTypes DetermineDetailedSpinType(int _lineClearCount)
+    {
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.DetermineDetailedSpinType, eLogTitle.Start);
+
+        /// <summary> 詳細なスピンタイプ </summary>
+        DetailedSpinTypes detailedSpinType = DetailedSpinTypes.None;
+
+        /// <summary> スピンタイプと消去ライン数に対応する詳細なスピンタイプをマッピングするディクショナリ </summary>
+        Dictionary<SpinTypes, Dictionary<int, DetailedSpinTypes>> spinTypeAndLineClearCountToDetailedSpinTypesDictionary = new Dictionary<SpinTypes, Dictionary<int, DetailedSpinTypes>>
+        {
+            { SpinTypes.None, new Dictionary<int, DetailedSpinTypes>
+                {
+                    { 0, DetailedSpinTypes.None },
+                    { 1, DetailedSpinTypes.None },
+                    { 2, DetailedSpinTypes.None },
+                    { 3, DetailedSpinTypes.None },
+                    { 4, DetailedSpinTypes.Tetris }
+                }
+            },
+            { SpinTypes.Ispin, new Dictionary<int, DetailedSpinTypes>
+                {
+                    { 0, DetailedSpinTypes.I_Spin },
+                    { 1, DetailedSpinTypes.I_SpinSingle },
+                    { 2, DetailedSpinTypes.I_SpinDouble },
+                    { 3, DetailedSpinTypes.I_SpinTriple },
+                    { 4, DetailedSpinTypes.I_SpinQuattro }
+                }
+            },
+            { SpinTypes.IspinMini, new Dictionary<int, DetailedSpinTypes>
+                {
+                    { 0, DetailedSpinTypes.I_SpinMini },
+                    { 1, DetailedSpinTypes.I_SpinMini }
+                }
+            },
+            { SpinTypes.Jspin, new Dictionary<int, DetailedSpinTypes>
+                {
+                    { 0, DetailedSpinTypes.J_Spin },
+                    { 1, DetailedSpinTypes.J_SpinSingle },
+                    { 2, DetailedSpinTypes.J_SpinDouble },
+                    { 3, DetailedSpinTypes.J_SpinTriple }
+                }
+            },
+            { SpinTypes.JspinMini, new Dictionary<int, DetailedSpinTypes>
+                {
+                    { 0, DetailedSpinTypes.J_SpinMini },
+                    { 1, DetailedSpinTypes.J_SpinMini },
+                    { 2, DetailedSpinTypes.J_SpinDoubleMini }
+                }
+            },
+            { SpinTypes.Lspin, new Dictionary<int, DetailedSpinTypes>
+                {
+                    { 0, DetailedSpinTypes.L_Spin },
+                    { 1, DetailedSpinTypes.L_SpinSingle },
+                    { 2, DetailedSpinTypes.L_SpinDouble },
+                    { 3, DetailedSpinTypes.L_SpinTriple }
+                }
+            },
+            { SpinTypes.LspinMini, new Dictionary<int, DetailedSpinTypes>
+                {
+                    { 0, DetailedSpinTypes.L_SpinMini },
+                    { 1, DetailedSpinTypes.L_SpinMini },
+                    { 2, DetailedSpinTypes.L_SpinDoubleMini }
+                }
+            },
+            { SpinTypes.Sspin, new Dictionary<int, DetailedSpinTypes>
+                {
+                    { 0, DetailedSpinTypes.S_Spin },
+                    { 1, DetailedSpinTypes.S_SpinMini },
+                    { 2, DetailedSpinTypes.S_SpinDouble },
+                    { 3, DetailedSpinTypes.S_SpinTriple }
+                }
+            },
+            { SpinTypes.SspinMini, new Dictionary<int, DetailedSpinTypes>
+                {
+                    { 0, DetailedSpinTypes.S_SpinMini },
+                    { 1, DetailedSpinTypes.S_SpinMini },
+                    { 2, DetailedSpinTypes.S_SpinDoubleMini },
+                }
+            },
+            { SpinTypes.Tspin, new Dictionary<int, DetailedSpinTypes>
+                {
+                    { 0, DetailedSpinTypes.T_Spin },
+                    { 1, DetailedSpinTypes.T_SpinSingle },
+                    { 2, DetailedSpinTypes.T_SpinDouble },
+                    { 3, DetailedSpinTypes.T_SpinTriple }
+                }
+            },
+            { SpinTypes.TspinMini, new Dictionary<int, DetailedSpinTypes>
+                {
+                    { 0, DetailedSpinTypes.T_SpinMini },
+                    { 1, DetailedSpinTypes.T_SpinMini },
+                    { 2, DetailedSpinTypes.T_SpinDoubleMini }
+                }
+            },
+            { SpinTypes.Zspin, new Dictionary<int, DetailedSpinTypes>
+                {
+                    { 0, DetailedSpinTypes.Z_Spin },
+                    { 1, DetailedSpinTypes.Z_SpinSingle },
+                    { 2, DetailedSpinTypes.Z_SpinDouble },
+                    { 3, DetailedSpinTypes.Z_SpinTriple }
+                }
+            },
+            { SpinTypes.ZspinMini, new Dictionary<int, DetailedSpinTypes>
+                {
+                    { 0, DetailedSpinTypes.Z_SpinMini },
+                    { 1, DetailedSpinTypes.Z_SpinMini },
+                    { 2, DetailedSpinTypes.Z_SpinDoubleMini },
+                }
+            }
+        };
+
+        if (spinTypeAndLineClearCountToDetailedSpinTypesDictionary.ContainsKey(spinType) &&
+            spinTypeAndLineClearCountToDetailedSpinTypesDictionary[spinType].ContainsKey(_lineClearCount))
+        {
+            detailedSpinType = spinTypeAndLineClearCountToDetailedSpinTypesDictionary[spinType][_lineClearCount];
+        }
+        else
+        {
+            LogHelper.ErrorLog(eClasses.SpinCheck, eMethod.DetermineDetailedSpinType, eLogTitle.KeyNotFound);
+        }
+
+        if (detailedSpinType != DetailedSpinTypes.None)
+        {
+            if (_lineClearCount >= 1)
+            {
+                AudioManager.Instance.PlaySound(eAudioName.SpinDestroy);
+            }
+            else
+            {
+                AudioManager.Instance.PlaySound(eAudioName.NormalDestroy);
+            }
+        }
+        else
+        {
+            switch (_lineClearCount)
+            {
+                case 0:
+                    AudioManager.Instance.PlaySound(eAudioName.NormalDrop);
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                    AudioManager.Instance.PlaySound(eAudioName.NormalDestroy);
+                    break;
+                case 4:
+                    AudioManager.Instance.PlaySound(eAudioName.Tetris);
+                    break;
+            }
+        }
+
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.DetermineDetailedSpinType, eLogTitle.End);
+        return detailedSpinType;
     }
 }
 

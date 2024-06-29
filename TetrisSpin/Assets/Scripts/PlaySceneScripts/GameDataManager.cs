@@ -3,6 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+/// <summary> ゲームモード 列挙型 </summary>
+public enum eGameMode
+{
+    TimeAttack_100,
+    SpinMaster,
+    Practice,
+}
+
+/// <summary> 難易度 列挙型 </summary>
+public enum eLevel
+{
+    Easy,
+    Normal,
+    Hard
+}
+
 /// <summary>
 /// 記録可能なデータ 列挙型
 /// </summary>
@@ -66,6 +82,67 @@ public class GameData : MonoBehaviour
         public List<int> sSpinCounts;
         public List<int> tSpinCounts;
         public List<int> zSpinCounts;
+    }
+}
+
+/// <summary>
+/// 合計データを保持するクラス
+/// </summary>
+[Serializable]
+public class AggregateData
+{
+    public List<int> timeAttack_100_ClearCounts;
+    public List<int> spinMaster_ClearCounts;
+
+    public int sumBackToBackCount;
+    public int sumPerfectClearCount;
+    public List<int> sumRenCount;
+    public int sumSpinCompleteCount;
+    public int sumTetrisCount;
+    public Dictionary<string, int> sumSpinCounts;
+
+    public AggregateData()
+    {
+        sumSpinCounts = new Dictionary<string, int>
+        {
+            { "ISpin", 0 }, { "ISpinSingle", 0 }, { "ISpinDouble", 0 }, { "ISpinTriple", 0 }, { "ISpinQuattro", 0 }, { "ISpinMini", 0 },
+            { "JSpin", 0 }, { "JSpinSingle", 0 }, { "JSpinDouble", 0 }, { "JSpinTriple", 0 }, { "JSpinMini", 0 }, { "JSpinDoubleMini", 0 },
+            { "LSpin", 0 }, { "LSpinSingle", 0 }, { "LSpinDouble", 0 }, { "LSpinTriple", 0 }, { "LSpinMini", 0 }, { "LSpinDoubleMini", 0 },
+            { "SSpin", 0 }, { "SSpinSingle", 0 }, { "SSpinDouble", 0 }, { "SSpinTriple", 0 }, { "SSpinMini", 0 }, { "SSpinDoubleMini", 0 },
+            { "TSpin", 0 }, { "TSpinSingle", 0 }, { "TSpinDouble", 0 }, { "TSpinTriple", 0 }, { "TSpinMini", 0 }, { "TSpinDoubleMini", 0 },
+            { "ZSpin", 0 }, { "ZSpinSingle", 0 }, { "ZSpinDouble", 0 }, { "ZSpinTriple", 0 }, { "ZSpinMini", 0 }, { "ZSpinDoubleMini", 0 }
+        };
+    }
+}
+
+/// <summary>
+/// 各プレイの詳細なデータを保持するクラス
+/// </summary>
+[Serializable]
+public class PlayRecord
+{
+    public eGameMode gameMode;
+    public eLevel level;
+
+    public float clearTime;
+    public int backToBackCount;
+    public int perfectClearCount;
+    public List<int> renCount;
+    public int spinCompleteCount;
+    public int tetrisCount;
+    public Dictionary<string, int> spinCounts;
+
+    public PlayRecord()
+    {
+        spinCounts = new Dictionary<string, int>
+        {
+            { "ISpin", 0 }, { "ISpinSingle", 0 }, { "ISpinDouble", 0 }, { "ISpinTriple", 0 }, { "ISpinQuattro", 0 }, { "ISpinMini", 0 },
+            { "JSpin", 0 }, { "JSpinSingle", 0 }, { "JSpinDouble", 0 }, { "JSpinTriple", 0 }, { "JSpinMini", 0 }, { "JSpinDoubleMini", 0 },
+            { "LSpin", 0 }, { "LSpinSingle", 0 }, { "LSpinDouble", 0 }, { "LSpinTriple", 0 }, { "LSpinMini", 0 }, { "LSpinDoubleMini", 0 },
+            { "SSpin", 0 }, { "SSpinSingle", 0 }, { "SSpinDouble", 0 }, { "SSpinTriple", 0 }, { "SSpinMini", 0 }, { "SSpinDoubleMini", 0 },
+            { "TSpin", 0 }, { "TSpinSingle", 0 }, { "TSpinDouble", 0 }, { "TSpinTriple", 0 }, { "TSpinMini", 0 }, { "TSpinDoubleMini", 0 },
+            { "ZSpin", 0 }, { "ZSpinSingle", 0 }, { "ZSpinDouble", 0 }, { "ZSpinTriple", 0 }, { "ZSpinMini", 0 }, { "ZSpinDoubleMini", 0 }
+        };
     }
 }
 

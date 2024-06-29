@@ -1,21 +1,5 @@
 using UnityEngine;
 
-/// <summary> ゲームモード 列挙型 </summary>
-public enum eGameMode
-{
-    TimeAttack_100,
-    SpinMaster,
-    Practice,
-}
-
-/// <summary> 難易度 列挙型 </summary>
-public enum eDifficultyLevel
-{
-    Easy,
-    Normal,
-    Hard
-}
-
 /// <summary>
 /// ゲームの状態を管理するクラス
 /// </summary>

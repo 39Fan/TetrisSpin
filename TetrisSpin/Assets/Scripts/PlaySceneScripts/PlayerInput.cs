@@ -152,7 +152,7 @@ public class PlayerInput : MonoBehaviour
         {
             AudioManager.Instance.PlaySound(eAudioName.MoveLeftRight);
             spawner.AdjustGhostMinoPosition();
-            spinCheck.ResetSpinTypeName();
+            spinCheck.ResetSpinType();
             minoMovement.ResetStepsSRS();
         }
 
@@ -178,7 +178,7 @@ public class PlayerInput : MonoBehaviour
         {
             AudioManager.Instance.PlaySound(eAudioName.MoveLeftRight);
             spawner.AdjustGhostMinoPosition();
-            spinCheck.ResetSpinTypeName();
+            spinCheck.ResetSpinType();
             minoMovement.ResetStepsSRS();
         }
 
@@ -204,7 +204,7 @@ public class PlayerInput : MonoBehaviour
         {
             AudioManager.Instance.PlaySound(eAudioName.MoveLeftRight);
             spawner.AdjustGhostMinoPosition();
-            spinCheck.ResetSpinTypeName();
+            spinCheck.ResetSpinType();
             minoMovement.ResetStepsSRS();
         }
 
@@ -230,7 +230,7 @@ public class PlayerInput : MonoBehaviour
         {
             AudioManager.Instance.PlaySound(eAudioName.MoveLeftRight);
             spawner.AdjustGhostMinoPosition();
-            spinCheck.ResetSpinTypeName();
+            spinCheck.ResetSpinType();
             minoMovement.ResetStepsSRS();
         }
 
@@ -265,9 +265,9 @@ public class PlayerInput : MonoBehaviour
         {
             AudioManager.Instance.PlaySound(eAudioName.MoveDown);
 
-            if (spinCheck.SpinTypeName != SpinTypeNames.Ispin) // I-Spinは下移動しても解除されないようにしている
+            if (spinCheck.SpinType != SpinTypes.Ispin) // I-Spinは下移動しても解除されないようにしている
             {
-                spinCheck.ResetSpinTypeName(); // 移動したため、スピン判定をリセット
+                spinCheck.ResetSpinType(); // 移動したため、スピン判定をリセット
             }
 
             minoMovement.ResetStepsSRS();
@@ -356,9 +356,9 @@ public class PlayerInput : MonoBehaviour
                 break;
             }
 
-            if (spinCheck.SpinTypeName != SpinTypeNames.Ispin) // I-Spinは下移動しても解除されないようにしている
+            if (spinCheck.SpinType != SpinTypes.Ispin) // I-Spinは下移動しても解除されないようにしている
             {
-                spinCheck.ResetSpinTypeName();
+                spinCheck.ResetSpinType();
             }
 
             minoMovement.ResetStepsSRS();
@@ -405,7 +405,7 @@ public class PlayerInput : MonoBehaviour
         minoMovement.UpdateMinoAngleBeforeToMinoAngleAfter();
         spinCheck.CheckSpinType(MinoMovementStats.MinoAngleAfter, MinoMovementStats.StepsSRS);
 
-        if (spinCheck.SpinTypeName != SpinTypeNames.None) // スピン判定がない場合
+        if (spinCheck.SpinType != SpinTypes.None) // スピン判定がない場合
         {
             AudioManager.Instance.PlaySound(eAudioName.Spin);
         }

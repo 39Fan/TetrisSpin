@@ -825,7 +825,7 @@ GameObject:
   - component: {fileID: 1396894025}
   - component: {fileID: 1396894024}
   m_Layer: 5
-  m_Name: PlayText
+  m_Name: StartText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -870,7 +870,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Play
+  m_text: Start
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cd665e3de3b6349ec925a5e894ebcd65, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 0e54a4f32a69b4f25b2abe54b4114df0, type: 2}
@@ -980,10 +980,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 636913377}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 2048, y: 1800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1571145380
 MonoBehaviour:
@@ -998,7 +998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.11764706}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1033,7 +1033,7 @@ Animator:
   m_GameObject: {fileID: 1571145378}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e55d60a2065ff44a58bc8e42a928f71e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2101cc19cf93f4395a82a680b637ab25, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1059,7 +1059,7 @@ GameObject:
   - component: {fileID: 1700594473}
   - component: {fileID: 1700594474}
   m_Layer: 5
-  m_Name: PlayButton
+  m_Name: StartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

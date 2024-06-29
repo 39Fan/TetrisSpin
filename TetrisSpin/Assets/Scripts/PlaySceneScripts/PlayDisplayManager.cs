@@ -8,7 +8,7 @@ using DG.Tweening;
 /// <summary>
 /// DisplayManagerの統計情報を保持する静的クラス
 /// </summary>
-internal static class GameDisplayManagerStats
+internal static class PlayDisplayManagerStats
 {
     // SpinIconの判定 //
     private static bool i_spinIcon = false;
@@ -50,7 +50,7 @@ internal static class GameDisplayManagerStats
         bool? _t_spinIcon = null, bool? _z_spinIcon = null, bool? _spinCompleteReach = null, Color? _reachColor = null,
         bool? _spinComplete = null)
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManagerStats, eMethod.UpdateStats, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManagerStats, eMethod.UpdateStats, eLogTitle.Start);
 
         i_spinIcon = _i_spinIcon ?? i_spinIcon;
         j_spinIcon = _j_spinIcon ?? j_spinIcon;
@@ -63,9 +63,9 @@ internal static class GameDisplayManagerStats
         spinComplete = _spinComplete ?? spinComplete;
 
         logStatsDetail = $"i_spinIcon : {i_spinIcon}, j_spinIcon : {j_spinIcon}, l_spinIcon : {l_spinIcon}, s_spinIcon : {s_spinIcon}, t_spinIcon : {t_spinIcon}, z_spinIcon : {z_spinIcon}, spinCompleteReach : {spinCompleteReach}, reachColor : {reachColor}, spinComplete : {spinComplete}";
-        LogHelper.InfoLog(eClasses.GameDisplayManagerStats, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
+        LogHelper.InfoLog(eClasses.PlayDisplayManagerStats, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
 
-        LogHelper.DebugLog(eClasses.GameDisplayManagerStats, eMethod.UpdateStats, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManagerStats, eMethod.UpdateStats, eLogTitle.End);
     }
 
     /// <summary> false状態のスピンアイコンを確認する関数 </summary>
@@ -73,7 +73,7 @@ internal static class GameDisplayManagerStats
     /// false状態のSpinIconのImageをoutする。
     /// </remarks>
     /// <returns> falseの数(int) </returns>
-    public static int CheckFalseSpinIconCount(Dictionary<SpinTypeNames, Image> spinIconImages, out Image falseIconImage)
+    public static int CheckFalseSpinIconCount(Dictionary<SpinTypes, Image> spinIconImages, out Image falseIconImage)
     {
         falseIconImage = null;
         int falseCount = 0;
@@ -81,41 +81,41 @@ internal static class GameDisplayManagerStats
         if (!i_spinIcon)
         {
             falseCount++;
-            falseIconImage = spinIconImages[SpinTypeNames.Ispin];
+            falseIconImage = spinIconImages[SpinTypes.Ispin];
         }
         if (!j_spinIcon)
         {
             falseCount++;
-            falseIconImage = spinIconImages[SpinTypeNames.Jspin];
+            falseIconImage = spinIconImages[SpinTypes.Jspin];
         }
         if (!l_spinIcon)
         {
             falseCount++;
-            falseIconImage = spinIconImages[SpinTypeNames.Lspin];
+            falseIconImage = spinIconImages[SpinTypes.Lspin];
         }
         if (!s_spinIcon)
         {
             falseCount++;
-            falseIconImage = spinIconImages[SpinTypeNames.Sspin];
+            falseIconImage = spinIconImages[SpinTypes.Sspin];
         }
         if (!t_spinIcon)
         {
             falseCount++;
-            falseIconImage = spinIconImages[SpinTypeNames.Tspin];
+            falseIconImage = spinIconImages[SpinTypes.Tspin];
         }
         if (!z_spinIcon)
         {
             falseCount++;
-            falseIconImage = spinIconImages[SpinTypeNames.Zspin];
+            falseIconImage = spinIconImages[SpinTypes.Zspin];
         }
 
         return falseCount;
     }
 
-    /// <summary> デフォルトの <see cref="GameDisplayManagerStats"/> にリセットする関数 </summary>
+    /// <summary> デフォルトの <see cref="PlayDisplayManagerStats"/> にリセットする関数 </summary>
     public static void ResetStats()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManagerStats, eMethod.ResetStats, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManagerStats, eMethod.ResetStats, eLogTitle.Start);
 
         i_spinIcon = false;
         j_spinIcon = false;
@@ -127,7 +127,7 @@ internal static class GameDisplayManagerStats
         reachColor = Color.clear; // Color.clear で透明な色に初期化
         spinComplete = false;
 
-        LogHelper.DebugLog(eClasses.GameDisplayManagerStats, eMethod.ResetStats, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManagerStats, eMethod.ResetStats, eLogTitle.End);
     }
 }
 
@@ -136,7 +136,7 @@ internal static class GameDisplayManagerStats
 /// <summary>
 /// ゲーム画面のテキストおよび数値を管理するクラス
 /// </summary>
-public class GameDisplayManager : MonoBehaviour
+public class PlayDisplayManager : MonoBehaviour
 {
     // Canvas //TODO
     [SerializeField] private RectTransform canvas;
@@ -228,12 +228,12 @@ public class GameDisplayManager : MonoBehaviour
     /// <summary> ミノの色のリスト </summary>
     private Color[] colors;
 
-    /// <summary> SpinTypeNamesからColorに対応した辞書 </summary>
-    private Dictionary<SpinTypeNames, Color> spinTypeNamesToColorDictionary;
-    /// <summary> SpinTypeNamesからImageに対応した辞書 </summary>
-    private Dictionary<SpinTypeNames, Image> spinTypeNamesToImageDictionary;
-    /// <summary> imageからSpinTypeNamesに対応した辞書 </summary>
-    private Dictionary<Image, SpinTypeNames> imageToSpinTypeNamesDictionary;
+    /// <summary> SpinTypesからColorに対応した辞書 </summary>
+    private Dictionary<SpinTypes, Color> spinTypesToColorDictionary;
+    /// <summary> SpinTypesからImageに対応した辞書 </summary>
+    private Dictionary<SpinTypes, Image> spinTypesToImageDictionary;
+    /// <summary> imageからSpinTypesに対応した辞書 </summary>
+    private Dictionary<Image, SpinTypes> imageToSpinTypesDictionary;
 
     /// <summary> 点滅させるspinIcon </summary>
     private Image falseIconImage;
@@ -271,32 +271,32 @@ public class GameDisplayManager : MonoBehaviour
             z_Color
         };
 
-        spinTypeNamesToColorDictionary = new Dictionary<SpinTypeNames, Color>
+        spinTypesToColorDictionary = new Dictionary<SpinTypes, Color>
         {
-            { SpinTypeNames.Ispin, i_Color },
-            { SpinTypeNames.IspinMini, i_Color },
-            { SpinTypeNames.Jspin, j_Color },
-            { SpinTypeNames.Lspin, l_Color },
-            { SpinTypeNames.Sspin, s_Color },
-            { SpinTypeNames.SspinMini, s_Color },
-            { SpinTypeNames.Tspin, t_Color },
-            { SpinTypeNames.TspinMini, t_Color },
-            { SpinTypeNames.Zspin, z_Color },
-            { SpinTypeNames.ZspinMini, z_Color }
+            { SpinTypes.Ispin, i_Color },
+            { SpinTypes.IspinMini, i_Color },
+            { SpinTypes.Jspin, j_Color },
+            { SpinTypes.Lspin, l_Color },
+            { SpinTypes.Sspin, s_Color },
+            { SpinTypes.SspinMini, s_Color },
+            { SpinTypes.Tspin, t_Color },
+            { SpinTypes.TspinMini, t_Color },
+            { SpinTypes.Zspin, z_Color },
+            { SpinTypes.ZspinMini, z_Color }
         };
 
-        spinTypeNamesToImageDictionary = new Dictionary<SpinTypeNames, Image>
+        spinTypesToImageDictionary = new Dictionary<SpinTypes, Image>
         {
-            { SpinTypeNames.Ispin, i_spinIconImage },
-            { SpinTypeNames.IspinMini, i_spinIconImage },
-            { SpinTypeNames.Jspin, j_spinIconImage },
-            { SpinTypeNames.Lspin, l_spinIconImage },
-            { SpinTypeNames.Sspin, s_spinIconImage },
-            { SpinTypeNames.SspinMini, s_spinIconImage },
-            { SpinTypeNames.Tspin, t_spinIconImage },
-            { SpinTypeNames.TspinMini, t_spinIconImage },
-            { SpinTypeNames.Zspin, z_spinIconImage },
-            { SpinTypeNames.ZspinMini, z_spinIconImage }
+            { SpinTypes.Ispin, i_spinIconImage },
+            { SpinTypes.IspinMini, i_spinIconImage },
+            { SpinTypes.Jspin, j_spinIconImage },
+            { SpinTypes.Lspin, l_spinIconImage },
+            { SpinTypes.Sspin, s_spinIconImage },
+            { SpinTypes.SspinMini, s_spinIconImage },
+            { SpinTypes.Tspin, t_spinIconImage },
+            { SpinTypes.TspinMini, t_spinIconImage },
+            { SpinTypes.Zspin, z_spinIconImage },
+            { SpinTypes.ZspinMini, z_spinIconImage }
         };
 
         spinIconImages = new List<Image>
@@ -309,11 +309,11 @@ public class GameDisplayManager : MonoBehaviour
             z_spinIconImage
         };
 
-        // ImageからSpinTypeNamesを取得するための逆引き辞書を初期化
-        imageToSpinTypeNamesDictionary = new Dictionary<Image, SpinTypeNames>();
-        foreach (var pair in spinTypeNamesToImageDictionary)
+        // ImageからSpinTypesを取得するための逆引き辞書を初期化
+        imageToSpinTypesDictionary = new Dictionary<Image, SpinTypes>();
+        foreach (var pair in spinTypesToImageDictionary)
         {
-            imageToSpinTypeNamesDictionary[pair.Value] = pair.Key;
+            imageToSpinTypesDictionary[pair.Value] = pair.Key;
         }
 
         random = new System.Random();
@@ -381,284 +381,114 @@ public class GameDisplayManager : MonoBehaviour
 
 
     /// <summary> スピンに関するアニメーションを呼ぶ関数 </summary>
-    /// <param name="spinTypeName"> スピンタイプ </param>
-    /// <param name="lineClearCount"> 消去ライン数 </param>
-    public void SpinAnimation(SpinTypeNames spinTypeName, int lineClearCount)
+    /// <param name="_spintype"> スピンタイプ </param>
+    /// <param name="_detailedSpinType"> 詳細なスピンタイプ </param>
+    public void SpinAnimation(SpinTypes _spintype, DetailedSpinTypes _detailedSpinType)
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.SpinAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.SpinAnimation, eLogTitle.Start);
 
-        SpinTextAnimation(DetermineTextToDisplay(spinTypeName, lineClearCount));
-        SpinColorAnimation(spinTypeName);
+        SpinTextAnimation(_detailedSpinType);
+        SpinColorAnimation(_spintype);
 
-        if (spinTypeName != SpinTypeNames.None)
-        {
-            if (lineClearCount >= 1)
-            {
-                AudioManager.Instance.PlaySound(eAudioName.SpinDestroy);
-            }
-            else
-            {
-                AudioManager.Instance.PlaySound(eAudioName.NormalDestroy);
-            }
-        }
-        else
-        {
-            if (lineClearCount >= 1)
-            {
-                AudioManager.Instance.PlaySound(eAudioName.NormalDestroy);
-            }
-            else
-            {
-                AudioManager.Instance.PlaySound(eAudioName.NormalDrop);
-            }
-            switch (lineClearCount)
-            {
-                case 0:
-                    AudioManager.Instance.PlaySound(eAudioName.NormalDrop);
-                    break;
-                case 1:
-                case 2:
-                case 3:
-                    AudioManager.Instance.PlaySound(eAudioName.NormalDestroy);
-                    break;
-                case 4:
-                    AudioManager.Instance.PlaySound(eAudioName.Tetris);
-                    break;
-            }
-        }
-
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.SpinAnimation, eLogTitle.End);
-    }
-
-
-
-    /// <summary> スピンタイプに応じて表示するテキストを決定する関数 </summary>
-    /// <param name="spinTypeName"> スピンタイプ </param>
-    /// <param name="lineClearCount"> 消去ライン数 </param>
-    /// <returns> 表示するテキスト </returns>
-    private TextMeshProUGUI DetermineTextToDisplay(SpinTypeNames spinTypeName, int lineClearCount)
-    {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.DetermineTextToDisplay, eLogTitle.Start);
-
-        Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>> spinTypeTextMapping = new Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>>
-        {
-            { SpinTypeNames.None, new Dictionary<int, TextMeshProUGUI>
-                {
-                    { 0, null },
-                    { 1, null },
-                    { 2, null },
-                    { 3, null },
-                    { 4, tetrisText }
-                }
-            },
-            { SpinTypeNames.Ispin, new Dictionary<int, TextMeshProUGUI>
-                {
-                    { 0, i_spinText },
-                    { 1, i_spinSingleText },
-                    { 2, i_spinDoubleText },
-                    { 3, i_spinTripleText },
-                    { 4, i_spinQuattroText }
-                }
-            },
-            { SpinTypeNames.IspinMini, new Dictionary<int, TextMeshProUGUI>
-                {
-                    { 0, i_spinMiniText },
-                    { 1, i_spinMiniText }
-                }
-            },
-            { SpinTypeNames.Jspin, new Dictionary<int, TextMeshProUGUI>
-                {
-                    { 0, j_spinText },
-                    { 1, j_spinSingleText },
-                    { 2, j_spinDoubleText },
-                    { 3, j_spinTripleText }
-                }
-            },
-            // { SpinTypeNames.JspinMini, new Dictionary<int, TextMeshProUGUI>
-            //     {
-            //         { 0, j_spinMiniText },
-            //         { 1, j_spinMiniText },
-            //         { 2, j_spinDoubleMiniText }
-            //     }
-            // },
-            { SpinTypeNames.Lspin, new Dictionary<int, TextMeshProUGUI>
-                {
-                    { 0, l_spinText },
-                    { 1, l_spinSingleText },
-                    { 2, l_spinDoubleText },
-                    { 3, l_spinTripleText }
-                }
-            },
-            // { SpinTypeNames.LspinMini, new Dictionary<int, TextMeshProUGUI>
-            //     {
-            //         { 0, l_spinMiniText },
-            //         { 1, l_spinMiniText },
-            //         { 2, l_spinDoubleMiniText }
-            //     }
-            // },
-            { SpinTypeNames.Sspin, new Dictionary<int, TextMeshProUGUI>
-                {
-                    { 0, s_spinText },
-                    { 1, s_spinSingleText },
-                    { 2, s_spinDoubleText },
-                    { 3, s_spinTripleText }
-                }
-            },
-            { SpinTypeNames.SspinMini, new Dictionary<int, TextMeshProUGUI>
-                {
-                    { 0, s_spinMiniText },
-                    { 1, s_spinMiniText },
-                    { 2, s_spinDoubleMiniText },
-                }
-            },
-            { SpinTypeNames.Tspin, new Dictionary<int, TextMeshProUGUI>
-                {
-                    { 0, t_spinText },
-                    { 1, t_spinSingleText },
-                    { 2, t_spinDoubleText },
-                    { 3, t_spinTripleText }
-                }
-            },
-            { SpinTypeNames.TspinMini, new Dictionary<int, TextMeshProUGUI>
-                {
-                    { 0, t_spinMiniText },
-                    { 1, t_spinMiniText },
-                    { 2, t_spinDoubleMiniText }
-                }
-            },
-            { SpinTypeNames.Zspin, new Dictionary<int, TextMeshProUGUI>
-                {
-                    { 0, z_spinText },
-                    { 1, z_spinSingleText },
-                    { 2, z_spinDoubleText },
-                    { 3, z_spinTripleText }
-                }
-            },
-            { SpinTypeNames.ZspinMini, new Dictionary<int, TextMeshProUGUI>
-                {
-                    { 0, z_spinMiniText },
-                    { 1, z_spinMiniText },
-                    { 2, z_spinDoubleMiniText },
-                }
-            }
-        };
-
-        Dictionary<TextMeshProUGUI, SaveDataTypes> spinTypeToSaveDataTypeMapping = new Dictionary<TextMeshProUGUI, SaveDataTypes>
-        {
-            { tetrisText, SaveDataTypes.Tetris },
-            { i_spinText, SaveDataTypes.I_Spin },
-            { i_spinSingleText, SaveDataTypes.I_SpinSingle },
-            { i_spinDoubleText, SaveDataTypes.I_SpinDouble },
-            { i_spinTripleText, SaveDataTypes.I_SpinTriple },
-            { i_spinQuattroText, SaveDataTypes.I_SpinQuattro },
-            { i_spinMiniText, SaveDataTypes.I_SpinMini },
-            { j_spinText, SaveDataTypes.J_Spin },
-            { j_spinSingleText, SaveDataTypes.J_SpinSingle },
-            { j_spinDoubleText, SaveDataTypes.J_SpinDouble },
-            { j_spinTripleText, SaveDataTypes.J_SpinTriple },
-            // { j_spinMiniText, SaveDataTypes.J_SpinMini }, // Uncomment if needed
-            // { j_spinDoubleMiniText, SaveDataTypes.J_SpinDoubleMini }, // Uncomment if needed
-            { l_spinText, SaveDataTypes.L_Spin },
-            { l_spinSingleText, SaveDataTypes.L_SpinSingle },
-            { l_spinDoubleText, SaveDataTypes.L_SpinDouble },
-            { l_spinTripleText, SaveDataTypes.L_SpinTriple },
-            // { l_spinMiniText, SaveDataTypes.L_SpinMini }, // Uncomment if needed
-            // { l_spinDoubleMiniText, SaveDataTypes.L_SpinDoubleMini }, // Uncomment if needed
-            { s_spinText, SaveDataTypes.S_Spin },
-            { s_spinSingleText, SaveDataTypes.S_SpinSingle },
-            { s_spinDoubleText, SaveDataTypes.S_SpinDouble },
-            { s_spinTripleText, SaveDataTypes.S_SpinTriple },
-            { s_spinMiniText, SaveDataTypes.S_SpinMini },
-            { s_spinDoubleMiniText, SaveDataTypes.S_SpinDoubleMini },
-            { t_spinText, SaveDataTypes.T_Spin },
-            { t_spinSingleText, SaveDataTypes.T_SpinSingle },
-            { t_spinDoubleText, SaveDataTypes.T_SpinDouble },
-            { t_spinTripleText, SaveDataTypes.T_SpinTriple },
-            { t_spinMiniText, SaveDataTypes.T_SpinMini },
-            { t_spinDoubleMiniText, SaveDataTypes.T_SpinDoubleMini },
-            { z_spinText, SaveDataTypes.Z_Spin },
-            { z_spinSingleText, SaveDataTypes.Z_SpinSingle },
-            { z_spinDoubleText, SaveDataTypes.Z_SpinDouble },
-            { z_spinTripleText, SaveDataTypes.Z_SpinTriple },
-            { z_spinMiniText, SaveDataTypes.Z_SpinMini },
-            { z_spinDoubleMiniText, SaveDataTypes.Z_SpinDoubleMini }
-        };
-
-        TextMeshProUGUI displayText = null;
-
-        if (spinTypeTextMapping.ContainsKey(spinTypeName) && spinTypeTextMapping[spinTypeName].ContainsKey(lineClearCount))
-        {
-            if (spinTypeTextMapping[spinTypeName][lineClearCount] == tetrisText)
-            {
-                TetrisAnimation();
-            }
-            else
-            {
-                displayText = spinTypeTextMapping[spinTypeName][lineClearCount];
-            }
-        }
-        else
-        {
-            LogHelper.ErrorLog(eClasses.GameDisplayManager, eMethod.DetermineTextToDisplay, eLogTitle.KeyNotFound);
-        }
-
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.DetermineTextToDisplay, eLogTitle.End);
-        return displayText;
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.SpinAnimation, eLogTitle.End);
     }
 
     /// <summary> スピンテキストのアニメーションを決定する関数 </summary>
-    /// <param name="displayText"> 表示するテキスト </param>
-    private void SpinTextAnimation(TextMeshProUGUI displayText)
+    /// <param name="_detailedSpinType"> 詳細なスピンタイプ </param>
+    private void SpinTextAnimation(DetailedSpinTypes _detailedSpinType)
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.SpinTextAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.SpinTextAnimation, eLogTitle.Start);
 
-        if (displayText != null)
+        /// <summary> 詳細なスピンタイプに対応するテキストをマッピングするディクショナリ </summary>
+        Dictionary<DetailedSpinTypes, TextMeshProUGUI> DetailedSpinTypesToTextDictionary = new Dictionary<DetailedSpinTypes, TextMeshProUGUI>
         {
-            TextMeshProUGUI instantiatedText = Instantiate(displayText, spinTextsPanel);
+            { DetailedSpinTypes.Tetris, tetrisText },
+            { DetailedSpinTypes.I_Spin, i_spinText },
+            { DetailedSpinTypes.I_SpinSingle, i_spinSingleText },
+            { DetailedSpinTypes.I_SpinDouble, i_spinDoubleText },
+            { DetailedSpinTypes.I_SpinTriple, i_spinTripleText },
+            { DetailedSpinTypes.I_SpinQuattro, i_spinQuattroText },
+            { DetailedSpinTypes.I_SpinMini, i_spinMiniText },
+            { DetailedSpinTypes.J_Spin, j_spinText },
+            { DetailedSpinTypes.J_SpinSingle, j_spinSingleText },
+            { DetailedSpinTypes.J_SpinDouble, j_spinDoubleText },
+            { DetailedSpinTypes.J_SpinTriple, j_spinTripleText },
+            { DetailedSpinTypes.J_SpinMini, j_spinMiniText },
+            { DetailedSpinTypes.J_SpinDoubleMini, j_spinDoubleMiniText },
+            { DetailedSpinTypes.L_Spin, l_spinText },
+            { DetailedSpinTypes.L_SpinSingle, l_spinSingleText },
+            { DetailedSpinTypes.L_SpinDouble, l_spinDoubleText },
+            { DetailedSpinTypes.L_SpinTriple, l_spinTripleText },
+            { DetailedSpinTypes.L_SpinMini, l_spinMiniText },
+            { DetailedSpinTypes.L_SpinDoubleMini, l_spinDoubleMiniText },
+            { DetailedSpinTypes.S_Spin, s_spinText },
+            { DetailedSpinTypes.S_SpinSingle, s_spinSingleText },
+            { DetailedSpinTypes.S_SpinDouble, s_spinDoubleText },
+            { DetailedSpinTypes.S_SpinTriple, s_spinTripleText },
+            { DetailedSpinTypes.S_SpinMini, s_spinMiniText },
+            { DetailedSpinTypes.S_SpinDoubleMini, s_spinDoubleMiniText },
+            { DetailedSpinTypes.T_Spin, t_spinText },
+            { DetailedSpinTypes.T_SpinSingle, t_spinSingleText },
+            { DetailedSpinTypes.T_SpinDouble, t_spinDoubleText },
+            { DetailedSpinTypes.T_SpinTriple, t_spinTripleText },
+            { DetailedSpinTypes.T_SpinMini, t_spinMiniText },
+            { DetailedSpinTypes.T_SpinDoubleMini, t_spinDoubleMiniText },
+            { DetailedSpinTypes.Z_Spin, z_spinText },
+            { DetailedSpinTypes.Z_SpinSingle, z_spinSingleText },
+            { DetailedSpinTypes.Z_SpinDouble, z_spinDoubleText },
+            { DetailedSpinTypes.Z_SpinTriple, z_spinTripleText },
+            { DetailedSpinTypes.Z_SpinMini, z_spinMiniText },
+            { DetailedSpinTypes.Z_SpinDoubleMini, z_spinDoubleMiniText },
+            { DetailedSpinTypes.None, null }
+        };
+
+        if (_detailedSpinType != DetailedSpinTypes.None)
+        {
+            TextMeshProUGUI instantiatedText = Instantiate(DetailedSpinTypesToTextDictionary[_detailedSpinType], spinTextsPanel);
             TextFadeInAndOutType1(instantiatedText);
             effects.SpinEffect();
         }
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.SpinTextAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.SpinTextAnimation, eLogTitle.End);
     }
 
     /// <summary> スピンの色表示に関するアニメーションを決定する関数 </summary>
-    /// <param name="spinTypeName"> スピンタイプ </param>
+    /// <param name="_spinType"> スピンタイプ </param>
     /// <returns> 表示するテキスト </returns>
-    private void SpinColorAnimation(SpinTypeNames spinTypeName)
+    private void SpinColorAnimation(SpinTypes _spinType)
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.SpinColorAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.SpinColorAnimation, eLogTitle.Start);
 
         Image spinIconImage = null;
 
-        switch (spinTypeName)
+        switch (_spinType)
         {
-            case SpinTypeNames.Ispin:
-            case SpinTypeNames.IspinMini:
-                GameDisplayManagerStats.UpdateStats(_i_spinIcon: true);
+            case SpinTypes.Ispin:
+            case SpinTypes.IspinMini:
+                PlayDisplayManagerStats.UpdateStats(_i_spinIcon: true);
                 spinIconImage = i_spinIconImage;
                 break;
-            case SpinTypeNames.Jspin:
-                GameDisplayManagerStats.UpdateStats(_j_spinIcon: true);
+            case SpinTypes.Jspin:
+                PlayDisplayManagerStats.UpdateStats(_j_spinIcon: true);
                 spinIconImage = j_spinIconImage;
                 break;
-            case SpinTypeNames.Lspin:
-                GameDisplayManagerStats.UpdateStats(_l_spinIcon: true);
+            case SpinTypes.Lspin:
+                PlayDisplayManagerStats.UpdateStats(_l_spinIcon: true);
                 spinIconImage = l_spinIconImage;
                 break;
-            case SpinTypeNames.Sspin:
-            case SpinTypeNames.SspinMini:
-                GameDisplayManagerStats.UpdateStats(_s_spinIcon: true);
+            case SpinTypes.Sspin:
+            case SpinTypes.SspinMini:
+                PlayDisplayManagerStats.UpdateStats(_s_spinIcon: true);
                 spinIconImage = s_spinIconImage;
                 break;
-            case SpinTypeNames.Tspin:
-            case SpinTypeNames.TspinMini:
-                GameDisplayManagerStats.UpdateStats(_t_spinIcon: true);
+            case SpinTypes.Tspin:
+            case SpinTypes.TspinMini:
+                PlayDisplayManagerStats.UpdateStats(_t_spinIcon: true);
                 spinIconImage = t_spinIconImage;
                 break;
-            case SpinTypeNames.Zspin:
-            case SpinTypeNames.ZspinMini:
-                GameDisplayManagerStats.UpdateStats(_z_spinIcon: true);
+            case SpinTypes.Zspin:
+            case SpinTypes.ZspinMini:
+                PlayDisplayManagerStats.UpdateStats(_z_spinIcon: true);
                 spinIconImage = z_spinIconImage;
                 break;
             default:
@@ -667,25 +497,25 @@ public class GameDisplayManager : MonoBehaviour
 
         if (spinIconImage != null)
         {
-            ImageFadeInAndOutType1(spinTypeName);
-            ImageFadeInAndOutType2(spinTypeName, spinIconImage);
+            ImageFadeInAndOutType1(_spinType);
+            ImageFadeInAndOutType2(_spinType, spinIconImage);
         }
 
-        int falseSpinIconImageCount = GameDisplayManagerStats.CheckFalseSpinIconCount(spinTypeNamesToImageDictionary, out Image _falseIconImage);
+        int falseSpinIconImageCount = PlayDisplayManagerStats.CheckFalseSpinIconCount(spinTypesToImageDictionary, out Image _falseIconImage);
         switch (falseSpinIconImageCount)
         {
             case 1:
-                if (GameDisplayManagerStats.SpinCompleteReach == false)
+                if (PlayDisplayManagerStats.SpinCompleteReach == false)
                 {
-                    GameDisplayManagerStats.UpdateStats(_spinCompleteReach: true, _reachColor: spinTypeNamesToColorDictionary[imageToSpinTypeNamesDictionary[_falseIconImage]]);
+                    PlayDisplayManagerStats.UpdateStats(_spinCompleteReach: true, _reachColor: spinTypesToColorDictionary[imageToSpinTypesDictionary[_falseIconImage]]);
                     falseIconImage = _falseIconImage;
-                    ImageFadeInAndOutType3(spinTypeNamesToColorDictionary[imageToSpinTypeNamesDictionary[_falseIconImage]]);
+                    ImageFadeInAndOutType3(spinTypesToColorDictionary[imageToSpinTypesDictionary[_falseIconImage]]);
                 }
                 break;
             case 0:
-                GameDisplayManagerStats.UpdateStats(_spinComplete: true);
+                PlayDisplayManagerStats.UpdateStats(_spinComplete: true);
                 DOTween.Kill(falseIconImage); // 点滅しているspinIconのアニメーションを停止
-                falseIconImage.color = GameDisplayManagerStats.ReachColor; // 点滅しているspinIconに色を加える
+                falseIconImage.color = PlayDisplayManagerStats.ReachColor; // 点滅しているspinIconに色を加える
                 foreach (var _spinIconImage in spinIconImages)
                 {
                     SpinCompleteImageAnimation(_spinIconImage);
@@ -695,14 +525,14 @@ public class GameDisplayManager : MonoBehaviour
             default:
                 break;
         }
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.SpinColorAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.SpinColorAnimation, eLogTitle.End);
     }
 
     /// <summary> フェードインとフェードアウトのアニメーションタイプ1(TextMeshProUGUI) </summary>
     /// <param name="displayText"> 表示するテキスト </param>
     private void TextFadeInAndOutType1(TextMeshProUGUI displayText)
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.TextFadeInAndOutType1, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.TextFadeInAndOutType1, eLogTitle.Start);
 
         // 現在のアニメーションを停止
         DOTween.Kill(displayText);
@@ -718,14 +548,14 @@ public class GameDisplayManager : MonoBehaviour
 
         sequence.Play();
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.TextFadeInAndOutType1, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.TextFadeInAndOutType1, eLogTitle.End);
     }
 
     /// <summary> フェードインとフェードアウトのアニメーションタイプ1(Image) </summary>
     /// <param name="spinTypeName"> スピンタイプ </param>
-    private void ImageFadeInAndOutType1(SpinTypeNames spinTypeName)
+    private void ImageFadeInAndOutType1(SpinTypes spinTypeName)
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.ImageFadeInAndOutType1, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.ImageFadeInAndOutType1, eLogTitle.Start);
 
         // 現在のアニメーションを停止
         DOTween.Kill(spinTextsFrameImage1);
@@ -740,14 +570,14 @@ public class GameDisplayManager : MonoBehaviour
         var sequence1 = DOTween.Sequence();
         var sequence2 = DOTween.Sequence();
         sequence1
-            .Append(spinTextsFrameImage1.DOColor(spinTypeNamesToColorDictionary[spinTypeName], 0.3f))
+            .Append(spinTextsFrameImage1.DOColor(spinTypesToColorDictionary[spinTypeName], 0.3f))
             .Append(spinTextsFrameImage1.DOFade(0, 0.02f).SetLoops(20, LoopType.Yoyo))
             .AppendInterval(1f)
             .Append(spinTextsFrameImage1.DOFade(0, 1.1f))
             .OnComplete(() => spinTextsFrameImage1.gameObject.SetActive(false));
 
         sequence2
-            .Append(spinTextsFrameImage2.DOColor(spinTypeNamesToColorDictionary[spinTypeName], 0.3f))
+            .Append(spinTextsFrameImage2.DOColor(spinTypesToColorDictionary[spinTypeName], 0.3f))
             .Append(spinTextsFrameImage2.DOFade(0, 0.02f).SetLoops(20, LoopType.Yoyo))
             .AppendInterval(1f)
             .Append(spinTextsFrameImage2.DOFade(0, 0.8f))
@@ -756,72 +586,72 @@ public class GameDisplayManager : MonoBehaviour
         sequence1.Play();
         sequence2.Play();
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.ImageFadeInAndOutType1, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.ImageFadeInAndOutType1, eLogTitle.End);
     }
 
     /// <summary> フェードインとフェードアウトのアニメーションタイプ2(Image) </summary>
     /// <param name="spinTypeName"> スピンタイプ </param>
     /// <param name="spinIconImage"> 表示する画像 </param>
-    private void ImageFadeInAndOutType2(SpinTypeNames spinTypeName, Image spinIconImage)
+    private void ImageFadeInAndOutType2(SpinTypes spinTypeName, Image spinIconImage)
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.ImageFadeInAndOutType2, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.ImageFadeInAndOutType2, eLogTitle.Start);
 
         var sequence1 = DOTween.Sequence();
-        sequence1.Append(spinIconImage.DOColor(spinTypeNamesToColorDictionary[spinTypeName], 0.3f));
+        sequence1.Append(spinIconImage.DOColor(spinTypesToColorDictionary[spinTypeName], 0.3f));
 
         sequence1.Play();
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.ImageFadeInAndOutType2, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.ImageFadeInAndOutType2, eLogTitle.End);
     }
 
     /// <summary> フェードインとフェードアウトのアニメーションタイプ3(Image) </summary>
     /// <param name="color"> 表示する色 </param>
     private void ImageFadeInAndOutType3(Color color)
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.ImageFadeInAndOutType3, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.ImageFadeInAndOutType3, eLogTitle.Start);
 
         falseIconImage.DOColor(color, 0.2f).SetLoops(-1, LoopType.Yoyo);
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.ImageFadeInAndOutType3, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.ImageFadeInAndOutType3, eLogTitle.End);
     }
 
     /// <summary> Tetrisアニメーションを行う関数 </summary>
     public void TetrisAnimation()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.TetrisAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.TetrisAnimation, eLogTitle.Start);
 
         TextMeshProUGUI instantiatedText = Instantiate(tetrisText, gameBoardPanel);
         TextFadeInAndOutType1(instantiatedText);
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.TetrisAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.TetrisAnimation, eLogTitle.End);
     }
 
     /// <summary> BackToBackアニメーションを行う関数 </summary>
     public void BackToBackAnimation()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.BackToBackAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.BackToBackAnimation, eLogTitle.Start);
 
         TextMeshProUGUI instantiatedText = Instantiate(backToBackText, gameBoardPanel);
         TextFadeInAndOutType1(instantiatedText);
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.BackToBackAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.BackToBackAnimation, eLogTitle.End);
     }
 
     /// <summary> PerfectClearアニメーションを行う関数 </summary>
     public void PerfectClearAnimation()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PerfectClearAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.PerfectClearAnimation, eLogTitle.Start);
 
         TextMeshProUGUI instantiatedText = Instantiate(perfectClearText, gameBoardPanel);
         TextFadeInAndOutType1(instantiatedText);
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PerfectClearAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.PerfectClearAnimation, eLogTitle.End);
     }
 
     /// <summary> ReadyGoアニメーションを行う関数 </summary>
     public void ReadyGoAnimation()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.ReadyGoAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.ReadyGoAnimation, eLogTitle.Start);
 
         TextMeshProUGUI ready = Instantiate(readyText, gameBoardPanel);
         TextMeshProUGUI go = Instantiate(goText, gameBoardPanel);
@@ -841,7 +671,7 @@ public class GameDisplayManager : MonoBehaviour
                     .Append(go.DOFade(0, 0.5f));
             });
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.ReadyGoAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.ReadyGoAnimation, eLogTitle.End);
     }
 
     /// <summary> 合計攻撃ライン数のアニメーションを行う関数 </summary>
@@ -851,7 +681,7 @@ public class GameDisplayManager : MonoBehaviour
     /// </remarks>
     public void SumAttackLinesAnimation()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.SumAttackLinesAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.SumAttackLinesAnimation, eLogTitle.Start);
 
         int sumAttackLines = AttackCalculatorStats.SumAttackLines;
 
@@ -897,7 +727,7 @@ public class GameDisplayManager : MonoBehaviour
         gameFrameImage.color = targetColor;
         sumAttackLinesText.text = $"{sumAttackLines}";
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.SumAttackLinesAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.SumAttackLinesAnimation, eLogTitle.End);
     }
 
 
@@ -906,7 +736,7 @@ public class GameDisplayManager : MonoBehaviour
     /// <param name="_attackLines"> 今回の攻撃値 </param>
     public void AttackLinesAnimation(int attackLines)
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.AttackLinesAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.AttackLinesAnimation, eLogTitle.Start);
 
         if (attackLinesTextTween != null && attackLinesTextTween.IsActive())
         {
@@ -939,13 +769,13 @@ public class GameDisplayManager : MonoBehaviour
 
         sequence.Play();
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.AttackLinesAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.AttackLinesAnimation, eLogTitle.End);
     }
 
     /// <summary> RENのアニメーションをする関数 </summary>
     public void RenAnimation()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.RenAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.RenAnimation, eLogTitle.Start);
 
         int ren = AttackCalculatorStats.Ren;
         string renTextString = "";
@@ -973,13 +803,13 @@ public class GameDisplayManager : MonoBehaviour
 
         renText.text = renTextString;
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.RenAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.RenAnimation, eLogTitle.End);
     }
 
     /// <summary> REN表示の終了アニメーションを行う関数 </summary>
     public void EndingRenAnimation()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.EndingRenAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.EndingRenAnimation, eLogTitle.Start);
 
         var originalPosition = renText.transform.localPosition;
 
@@ -995,14 +825,14 @@ public class GameDisplayManager : MonoBehaviour
 
         sequence.Play();
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.EndingRenAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.EndingRenAnimation, eLogTitle.End);
     }
 
     /// <summary> SpinCompleteアニメーションを行う関数(Image) </summary>
     /// <param name="spinIconImage"> 表示する画像 </param>
     public void SpinCompleteImageAnimation(Image spinIconImage)
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.SpinCompleteAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.SpinCompleteAnimation, eLogTitle.Start);
 
         var sequence = DOTween.Sequence();
         sequence
@@ -1011,13 +841,13 @@ public class GameDisplayManager : MonoBehaviour
 
         sequence.Play();
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.SpinCompleteAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.SpinCompleteAnimation, eLogTitle.End);
     }
 
     /// <summary> SpinCompleteアニメーションを行う関数(Text) </summary>
     private IEnumerator SpinCompleteTextAnimation()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.SpinCompleteTextAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.SpinCompleteTextAnimation, eLogTitle.Start);
 
         spinCompleteText.gameObject.SetActive(true);
         spinCompleteText.alpha = 0;
@@ -1076,34 +906,34 @@ public class GameDisplayManager : MonoBehaviour
         sequence2.Play();
         yield return sequence2.WaitForCompletion();
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.SpinCompleteTextAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.SpinCompleteTextAnimation, eLogTitle.End);
     }
 
 
     /// <summary> すべてのアニメーションを停止させる関数 </summary>
     public void StopAnimation()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.StopAnimation, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.StopAnimation, eLogTitle.Start);
 
         DOTween.KillAll();
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.StopAnimation, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.StopAnimation, eLogTitle.End);
     }
 
     /// <summary> PoseIconが押された時のコルーチン処理を呼ぶ関数 </summary>
     public void PressedPoseIcon()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PressedPoseIcon, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.PressedPoseIcon, eLogTitle.Start);
 
         StartCoroutine(PoseIconCoroutine());
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PressedPoseIcon, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.PressedPoseIcon, eLogTitle.End);
     }
 
     /// <summary> PoseIconが押された時の処理をする関数 </summary>
     private IEnumerator PoseIconCoroutine()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PoseIconCoroutine, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.PoseIconCoroutine, eLogTitle.Start);
 
         GameSceneManagerStats.LoadPoseState();
         poseCanvas.gameObject.SetActive(true);
@@ -1112,23 +942,23 @@ public class GameDisplayManager : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         poseButtonPanel.SetActive(true);
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PoseIconCoroutine, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.PoseIconCoroutine, eLogTitle.End);
     }
 
     /// <summary> Continueが押された時のコルーチン処理を呼ぶ関数 </summary>
     public void PressedContinue()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PressedContinue, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.PressedContinue, eLogTitle.Start);
 
         StartCoroutine(ContinueCoroutine());
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.PressedContinue, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.PressedContinue, eLogTitle.End);
     }
 
     /// <summary> Continueが押された時の処理をする関数 </summary>
     private IEnumerator ContinueCoroutine()
     {
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.ContinueCoroutine, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.ContinueCoroutine, eLogTitle.Start);
 
         poseButtonPanel.SetActive(false);
         poseBackGround.DOFade(0, 0.3f);
@@ -1137,7 +967,7 @@ public class GameDisplayManager : MonoBehaviour
         poseCanvas.gameObject.SetActive(false);
         GameSceneManagerStats.UnLoadPoseState();
 
-        LogHelper.DebugLog(eClasses.GameDisplayManager, eMethod.ContinueCoroutine, eLogTitle.End);
+        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.ContinueCoroutine, eLogTitle.End);
     }
 }
 
@@ -2079,28 +1909,28 @@ public class GameDisplayManager : MonoBehaviour
 // private int[] RenBonus = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 5 };
 
 //     // スピンタイプと消去ライン数に対応する攻撃力をマッピングするディクショナリ
-//     Dictionary<SpinTypeNames, Dictionary<int, int>> spinTypeAttackMapping = new Dictionary<SpinTypeNames, Dictionary<int, int>>
+//     Dictionary<SpinTypes, Dictionary<int, int>> spinTypeAttackMapping = new Dictionary<SpinTypes, Dictionary<int, int>>
 // {
-//     { SpinTypeNames.J_Spin, new Dictionary<int, int>
+//     { SpinTypes.J_Spin, new Dictionary<int, int>
 //         {
 //             { 1, 1 }, // JspinSingleAttack
 //             { 2, 3 }, // JspinDoubleAttack
 //             { 3, 6 }  // JspinTripleAttack
 //         }
 //     },
-//     { SpinTypeNames.L_Spin, new Dictionary<int, int>
+//     { SpinTypes.L_Spin, new Dictionary<int, int>
 //         {
 //             { 1, 1 }, // LspinSingleAttack
 //             { 2, 3 }, // LspinDoubleAttack
 //             { 3, 6 }  // LspinTripleAttack
 //         }
 //     },
-//     { SpinTypeNames.I_SpinMini, new Dictionary<int, int>
+//     { SpinTypes.I_SpinMini, new Dictionary<int, int>
 //         {
 //             { 1, 1 } // IspinMiniAttack
 //         }
 //     },
-//     { SpinTypeNames.I_Spin, new Dictionary<int, int>
+//     { SpinTypes.I_Spin, new Dictionary<int, int>
 //         {
 //             { 1, 2 }, // IspinSingleAttack
 //             { 2, 4 }, // IspinDoubleAttack
@@ -2108,20 +1938,20 @@ public class GameDisplayManager : MonoBehaviour
 //             { 4, 8 }  // IspinQuattroAttack
 //         }
 //     },
-//     { SpinTypeNames.T_Spin, new Dictionary<int, int>
+//     { SpinTypes.T_Spin, new Dictionary<int, int>
 //         {
 //             { 1, 2 }, // TspinSingleAttack
 //             { 2, 4 }, // TspinDoubleAttack
 //             { 3, 6 }  // TspinTripleAttack
 //         }
 //     },
-//     { SpinTypeNames.T_SpinMini, new Dictionary<int, int>
+//     { SpinTypes.T_SpinMini, new Dictionary<int, int>
 //         {
 //             { 1, 0 }, // TspinMiniAttack
 //             { 2, 1 }  // TspinDoubleMiniAttack
 //         }
 //     },
-//     { SpinTypeNames.None, new Dictionary<int, int>
+//     { SpinTypes.None, new Dictionary<int, int>
 //         {
 //             { 1, 0 }, // OneLineClearAttack
 //             { 2, 1 }, // TwoLineClearAttack
@@ -2148,10 +1978,10 @@ public class GameDisplayManager : MonoBehaviour
 // /// <summary> BackToBackの判定を確認し、ダメージの計算を行う関数 </summary>
 // /// <param name="_spinType">スピンタイプ</param>
 // /// <param name="_displayText">表示するテキスト</param>
-// private void CheckBackToBack(SpinTypeNames _spinType, TextMeshProUGUI _displayText)
+// private void CheckBackToBack(SpinTypes _spinType, TextMeshProUGUI _displayText)
 // {
 //     // Spin判定がない、かつテトリスでない場合
-//     if (_spinType == SpinTypeNames.None && _displayText != TetrisText)
+//     if (_spinType == SpinTypes.None && _displayText != TetrisText)
 //     {
 //         // BackToBack判定をリセット
 //         gameStatus.ResetBackToBack();
@@ -2302,14 +2132,14 @@ public class GameDisplayManager : MonoBehaviour
 
 //     /// <summary> 表示するスピンまたは列消去のテキストを判別する関数 </summary>
 //     /// <param name="_lineClearCount"> 消去ライン数 </param>
-//     public void SpinTextDisplay(SpinTypeNames _spinType, int _lineClearCount)
+//     public void SpinTextDisplay(SpinTypes _spinType, int _lineClearCount)
 //     {
 //         LogHelper.DebugLog(eClasses.TextEffect, eMethod.SpinTextDisplay, eLogTitle.Start);
 
 //         SpinTextAnimation(DetermineTextToDisplay(_spinType, _lineClearCount), _lineClearCount);
 
 //         // 鳴らすサウンドの決定も行う
-//         if (_spinType != SpinTypeNames.None)
+//         if (_spinType != SpinTypes.None)
 //         {
 //             if (_lineClearCount >= 1)
 //             {
@@ -2339,14 +2169,14 @@ public class GameDisplayManager : MonoBehaviour
 //     /// <param name="_spinType"> スピンタイプ </param>
 //     /// <param name="_lineClearCount"> 消去ライン数 </param>
 //     /// <returns> 表示するテキスト </returns>
-//     private TextMeshProUGUI DetermineTextToDisplay(SpinTypeNames _spinType, int _lineClearCount)
+//     private TextMeshProUGUI DetermineTextToDisplay(SpinTypes _spinType, int _lineClearCount)
 //     {
 //         LogHelper.DebugLog(eClasses.TextEffect, eMethod.DetermineTextToDisplay, eLogTitle.Start);
 
 //         // スピンタイプと消去ライン数に対応するテキストをマッピングするディクショナリ
-//         Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>> spinTypeTextMapping = new Dictionary<SpinTypeNames, Dictionary<int, TextMeshProUGUI>>
+//         Dictionary<SpinTypes, Dictionary<int, TextMeshProUGUI>> spinTypeTextMapping = new Dictionary<SpinTypes, Dictionary<int, TextMeshProUGUI>>
 //     {
-//         { SpinTypeNames.Ispin, new Dictionary<int, TextMeshProUGUI>
+//         { SpinTypes.Ispin, new Dictionary<int, TextMeshProUGUI>
 //             {
 //                 { 0, IspinText },
 //                 { 1, IspinSingleText },
@@ -2355,13 +2185,13 @@ public class GameDisplayManager : MonoBehaviour
 //                 { 4, IspinQuattroText }
 //             }
 //         },
-//         { SpinTypeNames.IspinMini, new Dictionary<int, TextMeshProUGUI>
+//         { SpinTypes.IspinMini, new Dictionary<int, TextMeshProUGUI>
 //             {
 //                 { 0, IspinMiniText },
 //                 { 1, IspinMiniText }
 //             }
 //         },
-//         { SpinTypeNames.Jspin, new Dictionary<int, TextMeshProUGUI>
+//         { SpinTypes.Jspin, new Dictionary<int, TextMeshProUGUI>
 //             {
 //                 { 0, JspinText },
 //                 { 1, JspinSingleText },
@@ -2369,7 +2199,7 @@ public class GameDisplayManager : MonoBehaviour
 //                 { 3, JspinTripleText }
 //             }
 //         },
-//         { SpinTypeNames.Lspin, new Dictionary<int, TextMeshProUGUI>
+//         { SpinTypes.Lspin, new Dictionary<int, TextMeshProUGUI>
 //             {
 //                 { 0, LspinText },
 //                 { 1, LspinSingleText },
@@ -2377,7 +2207,7 @@ public class GameDisplayManager : MonoBehaviour
 //                 { 3, LspinTripleText }
 //             }
 //         },
-//         { SpinTypeNames.Sspin, new Dictionary<int, TextMeshProUGUI>
+//         { SpinTypes.Sspin, new Dictionary<int, TextMeshProUGUI>
 //             {
 //                 { 0, SspinText },
 //                 { 1, SspinSingleText },
@@ -2385,7 +2215,7 @@ public class GameDisplayManager : MonoBehaviour
 //                 { 3, SspinTripleText }
 //             }
 //         },
-//         { SpinTypeNames.SspinMini, new Dictionary<int, TextMeshProUGUI>
+//         { SpinTypes.SspinMini, new Dictionary<int, TextMeshProUGUI>
 //             {
 //                 { 0, SspinMiniText },
 //                 { 1, SspinMiniText },
@@ -2393,7 +2223,7 @@ public class GameDisplayManager : MonoBehaviour
 //                 { 3, SspinTripleMiniText }
 //             }
 //         },
-//         { SpinTypeNames.Tspin, new Dictionary<int, TextMeshProUGUI>
+//         { SpinTypes.Tspin, new Dictionary<int, TextMeshProUGUI>
 //             {
 //                 { 0, TspinText },
 //                 { 1, TspinSingleText },
@@ -2401,14 +2231,14 @@ public class GameDisplayManager : MonoBehaviour
 //                 { 3, TspinTripleText }
 //             }
 //         },
-//         { SpinTypeNames.TspinMini, new Dictionary<int, TextMeshProUGUI>
+//         { SpinTypes.TspinMini, new Dictionary<int, TextMeshProUGUI>
 //             {
 //                 { 0, TspinMiniText },
 //                 { 1, TspinMiniText },
 //                 { 2, TspinDoubleMiniText }
 //             }
 //         },
-//         { SpinTypeNames.Zspin, new Dictionary<int, TextMeshProUGUI>
+//         { SpinTypes.Zspin, new Dictionary<int, TextMeshProUGUI>
 //             {
 //                 { 0, ZspinText },
 //                 { 1, ZspinSingleText },
@@ -2416,7 +2246,7 @@ public class GameDisplayManager : MonoBehaviour
 //                 { 3, ZspinTripleText }
 //             }
 //         },
-//         { SpinTypeNames.ZspinMini, new Dictionary<int, TextMeshProUGUI>
+//         { SpinTypes.ZspinMini, new Dictionary<int, TextMeshProUGUI>
 //             {
 //                 { 0, ZspinMiniText },
 //                 { 1, ZspinMiniText },
@@ -2424,7 +2254,7 @@ public class GameDisplayManager : MonoBehaviour
 //                 { 3, ZspinTripleMiniText }
 //             }
 //         },
-//         { SpinTypeNames.None, new Dictionary<int, TextMeshProUGUI>
+//         { SpinTypes.None, new Dictionary<int, TextMeshProUGUI>
 //             {
 //                 { 0, null},
 //                 { 1, null },
@@ -2582,6 +2412,181 @@ public class GameDisplayManager : MonoBehaviour
 
 //         LogHelper.DebugLog(eClasses.TextEffect, eMethod.StopAnimation, eLogTitle.End);
 //     }
+// }
+
+
+// /// <summary> スピンタイプに応じて表示するテキストを決定する関数 </summary>
+// /// <param name="spinTypeName"> スピンタイプ </param>
+// /// <param name="lineClearCount"> 消去ライン数 </param>
+// /// <returns> 表示するテキスト </returns>
+// public TextMeshProUGUI DetermineTextToDisplay(SpinTypes spinTypeName, int lineClearCount)
+// {
+//     LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.DetermineTextToDisplay, eLogTitle.Start);
+
+//     Dictionary<SpinTypes, Dictionary<int, TextMeshProUGUI>> spinTypeTextMapping = new Dictionary<SpinTypes, Dictionary<int, TextMeshProUGUI>>
+//     {
+//         { SpinTypes.None, new Dictionary<int, TextMeshProUGUI>
+//             {
+//                 { 0, null },
+//                 { 1, null },
+//                 { 2, null },
+//                 { 3, null },
+//                 { 4, tetrisText }
+//             }
+//         },
+//         { SpinTypes.Ispin, new Dictionary<int, TextMeshProUGUI>
+//             {
+//                 { 0, i_spinText },
+//                 { 1, i_spinSingleText },
+//                 { 2, i_spinDoubleText },
+//                 { 3, i_spinTripleText },
+//                 { 4, i_spinQuattroText }
+//             }
+//         },
+//         { SpinTypes.IspinMini, new Dictionary<int, TextMeshProUGUI>
+//             {
+//                 { 0, i_spinMiniText },
+//                 { 1, i_spinMiniText }
+//             }
+//         },
+//         { SpinTypes.Jspin, new Dictionary<int, TextMeshProUGUI>
+//             {
+//                 { 0, j_spinText },
+//                 { 1, j_spinSingleText },
+//                 { 2, j_spinDoubleText },
+//                 { 3, j_spinTripleText }
+//             }
+//         },
+//         // { SpinTypes.JspinMini, new Dictionary<int, TextMeshProUGUI>
+//         //     {
+//         //         { 0, j_spinMiniText },
+//         //         { 1, j_spinMiniText },
+//         //         { 2, j_spinDoubleMiniText }
+//         //     }
+//         // },
+//         { SpinTypes.Lspin, new Dictionary<int, TextMeshProUGUI>
+//             {
+//                 { 0, l_spinText },
+//                 { 1, l_spinSingleText },
+//                 { 2, l_spinDoubleText },
+//                 { 3, l_spinTripleText }
+//             }
+//         },
+//         // { SpinTypes.LspinMini, new Dictionary<int, TextMeshProUGUI>
+//         //     {
+//         //         { 0, l_spinMiniText },
+//         //         { 1, l_spinMiniText },
+//         //         { 2, l_spinDoubleMiniText }
+//         //     }
+//         // },
+//         { SpinTypes.Sspin, new Dictionary<int, TextMeshProUGUI>
+//             {
+//                 { 0, s_spinText },
+//                 { 1, s_spinSingleText },
+//                 { 2, s_spinDoubleText },
+//                 { 3, s_spinTripleText }
+//             }
+//         },
+//         { SpinTypes.SspinMini, new Dictionary<int, TextMeshProUGUI>
+//             {
+//                 { 0, s_spinMiniText },
+//                 { 1, s_spinMiniText },
+//                 { 2, s_spinDoubleMiniText },
+//             }
+//         },
+//         { SpinTypes.Tspin, new Dictionary<int, TextMeshProUGUI>
+//             {
+//                 { 0, t_spinText },
+//                 { 1, t_spinSingleText },
+//                 { 2, t_spinDoubleText },
+//                 { 3, t_spinTripleText }
+//             }
+//         },
+//         { SpinTypes.TspinMini, new Dictionary<int, TextMeshProUGUI>
+//             {
+//                 { 0, t_spinMiniText },
+//                 { 1, t_spinMiniText },
+//                 { 2, t_spinDoubleMiniText }
+//             }
+//         },
+//         { SpinTypes.Zspin, new Dictionary<int, TextMeshProUGUI>
+//             {
+//                 { 0, z_spinText },
+//                 { 1, z_spinSingleText },
+//                 { 2, z_spinDoubleText },
+//                 { 3, z_spinTripleText }
+//             }
+//         },
+//         { SpinTypes.ZspinMini, new Dictionary<int, TextMeshProUGUI>
+//             {
+//                 { 0, z_spinMiniText },
+//                 { 1, z_spinMiniText },
+//                 { 2, z_spinDoubleMiniText },
+//             }
+//         }
+//     };
+
+//     Dictionary<TextMeshProUGUI, SaveDataTypes> spinTypeToSaveDataTypeMapping = new Dictionary<TextMeshProUGUI, SaveDataTypes>
+//     {
+//         { tetrisText, SaveDataTypes.Tetris },
+//         { i_spinText, SaveDataTypes.I_Spin },
+//         { i_spinSingleText, SaveDataTypes.I_SpinSingle },
+//         { i_spinDoubleText, SaveDataTypes.I_SpinDouble },
+//         { i_spinTripleText, SaveDataTypes.I_SpinTriple },
+//         { i_spinQuattroText, SaveDataTypes.I_SpinQuattro },
+//         { i_spinMiniText, SaveDataTypes.I_SpinMini },
+//         { j_spinText, SaveDataTypes.J_Spin },
+//         { j_spinSingleText, SaveDataTypes.J_SpinSingle },
+//         { j_spinDoubleText, SaveDataTypes.J_SpinDouble },
+//         { j_spinTripleText, SaveDataTypes.J_SpinTriple },
+//         // { j_spinMiniText, SaveDataTypes.J_SpinMini }, // Uncomment if needed
+//         // { j_spinDoubleMiniText, SaveDataTypes.J_SpinDoubleMini }, // Uncomment if needed
+//         { l_spinText, SaveDataTypes.L_Spin },
+//         { l_spinSingleText, SaveDataTypes.L_SpinSingle },
+//         { l_spinDoubleText, SaveDataTypes.L_SpinDouble },
+//         { l_spinTripleText, SaveDataTypes.L_SpinTriple },
+//         // { l_spinMiniText, SaveDataTypes.L_SpinMini }, // Uncomment if needed
+//         // { l_spinDoubleMiniText, SaveDataTypes.L_SpinDoubleMini }, // Uncomment if needed
+//         { s_spinText, SaveDataTypes.S_Spin },
+//         { s_spinSingleText, SaveDataTypes.S_SpinSingle },
+//         { s_spinDoubleText, SaveDataTypes.S_SpinDouble },
+//         { s_spinTripleText, SaveDataTypes.S_SpinTriple },
+//         { s_spinMiniText, SaveDataTypes.S_SpinMini },
+//         { s_spinDoubleMiniText, SaveDataTypes.S_SpinDoubleMini },
+//         { t_spinText, SaveDataTypes.T_Spin },
+//         { t_spinSingleText, SaveDataTypes.T_SpinSingle },
+//         { t_spinDoubleText, SaveDataTypes.T_SpinDouble },
+//         { t_spinTripleText, SaveDataTypes.T_SpinTriple },
+//         { t_spinMiniText, SaveDataTypes.T_SpinMini },
+//         { t_spinDoubleMiniText, SaveDataTypes.T_SpinDoubleMini },
+//         { z_spinText, SaveDataTypes.Z_Spin },
+//         { z_spinSingleText, SaveDataTypes.Z_SpinSingle },
+//         { z_spinDoubleText, SaveDataTypes.Z_SpinDouble },
+//         { z_spinTripleText, SaveDataTypes.Z_SpinTriple },
+//         { z_spinMiniText, SaveDataTypes.Z_SpinMini },
+//         { z_spinDoubleMiniText, SaveDataTypes.Z_SpinDoubleMini }
+//     };
+
+//     TextMeshProUGUI displayText = null;
+
+//     if (spinTypeTextMapping.ContainsKey(spinTypeName) && spinTypeTextMapping[spinTypeName].ContainsKey(lineClearCount))
+//     {
+//         if (spinTypeTextMapping[spinTypeName][lineClearCount] == tetrisText)
+//         {
+//             TetrisAnimation();
+//         }
+//         else
+//         {
+//             displayText = spinTypeTextMapping[spinTypeName][lineClearCount];
+//         }
+//     }
+//     else
+//     {
+//         LogHelper.ErrorLog(eClasses.PlayDisplayManager, eMethod.DetermineTextToDisplay, eLogTitle.KeyNotFound);
+//     }
+
+//     LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.DetermineTextToDisplay, eLogTitle.End);
+//     return displayText;
 // }
 
 /////////////////////////////////////////////////////////

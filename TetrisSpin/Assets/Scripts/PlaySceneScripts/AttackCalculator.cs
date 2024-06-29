@@ -80,98 +80,54 @@ public static class AttackCalculatorStats
 /// </summary>
 public class AttackCalculator : MonoBehaviour
 {
-    /// <summary>
-    /// スピンタイプと消去ライン数に対応する攻撃力をマッピングするディクショナリ
-    /// </summary>
-    private Dictionary<SpinTypeNames, Dictionary<int, int>> spinTypeAttackMapping = new Dictionary<SpinTypeNames, Dictionary<int, int>>
+    /// <summary> 詳細なスピンタイプに対応する攻撃力をマッピングするディクショナリ </summary>
+    Dictionary<DetailedSpinTypes, int> DetailedSpinTypesToAttackLinesDictionary = new Dictionary<DetailedSpinTypes, int>
     {
-        { SpinTypeNames.Ispin, new Dictionary<int, int>
-            {
-                { 0, 0 },
-                { 1, 2 }, // IspinSingleAttack
-                { 2, 4 }, // IspinDoubleAttack
-                { 3, 6 }, // IspinTripleAttack
-                { 4, 8 }  // IspinQuattroAttack
-            }
-        },
-        { SpinTypeNames.IspinMini, new Dictionary<int, int>
-            {
-                { 0, 0 },
-                { 1, 1 } // IspinMiniAttack
-            }
-        },
-        { SpinTypeNames.Jspin, new Dictionary<int, int>
-            {
-                { 0, 0 },
-                { 1, 1 }, // JspinSingleAttack
-                { 2, 3 }, // JspinDoubleAttack
-                { 3, 6 }  // JspinTripleAttack
-            }
-        },
-        { SpinTypeNames.Lspin, new Dictionary<int, int>
-            {
-                { 0, 0 },
-                { 1, 1 }, // LspinSingleAttack
-                { 2, 3 }, // LspinDoubleAttack
-                { 3, 6 }  // LspinTripleAttack
-            }
-        },
-        { SpinTypeNames.Sspin, new Dictionary<int, int>
-            {
-                { 0, 0 },
-                { 1, 2 }, // SspinSingleAttack
-                { 2, 4 }, // SspinDoubleAttack
-                { 3, 8 }  // SspinTripleAttack
-            }
-        },
-        { SpinTypeNames.SspinMini, new Dictionary<int, int>
-            {
-                { 0, 0 },
-                { 1, 0 }, // SspinMiniAttack
-                { 2, 1 }, // SspinDoubleMiniAttack
-                { 3, 3 }  // SspinTripleMiniAttack
-            }
-        },
-        { SpinTypeNames.Tspin, new Dictionary<int, int>
-            {
-                { 0, 0 },
-                { 1, 2 }, // TspinSingleAttack
-                { 2, 4 }, // TspinDoubleAttack
-                { 3, 6 }  // TspinTripleAttack
-            }
-        },
-        { SpinTypeNames.TspinMini, new Dictionary<int, int>
-            {
-                { 0, 0 },
-                { 1, 0 }, // TspinMiniAttack
-                { 2, 1 }  // TspinDoubleMiniAttack
-            }
-        },
-        { SpinTypeNames.Zspin, new Dictionary<int, int>
-            {
-                { 0, 0 },
-                { 1, 2 }, // ZspinSingleAttack
-                { 2, 4 }, // ZspinDoubleAttack
-                { 3, 8 }  // ZspinTripleAttack
-            }
-        },
-        { SpinTypeNames.ZspinMini, new Dictionary<int, int>
-            {
-                { 0, 0 },
-                { 1, 0 }, // ZspinMiniAttack
-                { 2, 1 }, // ZspinDoubleMiniAttack
-                { 3, 3 }  // ZspinTripleMiniAttack
-            }
-        },
-        { SpinTypeNames.None, new Dictionary<int, int>
-            {
-                { 0, 0 },
-                { 1, 0 }, // OneLineClearAttack
-                { 2, 1 }, // TwoLineClearAttack
-                { 3, 2 }, // ThreeLineClearAttack
-                { 4, 4 }  // TetrisAttack
-            }
-        }
+        { DetailedSpinTypes.Tetris, 4},
+
+        { DetailedSpinTypes.I_Spin, 0 },
+        { DetailedSpinTypes.I_SpinSingle, 2 },
+        { DetailedSpinTypes.I_SpinDouble, 4 },
+        { DetailedSpinTypes.I_SpinTriple, 6 },
+        { DetailedSpinTypes.I_SpinQuattro, 8 },
+        { DetailedSpinTypes.I_SpinMini, 1 },
+
+        { DetailedSpinTypes.J_Spin, 0 },
+        { DetailedSpinTypes.J_SpinSingle, 1 },
+        { DetailedSpinTypes.J_SpinDouble, 3 },
+        { DetailedSpinTypes.J_SpinTriple, 6 },
+        { DetailedSpinTypes.J_SpinMini, 1 },
+        { DetailedSpinTypes.J_SpinDoubleMini, 2 },
+
+        { DetailedSpinTypes.L_Spin, 0 },
+        { DetailedSpinTypes.L_SpinSingle, 1 },
+        { DetailedSpinTypes.L_SpinDouble, 3 },
+        { DetailedSpinTypes.L_SpinTriple, 6 },
+        { DetailedSpinTypes.L_SpinMini, 1 },
+        { DetailedSpinTypes.L_SpinDoubleMini, 2 },
+
+        { DetailedSpinTypes.S_Spin, 0 },
+        { DetailedSpinTypes.S_SpinSingle, 2 },
+        { DetailedSpinTypes.S_SpinDouble, 4 },
+        { DetailedSpinTypes.S_SpinTriple, 7 },
+        { DetailedSpinTypes.S_SpinMini, 0 },
+        { DetailedSpinTypes.S_SpinDoubleMini, 1 },
+
+        { DetailedSpinTypes.T_Spin, 0 },
+        { DetailedSpinTypes.T_SpinSingle, 2 },
+        { DetailedSpinTypes.T_SpinDouble, 4 },
+        { DetailedSpinTypes.T_SpinTriple, 6 },
+        { DetailedSpinTypes.T_SpinMini, 0 },
+        { DetailedSpinTypes.T_SpinDoubleMini, 1 },
+
+        { DetailedSpinTypes.Z_Spin, 0 },
+        { DetailedSpinTypes.Z_SpinSingle, 2 },
+        { DetailedSpinTypes.Z_SpinDouble, 4 },
+        { DetailedSpinTypes.Z_SpinTriple, 7 },
+        { DetailedSpinTypes.Z_SpinMini, 0 },
+        { DetailedSpinTypes.Z_SpinDoubleMini, 1 },
+
+        { DetailedSpinTypes.None, 0 }
     };
 
     /// <summary> ログの詳細 </summary>
@@ -179,7 +135,7 @@ public class AttackCalculator : MonoBehaviour
 
     // 干渉するクラス //
     Board board;
-    GameDisplayManager gameDisplayManager;
+    PlayDisplayManager playDisplayManager;
 
     /// <summary>
     /// インスタンス化
@@ -187,20 +143,21 @@ public class AttackCalculator : MonoBehaviour
     private void Awake()
     {
         board = FindObjectOfType<Board>();
-        gameDisplayManager = FindObjectOfType<GameDisplayManager>();
+        playDisplayManager = FindObjectOfType<PlayDisplayManager>();
     }
 
     /// <summary> 合計攻撃力を計算する関数 </summary>
     /// <param name="_spinType"> スピンタイプ </param>
+    /// <param name="_detailedSpinType"> 詳細なスピンタイプ </param>
     /// <param name="_lineClearCount"> 消去ライン数 </param>
-    public void CalculateSumAttackLines(SpinTypeNames _spinType, int _lineClearCount)
+    public void CalculateSumAttackLines(SpinTypes _spinType, DetailedSpinTypes _detailedSpinType, int _lineClearCount)
     {
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateSumAttackLines, eLogTitle.Start);
 
         // 今回の攻撃値
         int attackLines = 0;
 
-        attackLines += spinTypeAttackMapping[_spinType][_lineClearCount];
+        attackLines += DetailedSpinTypesToAttackLinesDictionary[_detailedSpinType];
         attackLines += CalculateBackToBack(_spinType, _lineClearCount);
         attackLines += CalculatePerfectClear();
         attackLines += CalculateRen(_lineClearCount);
@@ -216,8 +173,8 @@ public class AttackCalculator : MonoBehaviour
 
         if (attackLines > 0)
         {
-            gameDisplayManager.AttackLinesAnimation(attackLines);
-            gameDisplayManager.SumAttackLinesAnimation();
+            playDisplayManager.AttackLinesAnimation(attackLines);
+            playDisplayManager.SumAttackLinesAnimation();
         }
 
         logDetail = $"{AttackCalculatorStats.SumAttackLines}";
@@ -230,7 +187,7 @@ public class AttackCalculator : MonoBehaviour
     /// <param name="_spinType"> スピンタイプ </param>
     /// <param name="_lineClearCount"> 消去ライン数 </param>
     /// <returns> 攻撃力ボーナスの値(bonus) </returns>
-    private int CalculateBackToBack(SpinTypeNames _spinType, int _lineClearCount)
+    private int CalculateBackToBack(SpinTypes _spinType, int _lineClearCount)
     {
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateBackToBack, eLogTitle.Start);
 
@@ -241,13 +198,13 @@ public class AttackCalculator : MonoBehaviour
         int backToBackBonus = 1;
 
         if (AttackCalculatorStats.BackToBack == true &&
-            (_lineClearCount == 4 || (_spinType != SpinTypeNames.None && _lineClearCount >= 1)))
+            (_lineClearCount == 4 || (_spinType != SpinTypes.None && _lineClearCount >= 1)))
         {
             bonus = backToBackBonus;
-            gameDisplayManager.BackToBackAnimation();
+            playDisplayManager.BackToBackAnimation();
         }
 
-        if (_lineClearCount == 4 || _spinType != SpinTypeNames.None)
+        if (_lineClearCount == 4 || _spinType != SpinTypes.None)
         {
             AttackCalculatorStats.UpdateStats(_backToBack: true);
         }
@@ -279,7 +236,7 @@ public class AttackCalculator : MonoBehaviour
         {
             AttackCalculatorStats.UpdateStats(_perfectClear: true);
             bonus = perfectClearBonus;
-            gameDisplayManager.PerfectClearAnimation();
+            playDisplayManager.PerfectClearAnimation();
         }
         else
         {
@@ -311,14 +268,14 @@ public class AttackCalculator : MonoBehaviour
             // 2REN以上で表示する
             if (AttackCalculatorStats.Ren >= 2)
             {
-                gameDisplayManager.RenAnimation();
+                playDisplayManager.RenAnimation();
             }
         }
         else
         {
             if (AttackCalculatorStats.Ren >= 2)
             {
-                gameDisplayManager.EndingRenAnimation();
+                playDisplayManager.EndingRenAnimation();
             }
             AttackCalculatorStats.UpdateStats(_ren: -1);
         }
@@ -339,10 +296,10 @@ public class AttackCalculator : MonoBehaviour
         /// <summary> SpinCompleteの攻撃力ボーナス </summary>
         int spinCompleteBonus = 10;
 
-        if (GameDisplayManagerStats.SpinComplete == true)
+        if (PlayDisplayManagerStats.SpinComplete == true)
         {
             bonus = spinCompleteBonus;
-            GameDisplayManagerStats.ResetStats();
+            PlayDisplayManagerStats.ResetStats();
         }
 
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateSpinComplete, eLogTitle.End);
