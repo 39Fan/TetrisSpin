@@ -444,9 +444,16 @@ public class PlayDisplayManager : MonoBehaviour
 
         if (_detailedSpinType != DetailedSpinTypes.None)
         {
-            TextMeshProUGUI instantiatedText = Instantiate(DetailedSpinTypesToTextDictionary[_detailedSpinType], spinTextsPanel);
-            TextFadeInAndOutType1(instantiatedText);
-            effects.SpinEffect();
+            if (_detailedSpinType == DetailedSpinTypes.Tetris)
+            {
+                TetrisAnimation();
+            }
+            else
+            {
+                TextMeshProUGUI instantiatedText = Instantiate(DetailedSpinTypesToTextDictionary[_detailedSpinType], spinTextsPanel);
+                TextFadeInAndOutType1(instantiatedText);
+                effects.SpinEffect();
+            }
         }
 
         LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.SpinTextAnimation, eLogTitle.End);
