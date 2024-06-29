@@ -244,7 +244,7 @@ public class GameDisplayManager : MonoBehaviour
     /// <summary> タイマーの開始時刻 </summary>
     private float startTime;
     /// <summary> ポーズ時のタイマーの時間を記録する変数 </summary>
-    private float pauseTime;
+    private float pauseTime = 0f;
     /// <summary> 累積のポーズ時間 </summary>
     private float totalPauseDuration;
 
@@ -332,9 +332,8 @@ public class GameDisplayManager : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (!GameSceneManagerStats.GameOverScene && !GameSceneManagerStats.GameClearScene)
+        if (GameSceneManagerStats.PlayScene)
         {
-            DisplayTimer();
             if (GameSceneManagerStats.PoseState)
             {
                 // ポーズが開始されたとき
@@ -345,14 +344,14 @@ public class GameDisplayManager : MonoBehaviour
             }
             else
             {
-                // ポーズが解除されたとき
-                if (pauseTime > 0f)
+                if (pauseTime != 0f)
                 {
                     totalPauseDuration += Time.time - pauseTime; // ポーズ期間を累積
                     pauseTime = 0f; // ポーズ時間をリセット
                 }
-                DisplayTimer();
             }
+
+            DisplayTimer();
         }
     }
 
@@ -361,13 +360,25 @@ public class GameDisplayManager : MonoBehaviour
     /// </summary>
     private void DisplayTimer()
     {
-        float t = Time.time - startTime;
+        float playtime;
 
-        string minutes = ((int)t / 60).ToString();
-        string seconds = (t % 60).ToString("f2");
+        if (GameSceneManagerStats.PoseState)
+        {
+            // ポーズ中はポーズ開始時の時間を基にプレイ時間を表示
+            playtime = pauseTime - startTime - totalPauseDuration;
+        }
+        else
+        {
+            // 通常時のプレイ時間を表示
+            playtime = Time.time - startTime - totalPauseDuration;
+        }
+
+        string minutes = ((int)playtime / 60).ToString("00");
+        string seconds = (playtime % 60).ToString("00.00");
 
         timerText.text = $"{minutes}:{seconds}";
     }
+
 
     /// <summary> スピンに関するアニメーションを呼ぶ関数 </summary>
     /// <param name="spinTypeName"> スピンタイプ </param>
