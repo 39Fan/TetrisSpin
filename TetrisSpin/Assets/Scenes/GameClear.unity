@@ -1342,7 +1342,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1015841666}
-  - component: {fileID: 1015841665}
+  - component: {fileID: 1015841667}
   m_Layer: 0
   m_Name: ImageScroll
   m_TagString: Untagged
@@ -1350,24 +1350,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1015841665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1015841664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fc904ab3e580453a8fddf31ef0a19f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameClearBackGroundRect1: {fileID: 827985834}
-  gameClearBackGroundRect2: {fileID: 1561526271}
-  gameOverBackGroundRect1: {fileID: 0}
-  gameOverBackGroundImage1: {fileID: 0}
-  scoreBackGroundRect1: {fileID: 0}
-  scoreBackGroundRect2: {fileID: 0}
 --- !u!4 &1015841666
 Transform:
   m_ObjectHideFlags: 0
@@ -1383,6 +1365,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1015841667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015841664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdba60a2d6d53419e88088c5f32a22f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameClearBackGroundRect1: {fileID: 827985834}
+  gameClearBackGroundRect2: {fileID: 1561526271}
 --- !u!1 &1369520999
 GameObject:
   m_ObjectHideFlags: 0

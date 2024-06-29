@@ -161,8 +161,6 @@ public class GameAutoRunner : MonoBehaviour
         {
             playDisplayManager.StopAnimation();
 
-            GameStateManager.UpdateState(_gameOver: true);
-
             gameSceneManager.LoadGameOverScene();
 
             return;
@@ -197,8 +195,6 @@ public class GameAutoRunner : MonoBehaviour
         if (!board.CheckPosition(spawner.ActiveMino)) // ミノを生成した際に、ブロックと重なってしまった場合
         {
             playDisplayManager.StopAnimation();
-
-            GameStateManager.UpdateState(_gameOver: true);
 
             gameSceneManager.LoadGameOverScene();
 

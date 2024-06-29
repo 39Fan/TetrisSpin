@@ -650,7 +650,7 @@ GameObject:
   - component: {fileID: 1936607690}
   - component: {fileID: 1936607689}
   m_Layer: 0
-  m_Name: ImageScroll
+  m_Name: ImageShake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -665,15 +665,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1936607688}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fc904ab3e580453a8fddf31ef0a19f2, type: 3}
+  m_Script: {fileID: 11500000, guid: 7354f59fa4e954e169d0f354ac99e00a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameClearBackGroundRect1: {fileID: 0}
-  gameClearBackGroundRect2: {fileID: 0}
   gameOverBackGroundRect1: {fileID: 1782145983}
   gameOverBackGroundImage1: {fileID: 1782145985}
-  scoreBackGroundRect1: {fileID: 0}
-  scoreBackGroundRect2: {fileID: 0}
 --- !u!4 &1936607690
 Transform:
   m_ObjectHideFlags: 0
