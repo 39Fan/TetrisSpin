@@ -1,97 +1,38 @@
 using UnityEngine;
 
-public static class GameMode
+/// <summary> ゲームモード 列挙型 </summary>
+public enum eGameMode
 {
-
+    TimeAttack_100,
+    SpinMaster,
+    Practice,
 }
 
-// /// <summary>
-// /// ゲームの状態を管理するクラス
-// /// </summary>
-// public static class GameStateManager
-// {
-//     /// <summary> ゲームオーバーの状態 </summary>
-//     private static bool gameOver = false;
-//     /// <summary> ゲームクリアの状態 </summary>
-//     private static bool gameClear = false;
-//     /// <summary> スコア画面の状態 </summary>
-//     private static bool score = false;
-//     /// <summary> オプション画面の状態 </summary>
-//     private static bool option = false;
-//     /// <summary> メニュー画面の状態 </summary>
-//     private static bool menu = true;
-
-//     // ゲッタープロパティ //
-//     public static bool GameOver => gameOver;
-//     public static bool GameClear => gameClear;
-//     public static bool Score => score;
-//     public static bool Option => option;
-//     public static bool Menu => menu;
-
-//     /// <summary> 指定されたフィールドの値を更新する関数 </summary>
-//     /// <param name="_gameOver"> ゲームオーバーの状態 </param>
-//     /// <param name="_gameClear"> ゲームクリアの状態 </param>
-//     /// <param name="_score"> スコア画面の状態 </param>
-//     /// <param name="_option"> オプション画面の状態 </param>
-//     /// <param name="_menu"> メニュー画面の状態 </param>
-//     /// <remarks>
-//     /// 指定された状態を true に設定し、他のすべての状態を false に設定する。
-//     /// </remarks>
-//     public static void UpdateState(bool? _gameOver = null, bool? _gameClear = null, bool? _score = null, bool? _option = null, bool? _menu = null)
-//     {
-//         // 最初にすべての状態を false に設定
-//         gameOver = false;
-//         gameClear = false;
-//         score = false;
-//         option = false;
-//         menu = false;
-
-//         // 引数で true が指定された状態のみを true に設定
-//         if (_gameOver == true)
-//         {
-//             gameOver = true;
-//         }
-//         else if (_gameClear == true)
-//         {
-//             gameClear = true;
-//         }
-//         else if (_score == true)
-//         {
-//             score = true;
-//         }
-//         else if (_option == true)
-//         {
-//             option = true;
-//         }
-//         else if (_menu == true)
-//         {
-//             menu = true;
-//         }
-//     }
-
-//     /// <summary> デフォルトの <see cref="GameStateManager"/> にリセットする関数 </summary>
-//     public static void ResetStates()
-//     {
-//         gameOver = false;
-//         gameClear = false;
-//         score = false;
-//         option = false;
-//         menu = true;
-//     }
-// }
-
+/// <summary> 難易度 列挙型 </summary>
+public enum eGameLevel
+{
+    Easy,
+    Normal,
+    Hard
+}
 
 /// <summary>
 /// ゲームマネージャーの統計情報を保持する静的クラス
 /// </summary>
 public static class GameManagerStats
 {
+    /// <summary> ゲームモード </summary>
+    private static eGameMode gameMode;
+    /// <summary> ゲームレベル </summary>
+    private static eGameLevel gameLevel;
     /// <summary> ミノの生成数 </summary>
     private static int minoPopNumber = 0;
     /// <summary> ミノの設置数 </summary>
     private static int minoPutNumber = 0;
 
     // ゲッタープロパティ //
+    public static eGameMode GameMode => gameMode;
+    public static eGameLevel GameLevel => gameLevel;
     public static int MinoPopNumber => minoPopNumber;
     public static int MinoPutNumber => minoPutNumber;
 
@@ -99,19 +40,23 @@ public static class GameManagerStats
     private static string logStatsDetail;
 
     /// <summary> 指定されたフィールドの値を更新する関数 </summary>
+    /// <param name="_gameMode"> ゲームモード </param>
+    /// <param name="_level"> ゲームレベル </param>
     /// <param name="_minoPopNumber"> ミノの生成数 </param>
     /// <param name="_minoPutNumber"> ミノの設置数 </param>
     /// <remarks>
     /// 指定されていない引数は現在の値を維持
     /// </remarks>
-    public static void UpdateStats(int? _minoPopNumber = null, int? _minoPutNumber = null)
+    public static void UpdateStats(eGameMode? _gameMode = null, eGameLevel? _gameLevel = null, int? _minoPopNumber = null, int? _minoPutNumber = null)
     {
         LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.UpdateStats, eLogTitle.Start);
 
+        gameMode = _gameMode ?? gameMode;
+        gameLevel = _gameLevel ?? gameLevel;
         minoPopNumber = _minoPopNumber ?? minoPopNumber;
         minoPutNumber = _minoPutNumber ?? minoPutNumber;
 
-        logStatsDetail = $"minoPopNumber : {minoPopNumber}, minoPutNumber : {minoPutNumber}";
+        logStatsDetail = $"gameMode : {gameMode}, level : {gameLevel}, minoPopNumber : {minoPopNumber}, minoPutNumber : {minoPutNumber}";
         LogHelper.InfoLog(eClasses.GameAutoRunnerStats, eMethod.UpdateStats, eLogTitle.StatsInfo, logStatsDetail);
 
         LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.UpdateStats, eLogTitle.End);
@@ -127,7 +72,28 @@ public static class GameManagerStats
 
         LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.ResetStats, eLogTitle.End);
     }
+
+    /// <summary> ゲームモードをデフォルトにリセットする関数 </summary>
+    public static void ResetGameMode()
+    {
+        LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.ResetGameMode, eLogTitle.Start);
+
+        gameMode = default;
+
+        LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.ResetGameMode, eLogTitle.End);
+    }
+
+    /// <summary> ゲームレベルをデフォルトにリセットする関数 </summary>
+    public static void ResetGameLevel()
+    {
+        LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.ResetGameLevel, eLogTitle.Start);
+
+        gameLevel = default;
+
+        LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.ResetGameLevel, eLogTitle.End);
+    }
 }
+
 
 /// <summary>
 /// ゲームの進行を管理するクラス
@@ -1006,5 +972,80 @@ public class GameManager : MonoBehaviour
 
 //         LogHelper.Log(LogHelper.LogLevel.Debug, "GameManager", "SetMinoFixed()", "End");
 //     }
+
+// /// <summary>
+// /// ゲームの状態を管理するクラス
+// /// </summary>
+// public static class GameStateManager
+// {
+//     /// <summary> ゲームオーバーの状態 </summary>
+//     private static bool gameOver = false;
+//     /// <summary> ゲームクリアの状態 </summary>
+//     private static bool gameClear = false;
+//     /// <summary> スコア画面の状態 </summary>
+//     private static bool score = false;
+//     /// <summary> オプション画面の状態 </summary>
+//     private static bool option = false;
+//     /// <summary> メニュー画面の状態 </summary>
+//     private static bool menu = true;
+
+//     // ゲッタープロパティ //
+//     public static bool GameOver => gameOver;
+//     public static bool GameClear => gameClear;
+//     public static bool Score => score;
+//     public static bool Option => option;
+//     public static bool Menu => menu;
+
+//     /// <summary> 指定されたフィールドの値を更新する関数 </summary>
+//     /// <param name="_gameOver"> ゲームオーバーの状態 </param>
+//     /// <param name="_gameClear"> ゲームクリアの状態 </param>
+//     /// <param name="_score"> スコア画面の状態 </param>
+//     /// <param name="_option"> オプション画面の状態 </param>
+//     /// <param name="_menu"> メニュー画面の状態 </param>
+//     /// <remarks>
+//     /// 指定された状態を true に設定し、他のすべての状態を false に設定する。
+//     /// </remarks>
+//     public static void UpdateState(bool? _gameOver = null, bool? _gameClear = null, bool? _score = null, bool? _option = null, bool? _menu = null)
+//     {
+//         // 最初にすべての状態を false に設定
+//         gameOver = false;
+//         gameClear = false;
+//         score = false;
+//         option = false;
+//         menu = false;
+
+//         // 引数で true が指定された状態のみを true に設定
+//         if (_gameOver == true)
+//         {
+//             gameOver = true;
+//         }
+//         else if (_gameClear == true)
+//         {
+//             gameClear = true;
+//         }
+//         else if (_score == true)
+//         {
+//             score = true;
+//         }
+//         else if (_option == true)
+//         {
+//             option = true;
+//         }
+//         else if (_menu == true)
+//         {
+//             menu = true;
+//         }
+//     }
+
+//     /// <summary> デフォルトの <see cref="GameStateManager"/> にリセットする関数 </summary>
+//     public static void ResetStates()
+//     {
+//         gameOver = false;
+//         gameClear = false;
+//         score = false;
+//         option = false;
+//         menu = true;
+//     }
+// }
 
 /////////////////////////////////////////////////////////

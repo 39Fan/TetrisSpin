@@ -12,9 +12,6 @@ public class ScoreScene_BackGroundScrollManager : MonoBehaviour
     /// <summary> スクロール速度 </summary>
     private readonly int ScrollSpeed = 25;
 
-    /// <summary> 背景の振動間隔 </summary>
-    private float nextShakeTime = 0f;
-
     void Update()
     {
         ScoreScroll();

@@ -135,7 +135,7 @@ public class AttackCalculator : MonoBehaviour
 
     // 干渉するクラス //
     Board board;
-    PlayDisplayManager playDisplayManager;
+    PlayScene_DisplayManager playScene_DisplayManager;
 
     /// <summary>
     /// インスタンス化
@@ -143,7 +143,7 @@ public class AttackCalculator : MonoBehaviour
     private void Awake()
     {
         board = FindObjectOfType<Board>();
-        playDisplayManager = FindObjectOfType<PlayDisplayManager>();
+        playScene_DisplayManager = FindObjectOfType<PlayScene_DisplayManager>();
     }
 
     /// <summary> 合計攻撃力を計算する関数 </summary>
@@ -173,8 +173,8 @@ public class AttackCalculator : MonoBehaviour
 
         if (attackLines > 0)
         {
-            playDisplayManager.AttackLinesAnimation(attackLines);
-            playDisplayManager.SumAttackLinesAnimation();
+            playScene_DisplayManager.AttackLinesAnimation(attackLines);
+            playScene_DisplayManager.SumAttackLinesAnimation();
         }
 
         logDetail = $"{AttackCalculatorStats.SumAttackLines}";
@@ -201,7 +201,7 @@ public class AttackCalculator : MonoBehaviour
             (_lineClearCount == 4 || (_spinType != SpinTypes.None && _lineClearCount >= 1)))
         {
             bonus = backToBackBonus;
-            playDisplayManager.BackToBackAnimation();
+            playScene_DisplayManager.BackToBackAnimation();
         }
 
         if (_lineClearCount == 4 || _spinType != SpinTypes.None)
@@ -236,7 +236,7 @@ public class AttackCalculator : MonoBehaviour
         {
             AttackCalculatorStats.UpdateStats(_perfectClear: true);
             bonus = perfectClearBonus;
-            playDisplayManager.PerfectClearAnimation();
+            playScene_DisplayManager.PerfectClearAnimation();
         }
         else
         {
@@ -268,14 +268,14 @@ public class AttackCalculator : MonoBehaviour
             // 2REN以上で表示する
             if (AttackCalculatorStats.Ren >= 2)
             {
-                playDisplayManager.RenAnimation();
+                playScene_DisplayManager.RenAnimation();
             }
         }
         else
         {
             if (AttackCalculatorStats.Ren >= 2)
             {
-                playDisplayManager.EndingRenAnimation();
+                playScene_DisplayManager.EndingRenAnimation();
             }
             AttackCalculatorStats.UpdateStats(_ren: -1);
         }
@@ -296,10 +296,10 @@ public class AttackCalculator : MonoBehaviour
         /// <summary> SpinCompleteの攻撃力ボーナス </summary>
         int spinCompleteBonus = 10;
 
-        if (PlayDisplayManagerStats.SpinComplete == true)
+        if (PlayScene_DisplayManagerStats.SpinComplete == true)
         {
             bonus = spinCompleteBonus;
-            PlayDisplayManagerStats.ResetStats();
+            PlayScene_DisplayManagerStats.ResetStats();
         }
 
         LogHelper.DebugLog(eClasses.AttackCalculator, eMethod.CalculateSpinComplete, eLogTitle.End);

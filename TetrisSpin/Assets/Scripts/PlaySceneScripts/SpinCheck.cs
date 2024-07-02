@@ -775,7 +775,7 @@ public class SpinCheck : MonoBehaviour
     /// <returns> 詳細なスピンタイプ(DetailedSpinTypes) </returns>
     public DetailedSpinTypes DetermineDetailedSpinType(int _lineClearCount)
     {
-        LogHelper.DebugLog(eClasses.PlayDisplayManager, eMethod.DetermineDetailedSpinType, eLogTitle.Start);
+        LogHelper.DebugLog(eClasses.SpinCheck, eMethod.DetermineDetailedSpinType, eLogTitle.Start);
 
         /// <summary> 詳細なスピンタイプ </summary>
         DetailedSpinTypes detailedSpinType = DetailedSpinTypes.None;

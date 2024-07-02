@@ -81,8 +81,8 @@ public enum eClasses
     AudioManager,
     Board,
     BoardStats,
-    PlayDisplayManager,
-    PlayDisplayManagerStats,
+    PlayScene_DisplayManager,
+    PlayScene_DisplayManagerStats,
     GameAutoRunner,
     GameAutoRunnerStats,
     GameManager,
@@ -120,7 +120,7 @@ public enum eMethod
     // Board クラス //
     CreateBoard, CheckPosition, IsWithinBoard, CheckMinoCollision, SaveBlockInGrid, CheckAllRows, IsComplete, ClearRow, ShiftRowsDown,
     CheckPerfectClear, CheckGrid, CheckActiveMinoTopBlockPositionY, CheckActiveMinoBottomBlockPositionY, CheckGameOver,
-    // PlayDisplayManager クラス //
+    // PlayScene_DisplayManagerStats クラス //
     SpinAnimation, SpinTextAnimation, SpinColorAnimation, TextFadeInAndOutType1,
     ImageFadeInAndOutType1, ImageFadeInAndOutType2, ImageFadeInAndOutType3, SpinTextMove,
     TetrisAnimation, BackToBackAnimation, PerfectClearAnimation, ReadyGoAnimation,
@@ -128,6 +128,8 @@ public enum eMethod
     StopAnimation, PressedPoseIcon, PoseIconCoroutine, PressedContinue, ContinueCoroutine,
     // GameAutoRunner クラス //
     RockDown, ResetRockDown, AutoDown, SetMinoFixed,
+    // GameManagerStats クラス //
+    ResetGameMode, ResetGameLevel,
     // GameSceneManagerStats クラス //
     LoadPoseState, UnLoadPoseState,
     // GameSceneManager クラス //

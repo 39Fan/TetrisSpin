@@ -3,22 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-/// <summary> ゲームモード 列挙型 </summary>
-public enum eGameMode
-{
-    TimeAttack_100,
-    SpinMaster,
-    Practice,
-}
-
-/// <summary> 難易度 列挙型 </summary>
-public enum eLevel
-{
-    Easy,
-    Normal,
-    Hard
-}
-
 /// <summary>
 /// 記録可能なデータ 列挙型
 /// </summary>
@@ -122,7 +106,7 @@ public class AggregateData
 public class PlayRecord
 {
     public eGameMode gameMode;
-    public eLevel level;
+    public eGameLevel gameLevel;
 
     public float clearTime;
     public int backToBackCount;

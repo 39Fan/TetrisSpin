@@ -69,7 +69,7 @@ public class GameAutoRunner : MonoBehaviour
     GameSceneManager gameSceneManager;
     Spawner spawner;
     SpinCheck spinCheck;
-    PlayDisplayManager playDisplayManager;
+    PlayScene_DisplayManager playScene_DisplayManager;
 
     /// <summary>
     /// インスタンス化
@@ -82,7 +82,7 @@ public class GameAutoRunner : MonoBehaviour
         gameSceneManager = FindObjectOfType<GameSceneManager>();
         spawner = FindObjectOfType<Spawner>();
         spinCheck = FindObjectOfType<SpinCheck>();
-        playDisplayManager = FindObjectOfType<PlayDisplayManager>();
+        playScene_DisplayManager = FindObjectOfType<PlayScene_DisplayManager>();
     }
 
     /// <summary> ロックダウンの処理をする関数 </summary>
@@ -159,7 +159,7 @@ public class GameAutoRunner : MonoBehaviour
 
         if (board.CheckGameOver(spawner.ActiveMino)) // ミノの設置時にゲームオーバーの条件を満たした場合
         {
-            playDisplayManager.StopAnimation();
+            playScene_DisplayManager.StopAnimation();
 
             gameSceneManager.LoadGameOverScene();
 
@@ -173,7 +173,7 @@ public class GameAutoRunner : MonoBehaviour
 
         // Spin判定のチェック(Tetris判定も含む)
         detailedSpinType = spinCheck.DetermineDetailedSpinType(lineClearCount);
-        playDisplayManager.SpinAnimation(spinCheck.SpinType, detailedSpinType);
+        playScene_DisplayManager.SpinAnimation(spinCheck.SpinType, detailedSpinType);
 
         // 攻撃ライン数を計算
         attackCalculator.CalculateSumAttackLines(spinCheck.SpinType, detailedSpinType, lineClearCount);
@@ -194,7 +194,7 @@ public class GameAutoRunner : MonoBehaviour
 
         if (!board.CheckPosition(spawner.ActiveMino)) // ミノを生成した際に、ブロックと重なってしまった場合
         {
-            playDisplayManager.StopAnimation();
+            playScene_DisplayManager.StopAnimation();
 
             gameSceneManager.LoadGameOverScene();
 
