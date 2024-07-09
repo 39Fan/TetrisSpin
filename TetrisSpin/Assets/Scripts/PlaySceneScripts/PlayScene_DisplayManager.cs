@@ -211,6 +211,13 @@ public class PlayScene_DisplayManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI z_spinMiniText;
     [SerializeField] private TextMeshProUGUI z_spinDoubleMiniText;
 
+    /// <summary> PoseIconが押された時に表示するCanvas </summary>
+    [SerializeField] private Canvas poseCanvas;
+    /// <summary> PoseIconが押された時に表示するImage </summary>
+    [SerializeField] private Image poseBackGround;
+    /// <summary> PoseIconが押された時に表示するButtonPanel </summary>
+    [SerializeField] private GameObject poseButtonPanel;
+
     // 各ミノに対応する色 //
     private readonly Color i_Color = new Color(0f, 0.97f, 1f); // #00F7FF
     private readonly Color j_Color = new Color(0f, 0.02f, 1f); // #0005FF
@@ -910,7 +917,6 @@ public class PlayScene_DisplayManager : MonoBehaviour
         LogHelper.DebugLog(eClasses.PlayScene_DisplayManager, eMethod.SpinCompleteTextAnimation, eLogTitle.End);
     }
 
-
     /// <summary> すべてのアニメーションを停止させる関数 </summary>
     public void StopAnimation()
     {
@@ -919,6 +925,56 @@ public class PlayScene_DisplayManager : MonoBehaviour
         DOTween.KillAll();
 
         LogHelper.DebugLog(eClasses.PlayScene_DisplayManager, eMethod.StopAnimation, eLogTitle.End);
+    }
+
+    /// <summary> PoseIconが押された時のコルーチン処理を呼ぶ関数 </summary>
+    public void PressedPoseIcon()
+    {
+        LogHelper.DebugLog(eClasses.PlayScene_DisplayManager, eMethod.PressedPoseIcon, eLogTitle.Start);
+
+        StartCoroutine(PoseIconCoroutine());
+
+        LogHelper.DebugLog(eClasses.PlayScene_DisplayManager, eMethod.PressedPoseIcon, eLogTitle.End);
+    }
+
+    /// <summary> PoseIconが押された時の処理をする関数 </summary>
+    private IEnumerator PoseIconCoroutine()
+    {
+        LogHelper.DebugLog(eClasses.PlayScene_DisplayManager, eMethod.PoseIconCoroutine, eLogTitle.Start);
+
+        GameSceneManagerStats.LoadPoseState();
+        poseCanvas.gameObject.SetActive(true);
+        //audio
+        poseBackGround.DOFade(1, 0.3f);
+        yield return new WaitForSeconds(0.3f);
+        poseButtonPanel.SetActive(true);
+
+        LogHelper.DebugLog(eClasses.PlayScene_DisplayManager, eMethod.PoseIconCoroutine, eLogTitle.End);
+    }
+
+    /// <summary> Continueが押された時のコルーチン処理を呼ぶ関数 </summary>
+    public void PressedContinue()
+    {
+        LogHelper.DebugLog(eClasses.PlayScene_DisplayManager, eMethod.PressedContinue, eLogTitle.Start);
+
+        StartCoroutine(ContinueCoroutine());
+
+        LogHelper.DebugLog(eClasses.PlayScene_DisplayManager, eMethod.PressedContinue, eLogTitle.End);
+    }
+
+    /// <summary> Continueが押された時の処理をする関数 </summary>
+    private IEnumerator ContinueCoroutine()
+    {
+        LogHelper.DebugLog(eClasses.PlayScene_DisplayManager, eMethod.ContinueCoroutine, eLogTitle.Start);
+
+        poseButtonPanel.SetActive(false);
+        poseBackGround.DOFade(0, 0.3f);
+        //audio
+        yield return new WaitForSeconds(0.5f);
+        poseCanvas.gameObject.SetActive(false);
+        GameSceneManagerStats.UnLoadPoseState();
+
+        LogHelper.DebugLog(eClasses.PlayScene_DisplayManager, eMethod.ContinueCoroutine, eLogTitle.End);
     }
 }
 

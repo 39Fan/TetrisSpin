@@ -92,14 +92,15 @@ public enum eClasses
     LogHelper,
     MinoMovement,
     MinoMovementStats,
-    ModeSelectDisplayManager,
     PlayerInput,
     PlayerInputStats,
     Rounding,
     Spawner,
     SpawnerStats,
     SpinCheck,
-    Timer
+    Timer,
+
+    ModeSelectScene_DisplayManager,
 }
 
 /// <summary>
@@ -140,8 +141,6 @@ public enum eMethod
     Move, MoveLeft, MoveRight, MoveUp, MoveDown, RotateRight, RotateLeft, AxisCheckForI,
     UpdateMinoAngleAfter, UpdateMinoAngleAfterToMinoAngleBefore, UpdateMinoAngleBeforeToMinoAngleAfter,
     ResetRotate, ResetAngle, ResetStepsSRS, SuperRotationSystem, TrySuperRotation, GetMinoAngleAfter, GetMinoAngleBefore, GetStepsSRS,
-    // ModeSelectDisplayManager クラス //
-    PressedTimeAttack_100, TimeAttack_100Coroutine,
     // PlayerInput クラス //
     InputInGame, MoveRightInput, ContinuousMoveRightInput, MoveLeftInput, ContinuousMoveLeftInput,
     ReleaseContinuousMoveRightLeftInput, MoveDownInput, RotateRightInput, RotateLeftInput,
@@ -154,8 +153,12 @@ public enum eMethod
     // SpinCheck クラス //
     CheckSpinType, ResetSpinType, IspinCheck, JspinCheck, LspinCheck, SspinCheck, TspinCheck, ZspinCheck, DetermineDetailedSpinType,
     // Timer クラス //
-    ResetCoolDownTimer, UpdateMoveLeftRightCoolDownTimer, UpdateMoveDownCoolDownTimer, UpdateRotateCoolDownTimer
-
+    ResetCoolDownTimer, UpdateMoveLeftRightCoolDownTimer, UpdateMoveDownCoolDownTimer, UpdateRotateCoolDownTimer,
+    // ModeSelectScene_DisplayManager クラス //
+    HighlightedTimeAttack_100Mode, HighlightedSpinMasterMode, HighlightedPracticeMode,
+    TimeAttack_100Coroutine, SpinMasterCoroutine, PracticeCoroutine,
+    FadeInImageFromBelowCoroutine, FadeInTextFromBelowCoroutine, HighlightGameModeCoroutine, UnHighlightGameModeCoroutine,
+    FadeInFromBelowImageOrTextCoroutine, FadeOutToAboveImageOrTextCoroutine,
 }
 
 /// <summary>

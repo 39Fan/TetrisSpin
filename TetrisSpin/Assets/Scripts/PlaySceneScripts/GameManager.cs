@@ -1,19 +1,21 @@
 using UnityEngine;
 
-/// <summary> ゲームモード 列挙型 </summary>
-public enum eGameMode
+/// <summary> ゲームモードの種類 列挙型 </summary>
+public enum eGameModeType
 {
     TimeAttack_100,
     SpinMaster,
     Practice,
+    None // デフォルト値
 }
 
-/// <summary> 難易度 列挙型 </summary>
-public enum eGameLevel
+/// <summary> ゲームレベルの種類 列挙型 </summary>
+public enum eGameLevelType
 {
     Easy,
     Normal,
-    Hard
+    Hard,
+    None // デフォルト値
 }
 
 /// <summary>
@@ -22,17 +24,17 @@ public enum eGameLevel
 public static class GameManagerStats
 {
     /// <summary> ゲームモード </summary>
-    private static eGameMode gameMode;
+    private static eGameModeType gameMode;
     /// <summary> ゲームレベル </summary>
-    private static eGameLevel gameLevel;
+    private static eGameLevelType gameLevel;
     /// <summary> ミノの生成数 </summary>
     private static int minoPopNumber = 0;
     /// <summary> ミノの設置数 </summary>
     private static int minoPutNumber = 0;
 
     // ゲッタープロパティ //
-    public static eGameMode GameMode => gameMode;
-    public static eGameLevel GameLevel => gameLevel;
+    public static eGameModeType GameMode => gameMode;
+    public static eGameLevelType GameLevel => gameLevel;
     public static int MinoPopNumber => minoPopNumber;
     public static int MinoPutNumber => minoPutNumber;
 
@@ -47,7 +49,7 @@ public static class GameManagerStats
     /// <remarks>
     /// 指定されていない引数は現在の値を維持
     /// </remarks>
-    public static void UpdateStats(eGameMode? _gameMode = null, eGameLevel? _gameLevel = null, int? _minoPopNumber = null, int? _minoPutNumber = null)
+    public static void UpdateStats(eGameModeType? _gameMode = null, eGameLevelType? _gameLevel = null, int? _minoPopNumber = null, int? _minoPutNumber = null)
     {
         LogHelper.DebugLog(eClasses.GameAutoRunnerStats, eMethod.UpdateStats, eLogTitle.Start);
 

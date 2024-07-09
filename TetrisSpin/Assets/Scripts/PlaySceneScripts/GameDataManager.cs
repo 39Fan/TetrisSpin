@@ -105,8 +105,8 @@ public class AggregateData
 [Serializable]
 public class PlayRecord
 {
-    public eGameMode gameMode;
-    public eGameLevel gameLevel;
+    public eGameModeType gameMode;
+    public eGameLevelType gameLevel;
 
     public float clearTime;
     public int backToBackCount;
