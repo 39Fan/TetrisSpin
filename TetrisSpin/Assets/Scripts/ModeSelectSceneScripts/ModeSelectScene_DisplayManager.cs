@@ -31,6 +31,7 @@ public struct GameModeUI
     [SerializeField] private TextMeshProUGUI constraintTitleText;
 
     // ゲッタープロパティ //
+    public GameObject ModeSelectPanel => modeSelectPanel;
     public Image[] GameModeButtonImages => gameModeButtonImages;
     public TextMeshProUGUI ClearConditionTitleText => clearConditionTitleText;
     public TextMeshProUGUI ConstraintTitleText => constraintTitleText;
@@ -49,9 +50,6 @@ public struct GameModeUI
 
     /// <summary> 指定したゲームモードの フレームImage を取得する関数 </summary>
     /// <param name="_gameModeType"> ゲームモード </param>
-    /// <remarks>
-    /// アクティブ状態にする処理を含む
-    /// </remarks>
     public Image GetGameModeFrameImage(eGameModeType _gameModeType)
     {
         Image gameModeFrameImage = gameModeFrameImages[(int)_gameModeType];
@@ -61,9 +59,6 @@ public struct GameModeUI
 
     /// <summary> 指定したゲームモードの タイトルText を取得する関数 </summary>
     /// <param name="_gameModeType"> ゲームモード </param>
-    /// <remarks>
-    /// アクティブ状態にする処理を含む
-    /// </remarks>
     public TextMeshProUGUI GetGameModeTitleText(eGameModeType _gameModeType)
     {
         TextMeshProUGUI gameModeTitleText = gameModeTitleTexts[(int)_gameModeType];
@@ -73,9 +68,6 @@ public struct GameModeUI
 
     /// <summary> 指定したゲームモードの クリア条件Text を取得する関数 </summary>
     /// <param name="_gameModeType"> ゲームモード </param>
-    /// <remarks>
-    /// アクティブ状態にする処理を含む
-    /// </remarks>
     public TextMeshProUGUI GetGameModeClearConditionText(eGameModeType _gameModeType)
     {
         TextMeshProUGUI clearConditionText = clearConditionTexts[(int)_gameModeType];
@@ -85,9 +77,6 @@ public struct GameModeUI
 
     /// <summary> 指定したゲームモードの 制約Text を取得する関数 </summary>
     /// <param name="_gameModeType"> ゲームモード </param>
-    /// <remarks>
-    /// アクティブ状態にする処理を含む
-    /// </remarks>
     public TextMeshProUGUI GetGameModeConstraintText(eGameModeType _gameModeType)
     {
         TextMeshProUGUI constraintText = constraintTexts[(int)_gameModeType];
@@ -114,19 +103,23 @@ public struct GameLevelUI
     /// <summary> ゲームレベル毎の タイトルText </summary>
     [SerializeField] private TextMeshProUGUI[] gameLevelTitleImages;
     /// <summary> ゲームレベル毎の 落下速度Text </summary>
-    [SerializeField] private TextMeshProUGUI[] fallingSpeedTexts;
+    [SerializeField] private TextMeshProUGUI[] downSpeedTexts;
     /// <summary> ゲームレベル毎の 落下速度タイトルText </summary>
-    [SerializeField] private TextMeshProUGUI fallingSpeedTitleText;
+    [SerializeField] private TextMeshProUGUI downSpeedTitleText;
+    /// <summary> 自己ベストタイムの フレームImage </summary>
+    [SerializeField] private Image bestTimeFrameImage;
+    /// <summary> 自己ベストタイムの タイトルText </summary>
+    [SerializeField] private TextMeshProUGUI bestTimeTitleText;
 
     // ゲッタープロパティ //
+    public GameObject LevelSelectPanel => levelSelectPanel;
     public Image[] GameLevelButtonImages => gameLevelButtonImages;
-    public TextMeshProUGUI FallingSpeedTitleText => fallingSpeedTitleText;
+    public TextMeshProUGUI DownSpeedTitleText => downSpeedTitleText;
+    public Image BestTimeFrameImage => bestTimeFrameImage;
+    public TextMeshProUGUI BestTimeTitleText => bestTimeTitleText;
 
     /// <summary> 指定したゲームレベルの フレームImage を取得する関数 </summary>
     /// <param name="_gameLevelType"> ゲームレベル </param>
-    /// <remarks>
-    /// アクティブ状態にする処理を含む
-    /// </remarks>
     public Image GetGameLevelFrameImage(eGameLevelType _gameLevelType)
     {
         Image gameLevelFrameImage = gameLevelFrameImages[(int)_gameLevelType];
@@ -136,10 +129,7 @@ public struct GameLevelUI
 
     /// <summary> 指定したゲームレベルの タイトルText を取得する関数 </summary>
     /// <param name="_gameLevelType"> ゲームレベル </param>
-    /// <remarks>
-    /// アクティブ状態にする処理を含む
-    /// </remarks>
-    public TextMeshProUGUI GetGameModeTitleText(eGameLevelType _gameLevelType)
+    public TextMeshProUGUI GetGameLevelTitleText(eGameLevelType _gameLevelType)
     {
         TextMeshProUGUI gameLevelTitleText = gameLevelTitleImages[(int)_gameLevelType];
 
@@ -148,14 +138,11 @@ public struct GameLevelUI
 
     /// <summary> 指定したゲームモードの 落下速度Text を取得する関数 </summary>
     /// <param name="_gameLevelType"> ゲームレベル </param>
-    /// <remarks>
-    /// アクティブ状態にする処理を含む
-    /// </remarks>
-    public TextMeshProUGUI GetFallingSpeedText(eGameLevelType _gameLevelType)
+    public TextMeshProUGUI GetDownSpeedText(eGameLevelType _gameLevelType)
     {
-        TextMeshProUGUI fallingSpeedText = fallingSpeedTexts[(int)_gameLevelType];
+        TextMeshProUGUI downSpeedText = downSpeedTexts[(int)_gameLevelType];
 
-        return fallingSpeedText;
+        return downSpeedText;
     }
 }
 
@@ -177,9 +164,6 @@ public struct TetRankUI //TODO staticにしていいか
 
     /// <summary> 指定した TetRank の フレームImage を取得する関数 </summary>
     /// <param name="_tetRankType"> TetRank </param>
-    /// <remarks>
-    /// アクティブ状態にする処理を含む
-    /// </remarks>
     public Image GetTetRankFrameImage(eTetRankType _tetRankType)
     {
         Image tetRankFrameImage = tetRankFrameImages[(int)_tetRankType];
@@ -189,9 +173,6 @@ public struct TetRankUI //TODO staticにしていいか
 
     /// <summary> 指定した TetRank の タイトルText を取得する関数 </summary>
     /// <param name="_tetRankType"> TetRank </param>
-    /// <remarks>
-    /// アクティブ状態にする処理を含む
-    /// </remarks>
     public TextMeshProUGUI GetTetRankTitleText(eTetRankType _tetRankType)
     {
         TextMeshProUGUI tetRankTitleText = tetRankTitleTexts[(int)_tetRankType];
@@ -221,14 +202,27 @@ public class ModeSelectScene_DisplayManager : MonoBehaviour
     /// <summary> 現在のハイライトされているゲームモード </summary>
     private eGameModeType currentHighlightedGameMode = eGameModeType.None;
     /// <summary> 現在選択されているゲームモード </summary>
-    private eGameModeType currentPressededGameMode;
+    private eGameModeType currentPressedGameMode;
     /// <summary> 現在のハイライトされているゲームレベル </summary>
     private eGameLevelType currentHighlightedGameLevel = eGameLevelType.None;
     /// <summary> 現在選択されているゲームレベル </summary>
-    private eGameLevelType currentPressededGameLevel;
+    private eGameLevelType currentPressedGameLevel;
 
     /// <summary> ゲームモード選択のトリガー </summary>
     private bool gameModeSelected = false;
+    /// <summary> ゲームレベル選択のトリガー </summary>
+    private bool gameLevelSelected = false;
+
+    // 干渉するスクリプト //
+    GameSceneManager gameSceneManager;
+
+    /// <summary>
+    /// インスタンス化
+    /// </summary>
+    private void Awake()
+    {
+        gameSceneManager = FindObjectOfType<GameSceneManager>();
+    }
 
 
     ///// ゲームモード選択時の処理 /////
@@ -262,13 +256,18 @@ public class ModeSelectScene_DisplayManager : MonoBehaviour
             UnHighlightedGameMode(currentHighlightedGameMode);
             currentHighlightedGameMode = eGameModeType.None;
         }
+        else if (gameLevelSelected == false)
+        {
+            UnHighlightedGameLevel(currentHighlightedGameLevel);
+            currentHighlightedGameLevel = eGameLevelType.None;
+        }
     }
 
     /// <summary> 特定のモードがハイライトされた時の処理をする関数 </summary>
     /// <param name="_gameModeType"> ゲームモード </param>
     private void HighlightedGameMode(eGameModeType _gameModeType)
     {
-        LogHelper.DebugLog(eClasses.ModeSelectScene_DisplayManager, eMethod.HighlightGameModeCoroutine, eLogTitle.Start);
+        //LogHelper.DebugLog(eClasses.ModeSelectScene_DisplayManager, eMethod.HighlightedGameMode, eLogTitle.Start);
 
         gameModeUI.GetGameModeFrameImage(_gameModeType).gameObject.SetActive(true);
         gameModeUI.GetGameModeTitleText(_gameModeType).gameObject.SetActive(true);
@@ -277,14 +276,14 @@ public class ModeSelectScene_DisplayManager : MonoBehaviour
         gameModeUI.ClearConditionTitleText.gameObject.SetActive(true);
         gameModeUI.ConstraintTitleText.gameObject.SetActive(true);
 
-        LogHelper.DebugLog(eClasses.ModeSelectScene_DisplayManager, eMethod.HighlightGameModeCoroutine, eLogTitle.End);
+        //LogHelper.DebugLog(eClasses.ModeSelectScene_DisplayManager, eMethod.HighlightedGameMode, eLogTitle.End);
     }
 
     /// <summary> 特定のモードのハイライトが解除された時の処理をする関数 </summary>
     /// <param name="_gameModeType"> ゲームモード </param>
     private void UnHighlightedGameMode(eGameModeType _gameModeType)
     {
-        LogHelper.DebugLog(eClasses.ModeSelectScene_DisplayManager, eMethod.UnHighlightGameModeCoroutine, eLogTitle.Start);
+        //LogHelper.DebugLog(eClasses.ModeSelectScene_DisplayManager, eMethod.UnHighlightedGameMode, eLogTitle.Start);
 
         gameModeUI.GetGameModeFrameImage(_gameModeType).gameObject.SetActive(false);
         gameModeUI.GetGameModeTitleText(_gameModeType).gameObject.SetActive(false);
@@ -293,20 +292,129 @@ public class ModeSelectScene_DisplayManager : MonoBehaviour
         gameModeUI.ClearConditionTitleText.gameObject.SetActive(false);
         gameModeUI.ConstraintTitleText.gameObject.SetActive(false);
 
-        LogHelper.DebugLog(eClasses.ModeSelectScene_DisplayManager, eMethod.UnHighlightGameModeCoroutine, eLogTitle.End);
+        //LogHelper.DebugLog(eClasses.ModeSelectScene_DisplayManager, eMethod.UnHighlightedGameMode, eLogTitle.End);
     }
 
     /// <summary> 100-TimeAttackModeがプレスされた時の処理をする関数 </summary>
     public void PressedTimeAttack_100Mode()
     {
 
-        gameModeSelected = true;
-        currentPressededGameMode = currentHighlightedGameMode;
-
+        PressedGameMode();
 
     }
 
-    //////////
+    /// <summary> SpinMasterModeがプレスされた時の処理をする関数 </summary>
+    public void PressedSpinMasterMode()
+    {
+
+        PressedGameMode();
+
+    }
+
+    /// <summary> PracticeModeがプレスされた時の処理をする関数 </summary>
+    public void PressedPractice()
+    {
+
+        PressedGameMode();
+
+    }
+
+    private void PressedGameMode()
+    {
+        gameModeSelected = true;
+        currentPressedGameMode = currentHighlightedGameMode;
+
+        // foreach (var gameModeButtonImage in gameModeUI.GameModeButtonImages)
+        // {
+        //     gameModeButtonImage.gameObject.SetActive(false);
+        // }
+
+        gameModeUI.ModeSelectPanel.gameObject.SetActive(false);
+        gameLevelUI.LevelSelectPanel.gameObject.SetActive(true);
+    }
+
+    ///////////////////////////////////////////////////////////////////
+
+
+    ///// ゲームレベル選択時の処理 /////
+
+    /// <summary> EasyLevelがハイライトされた時の処理をする関数 </summary>
+    public void HighlightedEasyLevel()
+    {
+        HighlightedGameLevel(eGameLevelType.Easy);
+        currentHighlightedGameLevel = eGameLevelType.Easy;
+    }
+
+    /// <summary> NormalLevelがハイライトされた時の処理をする関数 </summary>
+    public void HighlightedNormalLevel()
+    {
+        HighlightedGameLevel(eGameLevelType.Normal);
+        currentHighlightedGameLevel = eGameLevelType.Normal;
+    }
+
+    /// <summary> HardLevelがハイライトされた時の処理をする関数 </summary>
+    public void HighlightedHardLevel()
+    {
+        HighlightedGameLevel(eGameLevelType.Hard);
+        currentHighlightedGameLevel = eGameLevelType.Hard;
+    }
+
+    /// <summary> 特定のレベルがハイライトされた時の処理をする関数 </summary>
+    /// <param name="_gameLevelType"> ゲームレベル </param>
+    private void HighlightedGameLevel(eGameLevelType _gameLevelType)
+    {
+        //LogHelper.DebugLog(eClasses.ModeSelectScene_DisplayManager, eMethod.HighlightedGameLevel, eLogTitle.Start);
+
+        gameLevelUI.GetGameLevelFrameImage(_gameLevelType).gameObject.SetActive(true);
+        gameLevelUI.GetGameLevelTitleText(_gameLevelType).gameObject.SetActive(true);
+        gameLevelUI.DownSpeedTitleText.gameObject.SetActive(true);
+        gameLevelUI.GetDownSpeedText(_gameLevelType).gameObject.SetActive(true);
+        gameLevelUI.BestTimeFrameImage.gameObject.SetActive(true);
+        gameLevelUI.BestTimeTitleText.gameObject.SetActive(true);
+
+        //LogHelper.DebugLog(eClasses.ModeSelectScene_DisplayManager, eMethod.HighlightedGameLevel, eLogTitle.End);
+    }
+
+    /// <summary> 特定のレベルのハイライトが解除された時の処理をする関数 </summary>
+    /// <param name="_gameLevelType"> ゲームレベル </param>
+    private void UnHighlightedGameLevel(eGameLevelType _gameLevelType)
+    {
+        //LogHelper.DebugLog(eClasses.ModeSelectScene_DisplayManager, eMethod.UnHighlightedGameLevel, eLogTitle.Start);
+
+        gameLevelUI.GetGameLevelFrameImage(_gameLevelType).gameObject.SetActive(false);
+        gameLevelUI.GetGameLevelTitleText(_gameLevelType).gameObject.SetActive(false);
+        gameLevelUI.DownSpeedTitleText.gameObject.SetActive(false);
+        gameLevelUI.GetDownSpeedText(_gameLevelType).gameObject.SetActive(false);
+        gameLevelUI.BestTimeFrameImage.gameObject.SetActive(false);
+        gameLevelUI.BestTimeTitleText.gameObject.SetActive(false);
+
+        //LogHelper.DebugLog(eClasses.ModeSelectScene_DisplayManager, eMethod.UnHighlightedGameLevel, eLogTitle.End);
+    }
+
+    ///////////////////////////////////////////////////////////////////
+
+    /// <summary> バックボタンが押された時の処理をする関数 </summary>
+    public void PressedBackButton()
+    {
+        if (gameModeSelected == false && gameLevelSelected == false) // ゲームモード選択画面の時
+        {
+            gameSceneManager.LoadMenuScene();
+        }
+        else if (gameModeSelected == true && gameLevelSelected == false) // ゲームレベル選択画面の時
+        {
+            gameModeSelected = false;
+            UnHighlightedGameMode(currentPressedGameMode);
+            currentPressedGameMode = eGameModeType.None;
+
+            // foreach (var gameModeButtonImage in gameModeUI.GameModeButtonImages)
+            // {
+            //     gameModeButtonImage.gameObject.SetActive(false);
+            // }
+
+            gameModeUI.ModeSelectPanel.gameObject.SetActive(true);
+            gameLevelUI.LevelSelectPanel.gameObject.SetActive(false);
+        }
+    }
 
     // /// <summary> Image または Text を下からフェードインで表示する関数 </summary>
     // /// <param name="_graphic"> 表示する Image または Text </param>
@@ -809,19 +917,19 @@ public class ModeSelectScene_DisplayManager : MonoBehaviour
 // /// <summary> ゲームレベル毎の タイトルTextの初期座標 </summary>
 // private Transform gameLevelTitleTextTransform;
 // /// <summary> ゲームレベル毎の 落下速度Textの初期座標 </summary>
-// private Transform fallingSpeedTextTransform;
+// private Transform DowSpeedTextTransform;
 
 // // ゲッタープロパティ //
 // public Transform GameLevelFrameImageTransform => gameLevelFrameImageTransform;
 // public Transform GameLevelTitleTextTransform => gameLevelTitleTextTransform;
-// public Transform FallingSpeedTextTransform => fallingSpeedTextTransform;
+// public Transform DowSpeedTextTransform => DowSpeedTextTransform;
 
 // /// <summary> 各ゲームオブジェクトの初期座標を記録する関数 </summary>
 // internal void InitializeGameLevelUITransforms()
 // {
 //     gameLevelFrameImageTransform = gameLevelFrameImages[0].transform;
 //     gameLevelTitleTextTransform = gameLevelTitleImages[0].transform;
-//     fallingSpeedTextTransform = fallingSpeedTexts[0].transform;
+//     DowSpeedTextTransform = DowSpeedTexts[0].transform;
 // }
 
 // /// <summary> TetRank 毎の フレームImageの初期座標 </summary>

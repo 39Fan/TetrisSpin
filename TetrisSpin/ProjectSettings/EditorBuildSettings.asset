@@ -6,11 +6,23 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 0e6ecbd8de03c4c45bd838cf53744800
+  - enabled: 1
+    path: Assets/Scenes/Score.unity
+    guid: 5a2c142992327439e9ace075f31c1e44
+  - enabled: 1
+    path: Assets/Scenes/Option.unity
+    guid: 33b5f5022ca7949cfbb487316c37bcfb
+  - enabled: 1
+    path: Assets/Scenes/ModeSelect.unity
+    guid: 9795f2146e2424ccb9d9c8018e6d0e43
+  - enabled: 1
     path: Assets/Scenes/Play.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
-    guid: 0e6ecbd8de03c4c45bd838cf53744800
+    path: Assets/Scenes/GameClear.unity
+    guid: ac7e40357a98a46b2b1648cd136fc9ee
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: dee38b36c8f474c199c71eaefbee2358

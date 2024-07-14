@@ -134,7 +134,7 @@ public enum eMethod
     // GameSceneManagerStats クラス //
     LoadPoseState, UnLoadPoseState,
     // GameSceneManager クラス //
-    LoadMenuScene, LoadPlayScene, LoadGameClearScene, LoadGameOverScene, LoadOptionScene, LoadScoreScene,
+    LoadMenuScene, LoadScoreScene, LoadOptionScene, LoadModeSelectScene, LoadPlayScene, LoadGameClearScene, LoadGameOverScene,
     // LogHelper クラス //
     Log, DebugLog, InfoLog, WarningLog, ErrorLog, FormatLogMessage, FormatInfoLogMessage, GetColorByLevel,
     // MinoMovement クラス //

@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 /// <summary>
 /// シーンの状態を管理するクラス
@@ -12,6 +14,8 @@ public static class GameSceneManagerStats
     private static bool scoreScene = false;
     /// <summary> オプションシーンの状態 </summary>
     private static bool optionScene = false;
+    /// <summary> モードセレクトシーンの状態 </summary>
+    private static bool modeSelectScene = false;
     /// <summary> プレイシーンの状態 </summary>
     private static bool playScene = false;
     /// <summary> ゲームオーバーシーンの状態 </summary>
@@ -25,6 +29,7 @@ public static class GameSceneManagerStats
     public static bool MenuScene => menuScene;
     public static bool ScoreScene => scoreScene;
     public static bool OptionScene => optionScene;
+    public static bool ModeSelectScene => modeSelectScene;
     public static bool PlayScene => playScene;
     public static bool GameOverScene => gameOverScene;
     public static bool GameClearScene => gameClearScene;
@@ -37,13 +42,15 @@ public static class GameSceneManagerStats
     /// <param name="_menuScene"> メニューシーンの状態 </param>
     /// <param name="_scoreScene"> スコアシーンの状態 </param>
     /// <param name="_optionScene"> オプションシーンの状態 </param>
+    /// <param name="_modeSelectScene"> モードセレクトシーンの状態 </param>
     /// <param name="_playScene"> プレイシーンの状態 </param>
     /// <param name="_gameOverScene"> ゲームオーバーの状態 </param>
     /// <param name="_gameClearScene"> ゲームクリアの状態 </param>
     /// <remarks>
     /// 指定されたシーン状態を true に設定し、他のすべてのシーン状態を false に設定する。
     /// </remarks>
-    public static void UpdateStats(bool? _menuScene = null, bool? _scoreScene = null, bool? _optionScene = null, bool? _playScene = null, bool? _gameOverScene = null, bool? _gameClearScene = null)
+    public static void UpdateStats(bool? _menuScene = null, bool? _scoreScene = null, bool? _optionScene = null,
+        bool? _modeSelectScene = null, bool? _playScene = null, bool? _gameOverScene = null, bool? _gameClearScene = null)
     {
         LogHelper.DebugLog(eClasses.GameSceneManagerStats, eMethod.UpdateStats, eLogTitle.Start);
 
@@ -51,6 +58,7 @@ public static class GameSceneManagerStats
         menuScene = false;
         scoreScene = false;
         optionScene = false;
+        modeSelectScene = false;
         playScene = false;
         gameOverScene = false;
         gameClearScene = false;
@@ -72,6 +80,11 @@ public static class GameSceneManagerStats
         {
             optionScene = true;
             loadScene = "optionScene";
+        }
+        else if (_modeSelectScene == true)
+        {
+            modeSelectScene = true;
+            loadScene = "modeSelectScene";
         }
         else if (_playScene == true)
         {
@@ -123,6 +136,7 @@ public static class GameSceneManagerStats
         menuScene = true;
         scoreScene = false;
         optionScene = false;
+        modeSelectScene = false;
         playScene = false;
         gameOverScene = false;
         gameClearScene = false;
@@ -137,25 +151,80 @@ public static class GameSceneManagerStats
 /// </summary>
 public class GameSceneManager : MonoBehaviour
 {
+    [Header("フェード用画像")] public FadeImage fadeImage;
+
+    private bool firstPush = false;
+    private bool goNextScene = false;
+    private string nextSceneName = "";
+
+    private void Start()
+    {
+        // フェードインを開始
+        fadeImage.StartFadeIn();
+    }
+
+    private void Update()
+    {
+        if (!goNextScene && fadeImage.IsFadeOutComplete())
+        {
+            SceneManager.LoadScene(nextSceneName);
+            goNextScene = true;
+        }
+    }
+
+    // フェードアウトが完了してからシーン遷移を行う関数
+    private void StartSceneTransition(string sceneName)
+    {
+        if (!firstPush)
+        {
+            fadeImage.StartFadeOut();
+            firstPush = true;
+            nextSceneName = sceneName;
+        }
+    }
+
     /// <summary> Menuシーンに遷移する関数 </summary>
     public void LoadMenuScene()
     {
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadMenuScene, eLogTitle.Start);
-
         GameSceneManagerStats.UpdateStats(_menuScene: true);
-        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
-
+        StartSceneTransition("Menu");
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadMenuScene, eLogTitle.End);
+    }
+
+    /// <summary> Scoreシーンに遷移する関数 </summary>
+    public void LoadScoreScene()
+    {
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadScoreScene, eLogTitle.Start);
+        GameSceneManagerStats.UpdateStats(_scoreScene: true);
+        StartSceneTransition("Score");
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadScoreScene, eLogTitle.End);
+    }
+
+    /// <summary> Optionシーンに遷移する関数 </summary>
+    public void LoadOptionScene()
+    {
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadOptionScene, eLogTitle.Start);
+        GameSceneManagerStats.UpdateStats(_optionScene: true);
+        StartSceneTransition("Option");
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadOptionScene, eLogTitle.End);
+    }
+
+    /// <summary> ModeSelectシーンに遷移する関数 </summary>
+    public void LoadModeSelectScene()
+    {
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadModeSelectScene, eLogTitle.Start);
+        GameSceneManagerStats.UpdateStats(_modeSelectScene: true);
+        StartSceneTransition("ModeSelect");
+        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadModeSelectScene, eLogTitle.End);
     }
 
     /// <summary> Playシーンに遷移する関数 </summary>
     public void LoadPlayScene()
     {
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadPlayScene, eLogTitle.Start);
-
         GameSceneManagerStats.UpdateStats(_playScene: true);
-        SceneManager.LoadScene("Play", LoadSceneMode.Single);
-
+        StartSceneTransition("Play");
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadPlayScene, eLogTitle.End);
     }
 
@@ -163,10 +232,8 @@ public class GameSceneManager : MonoBehaviour
     public void LoadGameClearScene()
     {
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadGameClearScene, eLogTitle.Start);
-
         GameSceneManagerStats.UpdateStats(_gameClearScene: true);
-        SceneManager.LoadScene("GameClear", LoadSceneMode.Single);
-
+        StartSceneTransition("GameClear");
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadGameClearScene, eLogTitle.End);
     }
 
@@ -174,32 +241,8 @@ public class GameSceneManager : MonoBehaviour
     public void LoadGameOverScene()
     {
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadGameOverScene, eLogTitle.Start);
-
         GameSceneManagerStats.UpdateStats(_gameOverScene: true);
-        SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
-
+        StartSceneTransition("GameOver");
         LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadGameOverScene, eLogTitle.End);
-    }
-
-    /// <summary> Optionシーンに遷移する関数 </summary>
-    public void LoadOptionScene()
-    {
-        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadOptionScene, eLogTitle.Start);
-
-        GameSceneManagerStats.UpdateStats(_optionScene: true);
-        SceneManager.LoadScene("Option", LoadSceneMode.Single);
-
-        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadOptionScene, eLogTitle.End);
-    }
-
-    /// <summary> Scoreシーンに遷移する関数 </summary>
-    public void LoadScoreScene()
-    {
-        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadScoreScene, eLogTitle.Start);
-
-        GameSceneManagerStats.UpdateStats(_scoreScene: true);
-        SceneManager.LoadScene("Score", LoadSceneMode.Single);
-
-        LogHelper.DebugLog(eClasses.GameSceneManager, eMethod.LoadScoreScene, eLogTitle.End);
     }
 }

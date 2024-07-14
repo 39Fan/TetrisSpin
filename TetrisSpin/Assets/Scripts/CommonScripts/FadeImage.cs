@@ -1,14 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+
+/// <summary>
+/// シーン遷移時のフェード処理をする関数
+/// </summary>
 public class FadeImage : MonoBehaviour
 {
     [Header("最初からフェードインが完了しているかどうか")] public bool firstFadeInComp;
 
     private Image img = null;
+    private RectTransform rectTransform = null;
     private int frameCount = 0;
-    private float timer = 0.0f;
     private bool fadeIn = false;
     private bool fadeOut = false;
     private bool compFadeIn = false;
@@ -25,9 +28,8 @@ public class FadeImage : MonoBehaviour
         }
         fadeIn = true;
         compFadeIn = false;
-        timer = 0.0f;
         img.color = new Color(1, 1, 1, 1);
-        img.fillAmount = 1;
+        rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, -1800);
         img.raycastTarget = true;
     }
 
@@ -51,9 +53,8 @@ public class FadeImage : MonoBehaviour
         }
         fadeOut = true;
         compFadeOut = false;
-        timer = 0.0f;
         img.color = new Color(1, 1, 1, 0);
-        img.fillAmount = 0;
+        rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, 0);
         img.raycastTarget = true;
     }
 
@@ -66,9 +67,11 @@ public class FadeImage : MonoBehaviour
         return compFadeOut;
     }
 
-    void Start()
+    private void Awake()
     {
         img = GetComponent<Image>();
+        rectTransform = GetComponent<RectTransform>();
+
         if (firstFadeInComp)
         {
             FadeInComplete();
@@ -79,7 +82,7 @@ public class FadeImage : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         //シーン移行時の処理の重さでTime.deltaTimeが大きくなってしまうから2フレーム待つ
         if (frameCount > 2)
@@ -99,41 +102,29 @@ public class FadeImage : MonoBehaviour
     //フェードイン中
     private void FadeInUpdate()
     {
-        if (timer < 1f)
-        {
-            img.color = new Color(1, 1, 1, 1 - timer);
-            img.fillAmount = 1 - timer;
-        }
-        else
-        {
-            FadeInComplete();
-        }
-        timer += Time.deltaTime;
+        // DOTweenを使ってフェードイン処理を開始
+        img.DOFade(0, 0.5f);
+        rectTransform.DOAnchorPosY(0, 1f).OnComplete(FadeInComplete);
+
+        fadeIn = false; // フェードイン処理を一度だけ行うため
     }
 
     //フェードアウト中
     private void FadeOutUpdate()
     {
-        if (timer < 1f)
-        {
-            img.color = new Color(1, 1, 1, timer);
-            img.fillAmount = timer;
-        }
-        else
-        {
-            FadeOutComplete();
-        }
-        timer += Time.deltaTime;
+        // DOTweenを使ってフェードアウト処理を開始
+        img.DOFade(1, 1f);
+        rectTransform.DOAnchorPosY(-1800, 1f).OnComplete(FadeOutComplete);
+
+        fadeOut = false; // フェードアウト処理を一度だけ行うため
     }
 
     //フェードイン完了
     private void FadeInComplete()
     {
         img.color = new Color(1, 1, 1, 0);
-        img.fillAmount = 0;
+        rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, 0);
         img.raycastTarget = false;
-        timer = 0.0f;
-        fadeIn = false;
         compFadeIn = true;
     }
 
@@ -141,10 +132,8 @@ public class FadeImage : MonoBehaviour
     private void FadeOutComplete()
     {
         img.color = new Color(1, 1, 1, 1);
-        img.fillAmount = 1;
+        rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, -1800);
         img.raycastTarget = false;
-        timer = 0.0f;
-        fadeOut = false;
         compFadeOut = true;
     }
 }

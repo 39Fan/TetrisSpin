@@ -63,6 +63,7 @@ public static class GameAutoRunnerStats
 /// </summary>
 public class GameAutoRunner : MonoBehaviour
 {
+    // 干渉するスクリプト //
     AttackCalculator attackCalculator;
     Board board;
     MinoMovement minoMovement;
